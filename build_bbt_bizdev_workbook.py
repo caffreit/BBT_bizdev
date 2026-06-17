@@ -21,7 +21,7 @@ OUT = Path("BlueBridge_TOFU_BizDev_V1.xlsx")
 TODAY = date.today().isoformat()
 USER_AGENT = "Mozilla/5.0 (compatible; BBT-bizdev-pipeline/1.0)"
 
-SEARCH_QUERIES = [
+CORE_SEARCH_QUERIES = [
     "MedTech AI Funding",
     "SaMD Series A",
     "medical device",
@@ -29,11 +29,69 @@ SEARCH_QUERIES = [
     "digital health regulatory clearance",
 ]
 
+UNIVERSITY_SPINOUT_SEARCH_UNIVERSITIES = [
+    "Trinity College Dublin",
+    "RCSI",
+    "UCD",
+    "University of Galway",
+    "University of Limerick",
+    "University College Cork",
+    "Queen's University Belfast",
+    "University of Oxford",
+    "University of Cambridge",
+    "Imperial College London",
+    "King's College London",
+    "UCL",
+    "University of Edinburgh",
+    "University of Manchester",
+    "University of Leeds",
+    "University of Sheffield",
+    "ETH Zurich",
+    "KU Leuven",
+    "EPFL",
+    "Technical University of Denmark",
+    "TU Delft",
+    "Karolinska Institutet",
+    "Technical University of Munich",
+    "Stanford",
+    "MIT",
+    "Harvard",
+    "Johns Hopkins",
+    "Mayo Clinic",
+    "UC Berkeley",
+    "UCSF",
+    "University of Pennsylvania",
+    "University of Toronto",
+]
+
+UNIVERSITY_SPINOUT_SEARCH_PATTERNS = [
+    '"{university}" spinout medical device',
+    '"{university}" spinout digital health',
+    '"{university}" spinout medtech',
+    '"{university}" spinout diagnostics',
+    '"{university}" "campus company" health',
+    '"{university}" startup healthcare',
+    '"{university}" startup "medical device"',
+    '"{university}" commercialisation health startup',
+]
+
+
+def build_university_spinout_search_queries() -> list[str]:
+    return [
+        pattern.format(university=university)
+        for university in UNIVERSITY_SPINOUT_SEARCH_UNIVERSITIES
+        for pattern in UNIVERSITY_SPINOUT_SEARCH_PATTERNS
+    ]
+
+
+SEARCH_QUERIES = CORE_SEARCH_QUERIES + build_university_spinout_search_queries()
+
 SOURCE_TYPE_ADAPTERS = {
     "Conference": "conference_page",
     "VC portfolio": "vc_portfolio_page",
     "Grant/funding": "grant_funding_page",
     "Regulatory database": "regulatory_page",
+    "University/spinout": "university_spinout_page",
     "Jobs": "jobs_page",
 }
 
@@ -43,6 +101,7 @@ DISCOVERY_TERMS = {
     "VC portfolio": ["portfolio", "investment", "company", "health", "medtech", "medical device", "digital health", "diagnostic", "ai"],
     "Grant/funding": ["grant", "award", "funding", "project", "health", "medtech", "medical device", "digital health", "diagnostic", "ai"],
     "Regulatory database": ["fda", "clearance", "cleared", "510(k)", "de novo", "medical device", "software", "ai", "diagnostic"],
+    "University/spinout": ["spinout", "spin-off", "startup", "venture", "licensing", "innovation", "health", "medtech", "medical device", "digital health", "diagnostic", "ai"],
     "Jobs": ["regulatory", "quality", "design assurance", "v&v", "clinical", "medical device", "digital health", "ai"],
 }
 
@@ -52,6 +111,11 @@ ADAPTER_STATUS_NAMES = {
     "digitalhealth_london": "DigitalHealth.London adapter",
     "mayo_accelerate": "Mayo Clinic Platform Accelerate adapter",
     "eit_health_catapult": "EIT Health Catapult adapter",
+    "tcd_spinouts": "Trinity university spinout adapter",
+    "ucd_spinouts": "UCD university spinout adapter",
+    "oxford_spinouts": "Oxford university spinout adapter",
+    "cambridge_spinouts": "Cambridge university spinout adapter",
+    "imperial_spinouts": "Imperial university spinout adapter",
     "conference_page": "Conference page adapter",
     "vc_portfolio_page": "VC portfolio adapter",
     "grant_funding_page": "Grant/funding adapter",
@@ -75,6 +139,7 @@ SOURCE_TRIGGER_TYPES = {
     "VC portfolio": "Investor backing",
     "Grant/funding": "Grant/public funding",
     "Regulatory database": "Regulatory listing",
+    "University/spinout": "University/spinout origin",
     "Jobs": "Hiring signal",
 }
 
@@ -144,6 +209,42 @@ ACCELERATOR_SOURCE_PAGES = {
     "StartX Med": ["https://startx.com/companies"],
     "MassChallenge HealthTech": ["https://masschallenge.org/startups/"],
     "Plug and Play Health": ["https://www.plugandplaytechcenter.com/health/"],
+}
+
+UNIVERSITY_SPINOUT_ADAPTERS = {
+    "tcd_spinouts",
+    "ucd_spinouts",
+    "oxford_spinouts",
+    "cambridge_spinouts",
+    "imperial_spinouts",
+}
+
+UNIVERSITY_SPINOUT_SOURCE_PAGES = {
+    "Trinity College Dublin spinouts": [
+        "https://www.tcd.ie/innovation/",
+        "https://www.tcd.ie/innovation/what-we-do/for-startups-and-spinouts/",
+        "https://www.tcd.ie/innovation/about/news-and-events/",
+    ],
+    "UCD spinouts": [
+        "https://www.ucd.ie/innovation/",
+        "https://www.ucd.ie/innovation/startups/ourstart-upcommunity/",
+        "https://www.ucd.ie/innovation/news/",
+    ],
+    "University of Oxford spinouts": [
+        "https://innovation.ox.ac.uk/",
+        "https://innovation.ox.ac.uk/portfolio/",
+        "https://innovation.ox.ac.uk/news/",
+    ],
+    "University of Cambridge spinouts": [
+        "https://www.enterprise.cam.ac.uk/",
+        "https://www.enterprise.cam.ac.uk/our-funds-portfolio/",
+        "https://www.enterprise.cam.ac.uk/stories/",
+    ],
+    "Imperial College London spinouts": [
+        "https://www.imperial.ac.uk/enterprise/",
+        "https://www.imperial.ac.uk/enterprise/business-support/spinouts/",
+        "https://www.imperial.ac.uk/enterprise/news/",
+    ],
 }
 
 
@@ -272,6 +373,38 @@ SOURCES: list[Source] = [
     Source("HealthTech Hub Africa", "Accelerator", "https://www.healthtechhubafrica.org/", "Africa/global", "Medium", "Annual", "Cohort/company page extraction", "Pan-African healthtech accelerator and innovation source.", "accelerator_page"),
     Source("Villgro Africa", "Accelerator", "https://www.villgroafrica.org/", "Africa/global", "Medium", "Annual", "Portfolio/company page extraction", "Healthcare and life-sciences impact accelerator in Africa.", "accelerator_page"),
     Source("SGInnovate", "Accelerator", "https://www.sginnovate.com/", "Asia", "Medium", "Quarterly", "Startup/company page extraction", "Singapore deeptech innovation source with medtech and health AI companies.", "accelerator_page"),
+    Source("Trinity College Dublin spinouts", "University/spinout", "https://www.tcd.ie/innovation/", "Ireland", "High", "Quarterly", "Spinout/company page review", "TCD innovation and spinout pipeline; useful for very early Irish medtech, diagnostics, AI, and digital health ventures.", "tcd_spinouts"),
+    Source("RCSI spinouts", "University/spinout", "https://www.rcsi.com/innovation", "Ireland", "High", "Quarterly", "Spinout/company page review", "Health-sciences university source for clinician-led and translational healthcare ventures."),
+    Source("UCD spinouts", "University/spinout", "https://www.ucd.ie/innovation/", "Ireland", "High", "Quarterly", "Spinout/company page review", "Irish university innovation source with life-sciences, diagnostics, medtech, and software spinouts.", "ucd_spinouts"),
+    Source("University of Galway spinouts", "University/spinout", "https://www.universityofgalway.ie/innovation/", "Ireland", "High", "Quarterly", "Spinout/company page review", "Galway medtech cluster university source for early device and health innovation companies."),
+    Source("University of Limerick spinouts", "University/spinout", "https://www.ul.ie/research/innovation", "Ireland", "Medium", "Quarterly", "Spinout/company page review", "Irish research and innovation source for early health, engineering, and device-adjacent companies."),
+    Source("University College Cork spinouts", "University/spinout", "https://www.ucc.ie/en/innovation/", "Ireland", "High", "Quarterly", "Spinout/company page review", "Irish university innovation source with health, diagnostics, medtech, and digital health spinouts."),
+    Source("Queen's University Belfast spinouts", "University/spinout", "https://www.qub.ac.uk/Research/Innovation-commercialisation/", "Ireland/UK", "Medium", "Quarterly", "Spinout/company page review", "Additional island-of-Ireland translational research source with health and life-sciences spinouts."),
+    Source("University of Oxford spinouts", "University/spinout", "https://innovation.ox.ac.uk/", "UK", "High", "Quarterly", "Spinout/company page review", "Oxford University Innovation source for deeptech, life-sciences, AI, diagnostics, and medical technology spinouts.", "oxford_spinouts"),
+    Source("University of Cambridge spinouts", "University/spinout", "https://www.enterprise.cam.ac.uk/", "UK", "High", "Quarterly", "Spinout/company page review", "Cambridge Enterprise source for early science, engineering, AI, and healthcare spinouts.", "cambridge_spinouts"),
+    Source("Imperial College London spinouts", "University/spinout", "https://www.imperial.ac.uk/enterprise/", "UK", "High", "Quarterly", "Spinout/company page review", "Imperial Enterprise source for healthtech, medtech, diagnostics, AI, and engineering spinouts.", "imperial_spinouts"),
+    Source("King's College London spinouts", "University/spinout", "https://www.kcl.ac.uk/business/commercialisation", "UK", "High", "Quarterly", "Spinout/company page review", "KCL commercialisation source for translational health, clinical, and digital ventures."),
+    Source("UCL spinouts", "University/spinout", "https://www.uclb.com/", "UK", "High", "Quarterly", "Spinout/company page review", "UCL Business source for life-sciences, health AI, diagnostics, and medical technology spinouts."),
+    Source("University of Edinburgh spinouts", "University/spinout", "https://edinburgh-innovations.ed.ac.uk/", "UK", "Medium", "Quarterly", "Spinout/company page review", "Edinburgh Innovations source for AI, data, health, and life-sciences spinouts."),
+    Source("University of Manchester spinouts", "University/spinout", "https://www.manchester.ac.uk/collaborate/business-engagement/commercialisation/", "UK", "Medium", "Quarterly", "Spinout/company page review", "Manchester commercialisation source for diagnostics, materials, health, and engineering spinouts."),
+    Source("University of Leeds spinouts", "University/spinout", "https://www.leeds.ac.uk/business-commercialisation", "UK", "Medium", "Quarterly", "Spinout/company page review", "Leeds commercialisation source for healthcare, engineering, and life-sciences spinouts."),
+    Source("University of Sheffield spinouts", "University/spinout", "https://www.sheffield.ac.uk/business/spinouts", "UK", "Medium", "Quarterly", "Spinout/company page review", "Sheffield spinout source for health, advanced manufacturing, and engineering-led ventures."),
+    Source("ETH Zurich spinouts", "University/spinout", "https://ethz.ch/en/industry/entrepreneurship/spin-offs.html", "Europe", "High", "Quarterly", "Spinout/company page review", "ETH spin-off source for deeptech, AI, medical device, diagnostics, and health ventures."),
+    Source("KU Leuven spinouts", "University/spinout", "https://lrd.kuleuven.be/en/spinoff", "Europe", "High", "Quarterly", "Spinout/company page review", "KU Leuven Research & Development spin-off source for health, diagnostics, medtech, and biotech ventures."),
+    Source("EPFL spinouts", "University/spinout", "https://www.epfl.ch/innovation/startups/", "Europe", "High", "Quarterly", "Spinout/company page review", "EPFL startup source for deeptech, medical technology, AI, and diagnostics ventures."),
+    Source("Technical University of Denmark spinouts", "University/spinout", "https://www.dtu.dk/english/collaboration/innovation-and-entrepreneurship", "Europe", "Medium", "Quarterly", "Spinout/company page review", "DTU innovation source for medtech, diagnostics, engineering, and digital health companies."),
+    Source("TU Delft spinouts", "University/spinout", "https://www.tudelft.nl/en/innovation-impact/", "Europe", "Medium", "Quarterly", "Spinout/company page review", "TU Delft innovation source for medical technology, robotics, AI, and engineering spinouts."),
+    Source("Karolinska Institutet spinouts", "University/spinout", "https://karolinskainnovations.ki.se/", "Europe", "High", "Quarterly", "Spinout/company page review", "Karolinska Innovations source for translational medicine, diagnostics, and digital health companies."),
+    Source("Technical University of Munich spinouts", "University/spinout", "https://www.tum.de/en/innovation/entrepreneurship", "Europe", "Medium", "Quarterly", "Spinout/company page review", "Additional European deeptech and health innovation source with strong entrepreneurship pipeline."),
+    Source("Stanford spinouts", "University/spinout", "https://otl.stanford.edu/", "US", "High", "Quarterly", "Spinout/company page review", "Stanford OTL source for health AI, medtech, diagnostics, and life-sciences ventures."),
+    Source("MIT spinouts", "University/spinout", "https://tlo.mit.edu/", "US", "High", "Quarterly", "Spinout/company page review", "MIT Technology Licensing source for AI, engineering, device, diagnostics, and health spinouts."),
+    Source("Harvard spinouts", "University/spinout", "https://otd.harvard.edu/", "US", "High", "Quarterly", "Spinout/company page review", "Harvard OTD source for translational healthcare, diagnostics, digital health, and life-sciences ventures."),
+    Source("Johns Hopkins spinouts", "University/spinout", "https://ventures.jhu.edu/", "US", "High", "Quarterly", "Spinout/company page review", "Johns Hopkins Technology Ventures source for clinical, medtech, diagnostics, and digital health spinouts."),
+    Source("Mayo Clinic spinouts", "University/spinout", "https://businessdevelopment.mayoclinic.org/", "US", "High", "Quarterly", "Spinout/company page review", "Mayo Clinic business development and ventures source for clinically grounded health companies."),
+    Source("UC Berkeley spinouts", "University/spinout", "https://ipira.berkeley.edu/", "US", "Medium", "Quarterly", "Spinout/company page review", "UC Berkeley IPIRA source for AI, engineering, biology, and health-adjacent spinouts."),
+    Source("UCSF spinouts", "University/spinout", "https://innovation.ucsf.edu/", "US", "High", "Quarterly", "Spinout/company page review", "UCSF Innovation Ventures source for translational medicine, digital health, and medtech spinouts."),
+    Source("University of Pennsylvania spinouts", "University/spinout", "https://pci.upenn.edu/", "US", "Medium", "Quarterly", "Spinout/company page review", "Additional US translational healthcare and life-sciences commercialization source."),
+    Source("University of Toronto spinouts", "University/spinout", "https://research.utoronto.ca/innovation-partnerships", "Canada", "High", "Quarterly", "Spinout/company page review", "U of T innovation and partnership source for AI, medtech, diagnostics, and health spinouts."),
     Source("The MedTech Conference", "Conference", "https://themedtechconference.com/", "US/global", "High", "Annual", "Exhibitor/company directory extraction", "US/global medtech exhibitors, sponsors, startups, and presenting companies.", "conference_page"),
     Source("MEDICA exhibitor index", "Conference", "https://www.medica-tradefair.com/", "Global", "High", "Annual", "Exhibitor directory extraction", "Large global medical technology exhibitor universe.", "conference_page"),
     Source("MedTech Forum", "Conference", "https://www.themedtechforum.eu/", "EU", "High", "Annual", "Sponsor/exhibitor extraction", "European medical technology industry source.", "conference_page"),
@@ -425,6 +558,7 @@ SOURCE_PLAYBOOKS = [
     ["VC portfolio", "Extract portfolio pages and news pages; filter for medical device, diagnostics, digital health, AI healthcare, SaMD, clinical workflow.", "Company must appear on public portfolio/news page; paid databases excluded.", "Company, investor, portfolio URL, category, funding/news URL if present", "Funded or investor-backed company with likely budget/urgency.", "Advisory/design-dev"],
     ["Grant/funding", "Use API/export where available; search project abstract for SaMD, AI diagnostic, wearable, remote monitoring.", "Recipient must be company or startup-like organization.", "Company, award, abstract, amount, date, URL", "Funded translational program.", "Advisory"],
     ["Regulatory database", "Query FDA AI/ML list, 510(k), and De Novo databases for AI, software, imaging, diagnostics, monitoring, decision support.", "Company/product must have a regulatory record or listing.", "Company, product, decision/date, regulation number, source URL", "Regulatory pathway or market-entry signal.", "Advisory"],
+    ["University/spinout", "Review university tech-transfer, innovation, spinout, and startup directories for health, medtech, diagnostics, AI, device, and digital health companies.", "Company must be listed by the university, tech-transfer office, or affiliated innovation/commercialisation unit.", "Company, university, spinout/startup URL, category, product clues", "Very early academic-origin venture before broad accelerator or investor visibility.", "Advisory/design-dev"],
     ["Jobs", "Search regulatory/QA/design assurance terms against public job pages.", "Role must be recent and company must be relevant to medtech/health AI.", "Company, role, job URL, gap hypothesis", "Capability gap or urgent workload.", "Embedded support/advisory"],
 ]
 
@@ -690,6 +824,7 @@ def is_relevant_candidate_link(source: Source, link_text: str, href: str) -> boo
         "Conference": ["exhibitor", "sponsor", "startup", "compan", "showcase"],
         "VC portfolio": ["portfolio", "compan", "investment"],
         "Grant/funding": ["project", "award", "funding", "portfolio", "compan", "grant"],
+        "University/spinout": ["spin", "startup", "start-up", "venture", "compan", "portfolio", "commercial"],
     }
     terms = path_terms.get(source.source_type, [])
     if terms and not any(term in lower_href for term in terms):
@@ -747,6 +882,8 @@ def source_type_trigger_event(source: Source, company: str) -> tuple[str, str] |
         return trigger_type, f"{company} appeared on accelerator/cohort source '{source.name}'."
     if source.source_type == "Conference":
         return trigger_type, f"{company} appeared on conference/exhibitor source '{source.name}'."
+    if source.source_type == "University/spinout":
+        return trigger_type, f"{company} appeared on university spinout/startup source '{source.name}'."
     return None
 
 
@@ -2063,6 +2200,98 @@ def build_source_page_evidence(source: Source, raw_html: str, max_candidates: in
     return discovery_hits, trigger_events
 
 
+def is_relevant_university_spinout_link(link_text: str, href: str) -> bool:
+    lower_href = href.lower()
+    if lower_href.startswith(("javascript:", "mailto:", "tel:")) or "#" in lower_href:
+        return False
+    blocked_href_terms = [
+        "team", "people", "staff", "advisor", "board", "event", "login", "application",
+        "apply", "contact", "privacy", "cookie", "terms", "accessibility",
+    ]
+    if any(term in lower_href for term in blocked_href_terms):
+        return False
+    positive_href_terms = [
+        "spin", "startup", "start-up", "venture", "compan", "portfolio", "commercial",
+        "innovation", "news", "story", "stories", "case",
+    ]
+    positive_text_terms = [
+        "spinout", "spin-out", "startup", "start-up", "campus company", "company",
+        "venture", "launch", "raises", "funding", "healthtech", "medtech",
+    ]
+    lower_text = clean_text(link_text).lower()
+    return any(term in lower_href for term in positive_href_terms) or any(term in lower_text for term in positive_text_terms)
+
+
+def make_university_spinout_hit(source: Source, company: str, evidence_url: str, context: str = "") -> DiscoveryHit | None:
+    company = clean_page_candidate(company)
+    if re.search(r"\b(announces|collaborates|launches|partners|raises|secures|wins)\b", company, flags=re.I):
+        return None
+    if not is_plausible_page_candidate(company):
+        return None
+    return DiscoveryHit(
+        company=company,
+        source_name=source.name,
+        source_type=source.source_type,
+        discovery_url=evidence_url,
+        discovery_rationale=f"{source.name} adapter found a company-like listing on university innovation, spinout, portfolio, or news pages.",
+        product_type=infer_page_product_type(source, context or company),
+        geography=source.geography,
+        matched_terms=f"adapter: {source.adapter}; university spinout page scan",
+        company_description=clean_text(context)[:1000],
+    )
+
+
+def build_university_spinout_evidence(source: Source, raw_html: str) -> tuple[list[DiscoveryHit], list[TriggerEvent]]:
+    discovery_hits = find_companies_on_source(source, text_from_html(raw_html))
+    trigger_events: list[TriggerEvent] = []
+    seen_companies = {hit.company.lower() for hit in discovery_hits}
+
+    for hit in discovery_hits:
+        hit.matched_terms = hit.matched_terms or f"adapter: {source.adapter}; registry alias"
+        trigger = source_type_trigger_event(source, hit.company)
+        if trigger:
+            trigger_events.append(TriggerEvent(hit.company, trigger[0], trigger[1], source.name, hit.discovery_url))
+
+    for link_text, href in extract_links(raw_html, source.url):
+        if not is_relevant_university_spinout_link(link_text, href):
+            continue
+        hit = make_university_spinout_hit(source, link_text, href, link_text)
+        if not hit or hit.company.lower() in seen_companies:
+            continue
+        seen_companies.add(hit.company.lower())
+        discovery_hits.append(hit)
+        trigger = source_type_trigger_event(source, hit.company)
+        if trigger:
+            trigger_events.append(TriggerEvent(hit.company, trigger[0], trigger[1], source.name, hit.discovery_url))
+    return discovery_hits, trigger_events
+
+
+def run_university_spinout_pages(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = UNIVERSITY_SPINOUT_SOURCE_PAGES.get(source.name, [source.url])
+    all_hits: list[DiscoveryHit] = []
+    all_triggers: list[TriggerEvent] = []
+    errors: list[str] = []
+    seen: set[tuple[str, str]] = set()
+    for url in urls:
+        page_source = Source(source.name, source.source_type, url, source.geography, source.priority, source.update_cadence, source.extraction_method, source.notes, source.adapter)
+        raw_html, error = fetch_raw_text(url)
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits, triggers = build_university_spinout_evidence(page_source, raw_html)
+        for hit in hits:
+            key = (hit.company.lower(), hit.discovery_url)
+            if key in seen:
+                continue
+            seen.add(key)
+            all_hits.append(hit)
+        all_triggers.extend(triggers)
+    result = f"{len(urls)} university spinout pages; {len(all_hits)} discovery hits; {len(all_triggers)} trigger events"
+    if errors:
+        result += "; errors: " + " | ".join(errors[:5])
+    return all_hits, all_triggers, result
+
+
 def run_accelerator_pages(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
     urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
     all_hits: list[DiscoveryHit] = []
@@ -2269,6 +2498,12 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
             continue
         if source.adapter == "eit_health_catapult":
             hits, triggers, result = run_eit_health_catapult(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter in UNIVERSITY_SPINOUT_ADAPTERS:
+            hits, triggers, result = run_university_spinout_pages(source)
             discovery_hits.extend(hits)
             trigger_events.extend(triggers)
             run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])

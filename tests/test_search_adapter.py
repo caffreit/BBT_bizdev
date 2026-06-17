@@ -68,6 +68,100 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertEqual(adapters["NHS Jobs"], "nhs_jobs")
         self.assertEqual(sum(1 for source in job_sources if source.adapter == "jobs_page"), 10)
 
+    def test_sources_include_university_spinout_sources_by_geo(self):
+        spinout_sources = [source for source in pipeline.SOURCES if source.source_type == "University/spinout"]
+        names = {source.name for source in spinout_sources}
+        adapters = {source.name: source.adapter for source in spinout_sources}
+
+        self.assertEqual(len(spinout_sources), 32)
+        self.assertEqual(
+            {name for name, adapter in adapters.items() if adapter},
+            {
+                "Trinity College Dublin spinouts",
+                "UCD spinouts",
+                "University of Oxford spinouts",
+                "University of Cambridge spinouts",
+                "Imperial College London spinouts",
+            },
+        )
+        self.assertIn("University/spinout", pipeline.DISCOVERY_TERMS)
+        self.assertEqual(pipeline.SOURCE_TRIGGER_TYPES["University/spinout"], "University/spinout origin")
+        for name in [
+            "Trinity College Dublin spinouts",
+            "RCSI spinouts",
+            "UCD spinouts",
+            "University of Galway spinouts",
+            "University of Limerick spinouts",
+            "University College Cork spinouts",
+            "University of Oxford spinouts",
+            "University of Cambridge spinouts",
+            "Imperial College London spinouts",
+            "King's College London spinouts",
+            "UCL spinouts",
+            "University of Edinburgh spinouts",
+            "University of Manchester spinouts",
+            "University of Leeds spinouts",
+            "University of Sheffield spinouts",
+            "ETH Zurich spinouts",
+            "KU Leuven spinouts",
+            "EPFL spinouts",
+            "Technical University of Denmark spinouts",
+            "TU Delft spinouts",
+            "Karolinska Institutet spinouts",
+            "Stanford spinouts",
+            "MIT spinouts",
+            "Harvard spinouts",
+            "Johns Hopkins spinouts",
+            "Mayo Clinic spinouts",
+            "UC Berkeley spinouts",
+            "UCSF spinouts",
+            "University of Toronto spinouts",
+        ]:
+            self.assertIn(name, names)
+
+    def test_google_news_queries_include_university_spinout_terms(self):
+        expected_count = len(pipeline.CORE_SEARCH_QUERIES) + len(pipeline.UNIVERSITY_SPINOUT_SEARCH_UNIVERSITIES) * len(pipeline.UNIVERSITY_SPINOUT_SEARCH_PATTERNS)
+
+        self.assertEqual(len(pipeline.SEARCH_QUERIES), expected_count)
+        self.assertIn('"Trinity College Dublin" spinout medical device', pipeline.SEARCH_QUERIES)
+        self.assertIn('"University of Oxford" spinout digital health', pipeline.SEARCH_QUERIES)
+        self.assertIn('"UCL" startup healthcare', pipeline.SEARCH_QUERIES)
+        self.assertIn('"ETH Zurich" spinout medtech', pipeline.SEARCH_QUERIES)
+        self.assertIn('"TU Delft" commercialisation health startup', pipeline.SEARCH_QUERIES)
+        self.assertIn('"University of Toronto" startup "medical device"', pipeline.SEARCH_QUERIES)
+
+    def test_university_spinout_adapter_extracts_candidate_company_links(self):
+        source = pipeline.Source("Trinity College Dublin spinouts", "University/spinout", "https://www.tcd.ie/innovation/", "Ireland", "High", "Quarterly", "Spinout extraction", "AI health and medtech spinouts.", "tcd_spinouts")
+        html = """
+        <html><body>
+          <a href="/innovation/spinout-companies/retina-ai/">RetinaAI Health</a>
+          <a href="/innovation/news/2026/new-healthtech-start-up-launches/">New Healthtech Start-up Launches</a>
+          <a href="/innovation/contact/">Contact</a>
+        </body></html>
+        """
+
+        discovery_hits, trigger_events = pipeline.build_university_spinout_evidence(source, html)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["RetinaAI Health"])
+        self.assertEqual(discovery_hits[0].source_type, "University/spinout")
+        self.assertEqual(trigger_events[0].trigger_type, "University/spinout origin")
+
+    def test_priority_university_spinout_adapter_scans_configured_pages(self):
+        source = pipeline.Source("UCD spinouts", "University/spinout", "https://www.ucd.ie/innovation/", "Ireland", "High", "Quarterly", "Spinout extraction", "Medtech and digital health spinouts.", "ucd_spinouts")
+        pages = [
+            ('<a href="/innovation/startups/ourstart-upcommunity/clinicflow/">ClinicFlow Health</a>', None),
+            ('<a href="/innovation/news/2026/pulsedx-spinout/">PulseDx</a>', None),
+            ("", "HTTP Error 404: Not Found"),
+        ]
+
+        with patch.object(pipeline, "fetch_raw_text", side_effect=pages):
+            discovery_hits, trigger_events, result = pipeline.run_university_spinout_pages(source)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["ClinicFlow Health", "PulseDx"])
+        self.assertEqual(len(trigger_events), 2)
+        self.assertIn("3 university spinout pages", result)
+        self.assertIn("HTTP Error 404", result)
+
     def test_job_board_parsers_cover_supported_ats_shapes(self):
         greenhouse = pipeline.parse_greenhouse_jobs({"jobs": [{"title": "Quality Engineer", "absolute_url": "https://job/gh", "content": "<p>Medical device QA</p>"}]})
         lever = pipeline.parse_lever_jobs([{"text": "Regulatory Affairs Lead", "hostedUrl": "https://job/lever", "description": "FDA submissions"}])
