@@ -56,13 +56,17 @@ class SearchAdapterTests(unittest.TestCase):
         adapters = {source.name: source.adapter for source in job_sources}
 
         self.assertEqual(len(job_sources), 20)
-        self.assertEqual(adapters["Greenhouse job boards"], "greenhouse_jobs")
+        self.assertIsNone(adapters["Greenhouse job boards"])
+        self.assertIsNone(adapters["Wellfound jobs"])
         self.assertEqual(adapters["Lever job boards"], "lever_jobs")
         self.assertEqual(adapters["Ashby job boards"], "ashby_jobs")
         self.assertEqual(adapters["Workable job boards"], "workable_jobs")
         self.assertEqual(adapters["SmartRecruiters job boards"], "smartrecruiters_jobs")
         self.assertEqual(adapters["Recruitee job boards"], "recruitee_jobs")
-        self.assertEqual(sum(1 for source in job_sources if source.adapter == "jobs_page"), 14)
+        self.assertEqual(adapters["Built In jobs"], "builtin_jobs")
+        self.assertEqual(adapters["BioSpace jobs"], "biospace_jobs")
+        self.assertEqual(adapters["NHS Jobs"], "nhs_jobs")
+        self.assertEqual(sum(1 for source in job_sources if source.adapter == "jobs_page"), 10)
 
     def test_job_board_parsers_cover_supported_ats_shapes(self):
         greenhouse = pipeline.parse_greenhouse_jobs({"jobs": [{"title": "Quality Engineer", "absolute_url": "https://job/gh", "content": "<p>Medical device QA</p>"}]})
@@ -81,32 +85,60 @@ class SearchAdapterTests(unittest.TestCase):
             "Clinical Validation Lead",
         ])
 
-    def test_job_board_adapter_creates_company_level_hiring_signal(self):
+    def test_greenhouse_search_parser_extracts_job_urls_and_tokens(self):
+        html = """
+        <html><body>
+          <a href="https://boards.greenhouse.io/novascan/jobs/123">Regulatory Affairs Manager</a>
+          <a href="/url?q=https%3A%2F%2Fboards.greenhouse.io%2Fpulsedx%2Fjobs%2F456">Quality Engineer</a>
+          https://job-boards.greenhouse.io/clearpath/jobs/789
+        </body></html>
+        """
+
+        urls = pipeline.extract_greenhouse_job_urls(html)
+
+        self.assertEqual(
+            [pipeline.greenhouse_board_token_from_url(url) for url in urls],
+            ["novascan", "pulsedx", "clearpath"],
+        )
+
+    def test_greenhouse_discovery_creates_company_level_hiring_signal(self):
         source = pipeline.Source("Greenhouse job boards", "Jobs", "https://www.greenhouse.com/", "Global", "Medium", "Weekly", "Company careers page search", "Fixture", "greenhouse_jobs")
-        registry = {
-            "NovaScan Health": {
-                "aliases": ["NovaScan Health"],
-                "website": "https://novascan.example",
-                "geography": "US",
-                "product_type": "AI medical device",
-                "job_boards": [{"platform": "greenhouse", "account": "novascan"}],
-            }
-        }
-        fixture = {
+        search_html = """
+        <html><body>
+          <a href="https://boards.greenhouse.io/novascan/jobs/123">Regulatory Affairs Manager</a>
+          <a href="https://boards.greenhouse.io/novascan/jobs/456">Quality Engineer</a>
+        </body></html>
+        """
+        board_fixture = {"name": "NovaScan Health", "content": "<p>AI imaging company</p>"}
+        jobs_fixture = {
             "jobs": [
                 {"title": "Regulatory Affairs Manager", "absolute_url": "https://job/reg", "content": "<p>FDA medical device submissions</p>"},
                 {"title": "Quality Engineer", "absolute_url": "https://job/qa", "content": "<p>Design controls and V&V</p>"},
             ]
         }
 
-        with patch.object(pipeline, "COMPANY_REGISTRY", registry), patch.object(pipeline, "fetch_json_url", return_value=(fixture, None)):
-            discovery_hits, trigger_events, result = pipeline.run_job_board_adapter(source, "greenhouse")
+        with patch.object(pipeline, "fetch_raw_text", return_value=(search_html, None)), patch.object(pipeline, "fetch_json_url", side_effect=[(board_fixture, None), (jobs_fixture, None)]):
+            discovery_hits, trigger_events, result = pipeline.run_greenhouse_discovery(source, ["fixture query"])
 
         self.assertEqual([hit.company for hit in discovery_hits], ["NovaScan Health"])
         self.assertEqual([event.trigger_type for event in trigger_events], ["Hiring signal"])
         self.assertIn("Regulatory Affairs Manager", discovery_hits[0].discovery_rationale)
         self.assertIn("Quality Engineer", trigger_events[0].trigger_event)
-        self.assertIn("1/1 configured boards fetched", result)
+        self.assertIn("1 search queries", result)
+        self.assertIn("1 board tokens fetched", result)
+
+    def test_greenhouse_discovery_ignores_irrelevant_jobs(self):
+        source = pipeline.Source("Greenhouse job boards", "Jobs", "https://www.greenhouse.com/", "Global", "Medium", "Weekly", "Company careers page search", "Fixture", "greenhouse_jobs")
+        search_html = '<a href="https://boards.greenhouse.io/genericco/jobs/123">Software Engineer</a>'
+        board_fixture = {"name": "GenericCo"}
+        jobs_fixture = {"jobs": [{"title": "Software Engineer", "absolute_url": "https://job/software", "content": "<p>Build internal tools.</p>"}]}
+
+        with patch.object(pipeline, "fetch_raw_text", return_value=(search_html, None)), patch.object(pipeline, "fetch_json_url", side_effect=[(board_fixture, None), (jobs_fixture, None)]):
+            discovery_hits, trigger_events, result = pipeline.run_greenhouse_discovery(source, ["fixture query"])
+
+        self.assertEqual(discovery_hits, [])
+        self.assertEqual(trigger_events, [])
+        self.assertIn("1 boards with no matching jobs", result)
 
     def test_job_board_adapter_ignores_irrelevant_engineering_without_health_context(self):
         source = pipeline.Source("Lever job boards", "Jobs", "https://www.lever.co/", "Global", "Medium", "Weekly", "Company careers page search", "Fixture", "lever_jobs")
@@ -137,6 +169,147 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertEqual(discovery_hits, [])
         self.assertEqual(trigger_events, [])
         self.assertIn("No registry companies configured", result)
+
+    def test_parse_biospace_jobs_extracts_company_role_and_url(self):
+        html = """
+        <ul id="listing" class="lister cf block">
+          <li class="lister__item cf" id="item-3052525">
+            <div class="lister__details cf js-clickable">
+              <h3 class="lister__header"><a href="/job/3052525/manager-regulatory-affairs/"><span>Manager, Regulatory Affairs</span></a></h3>
+              <ul class="lister__meta">
+                <li class="lister__meta-item lister__meta-item--location">Boca Raton, FL</li>
+                <li class="lister__meta-item lister__meta-item--recruiter">ADMA Biologics</li>
+              </ul>
+              <p class="lister__description js-clamp-2">FDA medical device regulatory submissions.</p>
+            </div>
+          </li>
+        </ul>
+        """
+
+        leads = pipeline.parse_biospace_jobs(html, "https://jobs.biospace.com/jobs/?keywords=regulatory+affairs", "regulatory affairs")
+
+        self.assertEqual(len(leads), 1)
+        self.assertEqual(leads[0].company, "ADMA Biologics")
+        self.assertEqual(leads[0].posting.title, "Manager, Regulatory Affairs")
+        self.assertEqual(leads[0].posting.url, "https://jobs.biospace.com/job/3052525/manager-regulatory-affairs/")
+
+    def test_biospace_adapter_discovers_companies_from_role_search(self):
+        source = pipeline.Source("BioSpace jobs", "Jobs", "https://www.biospace.com/jobs/", "US/global", "High", "Weekly", "BioSpace role search", "Fixture", "biospace_jobs")
+        html = """
+        <ul id="listing" class="lister cf block">
+          <li class="lister__item cf" id="item-1">
+            <div class="lister__details cf js-clickable">
+              <h3 class="lister__header"><a href="/job/1/regulatory-affairs-manager/"><span>Regulatory Affairs Manager</span></a></h3>
+              <ul class="lister__meta">
+                <li class="lister__meta-item lister__meta-item--location">Boston, MA</li>
+                <li class="lister__meta-item lister__meta-item--recruiter">NovaScan Health</li>
+              </ul>
+              <p class="lister__description js-clamp-2">FDA medical device and diagnostic submissions.</p>
+            </div>
+          </li>
+          <li class="lister__item cf" id="item-2">
+            <div class="lister__details cf js-clickable">
+              <h3 class="lister__header"><a href="/job/2/software-engineer/"><span>Software Engineer</span></a></h3>
+              <ul class="lister__meta">
+                <li class="lister__meta-item lister__meta-item--location">Remote</li>
+                <li class="lister__meta-item lister__meta-item--recruiter">GenericCo</li>
+              </ul>
+              <p class="lister__description js-clamp-2">Build internal tools.</p>
+            </div>
+          </li>
+        </ul>
+        """
+
+        with patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+            discovery_hits, trigger_events, result = pipeline.run_biospace_jobs(source, ["regulatory affairs"])
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["NovaScan Health"])
+        self.assertEqual([event.trigger_type for event in trigger_events], ["Hiring signal"])
+        self.assertIn("Regulatory Affairs Manager", discovery_hits[0].discovery_rationale)
+        self.assertIn("1 search queries", result)
+
+    def test_parse_builtin_jobs_extracts_company_role_and_url(self):
+        html = """
+        <div id="job-card-9668948" data-id="job-card">
+          <a href="/company/optum" data-id="company-title"><span>Optum</span></a>
+          <h2><a href="/job/senior-director-actuarial-regulatory-affairs-pricing-underwriting/9668948" data-id="job-card-title">Senior Director, Actuarial &amp; Regulatory Affairs</a></h2>
+          <i class="fa-regular fa-location-dot"></i></div><div><span class="font-barlow text-gray-04">Dublin, IRL</span></div>
+        </div>
+        """
+
+        leads = pipeline.parse_builtin_jobs(html, "https://builtin.com/jobs?search=regulatory+affairs", "regulatory affairs")
+
+        self.assertEqual(len(leads), 1)
+        self.assertEqual(leads[0].company, "Optum")
+        self.assertEqual(leads[0].posting.title, "Senior Director, Actuarial & Regulatory Affairs")
+        self.assertEqual(leads[0].posting.url, "https://builtin.com/job/senior-director-actuarial-regulatory-affairs-pricing-underwriting/9668948")
+
+    def test_builtin_adapter_discovers_companies_from_role_search(self):
+        source = pipeline.Source("Built In jobs", "Jobs", "https://builtin.com/jobs", "US", "Medium", "Weekly", "Built In role search", "Technology startup hiring signals, including healthtech and AI companies.", "builtin_jobs")
+        html = """
+        <div id="job-card-1" data-id="job-card">
+          <a href="/company/pulsedx" data-id="company-title"><span>PulseDx</span></a>
+          <h2><a href="/job/quality-engineer-healthcare/1" data-id="job-card-title">Quality Engineer, Healthcare AI</a></h2>
+          <i class="fa-regular fa-location-dot"></i></div><div><span class="font-barlow text-gray-04">Remote</span></div>
+        </div>
+        <div id="job-card-2" data-id="job-card">
+          <a href="/company/genericco" data-id="company-title"><span>GenericCo</span></a>
+          <h2><a href="/job/account-executive/2" data-id="job-card-title">Account Executive</a></h2>
+        </div>
+        """
+
+        with patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+            discovery_hits, trigger_events, result = pipeline.run_builtin_jobs(source, ["quality engineer"])
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["PulseDx"])
+        self.assertEqual([event.trigger_type for event in trigger_events], ["Hiring signal"])
+        self.assertIn("Quality Engineer", discovery_hits[0].discovery_rationale)
+        self.assertIn("1 search queries", result)
+
+    def test_parse_nhs_jobs_extracts_employer_role_and_url(self):
+        html = """
+        <ul class="nhsuk-list search-results">
+          <li class="nhsuk-list-panel search-result" data-test="search-result">
+            <h2><a href="/candidate/jobadvert/C9444-26-0330?keyword=clinical%20safety&amp;language=en" data-test="search-result-job-title">Clinical Safety Officer</a></h2>
+            <div class="nhsuk-u-margin-bottom-4" data-test="search-result-location">
+              <h3>Coventry and Warwickshire Partnership Trust
+                <div class="location-font-size">Coventry CV6 6NY</div>
+              </h3>
+            </div>
+            <li data-test="search-result-jobType">Contract type: <strong>Fixed-Term</strong></li>
+          </li>
+        </ul>
+        """
+
+        leads = pipeline.parse_nhs_jobs(html, "https://www.jobs.nhs.uk/candidate/search/results?keyword=clinical+safety", "clinical safety")
+
+        self.assertEqual(len(leads), 1)
+        self.assertEqual(leads[0].company, "Coventry and Warwickshire Partnership Trust")
+        self.assertEqual(leads[0].posting.title, "Clinical Safety Officer")
+        self.assertEqual(leads[0].posting.url, "https://www.jobs.nhs.uk/candidate/jobadvert/C9444-26-0330?keyword=clinical%20safety&language=en")
+
+    def test_nhs_adapter_discovers_provider_organisations_from_role_search(self):
+        source = pipeline.Source("NHS Jobs", "Jobs", "https://www.jobs.nhs.uk/", "UK", "Medium", "Weekly", "NHS role search", "Fixture", "nhs_jobs")
+        html = """
+        <ul class="nhsuk-list search-results">
+          <li class="nhsuk-list-panel search-result" data-test="search-result">
+            <h2><a href="/candidate/jobadvert/C1" data-test="search-result-job-title">Clinical Safety Officer</a></h2>
+            <div data-test="search-result-location"><h3>North Example NHS Trust<div class="location-font-size">London</div></h3></div>
+          </li>
+          <li class="nhsuk-list-panel search-result" data-test="search-result">
+            <h2><a href="/candidate/jobadvert/C2" data-test="search-result-job-title">Catering Assistant</a></h2>
+            <div data-test="search-result-location"><h3>Generic Hospital<div class="location-font-size">Leeds</div></h3></div>
+          </li>
+        </ul>
+        """
+
+        with patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+            discovery_hits, trigger_events, result = pipeline.run_nhs_jobs(source, ["clinical safety"])
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["North Example NHS Trust"])
+        self.assertEqual([event.trigger_type for event in trigger_events], ["Hiring signal"])
+        self.assertIn("Clinical Safety Officer", discovery_hits[0].discovery_rationale)
+        self.assertIn("1 search queries", result)
 
     def test_parse_google_news_rss(self):
         results = pipeline.parse_google_news_rss(RSS_FIXTURE, "MedTech AI Funding")
