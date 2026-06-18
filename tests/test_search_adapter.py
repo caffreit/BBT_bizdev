@@ -45,11 +45,26 @@ RSS_FIXTURE = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 class SearchAdapterTests(unittest.TestCase):
-    def test_sources_include_50_vc_portfolio_pages(self):
+    def test_sources_include_52_vc_portfolio_pages(self):
         vc_sources = [source for source in pipeline.SOURCES if source.source_type == "VC portfolio"]
 
-        self.assertEqual(len(vc_sources), 50)
-        self.assertTrue(all(source.adapter == "vc_portfolio_page" for source in vc_sources))
+        self.assertEqual(len(vc_sources), 52)
+        self.assertTrue(all(source.adapter for source in vc_sources))
+        adapters = {source.name: source.adapter for source in vc_sources}
+        self.assertEqual(adapters["Fountain Healthcare Partners portfolio"], "fountain_healthcare")
+        self.assertEqual(adapters["Seroba Life Sciences portfolio"], "seroba_life_sciences")
+        self.assertEqual(adapters["Atlantic Bridge portfolio"], "atlantic_bridge")
+
+    def test_priority_ireland_sources_use_dedicated_adapters(self):
+        adapters = {source.name: source.adapter for source in pipeline.SOURCES}
+
+        self.assertEqual(adapters["BioInnovate Ireland"], "bioinnovate_ireland")
+        self.assertEqual(adapters["ARC Hub for HealthTech"], "arc_hub_healthtech")
+        self.assertEqual(adapters["Health Innovation Hub Ireland"], "health_innovation_hub_ireland")
+        self.assertEqual(adapters["Dogpatch Labs / NDRC"], "dogpatch_ndrc")
+        self.assertEqual(adapters["Fountain Healthcare Partners portfolio"], "fountain_healthcare")
+        self.assertEqual(adapters["Seroba Life Sciences portfolio"], "seroba_life_sciences")
+        self.assertEqual(adapters["Atlantic Bridge portfolio"], "atlantic_bridge")
 
     def test_sources_include_20_jobs_sources_with_dedicated_ats_adapters(self):
         job_sources = [source for source in pipeline.SOURCES if source.source_type == "Jobs"]
@@ -629,6 +644,87 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertEqual([hit.company for hit in hits], ["DeepEye", "Acorai"])
         self.assertIn("Digital Health", hits[0].category_or_track)
         self.assertIn("MedTech", hits[1].category_or_track)
+
+    def test_priority_ireland_accelerator_parsers_extract_company_links(self):
+        fixtures = [
+            (
+                pipeline.Source("BioInnovate Ireland", "Accelerator", "https://www.bioinnovate.ie/", "Ireland", "High", "Annual", "Fellowship/company extraction", "Medtech programme.", "bioinnovate_ireland"),
+                '<a href="/our-companies/proverum/">ProVerum</a><p>Medical device company for urology.</p>',
+                "ProVerum",
+            ),
+            (
+                pipeline.Source("ARC Hub for HealthTech", "Accelerator", "https://www.universityofgalway.ie/arc-healthtech/", "Ireland", "High", "Quarterly", "Commercialisation extraction", "Healthtech commercialisation.", "arc_hub_healthtech"),
+                '<a href="/arc-healthtech/projects/feeltect/">FeelTect</a><p>Connected health compression monitoring device.</p>',
+                "FeelTect",
+            ),
+            (
+                pipeline.Source("Health Innovation Hub Ireland", "Accelerator", "https://www.hih.ie/", "Ireland", "High", "Quarterly", "Innovation extraction", "Clinical validation hub.", "health_innovation_hub_ireland"),
+                '<a href="/case-studies/patientmpower/">patientMpower</a><p>Digital health respiratory monitoring platform.</p>',
+                "PatientMpower",
+            ),
+            (
+                pipeline.Source("Dogpatch Labs / NDRC", "Accelerator", "https://www.ndrc.ie/", "Ireland", "Medium", "Quarterly", "Portfolio extraction", "National accelerator.", "dogpatch_ndrc"),
+                '<a href="/portfolio/silvercloud-health/">SilverCloud Health</a><p>Mental health digital therapeutics platform.</p>',
+                "SilverCloud Health",
+            ),
+        ]
+
+        for source, html, expected_company in fixtures:
+            with self.subTest(source=source.name):
+                hits = pipeline.parse_priority_accelerator_page(source, html, source.url)
+
+                self.assertEqual([hit.company for hit in hits], [expected_company])
+                self.assertEqual(hits[0].source_type, "Accelerator")
+                self.assertIn(source.adapter, hits[0].matched_terms)
+
+    def test_priority_ireland_accelerator_runners_emit_triggers(self):
+        source = pipeline.Source("BioInnovate Ireland", "Accelerator", "https://www.bioinnovate.ie/", "Ireland", "High", "Annual", "Fellowship/company extraction", "Medtech programme.", "bioinnovate_ireland")
+        html = '<a href="/our-companies/luma-vision/">Luma Vision</a><p>Cardiac imaging medical device company.</p>'
+
+        with patch.object(pipeline, "ACCELERATOR_SOURCE_PAGES", {"BioInnovate Ireland": ["https://www.bioinnovate.ie/our-companies/"]}), patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+            discovery_hits, trigger_events, result = pipeline.run_bioinnovate_ireland(source)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["Luma Vision"])
+        self.assertEqual([event.trigger_type for event in trigger_events], ["Accelerator/cohort"])
+        self.assertIn("1 BioInnovate pages", result)
+
+    def test_priority_vc_parsers_extract_portfolio_company_links(self):
+        fixtures = [
+            (
+                pipeline.Source("Fountain Healthcare Partners portfolio", "VC portfolio", "https://www.fountainhealthcare.com/portfolio/", "Ireland/EU/US", "High", "Monthly", "Portfolio extraction", "Life sciences investor.", "fountain_healthcare"),
+                '<a href="/portfolio/neurovalve/">NeuroValve</a><p>Medical device company for structural heart disease.</p>',
+                "NeuroValve",
+            ),
+            (
+                pipeline.Source("Seroba Life Sciences portfolio", "VC portfolio", "https://seroba-lifesciences.com/portfolio/", "EU/Ireland", "High", "Monthly", "Portfolio extraction", "Life sciences investor.", "seroba_life_sciences"),
+                '<a href="/portfolio/atlanti-dx/">AtlantiDx</a><p>Diagnostics platform for clinical labs.</p>',
+                "AtlantiDx",
+            ),
+            (
+                pipeline.Source("Atlantic Bridge portfolio", "VC portfolio", "https://www.abven.com/portfolio/", "Ireland/EU/US", "High", "Monthly", "Portfolio extraction", "Deeptech investor.", "atlantic_bridge"),
+                '<a href="/portfolio/clinic-ai/">ClinicAI</a><p>AI health workflow spinout.</p>',
+                "ClinicAI",
+            ),
+        ]
+
+        for source, html, expected_company in fixtures:
+            with self.subTest(source=source.name):
+                hits = pipeline.parse_vc_portfolio_page(source, html, source.url)
+
+                self.assertEqual([hit.company for hit in hits], [expected_company])
+                self.assertEqual(hits[0].source_type, "VC portfolio")
+                self.assertIn(source.adapter, hits[0].matched_terms)
+
+    def test_priority_vc_runners_emit_investor_triggers(self):
+        source = pipeline.Source("Seroba Life Sciences portfolio", "VC portfolio", "https://seroba-lifesciences.com/portfolio/", "EU/Ireland", "High", "Monthly", "Portfolio extraction", "Life sciences investor.", "seroba_life_sciences")
+        html = '<a href="/portfolio/medbridge/">MedBridge</a><p>Digital health platform for regulated care pathways.</p>'
+
+        with patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+            discovery_hits, trigger_events, result = pipeline.run_seroba_life_sciences(source)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["MedBridge"])
+        self.assertEqual([event.trigger_type for event in trigger_events], ["Investor backing"])
+        self.assertIn("1 VC portfolio page", result)
 
     def test_generic_accelerator_adapter_is_skipped(self):
         source = pipeline.Source("Illumina Accelerator", "Accelerator", "https://www.illumina.com/science/accelerator.html", "US/UK", "High", "Annual", "Portfolio extraction", "Genomics startups.", "accelerator_page")
