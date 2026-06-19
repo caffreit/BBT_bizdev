@@ -45,6 +45,17 @@ RSS_FIXTURE = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 class SearchAdapterTests(unittest.TestCase):
+    def test_add_hyperlinks_trims_excel_relationship_targets(self):
+        wb = pipeline.Workbook()
+        ws = wb.active
+        ws.append(["Website"])
+        ws.append(["http://www.delee.co    "])
+
+        pipeline.add_hyperlinks(ws, [1])
+
+        self.assertEqual(ws["A2"].value, "http://www.delee.co")
+        self.assertEqual(ws["A2"].hyperlink.target, "http://www.delee.co")
+
     def test_sources_include_52_vc_portfolio_pages(self):
         vc_sources = [source for source in pipeline.SOURCES if source.source_type == "VC portfolio"]
 
@@ -427,6 +438,7 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertEqual(results[0].query, "MedTech AI Funding")
         self.assertEqual(results[0].publisher, "MedTech Dive")
         self.assertEqual(results[0].link, "https://news.google.com/rss/articles/novascan")
+        self.assertEqual(pipeline.article_year_from_pubdate(results[0].published_at), "2026")
 
     def test_search_evidence_extraction_classification_and_dedupe(self):
         source = pipeline.Source("Google News / web funding search", "News/search", "https://news.google.com/search", "US/EU/global", "High", "Weekly", "Google News RSS query", "Search fixture", "google_news_search")
@@ -438,6 +450,7 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertEqual(trigger_events[0].trigger_type, "Funding")
         self.assertEqual(trigger_events[1].trigger_type, "Regulatory clearance")
         self.assertIn("query: MedTech AI Funding", discovery_hits[0].matched_terms)
+        self.assertEqual(discovery_hits[0].article_year, "2026")
 
     def test_workbook_preserves_search_traceability(self):
         source = pipeline.Source("Google News / web funding search", "News/search", "https://news.google.com/search", "US/EU/global", "High", "Weekly", "Google News RSS query", "Search fixture", "google_news_search")
@@ -463,8 +476,10 @@ class SearchAdapterTests(unittest.TestCase):
 
         self.assertEqual(discovery_row[1], "Google News / web funding search: MedTech AI Funding")
         self.assertEqual(discovery_row[3], "https://news.google.com/rss/articles/novascan")
+        self.assertEqual(discovery_row[4], "2026")
         self.assertEqual(trigger_row[4], "https://news.google.com/rss/articles/novascan")
-        self.assertEqual(novascan_lead[16], "Verified trigger")
+        self.assertEqual(novascan_lead[12], "2026")
+        self.assertEqual(novascan_lead[17], "Verified trigger")
 
     def test_workbook_includes_accelerator_metadata_columns(self):
         hit = pipeline.DiscoveryHit(
@@ -496,9 +511,189 @@ class SearchAdapterTests(unittest.TestCase):
         discovery_row = list(wb["Discovery Hits"].iter_rows(min_row=2, values_only=True))[0]
 
         self.assertIn("Accelerator program", discovery_headers)
+        self.assertIn("Article year", discovery_headers)
         self.assertIn("Company description", lead_headers)
-        self.assertEqual(discovery_row[9], "Fixture Accelerator")
-        self.assertEqual(discovery_row[11], "2026")
+        self.assertEqual(discovery_row[10], "Fixture Accelerator")
+        self.assertEqual(discovery_row[12], "2026")
+
+    def test_primary_discovery_prefers_richer_cohort_metadata(self):
+        generic_hit = pipeline.DiscoveryHit(
+            company="Rosalind Dx",
+            source_name="MedTech Innovator",
+            source_type="Accelerator",
+            discovery_url="https://example.com/generic",
+            discovery_rationale="Generic portfolio row.",
+            cohort_label="MedTech Innovator portfolio",
+        )
+        cohort_hit = pipeline.DiscoveryHit(
+            company="Rosalind Dx",
+            source_name="MedTech Innovator",
+            source_type="Accelerator",
+            discovery_url="https://example.com/apac",
+            discovery_rationale="Specific APAC cohort row.",
+            website="https://www.rosalinddx.com",
+            cohort_label="MedTech Innovator APAC 2025",
+            cohort_year="2025",
+            category_or_track="Diagnostics",
+            company_description="Accessible prenatal testing.",
+        )
+        record = pipeline.CompanyRecord(company="Rosalind Dx", discovery_hits=[generic_hit, cohort_hit])
+
+        self.assertEqual(pipeline.primary_discovery(record).discovery_url, "https://example.com/apac")
+
+    def test_rule_classification_covers_core_personas(self):
+        cases = [
+            (
+                "AcceleratorCo",
+                pipeline.DiscoveryHit("AcceleratorCo", "Fixture Accelerator", "Accelerator", "https://example.com/a", "Current accelerator cohort.", product_type="AI medical device"),
+                [],
+                "Early startup",
+                "Accelerator/cohort",
+            ),
+            (
+                "FundedCo",
+                pipeline.DiscoveryHit("FundedCo", "Funding News", "News/search", "https://example.com/f", "Raised a Series A for diagnostic AI.", product_type="Diagnostics"),
+                [pipeline.TriggerEvent("FundedCo", "Funding", "Raised a Series A.", "Funding News", "https://example.com/f")],
+                "Funded startup",
+                "Funding trigger",
+            ),
+            (
+                "JobsCo",
+                pipeline.DiscoveryHit("JobsCo", "Jobs", "Jobs", "https://example.com/j", "Hiring a regulatory affairs lead.", product_type="SaMD"),
+                [pipeline.TriggerEvent("JobsCo", "Hiring signal", "Hiring regulatory affairs and QA.", "Jobs", "https://example.com/j")],
+                "Jobs-led capability gap",
+                "Hiring gap",
+            ),
+            (
+                "RegCo",
+                pipeline.DiscoveryHit("RegCo", "FDA", "Regulatory database", "https://example.com/r", "FDA clearance listing.", product_type="Medical device"),
+                [pipeline.TriggerEvent("RegCo", "Regulatory clearance", "Received FDA clearance.", "FDA", "https://example.com/r")],
+                "Regulatory-led opportunity",
+                "Regulatory pathway",
+            ),
+            (
+                "SpinoutCo",
+                pipeline.DiscoveryHit("SpinoutCo", "University", "University/spinout", "https://example.com/u", "University spinout.", product_type="Medical device"),
+                [],
+                "University/spinout",
+                "Medical device",
+            ),
+        ]
+
+        for company, hit, triggers, persona, secondary_tag in cases:
+            record = pipeline.CompanyRecord(company=company, product_type=hit.product_type, discovery_hits=[hit], triggers=triggers)
+            enrichment = pipeline.classify_company_rules(record)
+
+            self.assertEqual(enrichment.persona, persona)
+            self.assertEqual(enrichment.secondary_tag, secondary_tag)
+            self.assertFalse(enrichment.llm_used)
+            self.assertEqual(enrichment.method, "rules")
+
+    def test_classification_marks_missing_llm_fallback(self):
+        hit = pipeline.DiscoveryHit("NovaScan Health", "Fixture", "Accelerator", "https://example.com", "AI imaging accelerator company.")
+        record = pipeline.CompanyRecord(company="NovaScan Health", discovery_hits=[hit])
+
+        with patch.dict("os.environ", {}, clear=True):
+            enrichment = pipeline.classify_company(record)
+
+        self.assertFalse(enrichment.llm_used)
+        self.assertEqual(enrichment.fallback_reason, "llm_not_configured")
+
+    def test_classification_falls_back_for_llm_errors_and_invalid_outputs(self):
+        hit = pipeline.DiscoveryHit("NovaScan Health", "Fixture", "Accelerator", "https://example.com", "AI imaging accelerator company.")
+        record = pipeline.CompanyRecord(company="NovaScan Health", discovery_hits=[hit])
+
+        with patch.dict("os.environ", {"BBT_LEAD_ENRICHMENT_API_KEY": "fixture"}, clear=True), patch.object(pipeline, "load_cached_llm_enrichment", return_value=None), patch("bbt_bizdev.pipeline._call_lead_enrichment_llm", side_effect=RuntimeError("boom")):
+            error_fallback = pipeline.classify_company(record)
+
+        with patch.dict("os.environ", {"BBT_LEAD_ENRICHMENT_API_KEY": "fixture"}, clear=True), patch.object(pipeline, "load_cached_llm_enrichment", return_value=None), patch("bbt_bizdev.pipeline._call_lead_enrichment_llm", side_effect=ValueError("invalid_json")):
+            json_fallback = pipeline.classify_company(record)
+
+        with patch.dict("os.environ", {"BBT_LEAD_ENRICHMENT_API_KEY": "fixture"}, clear=True), patch.object(pipeline, "load_cached_llm_enrichment", return_value={"persona": "Bad", "primary_quadrant": "Advisory", "secondary_tag": "SaMD/AI", "pain_hypothesis": "x", "value_prop": "x", "outreach_angle": "x", "confidence": 0.5, "rationale": "x"}):
+            taxonomy_fallback = pipeline.classify_company(record)
+
+        self.assertEqual(error_fallback.fallback_reason, "llm_error")
+        self.assertEqual(json_fallback.fallback_reason, "invalid_json")
+        self.assertEqual(taxonomy_fallback.fallback_reason, "invalid_taxonomy")
+        self.assertFalse(error_fallback.llm_used)
+
+    def test_workbook_includes_enrichment_columns_and_varied_personas(self):
+        accelerator_hit = pipeline.DiscoveryHit("NovaScan Health", "Fixture Accelerator", "Accelerator", "https://example.com/novascan", "Current accelerator cohort.", product_type="AI medical device", website="https://novascan.example")
+        jobs_hit = pipeline.DiscoveryHit("PulseDx", "Jobs", "Jobs", "https://example.com/pulsedx", "Hiring regulatory affairs and QA.", product_type="SaMD", website="https://pulsedx.example")
+        companies = pipeline.normalize_companies([accelerator_hit, jobs_hit])
+        trigger_events = pipeline.attach_trigger_events(
+            companies,
+            [pipeline.TriggerEvent("PulseDx", "Hiring signal", "Hiring regulatory affairs and QA.", "Jobs", "https://example.com/pulsedx")],
+        )
+        pipeline.mark_primary_triggers(companies)
+
+        with tempfile.TemporaryDirectory() as temp_dir, patch.dict("os.environ", {}, clear=True):
+            original_out = pipeline.OUT
+            try:
+                pipeline.OUT = Path(temp_dir) / "enrichment.xlsx"
+                workbook_path = pipeline.write_workbook(companies, [accelerator_hit, jobs_hit], trigger_events, [["Fixture", "Jobs", jobs_hit.discovery_url, "Fetched", "fixture"]])
+                wb = load_workbook(workbook_path)
+            finally:
+                pipeline.OUT = original_out
+
+        headers = [cell.value for cell in wb["Lead Filtering"][1]]
+        rows = list(wb["Lead Filtering"].iter_rows(min_row=2, values_only=True))
+        personas = {row[11] for row in rows}
+
+        self.assertIn("Value prop", headers)
+        self.assertIn("Outreach angle", headers)
+        self.assertIn("LLM used", headers)
+        self.assertIn("Fallback reason", headers)
+        self.assertIn("Website", headers)
+        self.assertIn("Evidence year", headers)
+        self.assertIn("Evidence recency", headers)
+        self.assertIn("Trigger type", headers)
+        self.assertIn("Geography", headers)
+        self.assertIn("Company stage", headers)
+        self.assertIn("Product area", headers)
+        self.assertIn("Hiring signal", headers)
+        self.assertIn("Funding stage", headers)
+        self.assertIn("Early startup", personas)
+        self.assertIn("Jobs-led capability gap", personas)
+        self.assertNotIn("AI/SaMD or healthtech company from approved source", personas)
+        self.assertTrue(all(row[19] == "No" for row in rows))
+        self.assertTrue(all(row[20] == "llm_not_configured" for row in rows))
+        self.assertEqual(headers[36], "Primary evidence URL")
+        self.assertEqual(headers[37], "Website")
+        self.assertEqual({row[0]: row[37] for row in rows}, {"NovaScan Health": "https://novascan.example", "PulseDx": "https://pulsedx.example"})
+
+    def test_lead_filter_fields_use_latest_evidence_and_explicit_signals(self):
+        older = pipeline.DiscoveryHit("NovaScan", "Accelerator", "Accelerator", "https://example.com/2023", "Accelerator cohort.", cohort_year="2023", geography="Ireland")
+        latest = pipeline.DiscoveryHit("NovaScan", "Funding News", "News/search", "https://example.com/2025", "Raised a Series A for diagnostic imaging AI.", article_year="2025", geography="Ireland")
+        trigger = pipeline.TriggerEvent("NovaScan", "Funding", "Raised a Series A.", "Funding News", latest.discovery_url)
+        record = pipeline.CompanyRecord(company="NovaScan", geography="Ireland", discovery_hits=[older, latest], triggers=[trigger])
+        trigger.trigger_role = "Primary"
+
+        fields = pipeline.lead_filter_fields(record, pipeline.classify_company_rules(record))
+
+        self.assertEqual(fields["Evidence year"], "2025")
+        self.assertEqual(fields["Evidence basis"], "Article year")
+        self.assertEqual(fields["Trigger type"], "Funding")
+        self.assertEqual(fields["Funding stage"], "Series A")
+        self.assertEqual(fields["Product area"], "AI / SaMD")
+        self.assertEqual(fields["Hiring signal"], "No")
+
+    def test_geography_is_normalized_to_filter_regions(self):
+        cases = {
+            "San Francisco, CA, USA": "US",
+            "Toronto, ON, Canada": "Canada",
+            "London, England, United Kingdom": "UK",
+            "Galway, County Galway, Ireland": "Ireland",
+            "Paris, Ile-de-France, France": "Europe",
+            "Singapore, Singapore": "Asia-Pacific",
+            "Sydney, NSW, Australia": "Australia/New Zealand",
+            "Israel/US": "Middle East",
+            "EU/US": "Europe",
+            "US/EU/global": "US",
+            "Remote": "Unknown",
+        }
+        for raw, expected in cases.items():
+            self.assertEqual(pipeline.normalize_geography_region(raw), expected)
 
     def test_digitalhealth_london_adapter_paginates_directory_cards(self):
         source = pipeline.Source("DigitalHealth.London Accelerator", "Accelerator", "https://digitalhealth.london/programmes/accelerator/", "UK", "High", "Annual", "Cohort extraction", "NHS-facing digital health.", "digitalhealth_london")
@@ -510,14 +705,19 @@ class SearchAdapterTests(unittest.TestCase):
         </body></html>
         """
         page_2 = '<html><body><a href="/innovation-directory/profile/gamma-ehr">Gamma EHR Company EHR workflow automation for hospital teams.</a></body></html>'
+        alpha_profile = "<html><body>Cohort: 2025 Sector: Digital health</body></html>"
+        beta_profile = "<html><body>2024 Accelerator Technology: Diagnostics</body></html>"
+        gamma_profile = "<html><body>Launchpad - 2023</body></html>"
 
-        with patch.object(pipeline, "fetch_raw_text", side_effect=[(page_1, None), (page_2, None)]):
+        with patch.object(pipeline, "fetch_raw_text", side_effect=[(page_1, None), (alpha_profile, None), (beta_profile, None), (page_2, None), (gamma_profile, None)]):
             discovery_hits, trigger_events, result = pipeline.run_digitalhealth_london(source)
 
         self.assertEqual([hit.company for hit in discovery_hits], ["Alpha Care", "BetaDx", "Gamma EHR"])
+        self.assertEqual([hit.cohort_year for hit in discovery_hits], ["2025", "2024", "2023"])
         self.assertIn("Remote monitoring", discovery_hits[0].company_description)
         self.assertEqual(len(trigger_events), 3)
         self.assertIn("2 directory pages", result)
+        self.assertIn("3 profiles fetched", result)
 
     def test_digitalhealth_london_parser_can_enrich_from_profile_html(self):
         source = pipeline.Source("DigitalHealth.London Accelerator", "Accelerator", "https://digitalhealth.london/programmes/accelerator/", "UK", "High", "Annual", "Cohort extraction", "NHS-facing digital health.", "digitalhealth_london")
@@ -574,6 +774,7 @@ class SearchAdapterTests(unittest.TestCase):
         hits = pipeline.parse_medtech_innovator_pory_records(source, records)
 
         self.assertEqual(hits[0].company, "2morrow")
+        self.assertEqual(hits[0].discovery_url, "https://app.pory.dev/data/66eb41bc87c0d05ea2b410b8/records/rec1")
         self.assertEqual(hits[0].cohort_year, "2017")
         self.assertEqual(hits[0].website, "https://www.2morrowinc.com/")
         self.assertIn("Digital Therapeutics", hits[0].category_or_track)
@@ -845,8 +1046,14 @@ class SearchAdapterTests(unittest.TestCase):
 
         self.assertEqual([hit.company for hit in discovery_hits], ["Newest Health", "Middle Health", "Older Health"])
         self.assertEqual(discovery_hits[0].discovery_url, "https://www.ycombinator.com/companies/newest-health")
+        self.assertEqual([hit.cohort_year for hit in discovery_hits], ["2026", "2025", "2024"])
+        self.assertEqual(discovery_hits[0].cohort_label, "Y Combinator Summer 2026")
         self.assertEqual(len(trigger_events), 3)
         self.assertIn("3 matches", result)
+
+    def test_yc_batch_year_handles_short_batch_codes(self):
+        self.assertEqual(pipeline.infer_yc_batch_year("W24"), "2024")
+        self.assertEqual(pipeline.infer_yc_batch_year("S25"), "2025")
 
 
 if __name__ == "__main__":

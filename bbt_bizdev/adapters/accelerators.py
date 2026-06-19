@@ -20,6 +20,13 @@ def yc_company_url(hit: dict) -> str:
     slug = hit.get("slug") or hit.get("objectID")
     return f"https://www.ycombinator.com/companies/{slug}" if slug else "https://www.ycombinator.com/companies"
 
+def infer_yc_batch_year(batch: str) -> str:
+    year = infer_cohort_year(batch)
+    if year:
+        return year
+    match = re.search(r"\b[WSF](\d{2})\b", batch or "", flags=re.I)
+    return f"20{match.group(1)}" if match else ""
+
 def run_yc_healthcare(source: Source, max_hits: int = 1000) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
     endpoint = f"https://{YC_ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/YCCompany_production/query"
     hits: list[dict] = []
@@ -49,6 +56,7 @@ def run_yc_healthcare(source: Source, max_hits: int = 1000) -> tuple[list[Discov
         url = yc_company_url(hit)
         tags = ", ".join(hit.get("tags") or [])
         batch = hit.get("batch") or hit.get("batch_name") or ""
+        cohort_year = infer_yc_batch_year(batch)
         description = hit.get("one_liner") or hit.get("long_description") or ""
         matched = f"query: {YC_HEALTHCARE_QUERY}; batch: {batch}; tags: {tags}".strip("; ")
         discovery_hits.append(
@@ -62,6 +70,10 @@ def run_yc_healthcare(source: Source, max_hits: int = 1000) -> tuple[list[Discov
                 geography=hit.get("all_locations") or hit.get("location") or source.geography,
                 website=hit.get("website") or "",
                 matched_terms=matched,
+                accelerator_program="Y Combinator",
+                cohort_label=f"Y Combinator {batch}".strip(),
+                cohort_year=cohort_year,
+                company_description=description,
             )
         )
         trigger = source_type_trigger_event(source, company)
@@ -289,10 +301,34 @@ def run_health_innovation_hub_ireland(source: Source) -> tuple[list[DiscoveryHit
 def run_dogpatch_ndrc(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
     return run_priority_accelerator_pages(source, "Dogpatch/NDRC")
 
+def digitalhealth_london_profile_urls(raw_html: str, page_url: str) -> list[str]:
+    urls: list[str] = []
+    seen: set[str] = set()
+    for _, href in extract_links(raw_html, page_url):
+        if "/innovation-directory/profile/" not in href or href in seen:
+            continue
+        seen.add(href)
+        urls.append(href)
+    return urls
+
+def infer_digitalhealth_london_cohort(profile_text: str, page_text: str = "", href: str = "") -> str:
+    context = " ".join([profile_text or "", page_text or "", href or ""])
+    patterns = [
+        r"\b(?:Accelerator|Launchpad|Cohort|cohort|programme|program)\s*(?:cohort)?\s*[:/\-–—]?\s*(20\d{2})\b",
+        r"\b(20\d{2})\s*(?:Accelerator|Launchpad|Cohort|cohort|programme|program)\b",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, context, flags=re.I)
+        if match:
+            return f"DigitalHealth.London {match.group(1)}"
+    year = infer_cohort_year(context)
+    return f"DigitalHealth.London {year}" if year else ""
+
 def parse_digitalhealth_london_page(source: Source, raw_html: str, page_url: str, profile_html_by_url: dict[str, str] | None = None) -> list[DiscoveryHit]:
     hits: list[DiscoveryHit] = []
     profile_html_by_url = profile_html_by_url or {}
     seen_urls: set[str] = set()
+    page_text = text_from_html(raw_html)
     for link_text, href in extract_links(raw_html, page_url):
         if "/innovation-directory/profile/" not in href or href in seen_urls:
             continue
@@ -303,11 +339,8 @@ def parse_digitalhealth_london_page(source: Source, raw_html: str, page_url: str
             card_description = re.split(r"\s+Company\s+", link_text, maxsplit=1, flags=re.I)[1]
         profile_html = profile_html_by_url.get(href, "")
         profile_text = text_from_html(profile_html) if profile_html else context_after_link(raw_html, href)
-        description = extract_meta_description(profile_html) if profile_html else card_description or profile_text
-        cohort = ""
-        cohort_match = re.search(r"\b(?:Accelerator|Launchpad|Cohort)\s*(?:cohort)?\s*(20\d{2})\b", profile_text, flags=re.I)
-        if cohort_match:
-            cohort = f"DigitalHealth.London {cohort_match.group(1)}"
+        description = (extract_meta_description(profile_html) if profile_html else "") or card_description or profile_text
+        cohort = infer_digitalhealth_london_cohort(profile_text, page_text, href)
         track_parts = []
         for label in ["Sector", "Technology", "Area innovation", "Area of innovation"]:
             match = re.search(rf"{label}\s*:?\s*([A-Za-z0-9 /,&+-]{{3,80}})", profile_text, flags=re.I)
@@ -331,15 +364,26 @@ def run_digitalhealth_london(source: Source, max_pages: int = 50) -> tuple[list[
     base_url = ACCELERATOR_SOURCE_PAGES[source.name][0]
     all_hits: list[DiscoveryHit] = []
     errors: list[str] = []
+    profiles_fetched = 0
+    pages_scanned = 0
     page = 1
     while page <= max_pages:
         url = base_url if page == 1 else f"{base_url}/page/{page}"
         raw_html, error = fetch_raw_text(url)
+        pages_scanned += 1
         if error:
             if page == 1:
                 errors.append(f"{url}: {error}")
             break
-        page_hits = parse_digitalhealth_london_page(source, raw_html, url)
+        profile_html_by_url: dict[str, str] = {}
+        for profile_url in digitalhealth_london_profile_urls(raw_html, url):
+            profile_html, profile_error = fetch_raw_text(profile_url)
+            if profile_error:
+                errors.append(f"{profile_url}: {profile_error}")
+                continue
+            profile_html_by_url[profile_url] = profile_html
+            profiles_fetched += 1
+        page_hits = parse_digitalhealth_london_page(source, raw_html, url, profile_html_by_url)
         if not page_hits:
             break
         all_hits.extend(page_hits)
@@ -347,7 +391,7 @@ def run_digitalhealth_london(source: Source, max_pages: int = 50) -> tuple[list[
             break
         page += 1
     hits, triggers = dedupe_hits_with_triggers(source, all_hits)
-    result = f"{page} directory pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    result = f"{pages_scanned} directory pages scanned; {profiles_fetched} profiles fetched; {len(hits)} discovery hits; {len(triggers)} trigger events"
     if errors:
         result += "; errors: " + " | ".join(errors)
     return hits, triggers, result
@@ -422,10 +466,12 @@ def parse_medtech_innovator_pory_records(source: Source, records: list[dict]) ->
         description = pory_value(fields, "Product Short Description", "Description", "Long Description", "fld3ZsMoNwuiP15vS")
         website = pory_value(fields, "Website", "fldSEQbd6GpIJBF6J")
         geography = pory_value(fields, "Company Country/Territory", "Company Country/Territory (Old Field)", "Country")
+        record_id = clean_text(str(record.get("id") or ""))
+        evidence_url = f"{MEDTECH_INNOVATOR_PORY_RECORDS_URL}/{record_id}" if record_id else MEDTECH_INNOVATOR_PORY_APP_URL
         hit = make_accelerator_hit(
             source,
             company,
-            MEDTECH_INNOVATOR_PORY_APP_URL,
+            evidence_url,
             accelerator_program=program,
             cohort_label=f"{program} {year}".strip(),
             cohort_year=year,

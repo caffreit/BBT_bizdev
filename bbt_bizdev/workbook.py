@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from urllib.parse import quote, urlsplit, urlunsplit
 
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
@@ -8,7 +9,7 @@ from openpyxl.utils import get_column_letter
 
 from .config import OUT, SOURCES, SOURCE_PLAYBOOKS
 from .models import CompanyRecord, DiscoveryHit, TODAY, TriggerEvent
-from .pipeline import adapter_inventory_label, primary_discovery, primary_trigger, score_company
+from .pipeline import adapter_inventory_label, classify_company, lead_filter_fields, next_action_for_lead, primary_discovery, primary_trigger, score_company_metrics
 
 
 def excel_safe(value):
@@ -49,12 +50,30 @@ def size_columns(ws, widths=None):
         max_len = max((len(str(cell.value)) for cell in ws[letter] if cell.value is not None), default=10)
         ws.column_dimensions[letter].width = min(max(max_len + 2, 12), 48)
 
+def clean_hyperlink_target(value):
+    if not isinstance(value, str):
+        return None
+    value = value.strip()
+    if not value.startswith(("http://", "https://")):
+        return None
+    if any(ord(char) < 32 for char in value):
+        return None
+    parts = urlsplit(value)
+    if not parts.netloc:
+        return None
+    path = quote(parts.path, safe="/%:@")
+    query = quote(parts.query, safe="=&?/%:@,+;")
+    fragment = quote(parts.fragment, safe="=&?/%:@,+;")
+    return urlunsplit((parts.scheme, parts.netloc, path, query, fragment))
+
 def add_hyperlinks(ws, cols: list[int]):
     for row in range(2, ws.max_row + 1):
         for col in cols:
             cell = ws.cell(row=row, column=col)
-            if isinstance(cell.value, str) and cell.value.startswith("http"):
-                cell.hyperlink = cell.value
+            target = clean_hyperlink_target(cell.value)
+            if target:
+                cell.value = target
+                cell.hyperlink = target
                 cell.style = "Hyperlink"
 
 def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[DiscoveryHit], trigger_events: list[TriggerEvent], run_log: list[list[str]]):
@@ -96,13 +115,14 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
     size_columns(ws, {"A": 22, "B": 56, "C": 44, "D": 44, "E": 44, "F": 22})
 
     ws = wb.create_sheet("Discovery Hits")
-    append_excel_row(ws, ["Company", "Discovery source", "Source type", "Discovery evidence URL", "Discovery rationale", "Matched terms", "Website", "Geography", "Product type", "Accelerator program", "Cohort label", "Cohort year", "Category / track", "Company description", "Captured at"])
+    append_excel_row(ws, ["Company", "Discovery source", "Source type", "Discovery evidence URL", "Article year", "Discovery rationale", "Matched terms", "Website", "Geography", "Product type", "Accelerator program", "Cohort label", "Cohort year", "Category / track", "Company description", "Captured at"])
     for hit in discovery_hits:
         append_excel_row(ws, [
             hit.company,
             hit.source_name,
             hit.source_type,
             hit.discovery_url,
+            hit.article_year,
             hit.discovery_rationale,
             hit.matched_terms,
             hit.website,
@@ -116,11 +136,11 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
             hit.captured_at,
         ])
     style_sheet(ws)
-    add_hyperlinks(ws, [4, 7])
-    size_columns(ws, {"A": 24, "B": 28, "C": 18, "D": 54, "E": 56, "F": 24, "G": 36, "I": 28, "J": 26, "K": 24, "M": 28, "N": 58})
+    add_hyperlinks(ws, [4, 8])
+    size_columns(ws, {"A": 24, "B": 28, "C": 18, "D": 54, "E": 14, "F": 56, "G": 24, "H": 36, "J": 28, "K": 26, "L": 24, "N": 28, "O": 58})
 
     ws = wb.create_sheet("Lead Intake")
-    append_excel_row(ws, ["Company", "Website", "Geography", "Product type", "Accelerator program", "Cohort label", "Cohort year", "Category / track", "Company description", "Discovery source", "Discovery source type", "Discovery evidence URL", "Discovery rationale", "Primary trigger event", "Trigger source", "Trigger evidence URL", "Evidence status", "Date captured"])
+    append_excel_row(ws, ["Company", "Website", "Geography", "Product type", "Accelerator program", "Cohort label", "Cohort year", "Category / track", "Company description", "Discovery source", "Discovery source type", "Discovery evidence URL", "Article year", "Discovery rationale", "Primary trigger event", "Trigger source", "Trigger evidence URL", "Evidence status", "Date captured"])
     for record in sorted(companies.values(), key=lambda r: r.company):
         hit = primary_discovery(record)
         trigger = primary_trigger(record)
@@ -137,6 +157,7 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
             hit.source_name,
             hit.source_type,
             hit.discovery_url,
+            hit.article_year,
             hit.discovery_rationale,
             trigger.trigger_event if trigger else "",
             trigger.trigger_source if trigger else "",
@@ -145,8 +166,8 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
             TODAY,
         ])
     style_sheet(ws)
-    add_hyperlinks(ws, [2, 12, 16])
-    size_columns(ws, {"A": 24, "B": 36, "C": 16, "D": 28, "E": 26, "F": 24, "H": 28, "I": 58, "J": 28, "L": 54, "M": 58, "N": 58, "O": 28, "P": 54})
+    add_hyperlinks(ws, [2, 12, 17])
+    size_columns(ws, {"A": 24, "B": 36, "C": 16, "D": 28, "E": 26, "F": 24, "H": 28, "I": 58, "J": 28, "L": 54, "M": 14, "N": 58, "O": 58, "P": 28, "Q": 54})
 
     ws = wb.create_sheet("Trigger Log")
     append_excel_row(ws, ["Company", "Trigger type", "Trigger event", "Trigger source", "Evidence URL", "Trigger role", "Captured at"])
@@ -156,43 +177,64 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
     add_hyperlinks(ws, [5])
     size_columns(ws, {"A": 24, "B": 20, "C": 64, "D": 30, "E": 54, "F": 16})
 
-    ws = wb.create_sheet("Lead Scoring")
+    ws = wb.create_sheet("Lead Filtering")
     headers = [
-        "Company", "Persona", "Primary BBT quadrant", "Secondary tag", "Pain hypothesis",
-        "Recently funded +3", "AI/SaMD/device +3", "Hiring QA/reg/V&V +3", "Clinical validation +2",
+        "Company", "Evidence year", "Evidence basis", "Evidence recency", "Trigger type", "Geography",
+        "Company type", "Company stage", "Product area", "Hiring signal", "Funding stage",
+        "Persona", "Primary BBT quadrant", "Secondary tag", "Pain hypothesis",
+        "Value prop", "Outreach angle", "Classification confidence", "Classification method", "LLM used", "Fallback reason",
+        "Legacy: Recently funded +3", "Legacy: AI/SaMD/device +3", "Legacy: Hiring QA/reg/V&V +3", "Legacy: Clinical validation +2",
         "FDA/CE/reg language +2", "Grant/public funding +2", "University/grant origin +2",
         "No obvious reg team +2", "Pre-commercial +1", "Large company -1", "Wellness/non-medical -2",
-        "Pharma-only -2", "Score", "Priority band", "Evidence status", "Primary evidence URL",
+        "Pharma-only -2", "Legacy score", "Legacy priority band", "Evidence status", "Primary evidence URL", "Website",
     ]
     append_excel_row(ws, headers)
     scoring_rows = []
     for record in sorted(companies.values(), key=lambda r: r.company):
-        flags, score, band, persona, quadrant, secondary, pain = score_company(record)
+        flags, score, band = score_company_metrics(record)
+        enrichment = classify_company(record)
+        filter_fields = lead_filter_fields(record, enrichment)
         trigger = primary_trigger(record)
         hit = primary_discovery(record)
         evidence_url = trigger.evidence_url if trigger else hit.discovery_url
         status = "Verified trigger" if trigger else "Discovered only"
         append_excel_row(ws, [
-            record.company, persona, quadrant, secondary, pain,
-            *flags.values(), score, band, status, evidence_url,
+            record.company,
+            *filter_fields.values(),
+            enrichment.persona,
+            enrichment.primary_quadrant,
+            enrichment.secondary_tag,
+            enrichment.pain_hypothesis,
+            enrichment.value_prop,
+            enrichment.outreach_angle,
+            enrichment.confidence,
+            enrichment.method,
+            "Yes" if enrichment.llm_used else "No",
+            enrichment.fallback_reason,
+            *flags.values(), score, band, status, evidence_url, record.website,
         ])
-        scoring_rows.append((score, band, status, record, pain, evidence_url))
+        scoring_rows.append((score, band, status, record, enrichment, evidence_url, trigger))
     style_sheet(ws)
-    add_hyperlinks(ws, [21])
-    size_columns(ws, {"A": 24, "B": 32, "C": 22, "D": 22, "E": 64, "R": 10, "S": 14, "T": 18, "U": 54})
+    add_hyperlinks(ws, [37, 38])
+    size_columns(ws, {
+        "A": 24, "B": 14, "C": 16, "D": 16, "E": 22, "F": 16, "G": 24, "H": 24,
+        "I": 24, "J": 14, "K": 28, "L": 28, "M": 22, "N": 22, "O": 58, "P": 54,
+        "Q": 54, "R": 14, "S": 18, "T": 12, "U": 22, "AH": 12, "AI": 18, "AJ": 18,
+        "AK": 54, "AL": 36,
+    })
 
     scoring_rows.sort(key=lambda row: (row[2] == "Verified trigger", row[0]), reverse=True)
     ws = wb.create_sheet("Weekly Review")
     append_excel_row(ws, ["Rank", "Company", "Score", "Priority band", "Evidence status", "Why shortlisted", "Next action", "Owner", "Status", "Review notes", "Evidence URL"])
-    for idx, (score, band, status, record, pain, evidence_url) in enumerate(scoring_rows[:15], start=1):
+    for idx, (score, band, status, record, enrichment, evidence_url, trigger) in enumerate(scoring_rows[:15], start=1):
         append_excel_row(ws, [
             idx,
             record.company,
             score,
             band,
             status,
-            pain,
-            "Contact research" if status == "Verified trigger" else "Run trigger research before outreach",
+            f"{enrichment.pain_hypothesis} Outreach: {enrichment.outreach_angle}",
+            next_action_for_lead(status, enrichment, trigger),
             "",
             "Validate",
             "",

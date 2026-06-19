@@ -31,6 +31,7 @@ class DiscoveryHit:
     geography: str = ""
     website: str = ""
     matched_terms: str = ""
+    article_year: str = ""
     captured_at: str = TODAY
     accelerator_program: str = ""
     cohort_label: str = ""
@@ -74,6 +75,21 @@ class JobLead:
     company: str
     posting: JobPosting
     query: str = ""
+
+
+@dataclass
+class LeadEnrichment:
+    persona: str
+    primary_quadrant: str
+    secondary_tag: str
+    pain_hypothesis: str
+    value_prop: str
+    outreach_angle: str
+    confidence: float
+    rationale: str
+    method: str
+    llm_used: bool = False
+    fallback_reason: str = ""
 
 
 @dataclass

@@ -12,9 +12,10 @@ flowchart TD
     F --> G["Trigger Research<br/>run_trigger_research()"]
     H["Trigger Evidence Sources<br/>TRIGGER_SOURCES"] --> G
     G --> I["Company Records<br/>discovery + triggers"]
-    I --> J["Lead Scoring<br/>score_company()"]
+    I --> J["Lead Classification<br/>classify_company()"]
+    J --> M["Lead Filtering<br/>lead_filter_fields() + legacy score"]
     I --> K["Workbook Builder<br/>write_workbook()"]
-    J --> K
+    M --> K
     E --> K
     K --> L["Excel Output<br/>BlueBridge_TOFU_BizDev_V1.xlsx"]
 ```
@@ -33,8 +34,8 @@ flowchart TD
 4. **Trigger evidence is checked**
    Search results can create trigger evidence from the same article URL used for discovery when they describe funding, launch, approval, or regulatory clearance. Accelerator, conference, VC, grant, regulatory, and jobs adapters also create source-type trigger evidence from the same public URL.
 
-5. **Companies are scored**
-   `score_company()` assigns points for signals like recent funding, AI/SaMD/device relevance, clinical validation, regulatory language, grants, and accelerator presence. It also assigns a priority band: `Strong`, `Good`, `Maybe`, or `Low`.
+5. **Companies are classified and scored**
+   `classify_company()` assigns a persona, BBT quadrant, secondary tag, pain hypothesis, value prop, and outreach angle. It uses rule-based classification by default and can optionally use cached LLM enrichment when configured; rows show whether the LLM was used and why rules were used as fallback. `score_company_metrics()` keeps the existing point score and priority band.
 
 6. **Workbook sheets are written**
    `write_workbook()` creates the final Excel workbook with summary, source, evidence, scoring, and review tabs.
@@ -50,7 +51,7 @@ flowchart TD
 | `Discovery Hits` | Company-source matches |
 | `Lead Intake` | One intake row per discovered company |
 | `Trigger Log` | Verified trigger events |
-| `Lead Scoring` | Score components and priority band |
+| `Lead Filtering` | Evidence recency, trigger, geography, stage/product filters, persona enrichment, fallback status, and legacy score |
 | `Weekly Review` | Top 15 ranked leads for action |
 
 ## Current Limitation

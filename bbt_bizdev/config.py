@@ -137,6 +137,44 @@ SOURCE_TRIGGER_TYPES = {
     "Jobs": "Hiring signal",
 }
 
+LEAD_PERSONAS = [
+    "Early startup",
+    "Funded startup",
+    "University/spinout",
+    "Scaleup",
+    "Established medtech",
+    "Jobs-led capability gap",
+    "Regulatory-led opportunity",
+]
+
+BBT_QUADRANTS = [
+    "Advisory",
+    "Design/dev",
+    "Embedded support",
+    "Regulatory/validation",
+    "Commercial readiness",
+]
+
+LEAD_SECONDARY_TAGS = [
+    "SaMD/AI",
+    "Diagnostics",
+    "Medical device",
+    "Clinical validation",
+    "Regulatory pathway",
+    "QMS/quality",
+    "Hiring gap",
+    "Funding trigger",
+    "Accelerator/cohort",
+]
+
+LEAD_ENRICHMENT_PROMPT_VERSION = "lead_enrichment_v1"
+LEAD_ENRICHMENT_CACHE_DIR = ".lead_enrichment_cache"
+LEAD_ENRICHMENT_API_KEY_ENV = "BBT_LEAD_ENRICHMENT_API_KEY"
+LEAD_ENRICHMENT_MODEL_ENV = "BBT_LEAD_ENRICHMENT_MODEL"
+LEAD_ENRICHMENT_DEFAULT_MODEL = "gemini-1.5-flash"
+LEAD_ENRICHMENT_DISABLED_ENV = "BBT_LEAD_ENRICHMENT_DISABLED"
+LEAD_ENRICHMENT_FETCH_EVIDENCE_ENV = "BBT_LEAD_ENRICHMENT_FETCH_EVIDENCE"
+
 YC_ALGOLIA_APP_ID = "45BWZJ1SGC"
 YC_ALGOLIA_API_KEY = "NzllNTY5MzJiZGM2OTY2ZTQwMDEzOTNhYWZiZGRjODlhYzVkNjBmOGRjNzJiMWM4ZTU0ZDlhYTZjOTJiMjlhMWFuYWx5dGljc1RhZ3M9eWNkYyZyZXN0cmljdEluZGljZXM9WUNDb21wYW55X3Byb2R1Y3Rpb24lMkNZQ0NvbXBhbnlfQnlfTGF1bmNoX0RhdGVfcHJvZHVjdGlvbiZ0YWdGaWx0ZXJzPSU1QiUyMnljZGNfcHVibGljJTIyJTVE"
 YC_HEALTHCARE_QUERY = "Healthcare"

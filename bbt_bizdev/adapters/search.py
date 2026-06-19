@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
 from urllib.parse import urlencode
 
 from ..config import COMPANY_REGISTRY, SEARCH_QUERIES
@@ -25,6 +26,15 @@ def parse_google_news_rss(xml_text: str, query: str) -> list[SearchResult]:
         if title and link:
             results.append(SearchResult(query=query, title=title, link=link, summary=summary, publisher=publisher, published_at=published_at))
     return results
+
+def article_year_from_pubdate(pubdate: str) -> str:
+    if not pubdate:
+        return ""
+    try:
+        return str(parsedate_to_datetime(pubdate).year)
+    except (TypeError, ValueError):
+        match = re.search(r"\b(20\d{2}|19\d{2})\b", pubdate)
+        return match.group(1) if match else ""
 
 def classify_search_trigger(result: SearchResult) -> tuple[str, str] | None:
     text = f"{result.title} {result.summary}".lower()
@@ -93,6 +103,7 @@ def build_google_news_evidence(source: Source, results: list[SearchResult]) -> t
                     geography=infer_geography(company),
                     website=infer_website(company),
                     matched_terms=search_result_matched_terms(result, trigger[0] if trigger else None),
+                    article_year=article_year_from_pubdate(result.published_at),
                 )
             )
         if trigger:
