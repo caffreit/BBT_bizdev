@@ -1,8 +1,10 @@
 __pycache__/
 .pytest_cache/
 .lead_enrichment_cache/
+.linkedin_enrichment_cache/
 *.py[cod]
 ~$*
 .env
 .venv/
 venv/
+outputs/**/node_modules/

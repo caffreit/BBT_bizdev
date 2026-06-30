@@ -175,6 +175,13 @@ LEAD_ENRICHMENT_DEFAULT_MODEL = "gemini-1.5-flash"
 LEAD_ENRICHMENT_DISABLED_ENV = "BBT_LEAD_ENRICHMENT_DISABLED"
 LEAD_ENRICHMENT_FETCH_EVIDENCE_ENV = "BBT_LEAD_ENRICHMENT_FETCH_EVIDENCE"
 
+LINKEDIN_ENRICHMENT_CACHE_DIR = ".linkedin_enrichment_cache"
+LINKEDIN_ENRICHMENT_CACHE_VERSION = "linkedin_enrichment_v1"
+LINKEDIN_CONTACT_TARGET_YEAR = "2026"
+LINKEDIN_ENRICHMENT_DISABLED_ENV = "BBT_LINKEDIN_ENRICHMENT_DISABLED"
+LINKEDIN_SEARCH_MIN_INTERVAL_SECONDS = 1.25
+LINKEDIN_MAX_TEAM_PAGES = 3
+
 YC_ALGOLIA_APP_ID = "45BWZJ1SGC"
 YC_ALGOLIA_API_KEY = "NzllNTY5MzJiZGM2OTY2ZTQwMDEzOTNhYWZiZGRjODlhYzVkNjBmOGRjNzJiMWM4ZTU0ZDlhYTZjOTJiMjlhMWFuYWx5dGljc1RhZ3M9eWNkYyZyZXN0cmljdEluZGljZXM9WUNDb21wYW55X3Byb2R1Y3Rpb24lMkNZQ0NvbXBhbnlfQnlfTGF1bmNoX0RhdGVfcHJvZHVjdGlvbiZ0YWdGaWx0ZXJzPSU1QiUyMnljZGNfcHVibGljJTIyJTVE"
 YC_HEALTHCARE_QUERY = "Healthcare"
@@ -236,10 +243,19 @@ ACCELERATOR_SOURCE_PAGES = {
     "DigitalHealth.London Accelerator": ["https://digitalhealth.london/innovation-directory/companies"],
     "Mayo Clinic Platform Accelerate": ["https://www.mayoclinicplatform.org/focus-areas/digital-health/accelerate/accelerate-cohort-landing-page/"],
     "EIT Health Catapult": ["https://eithealth.eu/programmes/catapult/"],
-    "BioInnovate Ireland": ["https://www.bioinnovate.ie/", "https://www.bioinnovate.ie/our-companies/"],
+    "BioInnovate Ireland": ["https://www.bioinnovate.ie/bioinnovate/alumni/", "https://www.bioinnovate.ie/bioinnovate/alumni/directory/"],
     "ARC Hub for HealthTech": ["https://www.universityofgalway.ie/innovation/", "https://www.universityofgalway.ie/our-research/"],
     "Health Innovation Hub Ireland": ["https://hih.ie/product-portfolio/", "https://hih.ie/case-studies/"],
-    "Dogpatch Labs / NDRC": ["https://www.ndrc.ie/", "https://www.ndrc.ie/portfolio/", "https://dogpatchlabs.com/"],
+    "Dogpatch Labs / NDRC": [
+        "https://www.ndrc.ie/accelerator-cohort-2025",
+        "https://www.ndrc.ie/accelerator-cohort-2024-h2",
+        "https://www.ndrc.ie/accelerator-cohort-2024-h1",
+        "https://www.ndrc.ie/accelerator-cohort-2023-h2",
+        "https://www.ndrc.ie/accelerator-cohort-2023-h1",
+        "https://www.ndrc.ie/accelerator-cohort-2022-h2",
+        "https://www.ndrc.ie/accelerator-cohort-2022-h1",
+        "https://www.ndrc.ie/accelerator-cohort-2021",
+    ],
     "TMC Innovation": ["https://www.tmc.edu/innovation/accelerator-healthtech/"],
     "Techstars Healthcare": ["https://www.techstars.com/portfolio"],
     "StartX Med": ["https://startx.com/companies"],

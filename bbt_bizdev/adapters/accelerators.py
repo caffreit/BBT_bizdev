@@ -126,9 +126,10 @@ def make_accelerator_hit(
     website: str = "",
     geography: str = "",
     matched_terms: str = "",
+    trust_curated_name: bool = False,
 ) -> DiscoveryHit | None:
     company = clean_page_candidate(company)
-    if not is_plausible_page_candidate(company):
+    if not trust_curated_name and not is_plausible_page_candidate(company):
         return None
     context = " ".join([category_or_track, company_description, source.notes])
     rationale = f"{source.name} adapter extracted this company from an accelerator cohort/directory source."
@@ -195,6 +196,24 @@ def context_around_link_text(raw_html: str, link_text: str, window: int = 1200) 
     start = max(0, idx - window // 4)
     return text_from_html(raw_html[start : idx + window])
 
+def context_for_priority_link_block(raw_html: str, link_text: str, window: int = 800) -> str:
+    idx = raw_html.lower().find(link_text.lower())
+    if idx < 0:
+        return ""
+    next_link_idx = raw_html.lower().find("<a ", idx + len(link_text))
+    end = next_link_idx if next_link_idx >= 0 else idx + window
+    return text_from_html(raw_html[idx:end])
+
+def context_for_external_link_card(raw_html: str, link_text: str, window: int = 800) -> str:
+    idx = raw_html.lower().find(link_text.lower())
+    if idx < 0:
+        return ""
+    previous_link_end = raw_html.lower().rfind("</a>", 0, idx)
+    start = previous_link_end + len("</a>") if previous_link_end >= 0 else max(0, idx - window)
+    current_link_end = raw_html.lower().find("</a>", idx)
+    end = current_link_end + len("</a>") if current_link_end >= 0 else idx + window
+    return text_from_html(raw_html[start:end])
+
 def normalize_priority_company_candidate(link_text: str) -> str:
     candidate = clean_page_candidate(link_text)
     by_match = re.search(
@@ -220,7 +239,7 @@ def normalize_priority_company_candidate(link_text: str) -> str:
 
 def is_priority_accelerator_company_link(source: Source, link_text: str, href: str) -> bool:
     lower_text = clean_text(link_text).lower()
-    if lower_text in {"portfolio", "case studies", "supports", "initiatives", "innovation supports", "innovation tools"}:
+    if lower_text in {"portfolio", "case studies", "supports", "initiatives", "innovation supports", "innovation tools", "alumni", "bioinnovate alumni", "alumni directory", "expand all", "logo", "aa", "anormal", "alarger", "ahigh contrast"}:
         return False
     if "go to page" in lower_text:
         return False
@@ -240,15 +259,99 @@ def is_priority_accelerator_company_link(source: Source, link_text: str, href: s
     terms = path_terms.get(source.adapter or "", ["compan", "startup", "portfolio"])
     return any(term in lower_href for term in terms)
 
+def is_ndrc_external_company_link(href: str, page_url: str) -> bool:
+    if "accelerator-cohort" not in page_url.lower():
+        return False
+    parsed = urlparse(href)
+    host = parsed.netloc.lower().removeprefix("www.")
+    if not host or host.endswith("ndrc.ie") or host.endswith("dogpatchlabs.com") or host.endswith("ndrc.click"):
+        return False
+    blocked_hosts = {"accelerator.ndrc.ie", "linkedin.com", "twitter.com", "x.com", "facebook.com", "instagram.com", "youtube.com"}
+    return not any(host == blocked or host.endswith("." + blocked) for blocked in blocked_hosts)
+
+def company_from_ndrc_link(link_text: str, href: str) -> str:
+    parsed = urlparse(href)
+    host = parsed.netloc.removeprefix("www.")
+    label = clean_text(link_text)
+    if "." in label and len(label.split()) <= 3:
+        label = host.split(".", 1)[0]
+    elif not label:
+        label = host.split(".", 1)[0]
+    label = re.sub(r"[-_]+", " ", label)
+    label = re.sub(r"\b(?:website|site)\b", "", label, flags=re.I)
+    return clean_page_candidate(label.title())
+
+NDRC_HEALTHCARE_KEYWORDS = [
+    "health",
+    "healthcare",
+    "medical",
+    "clinical",
+    "patient",
+    "care",
+    "medtech",
+    "medical device",
+    "device",
+    "diagnostic",
+    "diagnostics",
+    "imaging",
+    "wearable",
+    "remote monitoring",
+    "digital health",
+    "healthtech",
+    "telehealth",
+    "virtual care",
+    "samd",
+    "clinical workflow",
+    "ehr",
+    "hospital",
+    "biotech",
+    "life sciences",
+    "therapeutic",
+    "pharma",
+    "pharmaceutical",
+    "drug discovery",
+    "genomics",
+    "biomarker",
+    "mental health",
+    "women's health",
+    "womens health",
+    "elderly care",
+    "rehab",
+    "physiotherapy",
+    "nutrition",
+]
+
+def matched_ndrc_healthcare_keywords(context: str) -> list[str]:
+    text = clean_text(context).lower()
+    matched: list[str] = []
+    for keyword in NDRC_HEALTHCARE_KEYWORDS:
+        if " " in keyword:
+            found = keyword in text
+        else:
+            found = re.search(rf"\b{re.escape(keyword)}\b", text) is not None
+        if found:
+            matched.append(keyword)
+    return matched
+
 def parse_priority_accelerator_page(source: Source, raw_html: str, page_url: str, cohort_label: str = "") -> list[DiscoveryHit]:
     hits: list[DiscoveryHit] = []
     page_text = text_from_html(raw_html)
     default_cohort = cohort_label or f"{source.name} {infer_cohort_year(page_text, page_url)}".strip()
     for link_text, href in extract_links(raw_html, page_url):
-        if not is_priority_accelerator_company_link(source, link_text, href):
+        ndrc_external_link = source.adapter == "dogpatch_ndrc" and is_ndrc_external_company_link(href, page_url)
+        if not ndrc_external_link and not is_priority_accelerator_company_link(source, link_text, href):
             continue
-        company = normalize_priority_company_candidate(link_text)
-        context = context_after_link(raw_html, href) or context_around_link_text(raw_html, link_text)
+        company = company_from_ndrc_link(link_text, href) if ndrc_external_link else normalize_priority_company_candidate(link_text)
+        if not is_plausible_page_candidate(company):
+            continue
+        context = context_for_external_link_card(raw_html, link_text) if ndrc_external_link else context_after_link(raw_html, href) or context_around_link_text(raw_html, link_text)
+        matched_terms = f"adapter: {source.adapter}; company/startup link"
+        if source.adapter == "dogpatch_ndrc":
+            healthcare_context = context if ndrc_external_link else context_for_priority_link_block(raw_html, link_text) or context
+            healthcare_keywords = matched_ndrc_healthcare_keywords(" ".join([company, healthcare_context]))
+            if not healthcare_keywords:
+                continue
+            matched_terms = f"{matched_terms}; healthcare keywords: {', '.join(healthcare_keywords)}"
         category = ""
         for label in ["Sector", "Category", "Track", "Programme", "Program"]:
             match = re.search(rf"{label}\s*:?\s*([A-Za-z0-9 /,&+-]{{3,80}})", context, flags=re.I)
@@ -263,7 +366,7 @@ def parse_priority_accelerator_page(source: Source, raw_html: str, page_url: str
             cohort_year=infer_cohort_year(default_cohort, context, page_url),
             category_or_track=category,
             company_description=context,
-            matched_terms=f"adapter: {source.adapter}; company/startup link",
+            matched_terms=matched_terms,
         )
         if hit:
             hits.append(hit)
@@ -289,8 +392,81 @@ def run_priority_accelerator_pages(source: Source, incomplete_label: str = "prio
         result += "; errors: " + " | ".join(errors)
     return hits, triggers, result
 
+def bioinnovate_collection_urls(raw_html: str) -> list[str]:
+    urls = re.findall(r"https://data\.shorthand\.com/[^\"'\\\s<>]+/items\.json", raw_html)
+    return list(dict.fromkeys(urls))
+
+def bioinnovate_embed_urls(raw_html: str) -> list[str]:
+    urls = re.findall(r"https://stories\.universityofgalway\.ie/bioinnovate/start-ups/embed\.js", raw_html)
+    return list(dict.fromkeys(urls))
+
+def parse_bioinnovate_collection(source: Source, payload: object, collection_url: str) -> list[DiscoveryHit]:
+    if not isinstance(payload, dict):
+        return []
+    hits: list[DiscoveryHit] = []
+    collection_title = clean_text(str(payload.get("title") or "BioInnovate Alumni Companies"))
+    for item in payload.get("items") or []:
+        if not isinstance(item, dict):
+            continue
+        company = clean_page_candidate(str(item.get("title") or ""))
+        if not company:
+            continue
+        description = clean_text(str(item.get("description") or ""))
+        url = str(item.get("url") or collection_url)
+        hit = make_accelerator_hit(
+            source,
+            company,
+            url,
+            cohort_label=collection_title,
+            category_or_track="BioInnovate alumni",
+            company_description=description,
+            matched_terms="adapter: bioinnovate_ireland; shorthand alumni collection",
+            trust_curated_name=True,
+        )
+        if hit:
+            hit.website = url if url.startswith(("http://", "https://")) else ""
+            hits.append(hit)
+    return hits
+
 def run_bioinnovate_ireland(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
-    return run_priority_accelerator_pages(source, "BioInnovate")
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    collections_scanned = 0
+    for url in urls:
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        collection_urls = bioinnovate_collection_urls(raw_html)
+        for embed_url in bioinnovate_embed_urls(raw_html):
+            embed_html, embed_error = fetch_raw_text(embed_url)
+            scanned += 1
+            if embed_error:
+                errors.append(f"{embed_url}: {embed_error}")
+                continue
+            collection_urls.extend(bioinnovate_collection_urls(embed_html))
+        collection_urls = list(dict.fromkeys(collection_urls))
+        if not collection_urls:
+            hits.extend(parse_priority_accelerator_page(source, raw_html, url))
+            continue
+        for collection_url in collection_urls:
+            payload, json_error = fetch_json_url(collection_url)
+            collections_scanned += 1
+            if json_error:
+                errors.append(f"{collection_url}: {json_error}")
+                continue
+            hits.extend(parse_bioinnovate_collection(source, payload, collection_url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} BioInnovate pages scanned; {collections_scanned} alumni collections scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no alumni companies found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
 
 def run_arc_hub_healthtech(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
     return run_priority_accelerator_pages(source, "ARC Hub")

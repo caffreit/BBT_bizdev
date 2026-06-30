@@ -1,0 +1,1112 @@
+[
+  {
+    "row": 23,
+    "company": "ABILITY Neurotech",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 80,
+    "company": "AcuityMD",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 123,
+    "company": "Aidoc",
+    "year": "2026",
+    "website": "https://www.aidoc.com/",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)>"
+  },
+  {
+    "row": 133,
+    "company": "Akara",
+    "year": "2026",
+    "website": "",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 203,
+    "company": "AngioDynamics",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 215,
+    "company": "Anumana",
+    "year": "2026",
+    "website": "https://www.anumana.ai/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)>"
+  },
+  {
+    "row": 288,
+    "company": "Avedian",
+    "year": "2026",
+    "website": "https://avedian.tech/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/solagec-sociedad-latinoamericana-de-gesti%c3%b3n-cl%c3%adnica",
+    "company_status": "Found - official website",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 325,
+    "company": "Baltimore medical",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 409,
+    "company": "Bluevia Health",
+    "year": "2026",
+    "website": "https://www.blueviahealth.com/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [
+      {
+        "name": "Ali I M",
+        "title": "Founders, clinicians, and operators with proven healthcare, engineering, and go-to-market backgrounds, building to ship.",
+        "url": "https://www.linkedin.com/in/ali-i-m",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Abhyuday Roychowdhury",
+        "title": "CEO",
+        "url": "https://www.linkedin.com/in/abhyuday-roychowdhury",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Peter Pronovost Md Phd Fccm",
+        "title": "CTO",
+        "url": "https://www.linkedin.com/in/peter-pronovost-md-phd-fccm-3b9b4a11",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Vijay Prasad Md Mph",
+        "title": "Harvard MD, Johns Hopkins-trained internist. Assistant Clinical Professor at Mount Sinai. VP of Strategic Ops at ConcertoCare. Former McKinsey.",
+        "url": "https://www.linkedin.com/in/vijay-prasad-md-mph-685441324",
+        "role_bucket": "senior",
+        "source": "Official company site",
+        "confidence": 0.95
+      }
+    ],
+    "official_error": ""
+  },
+  {
+    "row": 418,
+    "company": "BrainCapture ApS",
+    "year": "2026",
+    "website": "https://www.braincapture.dk/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/braincapture",
+    "company_status": "Found - official website",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 498,
+    "company": "Canary",
+    "year": "2026",
+    "website": "https://www.canaryai.health/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": "HTTP Error 402: Payment Required"
+  },
+  {
+    "row": 527,
+    "company": "Casey Hannan",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 557,
+    "company": "CergenX",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 693,
+    "company": "Curenetics",
+    "year": "2026",
+    "website": "https://www.curenetics.io/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/curenetics",
+    "company_status": "Found - official website",
+    "candidates": [
+      {
+        "name": "Sola Adeleke",
+        "title": "Founder & CEO",
+        "url": "https://www.linkedin.com/in/sola-adeleke-735647138",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Nik Kennedy",
+        "title": "Head of Commercial",
+        "url": "https://www.linkedin.com/in/nik-kennedy",
+        "role_bucket": "senior",
+        "source": "Official company site",
+        "confidence": 0.95
+      }
+    ],
+    "official_error": ""
+  },
+  {
+    "row": 731,
+    "company": "Deciphex",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 736,
+    "company": "DeepHealth",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 799,
+    "company": "Drive Medical",
+    "year": "2026",
+    "website": "http://www.drivemedinc.com",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": "<urlopen error _ssl.c:983: The handshake operation timed out>"
+  },
+  {
+    "row": 829,
+    "company": "ETH Zurich spinout Chiral",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 832,
+    "company": "EW2Health",
+    "year": "2026",
+    "website": "https://www.ew2health.com/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/ew2health",
+    "company_status": "Found - official website",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 833,
+    "company": "EXIT071",
+    "year": "2026",
+    "website": "https://exit071.com/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 873,
+    "company": "Empeal",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 886,
+    "company": "Endovascular",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 920,
+    "company": "Etrack Medical",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 926,
+    "company": "European",
+    "year": "2026",
+    "website": "",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 946,
+    "company": "Eyes of AI",
+    "year": "2026",
+    "website": "https://eyesofai.com/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+    "row": 1053,
+    "company": "Galway",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1111,
+    "company": "Groove Quantum",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1140,
+    "company": "Harbor",
+    "year": "2026",
+    "website": "https://runharbor.com/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/runharbor",
+    "company_status": "Found - official website",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1151,
+    "company": "Head Diagnostics",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1211,
+    "company": "Hoopcare",
+    "year": "2026",
+    "website": "https://www.hoopcare.com/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/hoopcare",
+    "company_status": "Found - official website",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1212,
+    "company": "Hopkins spinout",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1266,
+    "company": "Imperial spinout",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1360,
+    "company": "Jannik Sinner",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1420,
+    "company": "King",
+    "year": "2026",
+    "website": "",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1429,
+    "company": "Klaris",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1432,
+    "company": "Knit Health",
+    "year": "2026",
+    "website": "",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1465,
+    "company": "Lattice Health",
+    "year": "2026",
+    "website": "https://www.latticehealthai.com/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1537,
+    "company": "London-based SOLVE Chemistry",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1581,
+    "company": "MIT spinoff",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1595,
+    "company": "Magnetic Tides",
+    "year": "2026",
+    "website": "https://www.magnetictides.com/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/magnetic-tides",
+    "company_status": "Found - official website",
+    "candidates": [
+      {
+        "name": "Daniel Sheltraw",
+        "title": "CEO / Founder",
+        "url": "https://www.linkedin.com/in/daniel-sheltraw-b0528512",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Rich Ivry",
+        "title": "CTO / Founder",
+        "url": "https://www.linkedin.com/in/rich-ivry-555515b",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Spencer Gordon",
+        "title": "Founder",
+        "url": "https://www.linkedin.com/in/spencer-gordon",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Cidnee Luu",
+        "title": "Director of Research",
+        "url": "https://www.linkedin.com/in/cidnee-luu",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Haajar Ahmad Ali",
+        "title": "Itay bridges the gap between discovery and intervention at Magnetic Tides. Currently, he is heading a trial for anhedonia that utilizes our proprietary kTMP technology to noninvasi",
+        "url": "https://www.linkedin.com/in/haajar-ahmad-ali-88635a1b5",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Shaya Parto",
+        "title": "Ian O'Kidhain is a PhD candidate in the UC Berkeley-UCSF Joint Bioengineering Program. His research is focused on neural engineering, with an emphasis on machine learning models, t",
+        "url": "https://www.linkedin.com/in/shaya-parto-722010252",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Daniel Sheltraw",
+        "title": "CEO / Founder",
+        "url": "https://www.linkedin.com/in/daniel-sheltraw-b0528512",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Rich Ivry",
+        "title": "CTO / Founder",
+        "url": "https://www.linkedin.com/in/rich-ivry-555515b",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Spencer Gordon",
+        "title": "Founder",
+        "url": "https://www.linkedin.com/in/spencer-gordon",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Cidnee Luu",
+        "title": "Director of Research",
+        "url": "https://www.linkedin.com/in/cidnee-luu",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Haajar Ahmad Ali",
+        "title": "Itay bridges the gap between discovery and intervention at Magnetic Tides. Currently, he is heading a trial for anhedonia that utilizes our proprietary kTMP technology to noninvasi",
+        "url": "https://www.linkedin.com/in/haajar-ahmad-ali-88635a1b5",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Shaya Parto",
+        "title": "Ian O'Kidhain is a PhD candidate in the UC Berkeley-UCSF Joint Bioengineering Program. His research is focused on neural engineering, with an emphasis on machine learning models, t",
+        "url": "https://www.linkedin.com/in/shaya-parto-722010252",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      }
+    ],
+    "official_error": ""
+  },
+  {
+    "row": 1610,
+    "company": "Manentia AI",
+    "year": "2026",
+    "website": "https://manentia.ai/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/manentia-ai",
+    "company_status": "Found - official website",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1621,
+    "company": "Materials spinout Polaron",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1667,
+    "company": "Medihive",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1681,
+    "company": "Medyria",
+    "year": "2026",
+    "website": "http://www.medyria.com",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/medyria",
+    "company_status": "Found - official website",
+    "candidates": [
+      {
+        "name": "Thodoris Pantaz",
+        "title": "R&D Machine Learning",
+        "url": "https://www.linkedin.com/in/thodoris-pantaz",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Lukas Ruckstuhl",
+        "title": "R&D Machine Learning",
+        "url": "https://www.linkedin.com/in/lukas-ruckstuhl-07436ab5",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Pablo Frohoff",
+        "title": "R&D Design engineer",
+        "url": "https://www.linkedin.com/in/pablo-frohoff",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Yi Shiun Wu",
+        "title": "R&D Design engineer",
+        "url": "https://www.linkedin.com/in/yi-shiun-wu",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Mauro Sette",
+        "title": "CEO",
+        "url": "https://www.linkedin.com/in/mauro-sette-10b0898",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "M Bassas Galia",
+        "title": "CEO",
+        "url": "https://www.linkedin.com/in/m-bassas-galia",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      }
+    ],
+    "official_error": ""
+  },
+  {
+    "row": 1729,
+    "company": "Minnesota firms",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1771,
+    "company": "MyBackHub",
+    "year": "2026",
+    "website": "https://www.mybackhub.com/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1781,
+    "company": "NEX Health Intelligence",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1830,
+    "company": "NeoCure",
+    "year": "2026",
+    "website": "https://neocure.jp/en/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1844,
+    "company": "NeuroBell",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1852,
+    "company": "Neuromod Devices",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1943,
+    "company": "Oli",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 1961,
+    "company": "OneMedic",
+    "year": "2026",
+    "website": "https://onemedic.vn/en",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2090,
+    "company": "Penn",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2120,
+    "company": "Philips",
+    "year": "2026",
+    "website": "",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2126,
+    "company": "Physical",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2325,
+    "company": "Research",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2437,
+    "company": "Semarion",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2555,
+    "company": "Spotlight Pathology",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2564,
+    "company": "Stanford-Linked",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2580,
+    "company": "StataDX",
+    "year": "2026",
+    "website": "http://www.statadx.com",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2601,
+    "company": "Subtle Medical",
+    "year": "2026",
+    "website": "https://subtlemedical.com/",
+    "priority": "Good",
+    "company_url": "https://www.linkedin.com/company/subtlemedical",
+    "company_status": "Found - official website",
+    "candidates": [
+      {
+        "name": "Ohad Arazi",
+        "title": "Ohad Arazi brings more than 20 years of leadership experience across digital health, medical imaging, and healthcare IT as an entrepreneur, investor, and public company executive. ",
+        "url": "https://www.linkedin.com/in/ohad-arazi-44492293",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Enhao Gong",
+        "title": "Ohad Arazi brings more than 20 years of leadership experience across digital health, medical imaging, and healthcare IT as an entrepreneur, investor, and public company executive. ",
+        "url": "https://www.linkedin.com/in/enhao-gong",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Enhao Gong",
+        "title": "Chief Science Officer & President of China Operations",
+        "url": "https://www.linkedin.com/in/enhao-gong",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ajit S",
+        "title": "Greg is a Founder of Subtle Medical and a Professor of Radiology and practicing Neuroradiologist at Stanford University. He is an expert in advanced imaging methods, particularly a",
+        "url": "https://www.linkedin.com/in/ajit-s-0b70777",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ajit S",
+        "title": "Chief Product Officer",
+        "url": "https://www.linkedin.com/in/ajit-s-0b70777",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Josh Gurewitz",
+        "title": "Chief Product Officer",
+        "url": "https://www.linkedin.com/in/josh-gurewitz-95063a",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Josh Gurewitz",
+        "title": "Josh has over 30 years of experience at an executive staff level managing large sales and marketing teams in the field of diagnostic imaging and radiation therapy planning. His bac",
+        "url": "https://www.linkedin.com/in/josh-gurewitz-95063a",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Anna Menyhart Borroni",
+        "title": "Josh has over 30 years of experience at an executive staff level managing large sales and marketing teams in the field of diagnostic imaging and radiation therapy planning. His bac",
+        "url": "https://www.linkedin.com/in/anna-menyhart-borroni-06628127",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Anna Menyhart Borroni",
+        "title": "Anna is a marketing expert with over 15 years of sales and marketing experience ranging from public pharmaceutical and medical device companies like Sanofi-Aventis, to innovative S",
+        "url": "https://www.linkedin.com/in/anna-menyhart-borroni-06628127",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Brad Beeney",
+        "title": "Praveen has a Ph.D. in Biomedical Engineering from UT Southwestern and has over 15 years of medical imaging experience. Prior to this role, he set up the Clinical and Customer Succ",
+        "url": "https://www.linkedin.com/in/brad-beeney-bba8493",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Brad Beeney",
+        "title": "Head of North America Sales",
+        "url": "https://www.linkedin.com/in/brad-beeney-bba8493",
+        "role_bucket": "senior",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ohad Arazi",
+        "title": "Ohad Arazi brings more than 20 years of leadership experience across digital health, medical imaging, and healthcare IT as an entrepreneur, investor, and public company executive. ",
+        "url": "https://www.linkedin.com/in/ohad-arazi-44492293",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Enhao Gong",
+        "title": "Ohad Arazi brings more than 20 years of leadership experience across digital health, medical imaging, and healthcare IT as an entrepreneur, investor, and public company executive. ",
+        "url": "https://www.linkedin.com/in/enhao-gong",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Enhao Gong",
+        "title": "Chief Science Officer & President of China Operations",
+        "url": "https://www.linkedin.com/in/enhao-gong",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ajit S",
+        "title": "Greg is a Founder of Subtle Medical and a Professor of Radiology and practicing Neuroradiologist at Stanford University. He is an expert in advanced imaging methods, particularly a",
+        "url": "https://www.linkedin.com/in/ajit-s-0b70777",
+        "role_bucket": "executive",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ajit S",
+        "title": "Chief Product Officer",
+        "url": "https://www.linkedin.com/in/ajit-s-0b70777",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Josh Gurewitz",
+        "title": "Chief Product Officer",
+        "url": "https://www.linkedin.com/in/josh-gurewitz-95063a",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Josh Gurewitz",
+        "title": "Josh has over 30 years of experience at an executive staff level managing large sales and marketing teams in the field of diagnostic imaging and radiation therapy planning. His bac",
+        "url": "https://www.linkedin.com/in/josh-gurewitz-95063a",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Anna Menyhart Borroni",
+        "title": "Josh has over 30 years of experience at an executive staff level managing large sales and marketing teams in the field of diagnostic imaging and radiation therapy planning. His bac",
+        "url": "https://www.linkedin.com/in/anna-menyhart-borroni-06628127",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Anna Menyhart Borroni",
+        "title": "Anna is a marketing expert with over 15 years of sales and marketing experience ranging from public pharmaceutical and medical device companies like Sanofi-Aventis, to innovative S",
+        "url": "https://www.linkedin.com/in/anna-menyhart-borroni-06628127",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Brad Beeney",
+        "title": "Praveen has a Ph.D. in Biomedical Engineering from UT Southwestern and has over 15 years of medical imaging experience. Prior to this role, he set up the Clinical and Customer Succ",
+        "url": "https://www.linkedin.com/in/brad-beeney-bba8493",
+        "role_bucket": "technical",
+        "source": "Official company site",
+        "confidence": 0.95
+      },
+      {
+        "name": "Brad Beeney",
+        "title": "Head of North America Sales",
+        "url": "https://www.linkedin.com/in/brad-beeney-bba8493",
+        "role_bucket": "senior",
+        "source": "Official company site",
+        "confidence": 0.95
+      }
+    ],
+    "official_error": ""
+  },
+  {
+    "row": 2644,
+    "company": "T-Pro",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2791,
+    "company": "UK",
+    "year": "2026",
+    "website": "",
+    "priority": "Strong",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2800,
+    "company": "UltraSight",
+    "year": "2026",
+    "website": "https://www.ultrasight.com/",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)>"
+  },
+  {
+    "row": 2805,
+    "company": "Uncovr",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2814,
+    "company": "University",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  },
+  {
+    "row": 2965,
+    "company": "XWave Technologies",
+    "year": "2026",
+    "website": "",
+    "priority": "Good",
+    "company_url": "",
+    "company_status": "Not found",
+    "candidates": [],
+    "official_error": ""
+  }
+]

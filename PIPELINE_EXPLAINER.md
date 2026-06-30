@@ -12,10 +12,12 @@ flowchart TD
     F --> G["Trigger Research<br/>run_trigger_research()"]
     H["Trigger Evidence Sources<br/>TRIGGER_SOURCES"] --> G
     G --> I["Company Records<br/>discovery + triggers"]
+    I --> N["LinkedIn Enrichment<br/>official sites + public search"]
     I --> J["Lead Classification<br/>classify_company()"]
     J --> M["Lead Filtering<br/>lead_filter_fields() + legacy score"]
     I --> K["Workbook Builder<br/>write_workbook()"]
     M --> K
+    N --> K
     E --> K
     K --> L["Excel Output<br/>BlueBridge_TOFU_BizDev_V1.xlsx"]
 ```
@@ -34,10 +36,13 @@ flowchart TD
 4. **Trigger evidence is checked**
    Search results can create trigger evidence from the same article URL used for discovery when they describe funding, launch, approval, or regulatory clearance. Accelerator, conference, VC, grant, regulatory, and jobs adapters also create source-type trigger evidence from the same public URL.
 
-5. **Companies are classified and scored**
+5. **LinkedIn links are enriched**
+   Official company and team pages are checked first, with cached DuckDuckGo public-search results as fallback. Every lead is eligible for a company LinkedIn URL; only leads whose derived `Evidence year` is exactly `2026` are researched for executive, technical/R&D, and quality/QA contacts. Ambiguous matches are rejected and incomplete results are explicitly flagged.
+
+6. **Companies are classified and scored**
    `classify_company()` assigns a persona, BBT quadrant, secondary tag, pain hypothesis, value prop, and outreach angle. It uses rule-based classification by default and can optionally use cached LLM enrichment when configured; rows show whether the LLM was used and why rules were used as fallback. `score_company_metrics()` keeps the existing point score and priority band.
 
-6. **Workbook sheets are written**
+7. **Workbook sheets are written**
    `write_workbook()` creates the final Excel workbook with summary, source, evidence, scoring, and review tabs.
 
 ## Workbook Tabs
@@ -51,7 +56,7 @@ flowchart TD
 | `Discovery Hits` | Company-source matches |
 | `Lead Intake` | One intake row per discovered company |
 | `Trigger Log` | Verified trigger events |
-| `Lead Filtering` | Evidence recency, trigger, geography, stage/product filters, persona enrichment, fallback status, and legacy score |
+| `Lead Filtering` | Evidence recency, trigger, geography, stage/product filters, persona enrichment, legacy score, company LinkedIn URL, and 2026 contact profiles |
 | `Weekly Review` | Top 15 ranked leads for action |
 
 ## Current Limitation

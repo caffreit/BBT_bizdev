@@ -76,6 +76,18 @@ def add_hyperlinks(ws, cols: list[int]):
                 cell.hyperlink = target
                 cell.style = "Hyperlink"
 
+
+def linkedin_contact_values(contact):
+    if contact is None:
+        return ["", "", ""]
+    return [contact.name, contact.title, contact.url]
+
+
+def style_linkedin_columns(ws, start_col: int) -> None:
+    fill = PatternFill("solid", fgColor="0F6B78")
+    for cell in ws[1][start_col - 1:]:
+        cell.fill = fill
+
 def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[DiscoveryHit], trigger_events: list[TriggerEvent], run_log: list[list[str]]):
     wb = Workbook()
     wb.remove(wb.active)
@@ -88,6 +100,10 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
     append_excel_row(ws, ["Discovery hits", len(discovery_hits)])
     append_excel_row(ws, ["Companies", len(companies)])
     append_excel_row(ws, ["Trigger events", len(trigger_events)])
+    append_excel_row(ws, ["LinkedIn company URLs", sum(bool(record.linkedin.company_url) for record in companies.values())])
+    append_excel_row(ws, ["LinkedIn contact targets", sum(record.linkedin.contact_status != "Not targeted" for record in companies.values())])
+    append_excel_row(ws, ["LinkedIn contact sets complete", sum(record.linkedin.contact_status.startswith("Complete") for record in companies.values())])
+    append_excel_row(ws, ["LinkedIn contact sets partial", sum(record.linkedin.contact_status.startswith("Partial") for record in companies.values())])
     style_sheet(ws)
     size_columns(ws, {"A": 28, "B": 24})
 
@@ -187,6 +203,11 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
         "FDA/CE/reg language +2", "Grant/public funding +2", "University/grant origin +2",
         "No obvious reg team +2", "Pre-commercial +1", "Large company -1", "Wellness/non-medical -2",
         "Pharma-only -2", "Legacy score", "Legacy priority band", "Evidence status", "Primary evidence URL", "Website",
+        "LinkedIn company URL", "LinkedIn company status",
+        "Executive contact name", "Executive contact title", "Executive LinkedIn URL",
+        "Technical/R&D contact name", "Technical/R&D contact title", "Technical/R&D LinkedIn URL",
+        "Quality/QA contact name", "Quality/QA contact title", "Quality/QA LinkedIn URL",
+        "LinkedIn contact status",
     ]
     append_excel_row(ws, headers)
     scoring_rows = []
@@ -212,15 +233,24 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
             "Yes" if enrichment.llm_used else "No",
             enrichment.fallback_reason,
             *flags.values(), score, band, status, evidence_url, record.website,
+            record.linkedin.company_url,
+            record.linkedin.company_status,
+            *linkedin_contact_values(record.linkedin.executive),
+            *linkedin_contact_values(record.linkedin.technical),
+            *linkedin_contact_values(record.linkedin.quality),
+            record.linkedin.contact_status,
         ])
         scoring_rows.append((score, band, status, record, enrichment, evidence_url, trigger))
     style_sheet(ws)
-    add_hyperlinks(ws, [37, 38])
+    style_linkedin_columns(ws, 39)
+    add_hyperlinks(ws, [37, 38, 39, 43, 46, 49])
     size_columns(ws, {
         "A": 24, "B": 14, "C": 16, "D": 16, "E": 22, "F": 16, "G": 24, "H": 24,
         "I": 24, "J": 14, "K": 28, "L": 28, "M": 22, "N": 22, "O": 58, "P": 54,
         "Q": 54, "R": 14, "S": 18, "T": 12, "U": 22, "AH": 12, "AI": 18, "AJ": 18,
         "AK": 54, "AL": 36,
+        "AM": 42, "AN": 24, "AO": 25, "AP": 38, "AQ": 42,
+        "AR": 25, "AS": 38, "AT": 42, "AU": 25, "AV": 38, "AW": 42, "AX": 26,
     })
 
     scoring_rows.sort(key=lambda row: (row[2] == "Verified trigger", row[0]), reverse=True)

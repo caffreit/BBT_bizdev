@@ -1,0 +1,720 @@
+[
+  {
+    "row": 23,
+    "company": "ABILITY Neurotech",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 80,
+    "company": "AcuityMD",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 123,
+    "company": "Aidoc",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 133,
+    "company": "Akara",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 203,
+    "company": "AngioDynamics",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 215,
+    "company": "Anumana",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 288,
+    "company": "Avedian",
+    "company_url": "https://www.linkedin.com/company/solagec-sociedad-latinoamericana-de-gesti%c3%b3n-cl%c3%adnica",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 325,
+    "company": "Baltimore medical",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 409,
+    "company": "Bluevia Health",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": {
+      "name": "Abhyuday Roychowdhury",
+      "title": "CEO",
+      "url": "https://www.linkedin.com/in/abhyuday-roychowdhury"
+    },
+    "technical": {
+      "name": "Peter Pronovost Md Phd Fccm",
+      "title": "CTO",
+      "url": "https://www.linkedin.com/in/peter-pronovost-md-phd-fccm-3b9b4a11"
+    },
+    "quality": {
+      "name": "Vijay Prasad Md Mph",
+      "title": "Harvard MD, Johns Hopkins-trained internist. Assistant Clinical Professor at Mount Sinai. VP of Strategic Ops at ConcertoCare. Former McKinsey.",
+      "url": "https://www.linkedin.com/in/vijay-prasad-md-mph-685441324"
+    },
+    "contact_status": "Complete - 3 verified"
+  },
+  {
+    "row": 418,
+    "company": "BrainCapture ApS",
+    "company_url": "https://www.linkedin.com/company/braincapture",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 498,
+    "company": "Canary",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 527,
+    "company": "Casey Hannan",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 557,
+    "company": "CergenX",
+    "company_url": "https://www.linkedin.com/company/cergenx",
+    "company_status": "Found - public search",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 693,
+    "company": "Curenetics",
+    "company_url": "https://www.linkedin.com/company/curenetics",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Sola Adeleke",
+      "title": "Founder & CEO",
+      "url": "https://www.linkedin.com/in/sola-adeleke-735647138"
+    },
+    "technical": {
+      "name": "Nik Kennedy",
+      "title": "Head of Commercial",
+      "url": "https://www.linkedin.com/in/nik-kennedy"
+    },
+    "quality": null,
+    "contact_status": "Partial - 2/3 verified"
+  },
+  {
+    "row": 731,
+    "company": "Deciphex",
+    "company_url": "https://www.linkedin.com/company/deciphex",
+    "company_status": "Found - public search",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 736,
+    "company": "DeepHealth",
+    "company_url": "https://www.linkedin.com/company/deephealthai",
+    "company_status": "Found - public search",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 799,
+    "company": "Drive Medical",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 829,
+    "company": "ETH Zurich spinout Chiral",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 832,
+    "company": "EW2Health",
+    "company_url": "https://www.linkedin.com/company/ew2health",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 833,
+    "company": "EXIT071",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 873,
+    "company": "Empeal",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 886,
+    "company": "Endovascular",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 920,
+    "company": "Etrack Medical",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 926,
+    "company": "European",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 946,
+    "company": "Eyes of AI",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1053,
+    "company": "Galway",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1111,
+    "company": "Groove Quantum",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1140,
+    "company": "Harbor",
+    "company_url": "https://www.linkedin.com/company/runharbor",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1151,
+    "company": "Head Diagnostics",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1211,
+    "company": "Hoopcare",
+    "company_url": "https://www.linkedin.com/company/hoopcare",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1212,
+    "company": "Hopkins spinout",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1266,
+    "company": "Imperial spinout",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1360,
+    "company": "Jannik Sinner",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1420,
+    "company": "King",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1429,
+    "company": "Klaris",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1432,
+    "company": "Knit Health",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1465,
+    "company": "Lattice Health",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1537,
+    "company": "London-based SOLVE Chemistry",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1581,
+    "company": "MIT spinoff",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1595,
+    "company": "Magnetic Tides",
+    "company_url": "https://www.linkedin.com/company/magnetic-tides",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Daniel Sheltraw",
+      "title": "CEO / Founder",
+      "url": "https://www.linkedin.com/in/daniel-sheltraw-b0528512"
+    },
+    "technical": {
+      "name": "Rich Ivry",
+      "title": "CTO / Founder",
+      "url": "https://www.linkedin.com/in/rich-ivry-555515b"
+    },
+    "quality": {
+      "name": "Spencer Gordon",
+      "title": "Founder",
+      "url": "https://www.linkedin.com/in/spencer-gordon"
+    },
+    "contact_status": "Complete - 3 verified"
+  },
+  {
+    "row": 1610,
+    "company": "Manentia AI",
+    "company_url": "https://www.linkedin.com/company/manentia-ai",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1621,
+    "company": "Materials spinout Polaron",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1667,
+    "company": "Medihive",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1681,
+    "company": "Medyria",
+    "company_url": "https://www.linkedin.com/company/medyria",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Mauro Sette",
+      "title": "CEO",
+      "url": "https://www.linkedin.com/in/mauro-sette-10b0898"
+    },
+    "technical": {
+      "name": "Thodoris Pantaz",
+      "title": "R&D Machine Learning",
+      "url": "https://www.linkedin.com/in/thodoris-pantaz"
+    },
+    "quality": null,
+    "contact_status": "Partial - 2/3 verified"
+  },
+  {
+    "row": 1729,
+    "company": "Minnesota firms",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1771,
+    "company": "MyBackHub",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1781,
+    "company": "NEX Health Intelligence",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1830,
+    "company": "NeoCure",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1844,
+    "company": "NeuroBell",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1852,
+    "company": "Neuromod Devices",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1943,
+    "company": "Oli",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1961,
+    "company": "OneMedic",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2090,
+    "company": "Penn",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2120,
+    "company": "Philips",
+    "company_url": "https://www.linkedin.com/company/philips",
+    "company_status": "Found - public search",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2126,
+    "company": "Physical",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2325,
+    "company": "Research",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2437,
+    "company": "Semarion",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2555,
+    "company": "Spotlight Pathology",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2564,
+    "company": "Stanford-Linked",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2580,
+    "company": "StataDX",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2601,
+    "company": "Subtle Medical",
+    "company_url": "https://www.linkedin.com/company/subtlemedical",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Ajit S",
+      "title": "Greg is a Founder of Subtle Medical and a Professor of Radiology and practicing Neuroradiologist at Stanford University. He is an expert in advanced imaging methods, particularly a",
+      "url": "https://www.linkedin.com/in/ajit-s-0b70777"
+    },
+    "technical": {
+      "name": "Josh Gurewitz",
+      "title": "Chief Product Officer",
+      "url": "https://www.linkedin.com/in/josh-gurewitz-95063a"
+    },
+    "quality": null,
+    "contact_status": "Partial - 2/3 verified"
+  },
+  {
+    "row": 2644,
+    "company": "T-Pro",
+    "company_url": "https://www.linkedin.com/company/tpro",
+    "company_status": "Found - public search",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2791,
+    "company": "UK",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2800,
+    "company": "UltraSight",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2805,
+    "company": "Uncovr",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2814,
+    "company": "University",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2965,
+    "company": "XWave Technologies",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  }
+]

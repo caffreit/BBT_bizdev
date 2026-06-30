@@ -1,0 +1,303 @@
+[
+  {
+    "row": 123,
+    "company": "Aidoc",
+    "website": "https://www.aidoc.com/",
+    "company_url": "",
+    "company_status": "Search error",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "Search error"
+  },
+  {
+    "row": 215,
+    "company": "Anumana",
+    "website": "https://www.anumana.ai/",
+    "company_url": "",
+    "company_status": "Search error",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "Search error"
+  },
+  {
+    "row": 288,
+    "company": "Avedian",
+    "website": "https://avedian.tech/",
+    "company_url": "https://www.linkedin.com/company/solagec-sociedad-latinoamericana-de-gesti%c3%b3n-cl%c3%adnica",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 409,
+    "company": "Bluevia Health",
+    "website": "https://www.blueviahealth.com/",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": {
+      "name": "Abhyuday Roychowdhury",
+      "title": "CEO",
+      "url": "https://www.linkedin.com/in/abhyuday-roychowdhury"
+    },
+    "technical": {
+      "name": "Peter Pronovost Md Phd Fccm",
+      "title": "CTO",
+      "url": "https://www.linkedin.com/in/peter-pronovost-md-phd-fccm-3b9b4a11"
+    },
+    "quality": {
+      "name": "Vijay Prasad Md Mph",
+      "title": "Harvard MD, Johns Hopkins-trained internist. Assistant Clinical Professor at Mount Sinai. VP of Strategic Ops at ConcertoCare. Former McKinsey.",
+      "url": "https://www.linkedin.com/in/vijay-prasad-md-mph-685441324"
+    },
+    "contact_status": "Complete - 3 verified"
+  },
+  {
+    "row": 418,
+    "company": "BrainCapture ApS",
+    "website": "https://www.braincapture.dk/",
+    "company_url": "https://www.linkedin.com/company/braincapture",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 498,
+    "company": "Canary",
+    "website": "https://www.canaryai.health/",
+    "company_url": "",
+    "company_status": "Search error",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "Search error"
+  },
+  {
+    "row": 693,
+    "company": "Curenetics",
+    "website": "https://www.curenetics.io/",
+    "company_url": "https://www.linkedin.com/company/curenetics",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Sola Adeleke",
+      "title": "Founder & CEO",
+      "url": "https://www.linkedin.com/in/sola-adeleke-735647138"
+    },
+    "technical": {
+      "name": "Nik Kennedy",
+      "title": "Head of Commercial",
+      "url": "https://www.linkedin.com/in/nik-kennedy"
+    },
+    "quality": null,
+    "contact_status": "Partial - 2/3 verified"
+  },
+  {
+    "row": 799,
+    "company": "Drive Medical",
+    "website": "http://www.drivemedinc.com",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 832,
+    "company": "EW2Health",
+    "website": "https://www.ew2health.com/",
+    "company_url": "https://www.linkedin.com/company/ew2health",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 833,
+    "company": "EXIT071",
+    "website": "https://exit071.com/",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 946,
+    "company": "Eyes of AI",
+    "website": "https://eyesofai.com/",
+    "company_url": "",
+    "company_status": "Search error",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "Search error"
+  },
+  {
+    "row": 1140,
+    "company": "Harbor",
+    "website": "https://runharbor.com/",
+    "company_url": "https://www.linkedin.com/company/runharbor",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1211,
+    "company": "Hoopcare",
+    "website": "https://www.hoopcare.com/",
+    "company_url": "https://www.linkedin.com/company/hoopcare",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1465,
+    "company": "Lattice Health",
+    "website": "https://www.latticehealthai.com/",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1595,
+    "company": "Magnetic Tides",
+    "website": "https://www.magnetictides.com/",
+    "company_url": "https://www.linkedin.com/company/magnetic-tides",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Daniel Sheltraw",
+      "title": "CEO / Founder",
+      "url": "https://www.linkedin.com/in/daniel-sheltraw-b0528512"
+    },
+    "technical": {
+      "name": "Rich Ivry",
+      "title": "CTO / Founder",
+      "url": "https://www.linkedin.com/in/rich-ivry-555515b"
+    },
+    "quality": {
+      "name": "Spencer Gordon",
+      "title": "Founder",
+      "url": "https://www.linkedin.com/in/spencer-gordon"
+    },
+    "contact_status": "Complete - 3 verified"
+  },
+  {
+    "row": 1610,
+    "company": "Manentia AI",
+    "website": "https://manentia.ai/",
+    "company_url": "https://www.linkedin.com/company/manentia-ai",
+    "company_status": "Found - official website",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1681,
+    "company": "Medyria",
+    "website": "http://www.medyria.com",
+    "company_url": "https://www.linkedin.com/company/medyria",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Mauro Sette",
+      "title": "CEO",
+      "url": "https://www.linkedin.com/in/mauro-sette-10b0898"
+    },
+    "technical": {
+      "name": "Thodoris Pantaz",
+      "title": "R&D Machine Learning",
+      "url": "https://www.linkedin.com/in/thodoris-pantaz"
+    },
+    "quality": null,
+    "contact_status": "Partial - 2/3 verified"
+  },
+  {
+    "row": 1771,
+    "company": "MyBackHub",
+    "website": "https://www.mybackhub.com/",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1830,
+    "company": "NeoCure",
+    "website": "https://neocure.jp/en/",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 1961,
+    "company": "OneMedic",
+    "website": "https://onemedic.vn/en",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2580,
+    "company": "StataDX",
+    "website": "http://www.statadx.com",
+    "company_url": "",
+    "company_status": "Not found",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "No verified matches"
+  },
+  {
+    "row": 2601,
+    "company": "Subtle Medical",
+    "website": "https://subtlemedical.com/",
+    "company_url": "https://www.linkedin.com/company/subtlemedical",
+    "company_status": "Found - official website",
+    "executive": {
+      "name": "Ajit S",
+      "title": "Greg is a Founder of Subtle Medical and a Professor of Radiology and practicing Neuroradiologist at Stanford University. He is an expert in advanced imaging methods, particularly a",
+      "url": "https://www.linkedin.com/in/ajit-s-0b70777"
+    },
+    "technical": {
+      "name": "Josh Gurewitz",
+      "title": "Chief Product Officer",
+      "url": "https://www.linkedin.com/in/josh-gurewitz-95063a"
+    },
+    "quality": null,
+    "contact_status": "Partial - 2/3 verified"
+  },
+  {
+    "row": 2800,
+    "company": "UltraSight",
+    "website": "https://www.ultrasight.com/",
+    "company_url": "",
+    "company_status": "Search error",
+    "executive": null,
+    "technical": null,
+    "quality": null,
+    "contact_status": "Search error"
+  }
+]

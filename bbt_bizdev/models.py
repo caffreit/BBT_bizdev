@@ -92,6 +92,26 @@ class LeadEnrichment:
     fallback_reason: str = ""
 
 
+@dataclass(frozen=True)
+class LinkedInContact:
+    name: str
+    title: str
+    url: str
+    role_bucket: str
+    source: str
+    confidence: float
+
+
+@dataclass
+class LinkedInEnrichment:
+    company_url: str = ""
+    company_status: str = "Not researched"
+    executive: LinkedInContact | None = None
+    technical: LinkedInContact | None = None
+    quality: LinkedInContact | None = None
+    contact_status: str = "Not targeted"
+
+
 @dataclass
 class CompanyRecord:
     company: str
@@ -100,3 +120,4 @@ class CompanyRecord:
     product_type: str = ""
     discovery_hits: list[DiscoveryHit] = field(default_factory=list)
     triggers: list[TriggerEvent] = field(default_factory=list)
+    linkedin: LinkedInEnrichment = field(default_factory=LinkedInEnrichment)

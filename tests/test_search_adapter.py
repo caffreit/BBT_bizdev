@@ -880,14 +880,79 @@ class SearchAdapterTests(unittest.TestCase):
 
     def test_priority_ireland_accelerator_runners_emit_triggers(self):
         source = pipeline.Source("BioInnovate Ireland", "Accelerator", "https://www.bioinnovate.ie/", "Ireland", "High", "Annual", "Fellowship/company extraction", "Medtech programme.", "bioinnovate_ireland")
-        html = '<a href="/our-companies/luma-vision/">Luma Vision</a><p>Cardiac imaging medical device company.</p>'
+        html = '<script src="https://stories.universityofgalway.ie/bioinnovate/start-ups/embed.js"></script><script>fetch("https://data.shorthand.com/erKSumnd3Q/collections/Xta6wmZajc/items.json")</script>'
+        payload = {
+            "title": "BioInnovate Alumni Companies",
+            "items": [
+                {
+                    "title": "Luma Vision",
+                    "description": "Cardiac imaging medical device company.",
+                    "url": "https://lumavision.com/",
+                }
+            ],
+        }
 
-        with patch.object(pipeline, "ACCELERATOR_SOURCE_PAGES", {"BioInnovate Ireland": ["https://www.bioinnovate.ie/our-companies/"]}), patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+        with patch.object(pipeline, "ACCELERATOR_SOURCE_PAGES", {"BioInnovate Ireland": ["https://www.bioinnovate.ie/bioinnovate/alumni/"]}), patch.object(pipeline, "fetch_raw_text", return_value=(html, None)), patch.object(pipeline, "fetch_json_url", return_value=(payload, None)):
             discovery_hits, trigger_events, result = pipeline.run_bioinnovate_ireland(source)
 
         self.assertEqual([hit.company for hit in discovery_hits], ["Luma Vision"])
+        self.assertEqual(discovery_hits[0].website, "https://lumavision.com/")
+        self.assertIn("shorthand alumni collection", discovery_hits[0].matched_terms)
         self.assertEqual([event.trigger_type for event in trigger_events], ["Accelerator/cohort"])
-        self.assertIn("1 BioInnovate pages", result)
+        self.assertIn("alumni collections scanned", result)
+
+    def test_bioinnovate_extracts_all_plausible_alumni_without_health_keyword_filter(self):
+        source = pipeline.Source("BioInnovate Ireland", "Accelerator", "https://www.bioinnovate.ie/", "Ireland", "High", "Annual", "Fellowship/company extraction", "Medtech programme.", "bioinnovate_ireland")
+        html = """
+        <a href="/our-companies/luma-vision/">Luma Vision</a><p>Alumni company.</p>
+        <a href="/our-companies/galenband/">Galenband</a>
+        <a href="/our-companies/proverum/">ProVerum</a><p>Venture profile.</p>
+        """
+
+        hits = pipeline.parse_priority_accelerator_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Luma Vision", "Galenband", "ProVerum"])
+
+    def test_bioinnovate_skips_alumni_navigation_links(self):
+        source = pipeline.Source("BioInnovate Ireland", "Accelerator", "https://www.bioinnovate.ie/bioinnovate/alumni/", "Ireland", "High", "Annual", "Fellowship/company extraction", "Medtech programme.", "bioinnovate_ireland")
+        html = """
+        <a href="/bioinnovate/alumni/">Alumni</a>
+        <a href="/bioinnovate/alumni/directory/">BioInnovate Alumni</a>
+        <a href="/bioinnovate/alumni/directory/">Alumni Directory</a>
+        """
+
+        hits = pipeline.parse_priority_accelerator_page(source, html, source.url)
+
+        self.assertEqual(hits, [])
+
+    def test_ndrc_filters_portfolio_links_to_healthcare_keyword_matches(self):
+        source = pipeline.Source("Dogpatch Labs / NDRC", "Accelerator", "https://www.ndrc.ie/", "Ireland", "Medium", "Quarterly", "Portfolio extraction", "National accelerator.", "dogpatch_ndrc")
+        html = """
+        <a href="/portfolio/silvercloud-health/">SilverCloud Health</a>
+        <p>Mental health digital therapeutics platform for patient care.</p>
+        <a href="/portfolio/payrollflow/">PayrollFlow</a>
+        <p>Payroll automation for small businesses.</p>
+        """
+
+        hits = pipeline.parse_priority_accelerator_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["SilverCloud Health"])
+        self.assertIn("healthcare keywords:", hits[0].matched_terms)
+        self.assertIn("mental health", hits[0].matched_terms)
+
+    def test_ndrc_extracts_healthcare_matches_from_current_cohort_domain_links(self):
+        source = pipeline.Source("Dogpatch Labs / NDRC", "Accelerator", "https://www.ndrc.ie/accelerator-cohort-2024-h1", "Ireland", "Medium", "Quarterly", "Portfolio extraction", "National accelerator.", "dogpatch_ndrc")
+        html = """
+        <p>Blynksolve enables pharmaceutical drug substance manufacturers to build a digital knowledge twin.</p>
+        <a href="https://www.blynksolve.com">blynksolve.com</a>
+        <p>Vesta Insights serves the mortgage industry.</p>
+        <a href="https://vesta-insights.example">vesta's website</a>
+        """
+
+        hits = pipeline.parse_priority_accelerator_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Blynksolve"])
+        self.assertIn("pharma", hits[0].matched_terms)
 
     def test_priority_vc_parsers_extract_portfolio_company_links(self):
         fixtures = [

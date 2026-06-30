@@ -23,6 +23,7 @@ from .adapters.accelerators import (
 )
 from .adapters.generic import build_source_page_evidence, find_companies_on_source
 from .adapters.jobs import run_biospace_jobs, run_builtin_jobs, run_greenhouse_discovery, run_job_board_adapter, run_nhs_jobs
+from .adapters.linkedin import enrich_companies_linkedin
 from .adapters.search import run_google_news_search
 from .adapters.university import run_university_spinout_pages
 from .adapters.vc import run_atlantic_bridge, run_fountain_healthcare, run_seroba_life_sciences
@@ -40,6 +41,7 @@ from .config import (
     LEAD_ENRICHMENT_PROMPT_VERSION,
     LEAD_PERSONAS,
     LEAD_SECONDARY_TAGS,
+    LINKEDIN_CONTACT_TARGET_YEAR,
     SOURCES,
     TRIGGER_SOURCES,
     UNIVERSITY_SPINOUT_ADAPTERS,
@@ -343,18 +345,11 @@ def normalize_geography_region(raw_geography: str) -> str:
 
 def lead_filter_fields(record: CompanyRecord, enrichment: LeadEnrichment) -> dict[str, str]:
     """Derive conservative, filterable lead attributes from collected evidence."""
-    dated_hits: list[tuple[int, str, DiscoveryHit]] = []
-    for hit in record.discovery_hits:
-        for basis, raw_year in (("Article year", hit.article_year), ("Cohort year", hit.cohort_year)):
-            if str(raw_year).isdigit() and 1900 <= int(raw_year) <= date.today().year + 1:
-                dated_hits.append((int(raw_year), basis, hit))
-
-    if dated_hits:
-        evidence_year, evidence_basis, evidence_hit = max(dated_hits, key=lambda item: item[0])
-        age = date.today().year - evidence_year
+    evidence_year, evidence_basis, evidence_hit = latest_evidence_context(record)
+    if evidence_year:
+        age = date.today().year - int(evidence_year)
         evidence_recency = "This year" if age <= 0 else "1 year ago" if age == 1 else "2 years ago" if age == 2 else "3+ years ago"
     else:
-        evidence_year, evidence_basis, evidence_hit = "", "Unknown", primary_discovery(record)
         evidence_recency = "Unknown"
 
     matching_triggers = [trigger for trigger in record.triggers if trigger.evidence_url == evidence_hit.discovery_url]
@@ -427,6 +422,25 @@ def lead_filter_fields(record: CompanyRecord, enrichment: LeadEnrichment) -> dic
         "Hiring signal": hiring_signal,
         "Funding stage": funding_stage,
     }
+
+
+def latest_evidence_context(record: CompanyRecord) -> tuple[str, str, DiscoveryHit]:
+    dated_hits: list[tuple[int, str, DiscoveryHit]] = []
+    for hit in record.discovery_hits:
+        for basis, raw_year in (("Article year", hit.article_year), ("Cohort year", hit.cohort_year)):
+            if str(raw_year).isdigit() and 1900 <= int(raw_year) <= date.today().year + 1:
+                dated_hits.append((int(raw_year), basis, hit))
+
+    if dated_hits:
+        evidence_year, evidence_basis, evidence_hit = max(dated_hits, key=lambda item: item[0])
+        return str(evidence_year), evidence_basis, evidence_hit
+    else:
+        return "", "Unknown", primary_discovery(record)
+
+
+def is_linkedin_contact_target(record: CompanyRecord) -> bool:
+    evidence_year, _, _ = latest_evidence_context(record)
+    return evidence_year == LINKEDIN_CONTACT_TARGET_YEAR
 
 
 def classify_company_rules(record: CompanyRecord, fallback_reason: str = "") -> LeadEnrichment:
@@ -733,6 +747,18 @@ def main():
     trigger_events = attach_trigger_events(companies, search_trigger_events)
     trigger_events.extend(run_trigger_research(companies))
     mark_primary_triggers(companies)
+    linkedin_metrics = enrich_companies_linkedin(companies, is_linkedin_contact_target)
+    run_log.append([
+        "LinkedIn public-web enrichment",
+        "Enrichment",
+        "https://html.duckduckgo.com/html/",
+        "Completed",
+        (
+            f"{linkedin_metrics['company_urls']}/{linkedin_metrics['companies']} company URLs; "
+            f"{linkedin_metrics['targeted']} contact targets; {linkedin_metrics['complete']} complete; "
+            f"{linkedin_metrics['partial']} partial; {linkedin_metrics['empty']} empty/errors"
+        ),
+    ])
     output = write_workbook(companies, discovery_hits, trigger_events, run_log)
     print(output.resolve())
     print(f"discovery_hits={len(discovery_hits)} companies={len(companies)} trigger_events={len(trigger_events)}")
