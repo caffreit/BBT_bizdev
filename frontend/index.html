@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BBT Lead Triage</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">BlueBridge TOFU BizDev</p>
+        <h1>Lead Triage</h1>
+      </div>
+      <div class="meta" id="dataMeta">Loading workbook export...</div>
+    </header>
+
+    <main class="app-shell">
+      <section class="workspace" aria-label="Lead workspace">
+        <section class="kpi-strip" id="kpiStrip" aria-label="Lead summary"></section>
+
+        <section class="segments" aria-label="Suggested filters">
+          <button class="segment active" type="button" data-segment="all">All leads</button>
+          <button class="segment" type="button" data-segment="ireland2026">2026 Ireland startups</button>
+          <button class="segment" type="button" data-segment="spinouts">Recent spinouts</button>
+          <button class="segment" type="button" data-segment="hiring">Hiring gaps</button>
+          <button class="segment" type="button" data-segment="fundedAi">Funded AI/SaMD</button>
+          <button class="segment" type="button" data-segment="regulatory">Regulatory/commercial</button>
+          <button class="segment" type="button" data-segment="ukDigital">UK digital health</button>
+          <button class="segment" type="button" data-segment="vcScaleups">VC-backed scaleups</button>
+        </section>
+
+        <section class="filters" aria-label="Lead filters">
+          <label class="search-box">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="Company, source, description, website">
+          </label>
+          <div class="filter-grid" id="filterGrid"></div>
+          <button class="clear-button" type="button" id="clearFilters">Clear filters</button>
+        </section>
+
+        <section class="results-bar" aria-live="polite">
+          <strong id="resultCount">0 leads</strong>
+          <span id="activeFilterText">No filters active</span>
+        </section>
+
+        <section class="table-wrap" aria-label="Filtered leads">
+          <table>
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Description</th>
+                <th>Area</th>
+                <th>Geo</th>
+                <th>Stage</th>
+                <th>Trigger</th>
+                <th>Year</th>
+                <th>Persona</th>
+                <th>BBT</th>
+              </tr>
+            </thead>
+            <tbody id="leadRows"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <aside class="dossier" aria-label="Company dossier">
+        <div id="dossierContent"></div>
+      </aside>
+    </main>
+
+    <script src="leads-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
