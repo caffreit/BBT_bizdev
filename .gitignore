@@ -1,5 +1,6 @@
 __pycache__/
 .pytest_cache/
+.codex_tmp_spreadsheet/
 .lead_enrichment_cache/
 .linkedin_enrichment_cache/
 *.py[cod]
@@ -7,4 +8,4 @@ __pycache__/
 .env
 .venv/
 venv/
-outputs/**/node_modules/
+outputs/

@@ -471,15 +471,38 @@ class SearchAdapterTests(unittest.TestCase):
 
         discovery_row = list(wb["Discovery Hits"].iter_rows(min_row=2, values_only=True))[0]
         trigger_row = list(wb["Trigger Log"].iter_rows(min_row=2, values_only=True))[0]
-        lead_rows = list(wb["Lead Intake"].iter_rows(min_row=2, values_only=True))
+        lead_rows = list(wb["Leads"].iter_rows(min_row=2, values_only=True))
         novascan_lead = [row for row in lead_rows if row[0] == "NovaScan Health"][0]
 
         self.assertEqual(discovery_row[1], "Google News / web funding search: MedTech AI Funding")
         self.assertEqual(discovery_row[3], "https://news.google.com/rss/articles/novascan")
         self.assertEqual(discovery_row[4], "2026")
         self.assertEqual(trigger_row[4], "https://news.google.com/rss/articles/novascan")
-        self.assertEqual(novascan_lead[12], "2026")
-        self.assertEqual(novascan_lead[17], "Verified trigger")
+        self.assertEqual(novascan_lead[14], "2026")
+        self.assertEqual(novascan_lead[15], "Verified trigger")
+
+    def test_workbook_uses_expected_sheet_order_without_weekly_review(self):
+        hit = pipeline.DiscoveryHit(
+            "NovaScan Health",
+            "Fixture Accelerator",
+            "Accelerator",
+            "https://example.com/novascan",
+            "Fixture accelerator extraction.",
+            website="https://novascan.example",
+        )
+        companies = pipeline.normalize_companies([hit])
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            original_out = pipeline.OUT
+            try:
+                pipeline.OUT = Path(temp_dir) / "sheets.xlsx"
+                workbook_path = pipeline.write_workbook(companies, [hit], [], [])
+                wb = load_workbook(workbook_path)
+            finally:
+                pipeline.OUT = original_out
+
+        self.assertEqual(wb.sheetnames, pipeline.EXPECTED_WORKBOOK_SHEETS)
+        self.assertNotIn("Weekly Review", wb.sheetnames)
 
     def test_workbook_includes_accelerator_metadata_columns(self):
         hit = pipeline.DiscoveryHit(
@@ -507,14 +530,18 @@ class SearchAdapterTests(unittest.TestCase):
                 pipeline.OUT = original_out
 
         discovery_headers = [cell.value for cell in wb["Discovery Hits"][1]]
-        lead_headers = [cell.value for cell in wb["Lead Intake"][1]]
+        lead_headers = [cell.value for cell in wb["Leads"][1]]
+        lead_row = list(wb["Leads"].iter_rows(min_row=2, values_only=True))[0]
         discovery_row = list(wb["Discovery Hits"].iter_rows(min_row=2, values_only=True))[0]
 
         self.assertIn("Accelerator program", discovery_headers)
         self.assertIn("Article year", discovery_headers)
         self.assertIn("Company description", lead_headers)
+        self.assertIn("Source URL", lead_headers)
         self.assertEqual(discovery_row[10], "Fixture Accelerator")
         self.assertEqual(discovery_row[12], "2026")
+        self.assertEqual(lead_row[10], "Fixture Accelerator")
+        self.assertEqual(lead_row[12], "2026")
 
     def test_primary_discovery_prefers_richer_cohort_metadata(self):
         generic_hit = pipeline.DiscoveryHit(
@@ -636,17 +663,19 @@ class SearchAdapterTests(unittest.TestCase):
             finally:
                 pipeline.OUT = original_out
 
-        headers = [cell.value for cell in wb["Lead Filtering"][1]]
-        rows = list(wb["Lead Filtering"].iter_rows(min_row=2, values_only=True))
-        personas = {row[11] for row in rows}
+        headers = [cell.value for cell in wb["Leads"][1]]
+        rows = list(wb["Leads"].iter_rows(min_row=2, values_only=True))
+        personas = {row[22] for row in rows}
 
-        self.assertIn("Value prop", headers)
-        self.assertIn("Outreach angle", headers)
-        self.assertIn("LLM used", headers)
-        self.assertIn("Fallback reason", headers)
-        self.assertIn("Website", headers)
+        self.assertNotIn("Value prop", headers)
+        self.assertNotIn("Outreach angle", headers)
+        self.assertNotIn("LLM used", headers)
+        self.assertNotIn("Fallback reason", headers)
+        self.assertNotIn("Evidence recency", headers)
+        self.assertNotIn("Legacy score", headers)
+        self.assertNotIn("Classification confidence", headers)
+        self.assertIn("Company website", headers)
         self.assertIn("Evidence year", headers)
-        self.assertIn("Evidence recency", headers)
         self.assertIn("Trigger type", headers)
         self.assertIn("Geography", headers)
         self.assertIn("Company stage", headers)
@@ -656,11 +685,9 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertIn("Early startup", personas)
         self.assertIn("Jobs-led capability gap", personas)
         self.assertNotIn("AI/SaMD or healthtech company from approved source", personas)
-        self.assertTrue(all(row[19] == "No" for row in rows))
-        self.assertTrue(all(row[20] == "llm_not_configured" for row in rows))
-        self.assertEqual(headers[36], "Primary evidence URL")
-        self.assertEqual(headers[37], "Website")
-        self.assertEqual({row[0]: row[37] for row in rows}, {"NovaScan Health": "https://novascan.example", "PulseDx": "https://pulsedx.example"})
+        self.assertEqual(headers[18], "Source URL")
+        self.assertEqual(headers[24], "LinkedIn company URL")
+        self.assertEqual({row[0]: row[1] for row in rows}, {"NovaScan Health": "https://novascan.example", "PulseDx": "https://pulsedx.example"})
 
     def test_lead_filter_fields_use_latest_evidence_and_explicit_signals(self):
         older = pipeline.DiscoveryHit("NovaScan", "Accelerator", "Accelerator", "https://example.com/2023", "Accelerator cohort.", cohort_year="2023", geography="Ireland")

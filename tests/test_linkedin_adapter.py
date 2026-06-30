@@ -183,16 +183,24 @@ class LinkedInAdapterTests(unittest.TestCase):
             finally:
                 pipeline.OUT = original_out
 
-        sheet = workbook["Lead Filtering"]
+        self.assertIn("Leads", workbook.sheetnames)
+        self.assertNotIn("Lead Intake", workbook.sheetnames)
+        self.assertNotIn("Lead Filtering", workbook.sheetnames)
+
+        sheet = workbook["Leads"]
         headers = [cell.value for cell in sheet[1]]
         rows = {row[0].value: row for row in sheet.iter_rows(min_row=2)}
-        self.assertEqual(headers[36], "Primary evidence URL")
-        self.assertEqual(headers[37], "Website")
-        self.assertEqual(headers[38], "LinkedIn company URL")
-        self.assertEqual(headers[49], "LinkedIn contact status")
-        self.assertEqual(rows["NovaScan Health"][49].value, "Complete - 3 verified")
-        self.assertEqual(rows["NovaScan Health"][42].hyperlink.target, "https://www.linkedin.com/in/alice")
-        self.assertEqual(rows["Old Co"][49].value, "Not targeted")
+        self.assertEqual(headers[1], "Company website")
+        self.assertEqual(headers[18], "Source URL")
+        self.assertEqual(headers[24], "LinkedIn company URL")
+        self.assertEqual(headers[35], "LinkedIn contact status")
+        self.assertNotIn("Legacy score", headers)
+        self.assertNotIn("Classification confidence", headers)
+        self.assertNotIn("Pain hypothesis", headers)
+        self.assertEqual(rows["NovaScan Health"][35].value, "Complete - 3 verified")
+        self.assertEqual(rows["NovaScan Health"][28].hyperlink.target, "https://www.linkedin.com/in/alice")
+        self.assertEqual(rows["Old Co"][10].value, "N/A")
+        self.assertEqual(rows["Old Co"][35].value, "Not targeted")
 
 
 if __name__ == "__main__":

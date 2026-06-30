@@ -9,7 +9,18 @@ from openpyxl.utils import get_column_letter
 
 from .config import OUT, SOURCES, SOURCE_PLAYBOOKS
 from .models import CompanyRecord, DiscoveryHit, TODAY, TriggerEvent
-from .pipeline import adapter_inventory_label, classify_company, lead_filter_fields, next_action_for_lead, primary_discovery, primary_trigger, score_company_metrics
+from .pipeline import adapter_inventory_label, classify_company, lead_filter_fields, primary_discovery, primary_trigger
+
+
+EXPECTED_WORKBOOK_SHEETS = [
+    "Pipeline Summary",
+    "Pipeline Run Log",
+    "Source Inventory",
+    "Source Playbooks",
+    "Discovery Hits",
+    "Leads",
+    "Trigger Log",
+]
 
 
 def excel_safe(value):
@@ -83,15 +94,23 @@ def linkedin_contact_values(contact):
     return [contact.name, contact.title, contact.url]
 
 
+def na_if_blank(value):
+    return value if value not in ("", None) else "N/A"
+
+
 def style_linkedin_columns(ws, start_col: int) -> None:
     fill = PatternFill("solid", fgColor="0F6B78")
     for cell in ws[1][start_col - 1:]:
         cell.fill = fill
 
-def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[DiscoveryHit], trigger_events: list[TriggerEvent], run_log: list[list[str]]):
-    wb = Workbook()
-    wb.remove(wb.active)
+def finish_sheet(ws, widths=None, hyperlink_cols: list[int] | None = None) -> None:
+    style_sheet(ws)
+    if hyperlink_cols:
+        add_hyperlinks(ws, hyperlink_cols)
+    size_columns(ws, widths)
 
+
+def write_pipeline_summary_sheet(wb, companies: dict[str, CompanyRecord], discovery_hits: list[DiscoveryHit], trigger_events: list[TriggerEvent], run_log: list[list[str]]) -> None:
     ws = wb.create_sheet("Pipeline Summary")
     append_excel_row(ws, ["Metric", "Value"])
     append_excel_row(ws, ["Run date", TODAY])
@@ -104,32 +123,34 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
     append_excel_row(ws, ["LinkedIn contact targets", sum(record.linkedin.contact_status != "Not targeted" for record in companies.values())])
     append_excel_row(ws, ["LinkedIn contact sets complete", sum(record.linkedin.contact_status.startswith("Complete") for record in companies.values())])
     append_excel_row(ws, ["LinkedIn contact sets partial", sum(record.linkedin.contact_status.startswith("Partial") for record in companies.values())])
-    style_sheet(ws)
-    size_columns(ws, {"A": 28, "B": 24})
+    finish_sheet(ws, {"A": 28, "B": 24})
 
+
+def write_pipeline_run_log_sheet(wb, run_log: list[list[str]]) -> None:
     ws = wb.create_sheet("Pipeline Run Log")
     append_excel_row(ws, ["Source", "Source type", "URL", "Status", "Result"])
     for row in run_log:
         append_excel_row(ws, row)
-    style_sheet(ws)
-    add_hyperlinks(ws, [3])
-    size_columns(ws, {"A": 26, "B": 18, "C": 52, "D": 16, "E": 42})
+    finish_sheet(ws, {"A": 26, "B": 18, "C": 52, "D": 16, "E": 42}, [3])
 
+
+def write_source_inventory_sheet(wb) -> None:
     ws = wb.create_sheet("Source Inventory")
     append_excel_row(ws, ["Source name", "Type", "URL", "Geography", "Priority", "Update cadence", "Extraction method", "Signal / notes", "Automated adapter"])
     for s in SOURCES:
         append_excel_row(ws, [s.name, s.source_type, s.url, s.geography, s.priority, s.update_cadence, s.extraction_method, s.notes, adapter_inventory_label(s)])
-    style_sheet(ws)
-    add_hyperlinks(ws, [3])
-    size_columns(ws, {"A": 30, "B": 20, "C": 54, "H": 58, "I": 22})
+    finish_sheet(ws, {"A": 30, "B": 20, "C": 54, "H": 58, "I": 22}, [3])
 
+
+def write_source_playbooks_sheet(wb) -> None:
     ws = wb.create_sheet("Source Playbooks")
     append_excel_row(ws, ["Source type", "Search/query terms", "Filters", "Output fields", "Expected evidence", "Best-fit BBT wedge"])
     for row in SOURCE_PLAYBOOKS:
         append_excel_row(ws, row)
-    style_sheet(ws)
-    size_columns(ws, {"A": 22, "B": 56, "C": 44, "D": 44, "E": 44, "F": 22})
+    finish_sheet(ws, {"A": 22, "B": 56, "C": 44, "D": 44, "E": 44, "F": 22})
 
+
+def write_discovery_hits_sheet(wb, discovery_hits: list[DiscoveryHit]) -> None:
     ws = wb.create_sheet("Discovery Hits")
     append_excel_row(ws, ["Company", "Discovery source", "Source type", "Discovery evidence URL", "Article year", "Discovery rationale", "Matched terms", "Website", "Geography", "Product type", "Accelerator program", "Cohort label", "Cohort year", "Category / track", "Company description", "Captured at"])
     for hit in discovery_hits:
@@ -151,128 +172,95 @@ def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[Dis
             hit.company_description,
             hit.captured_at,
         ])
-    style_sheet(ws)
-    add_hyperlinks(ws, [4, 8])
-    size_columns(ws, {"A": 24, "B": 28, "C": 18, "D": 54, "E": 14, "F": 56, "G": 24, "H": 36, "J": 28, "K": 26, "L": 24, "N": 28, "O": 58})
+    finish_sheet(ws, {"A": 24, "B": 28, "C": 18, "D": 54, "E": 14, "F": 56, "G": 24, "H": 36, "J": 28, "K": 26, "L": 24, "N": 28, "O": 58}, [4, 8])
 
-    ws = wb.create_sheet("Lead Intake")
-    append_excel_row(ws, ["Company", "Website", "Geography", "Product type", "Accelerator program", "Cohort label", "Cohort year", "Category / track", "Company description", "Discovery source", "Discovery source type", "Discovery evidence URL", "Article year", "Discovery rationale", "Primary trigger event", "Trigger source", "Trigger evidence URL", "Evidence status", "Date captured"])
-    for record in sorted(companies.values(), key=lambda r: r.company):
-        hit = primary_discovery(record)
-        trigger = primary_trigger(record)
-        append_excel_row(ws, [
-            record.company,
-            record.website,
-            record.geography,
-            record.product_type,
-            hit.accelerator_program,
-            hit.cohort_label,
-            hit.cohort_year,
-            hit.category_or_track,
-            hit.company_description,
-            hit.source_name,
-            hit.source_type,
-            hit.discovery_url,
-            hit.article_year,
-            hit.discovery_rationale,
-            trigger.trigger_event if trigger else "",
-            trigger.trigger_source if trigger else "",
-            trigger.evidence_url if trigger else "",
-            "Verified trigger" if trigger else "Discovered only",
-            TODAY,
-        ])
-    style_sheet(ws)
-    add_hyperlinks(ws, [2, 12, 17])
-    size_columns(ws, {"A": 24, "B": 36, "C": 16, "D": 28, "E": 26, "F": 24, "H": 28, "I": 58, "J": 28, "L": 54, "M": 14, "N": 58, "O": 58, "P": 28, "Q": 54})
 
+def write_trigger_log_sheet(wb, trigger_events: list[TriggerEvent]) -> None:
     ws = wb.create_sheet("Trigger Log")
     append_excel_row(ws, ["Company", "Trigger type", "Trigger event", "Trigger source", "Evidence URL", "Trigger role", "Captured at"])
     for event in trigger_events:
         append_excel_row(ws, [event.company, event.trigger_type, event.trigger_event, event.trigger_source, event.evidence_url, event.trigger_role, event.captured_at])
-    style_sheet(ws)
-    add_hyperlinks(ws, [5])
-    size_columns(ws, {"A": 24, "B": 20, "C": 64, "D": 30, "E": 54, "F": 16})
+    finish_sheet(ws, {"A": 24, "B": 20, "C": 64, "D": 30, "E": 54, "F": 16}, [5])
 
-    ws = wb.create_sheet("Lead Filtering")
+
+def write_leads_sheet(wb, companies: dict[str, CompanyRecord]) -> None:
+    ws = wb.create_sheet("Leads")
     headers = [
-        "Company", "Evidence year", "Evidence basis", "Evidence recency", "Trigger type", "Geography",
-        "Company type", "Company stage", "Product area", "Hiring signal", "Funding stage",
-        "Persona", "Primary BBT quadrant", "Secondary tag", "Pain hypothesis",
-        "Value prop", "Outreach angle", "Classification confidence", "Classification method", "LLM used", "Fallback reason",
-        "Legacy: Recently funded +3", "Legacy: AI/SaMD/device +3", "Legacy: Hiring QA/reg/V&V +3", "Legacy: Clinical validation +2",
-        "FDA/CE/reg language +2", "Grant/public funding +2", "University/grant origin +2",
-        "No obvious reg team +2", "Pre-commercial +1", "Large company -1", "Wellness/non-medical -2",
-        "Pharma-only -2", "Legacy score", "Legacy priority band", "Evidence status", "Primary evidence URL", "Website",
+        "Company", "Company website", "Company description", "Product type", "Product area",
+        "Company type", "Company stage", "Hiring signal", "Geography", "Funding stage",
+        "Accelerator program", "Cohort label", "Cohort year", "Category / track",
+        "Evidence year", "Evidence status", "Source name", "Source type", "Source URL",
+        "Discovery rationale", "Matched terms", "Trigger type", "Persona", "BBT quadrant",
         "LinkedIn company URL", "LinkedIn company status",
         "Executive contact name", "Executive contact title", "Executive LinkedIn URL",
         "Technical/R&D contact name", "Technical/R&D contact title", "Technical/R&D LinkedIn URL",
         "Quality/QA contact name", "Quality/QA contact title", "Quality/QA LinkedIn URL",
-        "LinkedIn contact status",
+        "LinkedIn contact status", "Date captured",
     ]
     append_excel_row(ws, headers)
-    scoring_rows = []
     for record in sorted(companies.values(), key=lambda r: r.company):
-        flags, score, band = score_company_metrics(record)
         enrichment = classify_company(record)
         filter_fields = lead_filter_fields(record, enrichment)
         trigger = primary_trigger(record)
         hit = primary_discovery(record)
-        evidence_url = trigger.evidence_url if trigger else hit.discovery_url
         status = "Verified trigger" if trigger else "Discovered only"
         append_excel_row(ws, [
             record.company,
-            *filter_fields.values(),
+            record.website,
+            hit.company_description,
+            record.product_type,
+            filter_fields["Product area"],
+            filter_fields["Company type"],
+            filter_fields["Company stage"],
+            filter_fields["Hiring signal"],
+            filter_fields["Geography"],
+            filter_fields["Funding stage"],
+            na_if_blank(hit.accelerator_program),
+            na_if_blank(hit.cohort_label),
+            na_if_blank(hit.cohort_year),
+            na_if_blank(hit.category_or_track),
+            filter_fields["Evidence year"],
+            status,
+            hit.source_name,
+            hit.source_type,
+            hit.discovery_url,
+            hit.discovery_rationale,
+            hit.matched_terms,
+            filter_fields["Trigger type"],
             enrichment.persona,
             enrichment.primary_quadrant,
-            enrichment.secondary_tag,
-            enrichment.pain_hypothesis,
-            enrichment.value_prop,
-            enrichment.outreach_angle,
-            enrichment.confidence,
-            enrichment.method,
-            "Yes" if enrichment.llm_used else "No",
-            enrichment.fallback_reason,
-            *flags.values(), score, band, status, evidence_url, record.website,
             record.linkedin.company_url,
             record.linkedin.company_status,
             *linkedin_contact_values(record.linkedin.executive),
             *linkedin_contact_values(record.linkedin.technical),
             *linkedin_contact_values(record.linkedin.quality),
             record.linkedin.contact_status,
+            TODAY,
         ])
-        scoring_rows.append((score, band, status, record, enrichment, evidence_url, trigger))
     style_sheet(ws)
-    style_linkedin_columns(ws, 39)
-    add_hyperlinks(ws, [37, 38, 39, 43, 46, 49])
+    style_linkedin_columns(ws, 25)
+    add_hyperlinks(ws, [2, 19, 25, 29, 32, 35])
     size_columns(ws, {
-        "A": 24, "B": 14, "C": 16, "D": 16, "E": 22, "F": 16, "G": 24, "H": 24,
-        "I": 24, "J": 14, "K": 28, "L": 28, "M": 22, "N": 22, "O": 58, "P": 54,
-        "Q": 54, "R": 14, "S": 18, "T": 12, "U": 22, "AH": 12, "AI": 18, "AJ": 18,
-        "AK": 54, "AL": 36,
-        "AM": 42, "AN": 24, "AO": 25, "AP": 38, "AQ": 42,
-        "AR": 25, "AS": 38, "AT": 42, "AU": 25, "AV": 38, "AW": 42, "AX": 26,
+        "A": 24, "B": 36, "C": 58, "D": 28, "E": 24, "F": 24, "G": 24, "H": 14,
+        "I": 16, "J": 28, "K": 26, "L": 24, "M": 14, "N": 28, "O": 14,
+        "P": 18, "Q": 28, "R": 18, "S": 54, "T": 58, "U": 24, "V": 22,
+        "W": 28, "X": 22, "Y": 42, "Z": 24, "AA": 25, "AB": 38, "AC": 42,
+        "AD": 25, "AE": 38, "AF": 42, "AG": 25, "AH": 38, "AI": 42, "AJ": 26,
+        "AK": 16,
     })
 
-    scoring_rows.sort(key=lambda row: (row[2] == "Verified trigger", row[0]), reverse=True)
-    ws = wb.create_sheet("Weekly Review")
-    append_excel_row(ws, ["Rank", "Company", "Score", "Priority band", "Evidence status", "Why shortlisted", "Next action", "Owner", "Status", "Review notes", "Evidence URL"])
-    for idx, (score, band, status, record, enrichment, evidence_url, trigger) in enumerate(scoring_rows[:15], start=1):
-        append_excel_row(ws, [
-            idx,
-            record.company,
-            score,
-            band,
-            status,
-            f"{enrichment.pain_hypothesis} Outreach: {enrichment.outreach_angle}",
-            next_action_for_lead(status, enrichment, trigger),
-            "",
-            "Validate",
-            "",
-            evidence_url,
-        ])
-    style_sheet(ws)
-    add_hyperlinks(ws, [11])
-    size_columns(ws, {"A": 8, "B": 24, "C": 10, "D": 14, "E": 18, "F": 62, "G": 36, "K": 54})
+
+def write_workbook(companies: dict[str, CompanyRecord], discovery_hits: list[DiscoveryHit], trigger_events: list[TriggerEvent], run_log: list[list[str]]):
+    wb = Workbook()
+    wb.remove(wb.active)
+
+    write_pipeline_summary_sheet(wb, companies, discovery_hits, trigger_events, run_log)
+    write_pipeline_run_log_sheet(wb, run_log)
+    write_source_inventory_sheet(wb)
+    write_source_playbooks_sheet(wb)
+    write_discovery_hits_sheet(wb, discovery_hits)
+    write_leads_sheet(wb, companies)
+    write_trigger_log_sheet(wb, trigger_events)
 
     wb.calculation.calcMode = "auto"
     wb.calculation.fullCalcOnLoad = True

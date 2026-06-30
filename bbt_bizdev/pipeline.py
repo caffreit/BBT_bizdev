@@ -705,16 +705,6 @@ def classify_company(record: CompanyRecord) -> LeadEnrichment:
     return enrichment
 
 
-def next_action_for_lead(status: str, enrichment: LeadEnrichment, trigger: TriggerEvent | None) -> str:
-    if trigger and trigger.trigger_type in {"Funding", "Regulatory clearance", "Hiring signal", "Accelerator/cohort", "Grant/public funding"}:
-        return f"Contact now: {enrichment.outreach_angle}"
-    if status == "Verified trigger":
-        return f"Contact research: {enrichment.outreach_angle}"
-    if enrichment.persona in {"Early startup", "University/spinout"}:
-        return "Nurture for 1-3 months; watch for funding, hiring, or regulatory movement"
-    return "Run trigger research before outreach"
-
-
 def score_company(record: CompanyRecord) -> tuple[dict[str, int], int, str, str, str, str, str]:
     flags, score, band = score_company_metrics(record)
     enrichment = classify_company(record)

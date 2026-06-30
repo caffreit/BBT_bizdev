@@ -1,6 +1,6 @@
 # Legacy Lead Scoring Rules
 
-This documents the legacy rule-based score columns retained at the right of the `Lead Filtering` tab. The workbook now treats filtering as the primary workflow; the score remains for reference only.
+This documents the legacy rule-based score helper. These fields are no longer shown in the user-facing workbook; the `Leads` tab now uses filterable attributes, persona, and BBT quadrant instead of scores.
 
 The score text is built from:
 
@@ -13,7 +13,7 @@ The score text is built from:
 
 It does **not** currently parse the full evidence URL page for scoring. It uses the fields already captured by the discovery and trigger adapters.
 
-## Score Columns
+## Legacy Score Flags
 
 | Workbook column | Score flag | Current rule |
 | --- | --- | --- |

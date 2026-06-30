@@ -1,6 +1,6 @@
 # BlueBridge TOFU BizDev Pipeline
 
-This pipeline builds `BlueBridge_TOFU_BizDev_V1.xlsx` from approved public sources, search-derived discovery, trigger evidence, and simple scoring rules.
+This pipeline builds `BlueBridge_TOFU_BizDev_V1.xlsx` from approved public sources, search-derived discovery, trigger evidence, classification, and LinkedIn enrichment.
 
 ```mermaid
 flowchart TD
@@ -14,7 +14,7 @@ flowchart TD
     G --> I["Company Records<br/>discovery + triggers"]
     I --> N["LinkedIn Enrichment<br/>official sites + public search"]
     I --> J["Lead Classification<br/>classify_company()"]
-    J --> M["Lead Filtering<br/>lead_filter_fields() + legacy score"]
+    J --> M["Lead Attributes<br/>lead_filter_fields()"]
     I --> K["Workbook Builder<br/>write_workbook()"]
     M --> K
     N --> K
@@ -39,11 +39,11 @@ flowchart TD
 5. **LinkedIn links are enriched**
    Official company and team pages are checked first, with cached DuckDuckGo public-search results as fallback. Every lead is eligible for a company LinkedIn URL; only leads whose derived `Evidence year` is exactly `2026` are researched for executive, technical/R&D, and quality/QA contacts. Ambiguous matches are rejected and incomplete results are explicitly flagged.
 
-6. **Companies are classified and scored**
-   `classify_company()` assigns a persona, BBT quadrant, secondary tag, pain hypothesis, value prop, and outreach angle. It uses rule-based classification by default and can optionally use cached LLM enrichment when configured; rows show whether the LLM was used and why rules were used as fallback. `score_company_metrics()` keeps the existing point score and priority band.
+6. **Companies are classified**
+   `classify_company()` assigns a persona and BBT quadrant. `lead_filter_fields()` derives product area, company type, stage, hiring signal, funding stage, geography, evidence year, and trigger type for the consolidated leads table.
 
 7. **Workbook sheets are written**
-   `write_workbook()` creates the final Excel workbook with summary, source, evidence, scoring, and review tabs.
+   `write_workbook()` creates the final Excel workbook with summary, source, raw evidence, trigger audit, and consolidated lead-review tabs.
 
 ## Workbook Tabs
 
@@ -53,11 +53,9 @@ flowchart TD
 | `Pipeline Run Log` | Source fetch/skip status |
 | `Source Inventory` | All approved sources and adapter status |
 | `Source Playbooks` | Manual search instructions by source type |
-| `Discovery Hits` | Company-source matches |
-| `Lead Intake` | One intake row per discovered company |
+| `Discovery Hits` | Raw company-source matches for auditability |
+| `Leads` | One consolidated company-level review row per discovered company |
 | `Trigger Log` | Verified trigger events |
-| `Lead Filtering` | Evidence recency, trigger, geography, stage/product filters, persona enrichment, legacy score, company LinkedIn URL, and 2026 contact profiles |
-| `Weekly Review` | Top 15 ranked leads for action |
 
 ## Current Limitation
 
