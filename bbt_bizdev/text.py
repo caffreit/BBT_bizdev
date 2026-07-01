@@ -179,7 +179,10 @@ def is_plausible_page_candidate(candidate: str) -> bool:
         "core", "acquired", "exited", "ipo", "bas", "budget", "cms", "host", "join",
         "log", "logistics", "manage", "investments", "international", "healthcare",
         "horizon", "advice", "contacts", "events", "dinner", "offer", "traffic",
+        "commercialisation", "commercialization",
     }
+    if re.match(r"^\d+[.)]\s+", candidate):
+        return False
     if any(word.lower().strip("&") in source_words for word in candidate.split()):
         return False
     first_names = {

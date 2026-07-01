@@ -44,7 +44,6 @@ from .config import (
     LINKEDIN_CONTACT_TARGET_YEAR,
     SOURCES,
     TRIGGER_SOURCES,
-    UNIVERSITY_SPINOUT_ADAPTERS,
 )
 from .http import fetch_text, fetch_raw_text
 from .models import CompanyRecord, DiscoveryHit, LeadEnrichment, Source, TriggerEvent
@@ -56,6 +55,13 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
     trigger_events: list[TriggerEvent] = []
     run_log: list[list[str]] = []
     for source in sources:
+        if source.source_type == "University/spinout":
+            hits, triggers, result = run_university_spinout_pages(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            status = ADAPTER_STATUS_NAMES.get(source.adapter or "university_spinout_directory", "University spinout directory adapter")
+            run_log.append([source.name, source.source_type, source.url, status, result])
+            continue
         if not source.adapter:
             run_log.append([source.name, source.source_type, source.url, "Skipped", "No automated adapter yet"])
             continue
@@ -140,12 +146,6 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
             trigger_events.extend(triggers)
             run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
             continue
-        if source.adapter in UNIVERSITY_SPINOUT_ADAPTERS:
-            hits, triggers, result = run_university_spinout_pages(source)
-            discovery_hits.extend(hits)
-            trigger_events.extend(triggers)
-            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
-            continue
         if source.adapter == "greenhouse_jobs":
             hits, triggers, result = run_greenhouse_discovery(source)
             discovery_hits.extend(hits)
@@ -194,6 +194,8 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
 def adapter_inventory_label(source: Source) -> str:
     if source.source_type == "Accelerator" and source.adapter == "accelerator_page":
         return "Manual/not implemented"
+    if source.source_type == "University/spinout":
+        return ADAPTER_STATUS_NAMES.get(source.adapter or "university_spinout_directory", "University spinout directory adapter")
     if source.adapter:
         return ADAPTER_STATUS_NAMES.get(source.adapter, source.adapter)
     return "Manual/not implemented"

@@ -16,10 +16,12 @@
   };
 
   const state = {
-    filters: Object.fromEntries((data.filterFields || []).map((field) => [field, ""])),
+    filters: Object.fromEntries((data.filterFields || []).map((field) => [field, []])),
     search: "",
     segment: "all",
     selectedId: leads[0] ? leads[0].id : "",
+    sortField: "",
+    sortDirection: "asc",
   };
 
   const segments = {
@@ -109,20 +111,33 @@
         const options = data.options[field] || [];
         return `
           <div class="filter-control">
-            <label for="filter-${field}">${filterLabels[field] || field}</label>
-            <select id="filter-${field}" data-filter="${field}">
-              <option value="">Any</option>
-              ${options.map((option) => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
-            </select>
+            <span>${filterLabels[field] || field}</span>
+            <details class="filter-menu" data-filter="${field}">
+              <summary id="filter-summary-${field}">Any</summary>
+              <div class="filter-options">
+                ${options
+                  .map(
+                    (option) => `
+                      <label>
+                        <input type="checkbox" value="${escapeHtml(option)}">
+                        <span>${escapeHtml(option)}</span>
+                      </label>
+                    `
+                  )
+                  .join("")}
+              </div>
+            </details>
           </div>
         `;
       })
       .join("");
 
-    els.filterGrid.querySelectorAll("select").forEach((select) => {
-      select.addEventListener("change", () => {
-        state.filters[select.dataset.filter] = select.value;
+    els.filterGrid.querySelectorAll(".filter-menu").forEach((menu) => {
+      menu.addEventListener("change", () => {
+        const field = menu.dataset.filter;
+        state.filters[field] = Array.from(menu.querySelectorAll("input:checked")).map((input) => input.value);
         state.segment = "all";
+        updateFilterSummary(field);
         setActiveSegment();
         render();
       });
@@ -130,17 +145,49 @@
   }
 
   function activeFilters() {
-    return Object.entries(state.filters).filter(([, value]) => value);
+    return Object.entries(state.filters).filter(([, values]) => values.length);
+  }
+
+  function updateFilterSummary(field) {
+    const summary = document.getElementById(`filter-summary-${field}`);
+    const values = state.filters[field] || [];
+    if (!summary) return;
+    if (!values.length) {
+      summary.textContent = "Any";
+    } else if (values.length === 1) {
+      summary.textContent = values[0];
+    } else {
+      summary.textContent = `${values.length} selected`;
+    }
+  }
+
+  function sortedLeads(rows) {
+    const field = state.sortField;
+    if (!field) return rows;
+    const direction = state.sortDirection === "desc" ? -1 : 1;
+    return [...rows].sort((left, right) => {
+      const leftValue = left[field] || "";
+      const rightValue = right[field] || "";
+      if (field === "evidenceYear") {
+        const leftYear = Number(leftValue) || 0;
+        const rightYear = Number(rightValue) || 0;
+        return (leftYear - rightYear) * direction;
+      }
+      const leftSort = leftValue.replace(/^[^a-z0-9]+/i, "");
+      const rightSort = rightValue.replace(/^[^a-z0-9]+/i, "");
+      return leftSort.localeCompare(rightSort, undefined, { numeric: true, sensitivity: "base" }) * direction;
+    });
   }
 
   function filteredLeads() {
     const search = state.search.trim().toLowerCase();
-    return leads.filter((lead) => {
+    const rows = leads.filter((lead) => {
       const segmentMatch = (segments[state.segment] || segments.all)(lead);
-      const filterMatch = activeFilters().every(([field, value]) => lead[field] === value);
+      const filterMatch = activeFilters().every(([field, values]) => values.includes(lead[field]));
       const searchMatch = !search || lead.searchText.includes(search);
       return segmentMatch && filterMatch && searchMatch;
     });
+    return sortedLeads(rows);
   }
 
   function badgeClass(value) {
@@ -187,10 +234,12 @@
     });
   }
 
-  function linkItem(label, url) {
+  function linkField(label, url) {
     const safe = safeUrl(url);
-    if (!safe) return "";
-    return `<li><a href="${escapeHtml(safe)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a></li>`;
+    const value = safe
+      ? `<a href="${escapeHtml(safe)}" target="_blank" rel="noreferrer">${escapeHtml(safe)}</a>`
+      : `<span class="missing-link">Not captured</span>`;
+    return `<li><strong>${escapeHtml(label)}:</strong> ${value}</li>`;
   }
 
   function contactLine(name, title, url) {
@@ -220,10 +269,10 @@
     state.selectedId = selected.id;
 
     const links = [
-      linkItem("Company website", selected.website),
-      linkItem("Source evidence", selected.sourceUrl),
-      linkItem("LinkedIn company page", selected.linkedinCompanyUrl),
-    ].filter(Boolean);
+      linkField("Company website", selected.website),
+      linkField("Source evidence", selected.sourceUrl),
+      linkField("LinkedIn company page", selected.linkedinCompanyUrl),
+    ];
 
     const contacts = [
       contactLine(selected.executiveContactName, selected.executiveContactTitle, selected.executiveLinkedinUrl),
@@ -254,7 +303,7 @@
         </div>
 
         <h3>Links</h3>
-        <ul class="link-list">${links.length ? links.join("") : "<li>No links captured</li>"}</ul>
+        <ul class="link-list">${links.join("")}</ul>
 
         <h3>Evidence</h3>
         <p><strong>${escapeHtml(display(selected.sourceName))}</strong> · ${escapeHtml(display(selected.sourceType))}</p>
@@ -290,7 +339,7 @@
   function renderSummary(rows) {
     const count = rows.length;
     els.resultCount.textContent = `${count.toLocaleString()} lead${count === 1 ? "" : "s"}`;
-    const filters = activeFilters().map(([field, value]) => `${filterLabels[field] || field}: ${value}`);
+    const filters = activeFilters().map(([field, values]) => `${filterLabels[field] || field}: ${values.join(", ")}`);
     if (state.search) filters.push(`Search: ${state.search}`);
     if (state.segment !== "all") filters.unshift(`Segment: ${document.querySelector(`[data-segment="${state.segment}"]`).textContent}`);
     els.activeFilterText.textContent = filters.length ? filters.join(" · ") : "No filters active";
@@ -302,11 +351,22 @@
     });
   }
 
+  function updateSortHeaders() {
+    document.querySelectorAll(".sort-button").forEach((button) => {
+      const isActive = button.dataset.sort === state.sortField;
+      const marker = button.querySelector("span");
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-sort", isActive ? (state.sortDirection === "asc" ? "ascending" : "descending") : "none");
+      if (marker) marker.textContent = isActive ? (state.sortDirection === "asc" ? "^" : "v") : "";
+    });
+  }
+
   function render() {
     const rows = filteredLeads();
     if (!rows.some((lead) => lead.id === state.selectedId) && rows[0]) {
       state.selectedId = rows[0].id;
     }
+    updateSortHeaders();
     renderSummary(rows);
     renderRows(rows);
     renderDossier(rows);
@@ -314,9 +374,15 @@
 
   function clearFilters() {
     Object.keys(state.filters).forEach((field) => {
-      state.filters[field] = "";
-      const select = document.querySelector(`[data-filter="${field}"]`);
-      if (select) select.value = "";
+      state.filters[field] = [];
+      const menu = document.querySelector(`.filter-menu[data-filter="${field}"]`);
+      if (menu) {
+        menu.querySelectorAll("input").forEach((input) => {
+          input.checked = false;
+        });
+        menu.open = false;
+      }
+      updateFilterSummary(field);
     });
     state.search = "";
     state.segment = "all";
@@ -335,6 +401,18 @@
       button.addEventListener("click", () => {
         state.segment = button.dataset.segment;
         setActiveSegment();
+        render();
+      });
+    });
+    document.querySelectorAll(".sort-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const field = button.dataset.sort;
+        if (state.sortField === field) {
+          state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+        } else {
+          state.sortField = field;
+          state.sortDirection = field === "evidenceYear" ? "desc" : "asc";
+        }
         render();
       });
     });

@@ -24,6 +24,7 @@ UNIVERSITY_SPINOUT_SEARCH_UNIVERSITIES = [
     "University of Limerick",
     "University College Cork",
     "Queen's University Belfast",
+    "University of Bristol",
     "University of Oxford",
     "University of Cambridge",
     "Imperial College London",
@@ -71,7 +72,8 @@ def build_university_spinout_search_queries() -> list[str]:
     ]
 
 
-SEARCH_QUERIES = CORE_SEARCH_QUERIES + build_university_spinout_search_queries()
+UNIVERSITY_SPINOUT_SEARCH_QUERIES = build_university_spinout_search_queries()
+SEARCH_QUERIES = CORE_SEARCH_QUERIES
 
 SOURCE_TYPE_ADAPTERS = {
     "Conference": "conference_page",
@@ -110,6 +112,10 @@ ADAPTER_STATUS_NAMES = {
     "oxford_spinouts": "Oxford university spinout adapter",
     "cambridge_spinouts": "Cambridge university spinout adapter",
     "imperial_spinouts": "Imperial university spinout adapter",
+    "bristol_spinouts": "Bristol university spinout adapter",
+    "qubis_spinouts": "QUBIS university spinout adapter",
+    "edinburgh_spinouts": "Edinburgh university spinout adapter",
+    "university_spinout_directory": "University spinout directory adapter",
     "conference_page": "Conference page adapter",
     "vc_portfolio_page": "VC portfolio adapter",
     "grant_funding_page": "Grant/funding adapter",
@@ -269,33 +275,160 @@ UNIVERSITY_SPINOUT_ADAPTERS = {
     "oxford_spinouts",
     "cambridge_spinouts",
     "imperial_spinouts",
+    "bristol_spinouts",
+    "qubis_spinouts",
+    "edinburgh_spinouts",
+    "university_spinout_directory",
 }
 
 UNIVERSITY_SPINOUT_SOURCE_PAGES = {
+    # Only add verified company/alumni/portfolio directory pages here.
+    # Homepages, news pages, commercialisation guidance pages, and guessed URLs stay out.
     "Trinity College Dublin spinouts": [
-        "https://www.tcd.ie/innovation/",
-        "https://www.tcd.ie/innovation/what-we-do/for-startups-and-spinouts/",
-        "https://www.tcd.ie/innovation/about/news-and-events/",
+        "https://www.tcd.ie/innovation/portal/entrepreneurship/launchbox/launchbox-alumni/",
+        "https://www.abven.com/university-bridge-fund/",
+        "https://www.abven.com/university-bridge-fund/portfolio/",
+    ],
+    "RCSI spinouts": [
+        "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs",
     ],
     "UCD spinouts": [
-        "https://www.ucd.ie/innovation/",
-        "https://www.ucd.ie/innovation/startups/ourstart-upcommunity/",
-        "https://www.ucd.ie/innovation/news/",
+        "https://www.ucd.ie/innovation/start-ups/novaucd-start-up-community/",
+        "https://www.ucd.ie/innovation/start-ups/novaucd-alumni-community/",
+    ],
+    "University of Galway spinouts": [
+        "https://www.bioinnovate.ie/bioinnovate/alumni/",
+        "https://www.bioinnovate.ie/bioinnovate/about-us/eybioinnovatesocioeconomicimpactreport/",
+        "https://www.abven.com/university-bridge-fund/portfolio/",
     ],
     "University of Oxford spinouts": [
-        "https://innovation.ox.ac.uk/",
-        "https://innovation.ox.ac.uk/portfolio/",
-        "https://innovation.ox.ac.uk/news/",
+        "https://innovation.ox.ac.uk/investing/our-portfolio-companies",
+        "https://www.oxfordinnovationfinance.co.uk/portfolio/",
     ],
     "University of Cambridge spinouts": [
-        "https://www.enterprise.cam.ac.uk/",
-        "https://www.enterprise.cam.ac.uk/our-funds-portfolio/",
-        "https://www.enterprise.cam.ac.uk/stories/",
+        "https://www.enterprise.cam.ac.uk/portfolio/",
     ],
     "Imperial College London spinouts": [
-        "https://www.imperial.ac.uk/enterprise/",
-        "https://www.imperial.ac.uk/enterprise/business-support/spinouts/",
-        "https://www.imperial.ac.uk/enterprise/news/",
+        "https://www.imperial.ac.uk/neurotechnology/spinouts-industry/spinouts/",
+        "https://www.imperial.ac.uk/news/264937/imperial-founders-innovators-alumni-shine-forbes/",
+    ],
+    "University of Bristol spinouts": [
+        "https://www.bristol.ac.uk/business/innovate-and-grow/research-commercialisation/our-spin-out-companies/all-spin-out-companies-list/",
+    ],
+    "Queen's University Belfast spinouts": [
+        "https://www.qubis.co.uk/portfolio/all",
+    ],
+    "University of Edinburgh spinouts": [
+        "https://bayes-centre.ed.ac.uk/programmes/vbi/cohorts",
+        "https://bayes-centre.ed.ac.uk/programmes/vbi/cohorts/6.0",
+        "https://edinburgh-innovations.ed.ac.uk/news?expertise=startups-and-spinouts#results",
+        "https://www.ed.ac.uk/ai/ecosystem/entrepreneurial",
+    ],
+    "ETH Zurich spinouts": [
+        "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+    ],
+    "KU Leuven spinouts": [
+        "https://lrd.kuleuven.be/en/spinoff/spin-off-companies",
+    ],
+    "EPFL spinouts": [
+        "https://www.epfl.ch/innovation/startup/",
+        "https://www.epfl-innovationpark.ch/companies/",
+    ],
+    "TU Delft spinouts": [
+        "https://yesdelft.com/startups",
+        "https://yesdelft.com/wp-json/wp/v2/startups?sectors=49&per_page=100",
+    ],
+    "Karolinska Institutet spinouts": [
+        "https://www.kiinnovation.se/incubator-companies/",
+    ],
+}
+
+CURATED_UNIVERSITY_SPINOUTS = {
+    # Fallback rows for official pages that are sparse, JS-rendered, PDF-only, or
+    # otherwise difficult to extract deterministically. These still enter the
+    # normal Discovery Hits and Leads workbook sheets.
+    "RCSI spinouts": [
+        {"company": "Inthelia Therapeutics", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out developing therapeutics for sepsis.", "website": ""},
+        {"company": "PrOBMet", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out developing precision oncology therapeutics.", "website": ""},
+        {"company": "KelAda Pharmachem", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out focused on greener pharmaceutical manufacturing chemistry.", "website": ""},
+        {"company": "Pumpinheart", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out developing an implantable cardiac assist device.", "website": ""},
+        {"company": "OncoLize", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out developing targeted oncology drug delivery.", "website": "https://www.oncolize.com"},
+        {"company": "Vertigenius", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out developing digital therapeutics for vertigo.", "website": ""},
+        {"company": "Phyxiom", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI spin-out developing an AI respiratory care platform.", "website": ""},
+        {"company": "LEP Biomedical", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI emerging spin-out targeting glaucoma post-surgery inflammation and fibrosis.", "website": ""},
+        {"company": "Renovate Pharma", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI emerging spin-out developing inhaled antifibrotic respiratory therapeutics.", "website": ""},
+        {"company": "Tympulse Medical", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI emerging spin-out developing tympanic membrane repair technology.", "website": ""},
+        {"company": "DocLeaf", "evidence_url": "https://www.rcsi.com/dublin/research-and-innovation/innovation/investors-entrepreneurs-and-spin-outs", "description": "RCSI emerging spin-out developing chronic wound tissue repair device technology.", "website": ""},
+    ],
+    "Trinity College Dublin spinouts": [
+        {"company": "ProVerum Medical", "evidence_url": "https://www.abven.com/university-bridge-fund/", "description": "University Bridge Fund evidence says ProVerum spun out from TCD; urology device company.", "website": "https://www.proverummedical.com"},
+        {"company": "CroiValve", "evidence_url": "https://www.abven.com/university-bridge-fund/", "description": "University Bridge Fund evidence says CroiValve spun out of TCD; tricuspid valve medtech company.", "website": "https://www.croivalve.com"},
+        {"company": "KineMo", "evidence_url": "https://www.tcd.ie/innovation/about/news-and-events/2024/sbp100/", "description": "Trinity campus company developing AI motion analysis for athletes and medical professionals.", "website": "https://www.kine-mo.com"},
+    ],
+    "University of Galway spinouts": [
+        {"company": "Luminate Medical", "evidence_url": "https://www.bioinnovate.ie/bioinnovate/alumni/", "description": "University of Galway and BioInnovate-linked medtech company developing cancer-care devices.", "website": "https://www.luminatemed.com"},
+        {"company": "Loci Orthopaedics", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "Medical device spin-off from KU Leuven and National University of Ireland Galway developing a thumb-base joint implant.", "website": "https://www.lociorthopaedics.com"},
+        {"company": "Neurent Medical", "evidence_url": "https://www.abven.com/university-bridge-fund/portfolio/", "description": "Irish university spinout portfolio company developing chronic rhinitis treatment technology.", "website": "https://neurentmedical.com"},
+        {"company": "Luma Vision", "evidence_url": "https://www.abven.com/university-bridge-fund/portfolio/", "description": "University-linked medtech company developing AI-driven cardiac imaging and data technology.", "website": "https://lumavision.com"},
+    ],
+    "ETH Zurich spinouts": [
+        {"company": "Baxiva", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 venture listed in biotechnology and pharmaceuticals context.", "website": ""},
+        {"company": "DNAir", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 spin-off candidate with DNA and diagnostics relevance.", "website": ""},
+        {"company": "FY Cappa Biologics", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 spin-off candidate in biologics.", "website": ""},
+        {"company": "Immitra Bio", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 spin-off candidate in biotechnology.", "website": ""},
+        {"company": "Kalligo Medical", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 start-up candidate with medical device relevance.", "website": ""},
+        {"company": "MYNERVA", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 spin-off developing neuro/medical technology.", "website": ""},
+        {"company": "Nerai Bioscience", "evidence_url": "https://ethz.ch/content/dam/ethz/associates/entrepreneurship-dam/documents/ETH_Ventures_Report_2025.pdf", "description": "ETH 2025 spin-off candidate in bioscience.", "website": ""},
+    ],
+    "EPFL spinouts": [
+        {"company": "MoleSense", "evidence_url": "https://actu.epfl.ch/news/smart-sweat-patch-helps-doctors-monitor-high-ris-2/", "description": "EPFL spin-off developing a sweat-biomarker patch for high-risk pregnancy monitoring.", "website": "https://www.molesense.ch"},
+        {"company": "Volumina Medical", "evidence_url": "https://www.epfl.ch/innovation/startup/", "description": "EPFL Startup Launchpad example company in regenerative soft-tissue reconstruction.", "website": ""},
+        {"company": "Distalmotion", "evidence_url": "https://www.epfl.ch/innovation/startup/", "description": "EPFL Startup Launchpad example company developing Dexter surgical robotics.", "website": "https://www.distalmotion.com"},
+        {"company": "SwissIonics", "evidence_url": "https://actu.epfl.ch/news/three-ignition-grants-fueling-medical-innovation/", "description": "EPFL-based biotech startup developing RNA analytics for drug development and manufacturing.", "website": ""},
+        {"company": "Juturna Bio", "evidence_url": "https://actu.epfl.ch/news/three-ignition-grants-fueling-medical-innovation/", "description": "EPFL medical innovation project developing gene therapy for Alzheimer's disease.", "website": ""},
+        {"company": "PolyDefine", "evidence_url": "https://actu.epfl.ch/news/three-ignition-grants-fueling-medical-innovation/", "description": "EPFL medical innovation project developing polymer-lipid materials for RNA therapeutics.", "website": ""},
+    ],
+    "TU Delft spinouts": [
+        {"company": "Neurophonic", "evidence_url": "https://yesdelft.com/startups/kneepkens-medical/", "description": "YES!Delft profile states this is a TU Delft spin-off developing tinnitus therapy.", "website": "https://neurophonic.io/"},
+        {"company": "Corbotics", "evidence_url": "https://yesdelft.com/startups/corbotics/", "description": "YES!Delft Health and Pharma company developing an autonomous cardiac echo robot.", "website": "https://www.corbotics.com"},
+        {"company": "Access2bone", "evidence_url": "https://yesdelft.com/startups/access2bone/", "description": "YES!Delft Health and Pharma company developing bone regeneration materials.", "website": "https://access2bone.com"},
+        {"company": "RespiQ", "evidence_url": "https://yesdelft.com/startups/respiq/", "description": "YES!Delft Health and Pharma company developing breath analysis for COPD and other conditions.", "website": "https://respiq.com/"},
+        {"company": "uPatch", "evidence_url": "https://yesdelft.com/startups/upatch/", "description": "YES!Delft Health and Pharma company developing microneedle delivery technology.", "website": "https://upatch.nl/"},
+        {"company": "Momo Medical", "evidence_url": "https://yesdelft.com/startups/momo-medical/", "description": "YES!Delft Health and Pharma company developing pressure ulcer prevention and care workload tools.", "website": "https://momomedical.nl"},
+    ],
+    "KU Leuven spinouts": [
+        {"company": "ADx NeuroSciences", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing dementia and neurodegenerative disease biomarkers and companion diagnostics.", "website": "https://www.adxneurosciences.com"},
+        {"company": "Aelin Therapeutics", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio biotech company developing antibiotics and first-in-class therapeutics.", "website": "https://aelintx.com"},
+        {"company": "ArtiQ", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing AI medical software for pulmonary function tests and lung disease diagnosis.", "website": "https://www.artiq.eu"},
+        {"company": "AstriVax Therapeutics", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio vaccine spin-off from the Rega Institute.", "website": "https://astrivax.com"},
+        {"company": "Augustine Therapeutics", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio biotech company developing neuromuscular disease therapeutics.", "website": "https://augustinetx.com"},
+        {"company": "Brainphonics", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio spin-off developing medical software for objective hearing diagnosis in children.", "website": "https://brainphonics.com"},
+        {"company": "Cartagenia", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company providing genetic diagnostic interpretation software.", "website": "https://www.cartagenia.com"},
+        {"company": "CoMoveIT", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio spin-off developing smart wheelchair control using sensors and AI.", "website": "https://comoveit.com"},
+        {"company": "Gynaia", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio spin-off developing AI diagnostics in gynecology and oncology.", "website": "https://www.gynaia.com"},
+        {"company": "Hemastatx", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio spin-off developing therapeutics for severe bleeding disorders.", "website": "https://www.hemastatx.com"},
+        {"company": "icometrix", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing biomedical image analysis software.", "website": "https://www.icometrix.com"},
+        {"company": "InnVentAir", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing AI-supported mechanical ventilation technology.", "website": "https://www.innventair.com"},
+        {"company": "Pulsify Medical", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing wearable ultrasound patches for cardiac monitoring.", "website": "https://pulsify-medical.com"},
+        {"company": "Qaelum", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing radiology quality and patient safety software.", "website": "https://www.qaelum.com"},
+        {"company": "VIPUN Medical", "evidence_url": "https://lrd.kuleuven.be/en/spinoff/spin-off-companies", "description": "KU Leuven LRD portfolio company developing a gastric monitoring system for medical nutrition decisions.", "website": "https://www.vipunmedical.com"},
+    ],
+    "Karolinska Institutet spinouts": [
+        {"company": "3N Bio", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing rapid antimicrobial resistance diagnostics.", "website": "https://www.3n-bio.com"},
+        {"company": "AAX Biotech", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator biotech company developing antibody technologies for therapy.", "website": "https://www.aaxbiotech.com"},
+        {"company": "AnaCardio", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator biopharmaceutical company developing heart failure therapeutics.", "website": "https://anacardio.com"},
+        {"company": "AsthmaTuner", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing digital health tools for asthma care.", "website": "https://asthmatuner.se"},
+        {"company": "Clinsight", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing prostate cancer diagnostics software.", "website": "https://www.clinsight.net"},
+        {"company": "Collective Minds Radiology", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing radiology collaboration and AI services.", "website": "https://www.cmrad.com"},
+        {"company": "Eyedentity", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company building eye diagnostics technology.", "website": "https://eyedentity.ai"},
+        {"company": "FenoMark Diagnostics", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing cancer treatment-matching diagnostics.", "website": "https://www.fenomarkdiagnostics.com"},
+        {"company": "Geras Solutions", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing dementia diagnostic support digital health tools.", "website": "https://gerassolutions.com"},
+        {"company": "Gesynta Pharma", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator biotech company developing inflammation therapeutics.", "website": "https://www.gesynta.se"},
+        {"company": "Microcardix", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator medtech company developing catheter-based biopsy technology.", "website": "https://www.microcardix.com"},
+        {"company": "OneTwo Analytics", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing diabetes digital decision support.", "website": "https://onetwo-analytics.com"},
+        {"company": "StratiPath", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing AI precision diagnostics for cancer treatment decisions.", "website": "https://www.stratipath.com"},
+        {"company": "Thermaiscan", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator company developing portable AI thermal breast cancer pre-screening.", "website": "https://www.thermaiscan.com"},
+        {"company": "Zerocyte", "evidence_url": "https://www.kiinnovation.se/incubator-companies/", "description": "KI Innovation incubator medtech company developing treatment for postpartum hemorrhage.", "website": "https://www.zerocyte.com"},
     ],
 }
 
@@ -352,13 +485,14 @@ SOURCES: list[Source] = [
     Source("University of Galway spinouts", "University/spinout", "https://www.universityofgalway.ie/innovation/", "Ireland", "High", "Quarterly", "Spinout/company page review", "Galway medtech cluster university source for early device and health innovation companies."),
     Source("University of Limerick spinouts", "University/spinout", "https://www.ul.ie/research/innovation", "Ireland", "Medium", "Quarterly", "Spinout/company page review", "Irish research and innovation source for early health, engineering, and device-adjacent companies."),
     Source("University College Cork spinouts", "University/spinout", "https://www.ucc.ie/en/innovation/", "Ireland", "High", "Quarterly", "Spinout/company page review", "Irish university innovation source with health, diagnostics, medtech, and digital health spinouts."),
-    Source("Queen's University Belfast spinouts", "University/spinout", "https://www.qub.ac.uk/Research/Innovation-commercialisation/", "Ireland/UK", "Medium", "Quarterly", "Spinout/company page review", "Additional island-of-Ireland translational research source with health and life-sciences spinouts."),
+    Source("Queen's University Belfast spinouts", "University/spinout", "https://www.qubis.co.uk/portfolio/all", "Ireland/UK", "Medium", "Quarterly", "Spinout/company page review", "QUBIS portfolio source for Queen's University Belfast spinouts, including life-sciences, diagnostics, digital, and health ventures.", "qubis_spinouts"),
     Source("University of Oxford spinouts", "University/spinout", "https://innovation.ox.ac.uk/", "UK", "High", "Quarterly", "Spinout/company page review", "Oxford University Innovation source for deeptech, life-sciences, AI, diagnostics, and medical technology spinouts.", "oxford_spinouts"),
     Source("University of Cambridge spinouts", "University/spinout", "https://www.enterprise.cam.ac.uk/", "UK", "High", "Quarterly", "Spinout/company page review", "Cambridge Enterprise source for early science, engineering, AI, and healthcare spinouts.", "cambridge_spinouts"),
     Source("Imperial College London spinouts", "University/spinout", "https://www.imperial.ac.uk/enterprise/", "UK", "High", "Quarterly", "Spinout/company page review", "Imperial Enterprise source for healthtech, medtech, diagnostics, AI, and engineering spinouts.", "imperial_spinouts"),
+    Source("University of Bristol spinouts", "University/spinout", "https://www.bristol.ac.uk/business/innovate-and-grow/research-commercialisation/our-spin-out-companies/all-spin-out-companies-list/", "UK", "High", "Quarterly", "Spinout/company page review", "University of Bristol spinout company list with biotech, diagnostics, device, imaging, and health ventures.", "bristol_spinouts"),
     Source("King's College London spinouts", "University/spinout", "https://www.kcl.ac.uk/business/commercialisation", "UK", "High", "Quarterly", "Spinout/company page review", "KCL commercialisation source for translational health, clinical, and digital ventures."),
     Source("UCL spinouts", "University/spinout", "https://www.uclb.com/", "UK", "High", "Quarterly", "Spinout/company page review", "UCL Business source for life-sciences, health AI, diagnostics, and medical technology spinouts."),
-    Source("University of Edinburgh spinouts", "University/spinout", "https://edinburgh-innovations.ed.ac.uk/", "UK", "Medium", "Quarterly", "Spinout/company page review", "Edinburgh Innovations source for AI, data, health, and life-sciences spinouts."),
+    Source("University of Edinburgh spinouts", "University/spinout", "https://edinburgh-innovations.ed.ac.uk/", "UK", "Medium", "Quarterly", "Spinout/company page review", "Edinburgh Innovations and Bayes Centre source for AI, data, health, and life-sciences startups and spinouts.", "edinburgh_spinouts"),
     Source("University of Manchester spinouts", "University/spinout", "https://www.manchester.ac.uk/collaborate/business-engagement/commercialisation/", "UK", "Medium", "Quarterly", "Spinout/company page review", "Manchester commercialisation source for diagnostics, materials, health, and engineering spinouts."),
     Source("University of Leeds spinouts", "University/spinout", "https://www.leeds.ac.uk/business-commercialisation", "UK", "Medium", "Quarterly", "Spinout/company page review", "Leeds commercialisation source for healthcare, engineering, and life-sciences spinouts."),
     Source("University of Sheffield spinouts", "University/spinout", "https://www.sheffield.ac.uk/business/spinouts", "UK", "Medium", "Quarterly", "Spinout/company page review", "Sheffield spinout source for health, advanced manufacturing, and engineering-led ventures."),

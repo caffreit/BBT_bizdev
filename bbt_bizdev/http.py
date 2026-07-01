@@ -3,6 +3,7 @@ from __future__ import annotations
 import html
 import json
 import re
+import ssl
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
@@ -10,11 +11,16 @@ from .config import USER_AGENT, YC_ALGOLIA_API_KEY, YC_ALGOLIA_APP_ID
 
 
 def fetch_raw_text(url: str) -> tuple[str, str | None]:
+    req = Request(url, headers={"User-Agent": USER_AGENT})
     try:
-        req = Request(url, headers={"User-Agent": USER_AGENT})
         raw = urlopen(req, timeout=25).read()
     except (OSError, URLError) as exc:
-        return "", str(exc)
+        if "CERTIFICATE_VERIFY_FAILED" not in str(exc):
+            return "", str(exc)
+        try:
+            raw = urlopen(req, timeout=25, context=ssl._create_unverified_context()).read()
+        except (OSError, URLError) as fallback_exc:
+            return "", str(fallback_exc)
     return raw.decode("utf-8", "ignore"), None
 
 def fetch_text(url: str) -> tuple[str, str | None]:
