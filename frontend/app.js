@@ -133,6 +133,9 @@
       .join("");
 
     els.filterGrid.querySelectorAll(".filter-menu").forEach((menu) => {
+      menu.addEventListener("toggle", () => {
+        if (menu.open) closeFilterMenus(menu);
+      });
       menu.addEventListener("change", () => {
         const field = menu.dataset.filter;
         state.filters[field] = Array.from(menu.querySelectorAll("input:checked")).map((input) => input.value);
@@ -141,6 +144,12 @@
         setActiveSegment();
         render();
       });
+    });
+  }
+
+  function closeFilterMenus(exceptMenu) {
+    document.querySelectorAll(".filter-menu[open]").forEach((menu) => {
+      if (menu !== exceptMenu) menu.open = false;
     });
   }
 
@@ -415,6 +424,12 @@
         }
         render();
       });
+    });
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".filter-menu")) closeFilterMenus();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeFilterMenus();
     });
   }
 

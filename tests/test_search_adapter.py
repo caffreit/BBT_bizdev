@@ -98,7 +98,7 @@ class SearchAdapterTests(unittest.TestCase):
         spinout_sources = [source for source in pipeline.SOURCES if source.source_type == "University/spinout"]
         names = {source.name for source in spinout_sources}
 
-        self.assertEqual(len(spinout_sources), 33)
+        self.assertEqual(len(spinout_sources), 58)
         self.assertTrue(all(pipeline.adapter_inventory_label(source) != "Manual/not implemented" for source in spinout_sources))
         self.assertIn("University/spinout", pipeline.DISCOVERY_TERMS)
         self.assertEqual(pipeline.SOURCE_TRIGGER_TYPES["University/spinout"], "University/spinout origin")
@@ -129,13 +129,47 @@ class SearchAdapterTests(unittest.TestCase):
             "Stanford spinouts",
             "MIT spinouts",
             "Harvard spinouts",
+            "Mass General Brigham spinouts",
+            "Broad Institute ventures",
             "Johns Hopkins spinouts",
             "Mayo Clinic spinouts",
             "UC Berkeley spinouts",
             "UCSF spinouts",
+            "University of Pennsylvania spinouts",
+            "CHOP spinouts",
+            "University of Washington spinouts",
+            "Fred Hutch spinouts",
+            "University of Michigan spinouts",
+            "Duke University spinouts",
+            "UNC Chapel Hill spinouts",
+            "NC State spinouts",
+            "UC San Diego spinouts",
+            "Scripps Research spinouts",
+            "Georgia Tech spinouts",
+            "Emory University spinouts",
+            "Columbia University spinouts",
+            "Cornell University spinouts",
+            "Weill Cornell Medicine spinouts",
+            "NYU spinouts",
+            "Carnegie Mellon spinouts",
+            "University of Pittsburgh spinouts",
+            "Rice University spinouts",
+            "Baylor College of Medicine spinouts",
+            "Texas Medical Center Innovation",
+            "UT Austin spinouts",
+            "MD Anderson spinouts",
+            "Vanderbilt University spinouts",
             "University of Toronto spinouts",
         ]:
             self.assertIn(name, names)
+
+    def test_sources_include_us_prioritization_sources(self):
+        sources = {source.name: source for source in pipeline.SOURCES}
+
+        self.assertEqual(sources["AUTM Licensing Survey / STATT"].source_type, "Institution prioritization")
+        self.assertEqual(sources["BRIMR NIH rankings"].source_type, "Institution prioritization")
+        self.assertIsNone(sources["AUTM Licensing Survey / STATT"].adapter)
+        self.assertIsNone(sources["BRIMR NIH rankings"].adapter)
 
     def test_google_news_queries_quarantine_university_spinout_terms(self):
         expected_quarantined_count = len(pipeline.UNIVERSITY_SPINOUT_SEARCH_UNIVERSITIES) * len(pipeline.UNIVERSITY_SPINOUT_SEARCH_PATTERNS)
@@ -354,6 +388,46 @@ class SearchAdapterTests(unittest.TestCase):
 
         self.assertEqual([hit.company for hit in discovery_hits], ["Aflo Respiratory Analytics"])
         self.assertEqual(discovery_hits[0].discovery_url, "https://www.qubis.co.uk/portfolio/aflo-respiratory-analytics-ltd")
+
+    def test_university_spinout_adapter_extracts_mit_startup_profiles(self):
+        source = pipeline.Source("MIT spinouts", "University/spinout", "https://tlo.mit.edu/industry-entrepreneurs/startups/", "US", "High", "Quarterly", "Spinout extraction", "MIT startup directory.", "mit_spinouts")
+        html = """
+        <html><body>
+          <div class="startup-card">
+            <h3><a href="/industry-entrepreneurs/startups/musclemetrix">MuscleMetrix</a></h3>
+            <p>Biomaterials, bioelectronics, biotechnology, sensing, imaging, and healthy living.</p>
+          </div>
+          <div class="startup-card">
+            <h3><a href="/industry-entrepreneurs/startups/found-energy">Found Energy</a></h3>
+            <p>Clean energy metals recycling.</p>
+          </div>
+        </body></html>
+        """
+
+        discovery_hits, _ = pipeline.build_university_spinout_evidence(source, html)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["MuscleMetrix"])
+        self.assertEqual(discovery_hits[0].discovery_url, "https://tlo.mit.edu/industry-entrepreneurs/startups/musclemetrix")
+
+    def test_university_spinout_adapter_extracts_harvard_venture_cards(self):
+        source = pipeline.Source("Harvard spinouts", "University/spinout", "https://innovationlabs.harvard.edu/ventures/", "US", "High", "Quarterly", "Spinout extraction", "Harvard venture directory.", "harvard_ventures")
+        html = """
+        <html><body>
+          <a href="https://innovationlabs.harvard.edu/venture/aidra-health" class="venture-card student-i-lab">
+            <h3>Aidra Health</h3>
+            <p>Democratizing access to life-saving medical equipment in emerging markets.</p>
+          </a>
+          <a href="https://innovationlabs.harvard.edu/venture/air-right-exchange" class="venture-card student-i-lab">
+            <h3>Air Right Exchange of America</h3>
+            <p>Simplifying zoning and air rights transfer.</p>
+          </a>
+        </body></html>
+        """
+
+        discovery_hits, _ = pipeline.build_university_spinout_evidence(source, html)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["Aidra Health"])
+        self.assertEqual(discovery_hits[0].discovery_url, "https://innovationlabs.harvard.edu/venture/aidra-health")
 
     def test_university_spinout_adapter_extracts_bayes_cohort_profiles(self):
         source = pipeline.Source("University of Edinburgh spinouts", "University/spinout", "https://bayes-centre.ed.ac.uk/programmes/vbi/cohorts/6.0", "UK", "Medium", "Quarterly", "Spinout extraction", "Bayes Centre cohort.", "edinburgh_spinouts")

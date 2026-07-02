@@ -271,6 +271,10 @@ def is_known_university_profile_link(source: Source, href: str) -> bool:
         return host == "qubis.co.uk" and path.startswith("/portfolio/")
     if source.adapter == "edinburgh_spinouts":
         return host == "bayes-centre.ed.ac.uk" and "/cohort-" in path
+    if source.adapter == "mit_spinouts":
+        return host == "tlo.mit.edu" and path.startswith("/industry-entrepreneurs/startups/")
+    if source.adapter == "harvard_ventures":
+        return host == "innovationlabs.harvard.edu" and path.startswith("/venture/")
     return False
 
 
