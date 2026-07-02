@@ -100,6 +100,12 @@ class LinkedInContact:
     role_bucket: str
     source: str
     confidence: float
+    email: str = ""
+    email_status: str = "Not researched"
+    evidence_url: str = ""
+    evidence_text: str = ""
+    verification_status: str = "Unverified"
+    last_checked_at: str = TODAY
 
 
 @dataclass
@@ -110,6 +116,10 @@ class LinkedInEnrichment:
     technical: LinkedInContact | None = None
     quality: LinkedInContact | None = None
     contact_status: str = "Not targeted"
+    resolved_website: str = ""
+    company_error: str = ""
+    contact_error: str = ""
+    search_provider: str = ""
 
 
 @dataclass

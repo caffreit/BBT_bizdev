@@ -251,13 +251,15 @@
     return `<li><strong>${escapeHtml(label)}:</strong> ${value}</li>`;
   }
 
-  function contactLine(name, title, url) {
-    if (!name && !title && !url) return "";
+  function contactLine(name, title, url, email, verification) {
+    if (!name && !title && !url && !email && !verification) return "";
     const label = [name, title].filter(Boolean).join(" · ") || "LinkedIn profile";
     const safe = safeUrl(url);
-    return safe
-      ? `<li><a href="${escapeHtml(safe)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a></li>`
-      : `<li>${escapeHtml(label)}</li>`;
+    const profile = safe
+      ? `<a href="${escapeHtml(safe)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`
+      : escapeHtml(label);
+    const details = [email, verification].filter(Boolean).map(escapeHtml).join(" · ");
+    return `<li>${profile}${details ? `<br><span>${details}</span>` : ""}</li>`;
   }
 
   function detail(label, value) {
@@ -284,9 +286,9 @@
     ];
 
     const contacts = [
-      contactLine(selected.executiveContactName, selected.executiveContactTitle, selected.executiveLinkedinUrl),
-      contactLine(selected.technicalContactName, selected.technicalContactTitle, selected.technicalLinkedinUrl),
-      contactLine(selected.qualityContactName, selected.qualityContactTitle, selected.qualityLinkedinUrl),
+      contactLine(selected.executiveContactName, selected.executiveContactTitle, selected.executiveLinkedinUrl, selected.executiveEmail, selected.executiveVerificationStatus),
+      contactLine(selected.technicalContactName, selected.technicalContactTitle, selected.technicalLinkedinUrl, selected.technicalEmail, selected.technicalVerificationStatus),
+      contactLine(selected.qualityContactName, selected.qualityContactTitle, selected.qualityLinkedinUrl, selected.qualityEmail, selected.qualityVerificationStatus),
     ].filter(Boolean);
 
     els.dossierContent.innerHTML = `
@@ -330,7 +332,12 @@
         <div class="detail-grid">
           ${detail("Company status", selected.linkedinCompanyStatus)}
           ${detail("Contact status", selected.linkedinContactStatus)}
+          ${detail("Resolved website", selected.linkedinResolvedWebsite)}
+          ${detail("Search provider", selected.linkedinSearchProvider)}
         </div>
+        ${selected.linkedinCompanyError || selected.linkedinContactError ? `
+          <p>${escapeHtml([selected.linkedinCompanyError, selected.linkedinContactError].filter(Boolean).join(" · "))}</p>
+        ` : ""}
         <ul class="link-list">${contacts.length ? contacts.join("") : "<li>No contact profiles captured</li>"}</ul>
 
         <h3>Next Actions</h3>

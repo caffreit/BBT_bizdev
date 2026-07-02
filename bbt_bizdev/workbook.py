@@ -90,8 +90,17 @@ def add_hyperlinks(ws, cols: list[int]):
 
 def linkedin_contact_values(contact):
     if contact is None:
-        return ["", "", ""]
-    return [contact.name, contact.title, contact.url]
+        return ["", "", "", "", "", "", "", ""]
+    return [
+        contact.name,
+        contact.title,
+        contact.url,
+        contact.email,
+        contact.email_status,
+        contact.evidence_url,
+        contact.evidence_text,
+        contact.verification_status,
+    ]
 
 
 def na_if_blank(value):
@@ -193,9 +202,16 @@ def write_leads_sheet(wb, companies: dict[str, CompanyRecord]) -> None:
         "Discovery rationale", "Matched terms", "Trigger type", "Persona", "BBT quadrant",
         "LinkedIn company URL", "LinkedIn company status",
         "Executive contact name", "Executive contact title", "Executive LinkedIn URL",
+        "Executive email", "Executive email status", "Executive evidence URL",
+        "Executive evidence text", "Executive verification status",
         "Technical/R&D contact name", "Technical/R&D contact title", "Technical/R&D LinkedIn URL",
+        "Technical/R&D email", "Technical/R&D email status", "Technical/R&D evidence URL",
+        "Technical/R&D evidence text", "Technical/R&D verification status",
         "Quality/QA contact name", "Quality/QA contact title", "Quality/QA LinkedIn URL",
-        "LinkedIn contact status", "Date captured",
+        "Quality/QA email", "Quality/QA email status", "Quality/QA evidence URL",
+        "Quality/QA evidence text", "Quality/QA verification status",
+        "LinkedIn contact status", "LinkedIn resolved website", "LinkedIn search provider",
+        "LinkedIn company error", "LinkedIn contact error", "Date captured",
     ]
     append_excel_row(ws, headers)
     for record in sorted(companies.values(), key=lambda r: r.company):
@@ -235,11 +251,27 @@ def write_leads_sheet(wb, companies: dict[str, CompanyRecord]) -> None:
             *linkedin_contact_values(record.linkedin.technical),
             *linkedin_contact_values(record.linkedin.quality),
             record.linkedin.contact_status,
+            record.linkedin.resolved_website,
+            record.linkedin.search_provider,
+            record.linkedin.company_error,
+            record.linkedin.contact_error,
             TODAY,
         ])
     style_sheet(ws)
     style_linkedin_columns(ws, 25)
-    add_hyperlinks(ws, [2, 19, 25, 29, 32, 35])
+    hyperlink_headers = [
+        "Company website",
+        "Source URL",
+        "LinkedIn company URL",
+        "Executive LinkedIn URL",
+        "Executive evidence URL",
+        "Technical/R&D LinkedIn URL",
+        "Technical/R&D evidence URL",
+        "Quality/QA LinkedIn URL",
+        "Quality/QA evidence URL",
+        "LinkedIn resolved website",
+    ]
+    add_hyperlinks(ws, [headers.index(header) + 1 for header in hyperlink_headers])
     size_columns(ws, {
         "A": 24, "B": 36, "C": 58, "D": 28, "E": 24, "F": 24, "G": 24, "H": 14,
         "I": 16, "J": 28, "K": 26, "L": 24, "M": 14, "N": 28, "O": 14,
