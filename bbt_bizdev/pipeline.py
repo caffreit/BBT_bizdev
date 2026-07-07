@@ -12,19 +12,29 @@ from urllib.request import Request, urlopen
 
 from .adapters.accelerators import (
     run_arc_hub_healthtech,
+    run_bioinnovation_institute,
     run_bioinnovate_ireland,
+    run_cdl_health,
     run_digitalhealth_london,
     run_dogpatch_ndrc,
     run_eit_health_catapult,
     run_health_innovation_hub_ireland,
+    run_masschallenge_healthcare,
     run_mayo_accelerate,
     run_medtech_innovator,
+    run_nhs_innovation_accelerator,
+    run_nlc_health,
+    run_nucleate_activator,
+    run_rockstart_health,
+    run_sbri_healthcare,
+    run_yesdelft_medtech,
     run_yc_healthcare,
 )
 from .adapters.generic import build_source_page_evidence, find_companies_on_source
 from .adapters.jobs import run_biospace_jobs, run_builtin_jobs, run_greenhouse_discovery, run_job_board_adapter, run_nhs_jobs
 from .adapters.linkedin import enrich_companies_linkedin
 from .adapters.search import run_google_news_search
+from .adapters.sifted import run_sifted_ranking
 from .adapters.university import run_university_spinout_pages
 from .adapters.vc import run_atlantic_bridge, run_fountain_healthcare, run_seroba_life_sciences
 from .config import (
@@ -73,6 +83,12 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
             discovery_hits.extend(hits)
             trigger_events.extend(triggers)
             run_log.append([source.name, source.source_type, source.url, "Fetched", result])
+            continue
+        if source.adapter == "sifted_ranking":
+            hits, triggers, result = run_sifted_ranking(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
             continue
         if source.adapter == "yc_healthcare":
             hits, triggers, result = run_yc_healthcare(source)
@@ -127,6 +143,63 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
             discovery_hits.extend(hits)
             trigger_events.extend(triggers)
             run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "nhs_innovation_accelerator":
+            hits, triggers, result = run_nhs_innovation_accelerator(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "nlc_health":
+            hits, triggers, result = run_nlc_health(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "yesdelft_medtech":
+            hits, triggers, result = run_yesdelft_medtech(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "bioinnovation_institute":
+            hits, triggers, result = run_bioinnovation_institute(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "nucleate_activator":
+            hits, triggers, result = run_nucleate_activator(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "cdl_health":
+            hits, triggers, result = run_cdl_health(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "masschallenge_healthcare":
+            hits, triggers, result = run_masschallenge_healthcare(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "rockstart_health":
+            hits, triggers, result = run_rockstart_health(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "sbri_healthcare":
+            hits, triggers, result = run_sbri_healthcare(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "eu_accelerator_directory":
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], "Skipped: retired; needs source-specific accelerator adapter"])
             continue
         if source.adapter == "fountain_healthcare":
             hits, triggers, result = run_fountain_healthcare(source)

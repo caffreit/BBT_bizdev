@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from urllib.parse import urlencode, urljoin, urlparse
 
@@ -476,6 +477,917 @@ def run_health_innovation_hub_ireland(source: Source) -> tuple[list[DiscoveryHit
 
 def run_dogpatch_ndrc(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
     return run_priority_accelerator_pages(source, "Dogpatch/NDRC")
+
+EU_ACCELERATOR_COMPANY_PATH_TERMS = [
+    "compan",
+    "startup",
+    "start-up",
+    "portfolio",
+    "venture",
+    "alumni",
+    "cohort",
+    "resident",
+    "member",
+    "incubat",
+    "accelerat",
+    "project",
+    "innovation",
+]
+
+
+def is_eu_accelerator_company_link(link_text: str, href: str) -> bool:
+    lower_text = clean_text(link_text).lower()
+    if lower_text in {
+        "portfolio",
+        "startups",
+        "companies",
+        "members",
+        "alumni",
+        "cohort",
+        "apply",
+        "learn more",
+        "read more",
+        "view all",
+        "website",
+        "linkedin",
+    }:
+        return False
+    if not is_plausible_page_candidate(clean_page_candidate(link_text)):
+        return False
+    lower_href = href.lower()
+    if lower_href.startswith(("javascript:", "mailto:", "tel:")) or "#" in lower_href:
+        return False
+    if any(term in lower_href for term in ["contact", "about", "team", "people", "event", "apply", "privacy", "login", "news/", "blog/"]):
+        return False
+    return any(term in lower_href for term in EU_ACCELERATOR_COMPANY_PATH_TERMS)
+
+
+def eu_accelerator_has_health_relevance(source: Source, company: str, context: str) -> bool:
+    company_context = " ".join([company, context]).lower()
+    if matched_ndrc_healthcare_keywords(company_context) or re.search(r"\b(sa?md|medtech|medical devices?|healthtech|health tech|life sciences?)\b", company_context):
+        return True
+    if not clean_text(context):
+        source_context = " ".join([source.name, source.notes]).lower()
+        return bool(matched_ndrc_healthcare_keywords(source_context) or re.search(r"\b(sa?md|medtech|medical devices?|healthtech|health tech|life sciences?)\b", source_context))
+    return False
+
+
+def parse_eu_accelerator_json_records(source: Source, payload: object, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+
+    def records(value: object) -> list[dict]:
+        found: list[dict] = []
+        if isinstance(value, list):
+            for item in value:
+                found.extend(records(item))
+        elif isinstance(value, dict):
+            if any(key in value for key in ["company", "name", "title", "post_title"]):
+                found.append(value)
+            for item in value.values():
+                if isinstance(item, (list, dict)):
+                    found.extend(records(item))
+        return found
+
+    for record in records(payload):
+        title = record.get("company") or record.get("name") or record.get("post_title") or record.get("title") or ""
+        if isinstance(title, dict):
+            title = title.get("rendered") or title.get("name") or ""
+        company = clean_page_candidate(str(title))
+        if not is_plausible_page_candidate(company):
+            continue
+        description = " ".join(
+            clean_text(str(value.get("rendered") if isinstance(value, dict) else value))
+            for key, value in record.items()
+            if key.lower() in {"description", "excerpt", "content", "summary", "sector", "category", "tags"}
+        )
+        url = str(record.get("url") or record.get("link") or record.get("website") or page_url)
+        if not eu_accelerator_has_health_relevance(source, company, description):
+            continue
+        hit = make_accelerator_hit(
+            source,
+            company,
+            url,
+            cohort_label=f"{source.name} directory",
+            company_description=description,
+            website=url if url.startswith(("http://", "https://")) and urlparse(url).netloc not in urlparse(page_url).netloc else "",
+            matched_terms="adapter: eu_accelerator_directory; json directory record",
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
+def parse_eu_accelerator_directory_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    stripped = raw_html.strip()
+    if stripped.startswith(("{", "[")):
+        try:
+            return parse_eu_accelerator_json_records(source, json.loads(stripped), page_url)
+        except json.JSONDecodeError:
+            pass
+
+    hits: list[DiscoveryHit] = []
+    default_cohort = f"{source.name} {infer_cohort_year(raw_html, page_url)}".strip()
+    for link_text, href in extract_links(raw_html, page_url):
+        if not is_eu_accelerator_company_link(link_text, href):
+            continue
+        company = normalize_priority_company_candidate(link_text)
+        context = context_for_priority_link_block(raw_html, link_text) or context_after_link(raw_html, href) or context_around_link_text(raw_html, link_text)
+        if not eu_accelerator_has_health_relevance(source, company, context):
+            continue
+        hit = make_accelerator_hit(
+            source,
+            company,
+            href,
+            cohort_label=default_cohort,
+            cohort_year=infer_cohort_year(default_cohort, context, page_url),
+            company_description=context,
+            matched_terms="adapter: eu_accelerator_directory; company/startup link",
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
+def run_eu_accelerator_directory(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_eu_accelerator_directory_page(source, raw_html, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} EU accelerator directory pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no health-relevant company/startup links found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def title_from_slug(slug: str) -> str:
+    words = [word for word in re.split(r"[-_/]+", slug) if word]
+    title = " ".join(word.upper() if word.lower() in {"ai", "xr", "nhs", "ml"} else word.capitalize() for word in words)
+    replacements = {
+        "Aido": "AIDO",
+        "Pephealth": "PEP Health",
+        "Ipd": "IPD",
+        "Mladx": "ML Diagnostics",
+        "Nicolab": "Nicolab",
+        "Lumabs": "LUMICKS",
+    }
+    return replacements.get(title, title)
+
+def company_from_nhs_innovation_link(link_text: str, href: str) -> str:
+    slug = urlparse(href).path.strip("/").split("/")[-1]
+    fallback = title_from_slug(slug)
+    text = clean_page_candidate(link_text)
+    candidate = re.split(
+        r"\s+(?:is|are|supports|helps|provides|uses|offers|enables|develops|delivers|connects|aims|has|have|will|can|by)\b",
+        text,
+        maxsplit=1,
+        flags=re.I,
+    )[0]
+    words = candidate.split()
+    if len(words) >= 2 and len(words) % 2 == 0:
+        half = len(words) // 2
+        if " ".join(words[:half]).lower() == " ".join(words[half:]).lower():
+            candidate = " ".join(words[:half])
+    if 1 <= len(candidate.split()) <= 6 and is_plausible_page_candidate(candidate):
+        return candidate
+    return fallback
+
+def parse_nhs_innovation_accelerator_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    seen: set[str] = set()
+    for link_text, href in extract_links(raw_html, page_url):
+        path = urlparse(href).path.rstrip("/") + "/"
+        if "/innovations/" not in path or path == "/innovations/":
+            continue
+        company = company_from_nhs_innovation_link(link_text, href)
+        if company.lower() in seen:
+            continue
+        seen.add(company.lower())
+        context = context_after_link(raw_html, href) or context_around_link_text(raw_html, link_text)
+        hit = make_accelerator_hit(
+            source,
+            company,
+            href,
+            cohort_label="NHS Innovation Accelerator innovations",
+            company_description=context,
+            matched_terms="adapter: nhs_innovation_accelerator; innovation profile link",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_nhs_innovation_accelerator(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_nhs_innovation_accelerator_page(source, raw_html, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} NHS innovation pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no innovation profile links found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+NLC_HOST_COMPANY_NAMES = {
+    "aido": "AIDO",
+    "pephealth": "PEP Health",
+    "mladx": "ML Diagnostics",
+    "ipd": "IPD",
+    "ncbiomatrix": "NC Biomatrix",
+    "scinvivo": "SC Invivo",
+}
+
+def company_from_external_hostname(href: str) -> str:
+    host = urlparse(href).netloc.lower()
+    host = host[4:] if host.startswith("www.") else host
+    label = host.split(".", 1)[0]
+    if label in NLC_HOST_COMPANY_NAMES:
+        return NLC_HOST_COMPANY_NAMES[label]
+    return clean_page_candidate(title_from_slug(label))
+
+def is_external_portfolio_website(href: str, source_url: str) -> bool:
+    parsed = urlparse(href)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return False
+    source_host = urlparse(source_url).netloc.lower()
+    host = parsed.netloc.lower()
+    if source_host and host.endswith(source_host):
+        return False
+    if re.search(r"\.(?:png|jpe?g|webp|gif|svg|css|js|pdf)(?:$|\?)", parsed.path, flags=re.I):
+        return False
+    return not any(
+        blocked in host
+        for blocked in [
+            "linkedin.com",
+            "facebook.com",
+            "twitter.com",
+            "x.com",
+            "instagram.com",
+            "youtube.com",
+            "loopia.com",
+            "hubspot",
+            "website-files.com",
+            "webflow",
+            "cdn",
+        ]
+    )
+
+def parse_nlc_health_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    seen: set[str] = set()
+    for link_text, href in extract_links(raw_html, page_url):
+        if not is_external_portfolio_website(href, page_url):
+            continue
+        text_company = clean_page_candidate(link_text)
+        if text_company.lower() in {"visit website", "website", "learn more", "read more"} or not is_plausible_page_candidate(text_company):
+            company = company_from_external_hostname(href)
+        else:
+            company = text_company
+        if company.lower() in {"investor login", "cdn", "assets", "privacy policy"}:
+            continue
+        if company.lower() in seen:
+            continue
+        seen.add(company.lower())
+        context = context_after_link(raw_html, href) or context_for_external_link_card(raw_html, link_text)
+        hit = make_accelerator_hit(
+            source,
+            company,
+            page_url,
+            cohort_label="NLC Health portfolio",
+            company_description=context,
+            website=href,
+            matched_terms="adapter: nlc_health; external portfolio website",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_nlc_health(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_nlc_health_page(source, raw_html, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} NLC portfolio pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no external portfolio websites found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def parse_yesdelft_medtech_payload(source: Source, payload: object, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    if not isinstance(payload, list):
+        return hits
+    for record in payload:
+        if not isinstance(record, dict):
+            continue
+        title = record.get("title") or {}
+        company = title.get("rendered") if isinstance(title, dict) else title
+        company = clean_page_candidate(str(company or ""))
+        if not company:
+            continue
+        description = " ".join(
+            clean_text(str(value.get("rendered") if isinstance(value, dict) else value))
+            for key, value in record.items()
+            if key.lower() in {"excerpt", "content", "description"}
+        )
+        url = clean_text(str(record.get("link") or page_url))
+        hit = make_accelerator_hit(
+            source,
+            company,
+            url,
+            cohort_label="YES!Delft Health and Pharma startups",
+            company_description=description,
+            matched_terms="adapter: yesdelft_medtech; Health and Pharma WP JSON record",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_yesdelft_medtech(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        if "wp-json" in url:
+            payload, error = fetch_json_url(url)
+            scanned += 1
+            if error:
+                errors.append(f"{url}: {error}")
+                continue
+            hits.extend(parse_yesdelft_medtech_payload(source, payload, url))
+            continue
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_eu_accelerator_directory_page(source, raw_html, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} YES!Delft pages/endpoints scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no Health and Pharma startup records found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def names_from_bii_terms(record: dict, key: str) -> list[str]:
+    values = record.get(key) or []
+    if not isinstance(values, list):
+        return []
+    return [clean_text(str(item.get("name") or "")) for item in values if isinstance(item, dict) and item.get("name")]
+
+def parse_bioinnovation_institute_payload(source: Source, payload: object, page_url: str) -> list[DiscoveryHit]:
+    records = payload.get("projectItems") if isinstance(payload, dict) else []
+    if not isinstance(records, list):
+        return []
+    hits: list[DiscoveryHit] = []
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        focus_areas = names_from_bii_terms(record, "focusAreas")
+        if focus_areas and not any(area.lower() == "human health" for area in focus_areas):
+            continue
+        company = clean_page_candidate(str(record.get("title") or ""))
+        if not company:
+            continue
+        summary = clean_text(str(record.get("summary") or ""))
+        programs = names_from_bii_terms(record, "programs")
+        sub_areas = names_from_bii_terms(record, "subAreas")
+        website = clean_text(str(record.get("externalLink") or record.get("url") or ""))
+        hit = make_accelerator_hit(
+            source,
+            company,
+            "https://bii.dk/community/start-ups-projects/",
+            cohort_label=", ".join(programs) or "BII start-ups and projects",
+            category_or_track=", ".join(sub_areas),
+            company_description=summary,
+            website=website if website.startswith(("http://", "https://")) else "",
+            matched_terms="adapter: bioinnovation_institute; GetProjects human-health record",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_bioinnovation_institute(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        payload, error = fetch_json_url(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_bioinnovation_institute_payload(source, payload, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} BII project endpoints scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no human-health project records found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+NUCLEATE_LOCATIONS = [
+    "San diego",
+    "New york city",
+    "New haven",
+    "Bayarea",
+    "Bay area",
+    "San francisco",
+    "Los angeles",
+    "All locations",
+    "Boston",
+    "Baltimore",
+    "Cambridge",
+    "London",
+    "Oxford",
+    "Paris",
+    "Berlin",
+    "Zurich",
+    "Toronto",
+    "Montreal",
+    "Vancouver",
+    "Seattle",
+    "Chicago",
+    "Houston",
+    "Atlanta",
+]
+
+NUCLEATE_CATEGORY_TERMS = [
+    "Medical Devices",
+    "Digital Health",
+    "Therapeutics",
+    "Diagnostics",
+    "Platform",
+    "Eco",
+]
+
+CDL_HEALTH_STREAMS = {
+    "advanced therapies",
+    "biomedical engineering",
+    "biotech",
+    "cancer",
+    "computational health",
+    "health",
+    "health & wellness",
+    "healthcare robotics",
+    "neuro",
+}
+
+
+def split_nucleate_header(header: str) -> tuple[str, str]:
+    header = clean_text(header)
+    for location in sorted(NUCLEATE_LOCATIONS, key=len, reverse=True):
+        if header.lower().endswith(" " + location.lower()):
+            return clean_page_candidate(header[: -len(location)].strip()), clean_text(location)
+    return clean_page_candidate(header), ""
+
+def split_nucleate_category_and_description(value: str) -> tuple[str, str]:
+    value = clean_text(value)
+    for category in sorted(NUCLEATE_CATEGORY_TERMS, key=len, reverse=True):
+        if value.lower().startswith(category.lower() + " "):
+            return category, clean_text(value[len(category) :])
+    return "", value
+
+def parse_nucleate_activator_page(source: Source, markdown: str, page_url: str) -> list[DiscoveryHit]:
+    body = markdown.split("Markdown Content:", 1)[-1]
+    body = re.sub(r"\n[ \t]+", "\n", body)
+    body = re.split(r"\n#{1,3}\s+Activator|Activator Program|© COPYRIGHT", body, maxsplit=1, flags=re.I)[0]
+    pattern = re.compile(
+        r"(?P<header>[^\n]{2,120})\n+\s*Launched\s+(?P<year>20\d{2})\s*\n+\s*(?P<body>.*?)(?=\n[A-Z0-9][^\n]{2,120}\n+\s*Launched\s+20\d{2}\s*\n+|$)",
+        flags=re.S,
+    )
+    hits: list[DiscoveryHit] = []
+    for match in pattern.finditer(body):
+        company, geography = split_nucleate_header(match.group("header"))
+        category, description = split_nucleate_category_and_description(match.group("body"))
+        context = " ".join([company, category, description])
+        if category.lower() == "eco" and not eu_accelerator_has_health_relevance(source, company, description):
+            continue
+        if not eu_accelerator_has_health_relevance(source, company, context):
+            continue
+        hit = make_accelerator_hit(
+            source,
+            company,
+            "https://nucleate.org/companies",
+            cohort_label=f"Nucleate Activator {match.group('year')}",
+            cohort_year=match.group("year"),
+            category_or_track=category,
+            company_description=description,
+            geography=geography or source.geography,
+            matched_terms="adapter: nucleate_activator; reader company record",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_nucleate_activator(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        raw_text, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_nucleate_activator_page(source, raw_text, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} Nucleate pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no health-relevant Nucleate company records found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def parse_cdl_health_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    card_pattern = re.compile(
+        r'<a\s+href=["\'](?P<href>[^"\']+)["\'][^>]*class=["\'][^"\']*company[^"\']*["\'][^>]*>(?P<body>.*?)</a>',
+        flags=re.I | re.S,
+    )
+    for match in card_pattern.finditer(raw_html):
+        body = match.group("body")
+        name_match = re.search(r'class=["\']companybio-location["\'][^>]*>(.*?)</p>', body, flags=re.I | re.S)
+        stream_match = re.search(r'class=["\']companybio-stream["\'][^>]*>(.*?)</p>', body, flags=re.I | re.S)
+        if not name_match or not stream_match:
+            continue
+        company = clean_page_candidate(name_match.group(1))
+        stream = clean_text(stream_match.group(1))
+        if stream.lower() not in CDL_HEALTH_STREAMS:
+            continue
+        hit = make_accelerator_hit(
+            source,
+            company,
+            urljoin(page_url, match.group("href")),
+            cohort_label="Creative Destruction Lab companies",
+            category_or_track=stream,
+            matched_terms="adapter: cdl_health; health stream company card",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_cdl_health(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_cdl_health_page(source, raw_html, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} CDL company pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no health stream company cards found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def masschallenge_category_for_link(content_before_link: str) -> str:
+    text = text_from_html(content_before_link)
+    categories = ["BIOTECHNOLOGY", "MEDTECH", "DIGITAL HEALTH & AI"]
+    positions = [(category, text.upper().rfind(category)) for category in categories]
+    positions = [(category, pos) for category, pos in positions if pos >= 0]
+    if not positions:
+        return ""
+    return max(positions, key=lambda item: item[1])[0].title().replace("Ai", "AI")
+
+MASSCHALLENGE_HEALTHCARE_2026_COHORT = [
+    ("Adipothera", "Biotechnology", "https://adipothera.com/"),
+    ("Dense Immune", "Biotechnology", "https://www.denseimmune.com/"),
+    ("Environ", "Biotechnology", ""),
+    ("EtiraRx", "Biotechnology", "https://etira.life/"),
+    ("Jibe Therapeutics", "Biotechnology", "https://jibetx.com/"),
+    ("Miyako Bio", "Biotechnology", ""),
+    ("MyImmune Corporation", "Biotechnology", "https://www.myimmune.ai/"),
+    ("OmniNano Pharmaceuticals", "Biotechnology", "https://www.omninanopharma.com/"),
+    ("Sarxion", "Biotechnology", ""),
+    ("Spry Bio", "Biotechnology", "https://www.sprybio.com/"),
+    ("Telos Biotech", "Biotechnology", "https://www.telosbio.com/"),
+    ("VirVa Health", "Biotechnology", "https://virvah.com/"),
+    ("YAXIE Inc.", "Biotechnology", "https://www.yaxie.jp/"),
+    ("ZEeST Bio", "Biotechnology", "https://zeest.bio/"),
+    ("Advanced Nanolytics Inc.", "Medtech", "https://aninano.com/"),
+    ("Any-Edge Inc.", "Medtech", "https://viamonte1114.wixsite.com/website"),
+    ("CircuCare", "Medtech", "https://www.circucare.com/"),
+    ("Curiva", "Medtech", "https://www.curiva.co/"),
+    ("Freyya", "Medtech", "https://freyya.com/"),
+    ("Hoopsy", "Medtech", "https://hoopsy.com/"),
+    ("Innovations Unlimited LLC", "Medtech", "https://innovationsunlimitedllc.com/"),
+    ("Latde Diagnostics", "Medtech", "https://latde-dx.com/"),
+    ("Leaf Guardian", "Medtech", "https://leafguardian.co/"),
+    ("Microvitality", "Medtech", "https://www.microvitalitybio.com/"),
+    ("Motilix", "Medtech", "https://www.linkedin.com/company/motilix/"),
+    ("Pollen Sense Inc.", "Medtech", "https://pollensense.com/"),
+    ("SafeBVM Corp.", "Medtech", "https://safebvm.com/"),
+    ("SilkMed, Inc.", "Medtech", "https://silkmedsolutions.com/"),
+    ("Sympal", "Medtech", "https://www.thesympal.com/"),
+    ("Zephyr Apnea Technologies", "Medtech", "https://www.linkedin.com/company/zephyr-apnea-technologies/"),
+    ("Kairos", "Digital Health & AI", "https://kairoshealthai.com/"),
+    ("LastMinute", "Digital Health & AI", "https://www.trylastminute.com/"),
+    ("MindMuscle", "Digital Health & AI", "https://mindmuscle.health/"),
+    ("NtelCare", "Digital Health & AI", "https://www.ntelcare.com/"),
+    ("Revella Health", "Digital Health & AI", "https://revellahealth.com/"),
+    ("SeeInMe", "Digital Health & AI", "https://seeinme.com/"),
+    ("TheraMotive", "Digital Health & AI", "https://www.theramotive.com/"),
+    ("Trialynx", "Digital Health & AI", "https://www.trialynx.io/"),
+    ("VITAL-IT", "Digital Health & AI", "https://www.vital-it.com/"),
+    ("With U", "Digital Health & AI", "https://withuai.com/"),
+    ("Zendra Health", "Digital Health & AI", "https://www.zendrahealth.com/"),
+]
+
+def masschallenge_healthcare_snapshot_hits(source: Source) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    evidence_url = "https://masschallenge.org/articles/healthcare-life-sciences-traction-cohort-2026/"
+    for company, category, website in MASSCHALLENGE_HEALTHCARE_2026_COHORT:
+        hit = make_accelerator_hit(
+            source,
+            company,
+            evidence_url,
+            cohort_label="MassChallenge Healthcare & Life Sciences Traction 2026",
+            cohort_year="2026",
+            category_or_track=category,
+            website=website,
+            company_description=category,
+            matched_terms="adapter: masschallenge_healthcare; official cohort snapshot fallback",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def parse_masschallenge_healthcare_content(source: Source, content: str, link: str, title: str = "") -> list[DiscoveryHit]:
+    cohort_year = infer_cohort_year(title, content)
+    segment = content
+    meet = re.search(r"MEET\s+THE\s+COHORT", segment, flags=re.I)
+    if meet:
+        segment = segment[meet.end() :]
+    end = re.search(r"BUILDING\s+THE\s+FUTURE", segment, flags=re.I)
+    if end:
+        segment = segment[: end.start()]
+    hits: list[DiscoveryHit] = []
+    for match in re.finditer(r'<a\s+href=["\'](?P<href>[^"\']+)["\'][^>]*>(?P<text>.*?)</a>', segment, flags=re.I | re.S):
+        company = clean_page_candidate(match.group("text"))
+        if not company or company.lower() in {"ginkgo bioworks", "flywire", "tomorrow.io", "oklo", "spring health"}:
+            continue
+        before = segment[: match.start()]
+        category = masschallenge_category_for_link(before)
+        hit = make_accelerator_hit(
+            source,
+            company,
+            link,
+            cohort_label=f"MassChallenge Healthcare & Life Sciences Traction {cohort_year}".strip(),
+            cohort_year=cohort_year,
+            category_or_track=category,
+            website=match.group("href"),
+            company_description=category,
+            matched_terms="adapter: masschallenge_healthcare; cohort article company link",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def parse_masschallenge_healthcare_article(source: Source, payload: object, page_url: str) -> list[DiscoveryHit]:
+    if isinstance(payload, dict):
+        content = ""
+        if isinstance(payload.get("content"), dict):
+            content = str(payload["content"].get("rendered") or "")
+        link = str(payload.get("link") or page_url)
+        title = ""
+        if isinstance(payload.get("title"), dict):
+            title = clean_text(str(payload["title"].get("rendered") or ""))
+        return parse_masschallenge_healthcare_content(source, content, link, title)
+    if isinstance(payload, str):
+        title_match = re.search(r"<title[^>]*>(.*?)</title>", payload, flags=re.I | re.S)
+        title = clean_text(title_match.group(1)) if title_match else ""
+        return parse_masschallenge_healthcare_content(source, payload, page_url, title)
+    return []
+
+def run_masschallenge_healthcare(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        scanned += 1
+        if "wp-json" in url:
+            payload, error = fetch_json_url(url)
+            if error:
+                errors.append(f"{url}: {error}")
+                continue
+            hits.extend(parse_masschallenge_healthcare_article(source, payload, url))
+            continue
+        raw_html, error = fetch_raw_text(url)
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_masschallenge_healthcare_article(source, raw_html, url))
+    used_snapshot = False
+    if not hits:
+        hits.extend(masschallenge_healthcare_snapshot_hits(source))
+        used_snapshot = bool(hits)
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} MassChallenge healthcare cohort endpoints scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if used_snapshot:
+        result += "; live fetch blocked, used official 2026 cohort snapshot fallback"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no cohort company links found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def parse_rockstart_health_payload(source: Source, payload: object, page_url: str) -> list[DiscoveryHit]:
+    if not isinstance(payload, list):
+        return []
+    hits: list[DiscoveryHit] = []
+    for record in payload:
+        if not isinstance(record, dict):
+            continue
+        title = record.get("title") or {}
+        company = title.get("rendered") if isinstance(title, dict) else title
+        company = clean_page_candidate(str(company or ""))
+        if not company:
+            continue
+        cohort_year = ""
+        if isinstance(record.get("date"), str):
+            cohort_year = infer_cohort_year(record["date"])
+        hit = make_accelerator_hit(
+            source,
+            company,
+            str(record.get("link") or "https://rockstart.com/portfolio/vertical-healthcare/"),
+            cohort_label=f"Rockstart Healthcare {cohort_year}".strip(),
+            cohort_year=cohort_year,
+            category_or_track="Healthcare",
+            matched_terms="adapter: rockstart_health; WP healthcare vertical record",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def parse_rockstart_health_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    for href, inner in re.findall(r'<h5[^>]*>.*?<a\s+href=["\']([^"\']+)["\'][^>]*>(.*?)</a>.*?</h5>', raw_html, flags=re.I | re.S):
+        company = clean_page_candidate(inner)
+        if not company or company.lower() in {"portfolio", "healthcare"}:
+            continue
+        context = context_after_link(raw_html, href) or context_around_link_text(raw_html, company)
+        hit = make_accelerator_hit(
+            source,
+            company,
+            page_url,
+            cohort_label="Rockstart Healthcare",
+            category_or_track="Healthcare",
+            company_description=context,
+            website=href if href.startswith(("http://", "https://")) else "",
+            matched_terms="adapter: rockstart_health; healthcare vertical page card",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def reader_json_payload(reader_text: str) -> object | None:
+    body = reader_text.split("Markdown Content:", 1)[-1].strip()
+    if not body.startswith(("[", "{")):
+        return None
+    try:
+        return json.JSONDecoder().raw_decode(body)[0]
+    except json.JSONDecodeError:
+        return None
+
+def run_rockstart_health(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        scanned += 1
+        if "wp-json" in url:
+            payload, error = fetch_json_url(url)
+            if error:
+                errors.append(f"{url}: {error}")
+                reader_text, reader_error = fetch_raw_text(MAYO_READER_PREFIX + url)
+                scanned += 1
+                if reader_error:
+                    errors.append(f"{MAYO_READER_PREFIX + url}: {reader_error}")
+                    continue
+                payload = reader_json_payload(reader_text)
+                if payload is None:
+                    errors.append(f"{MAYO_READER_PREFIX + url}: reader JSON parse failed")
+                    continue
+                hits.extend(parse_rockstart_health_payload(source, payload, url))
+                continue
+            hits.extend(parse_rockstart_health_payload(source, payload, url))
+            continue
+        raw_html, error = fetch_raw_text(url)
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_rockstart_health_page(source, raw_html, url))
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} Rockstart healthcare endpoints scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no healthcare portfolio records found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def sbri_table_value(block: str, label: str) -> str:
+    pattern = rf"<th[^>]*>\s*{re.escape(label)}\s*</th>\s*<td[^>]*>(.*?)</td>"
+    match = re.search(pattern, block, flags=re.I | re.S)
+    return clean_text(match.group(1)) if match else ""
+
+def parse_sbri_healthcare_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    for block in re.findall(r'<div\s+class=["\']directory-item["\'][^>]*>(.*?)</div>\s*</div>', raw_html, flags=re.I | re.S):
+        name_match = re.search(r"<h3[^>]*>(.*?)</h3>", block, flags=re.I | re.S)
+        company = clean_page_candidate(name_match.group(1)) if name_match else ""
+        if not company:
+            continue
+        project = sbri_table_value(block, "Project")
+        description = sbri_table_value(block, "Description")
+        innovation_partner = sbri_table_value(block, "Health Innovation Network Partner")
+        website_match = re.search(r'<a[^>]+href=["\']([^"\']+)["\']', block, flags=re.I)
+        website = website_match.group(1) if website_match else ""
+        hit = make_accelerator_hit(
+            source,
+            company,
+            page_url,
+            cohort_label="SBRI Healthcare innovation portfolio",
+            category_or_track=innovation_partner,
+            company_description=" ".join([project, description]).strip(),
+            website=website,
+            matched_terms="adapter: sbri_healthcare; innovation portfolio directory item",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_sbri_healthcare(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+    hits: list[DiscoveryHit] = []
+    errors: list[str] = []
+    scanned = 0
+    for url in urls:
+        raw_html, error = fetch_raw_text(url)
+        scanned += 1
+        if error:
+            errors.append(f"{url}: {error}")
+            continue
+        hits.extend(parse_sbri_healthcare_page(source, raw_html, url))
+    by_company: dict[str, DiscoveryHit] = {}
+    for hit in hits:
+        by_company.setdefault(hit.company.lower(), hit)
+    hits = list(by_company.values())
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{scanned} SBRI portfolio pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
+    if not hits:
+        result = f"INCOMPLETE {source.name} extraction: no innovation portfolio directory items found. " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
 
 def digitalhealth_london_profile_urls(raw_html: str, page_url: str) -> list[str]:
     urls: list[str] = []

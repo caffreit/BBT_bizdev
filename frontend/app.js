@@ -22,6 +22,7 @@
     selectedId: leads[0] ? leads[0].id : "",
     sortField: "",
     sortDirection: "asc",
+    research: {},
   };
 
   const segments = {
@@ -251,6 +252,56 @@
     return `<li><strong>${escapeHtml(label)}:</strong> ${value}</li>`;
   }
 
+  function renderResearchLink(item) {
+    const url = safeUrl(item.url);
+    if (!url) return "";
+    const meta = [item.source, item.publishedAt].filter(Boolean).join(" · ");
+    return `
+      <li>
+        <a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(item.title || item.url)}</a>
+        ${meta ? `<br><span>${escapeHtml(meta)}</span>` : ""}
+      </li>
+    `;
+  }
+
+  function renderResearchGroup(label, items) {
+    if (!items || !items.length) return "";
+    return `
+      <section class="research-group">
+        <h4>${escapeHtml(label)}</h4>
+        <ul class="link-list">${items.map(renderResearchLink).filter(Boolean).join("")}</ul>
+      </section>
+    `;
+  }
+
+  function renderCompanyResearch(lead) {
+    const research = state.research[lead.id] || { status: "idle" };
+    const buttonText = research.status === "loading" ? "Researching..." : "Do company research";
+    let body = "";
+
+    if (research.status === "loading") {
+      body = `<div class="placeholder-note">Looking for recent news and official company pages...</div>`;
+    } else if (research.status === "error") {
+      body = `<div class="research-empty">Could not load research links. ${escapeHtml(research.error || "")}</div>`;
+    } else if (research.status === "done") {
+      const groups = [
+        renderResearchGroup("Funding / money", research.data.funding),
+        renderResearchGroup("News", research.data.news),
+        renderResearchGroup("Company pages", research.data.companyPages),
+        renderResearchGroup("People / team", research.data.peopleTeam),
+      ].filter(Boolean);
+      body = groups.length ? groups.join("") : `<div class="research-empty">No extra links found.</div>`;
+    }
+
+    return `
+      <h3>Company Research</h3>
+      <div class="actions research-actions">
+        <button class="action-button research-button" type="button" data-action="company-research" ${research.status === "loading" ? "disabled" : ""}>${buttonText}</button>
+      </div>
+      <div class="research-results">${body}</div>
+    `;
+  }
+
   function contactLine(name, title, url, email, verification) {
     if (!name && !title && !url && !email && !verification) return "";
     const label = [name, title].filter(Boolean).join(" · ") || "LinkedIn profile";
@@ -340,9 +391,10 @@
         ` : ""}
         <ul class="link-list">${contacts.length ? contacts.join("") : "<li>No contact profiles captured</li>"}</ul>
 
+        ${renderCompanyResearch(selected)}
+
         <h3>Next Actions</h3>
         <div class="actions">
-          <button class="action-button" type="button" disabled>Find news</button>
           <button class="action-button" type="button" disabled>Expand description</button>
           <button class="action-button" type="button" disabled>Find LinkedIn/key people</button>
           <button class="action-button" type="button" disabled>Generate outreach email</button>
@@ -350,6 +402,30 @@
         <div class="placeholder-note">These actions are reserved for the enrichment layer; v1 uses the workbook export only.</div>
       </div>
     `;
+
+    const researchButton = els.dossierContent.querySelector('[data-action="company-research"]');
+    if (researchButton) {
+      researchButton.addEventListener("click", () => runCompanyResearch(selected));
+    }
+  }
+
+  function runCompanyResearch(lead) {
+    state.research[lead.id] = { status: "loading" };
+    render();
+    const params = new URLSearchParams({ company: lead.company || "", website: lead.website || "" });
+    fetch(`/api/company-research?${params.toString()}`)
+      .then((response) => {
+        if (!response.ok) throw new Error(`Request failed (${response.status})`);
+        return response.json();
+      })
+      .then((payload) => {
+        state.research[lead.id] = { status: "done", data: payload };
+        render();
+      })
+      .catch((error) => {
+        state.research[lead.id] = { status: "error", error: error.message };
+        render();
+      });
   }
 
   function renderSummary(rows) {

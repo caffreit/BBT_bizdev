@@ -495,6 +495,54 @@ tbody tr.selected {
   cursor: not-allowed;
 }
 
+.research-actions {
+  grid-template-columns: 1fr;
+}
+
+.research-button {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.research-button:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
+.research-results {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.research-group {
+  display: grid;
+  gap: 6px;
+}
+
+.research-group h4 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.link-list span,
+.research-empty {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.research-empty {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfcfc;
+}
+
 .placeholder-note {
   margin-top: 8px;
   padding: 10px;

@@ -8,6 +8,7 @@ from bbt_bizdev.config import *
 from bbt_bizdev.http import *
 from bbt_bizdev.text import *
 from bbt_bizdev.adapters.search import *
+from bbt_bizdev.adapters.sifted import *
 from bbt_bizdev.adapters.jobs import *
 from bbt_bizdev.adapters.linkedin import *
 from bbt_bizdev.adapters.accelerators import *
@@ -21,6 +22,7 @@ import bbt_bizdev.config as _config
 import bbt_bizdev.http as _http
 import bbt_bizdev.text as _text
 import bbt_bizdev.adapters.search as _search
+import bbt_bizdev.adapters.sifted as _sifted
 import bbt_bizdev.adapters.jobs as _jobs
 import bbt_bizdev.adapters.linkedin as _linkedin
 import bbt_bizdev.adapters.accelerators as _accelerators
@@ -30,7 +32,7 @@ import bbt_bizdev.adapters.vc as _vc
 import bbt_bizdev.pipeline as _pipeline
 import bbt_bizdev.workbook as _workbook
 
-_PATCH_MODULES = [_config, _http, _text, _search, _jobs, _linkedin, _accelerators, _generic, _university, _vc, _pipeline, _workbook]
+_PATCH_MODULES = [_config, _http, _text, _search, _sifted, _jobs, _linkedin, _accelerators, _generic, _university, _vc, _pipeline, _workbook]
 
 
 def _propagate(name, value):

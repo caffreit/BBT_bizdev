@@ -77,6 +77,36 @@ class SearchAdapterTests(unittest.TestCase):
         self.assertEqual(adapters["Seroba Life Sciences portfolio"], "seroba_life_sciences")
         self.assertEqual(adapters["Atlantic Bridge portfolio"], "atlantic_bridge")
 
+    def test_priority_eu_accelerator_sources_have_bespoke_split(self):
+        sources = {source.name: source for source in pipeline.SOURCES}
+
+        self.assertGreaterEqual(len(pipeline.EU_ACCELERATOR_PRIORITY_SOURCE_NAMES), 50)
+        self.assertGreaterEqual(len(pipeline.EU_ACCELERATOR_IMPLEMENTED_BESPOKE_SOURCE_NAMES), 10)
+        self.assertIn("HealthTech Nordic", pipeline.EU_ACCELERATOR_BESPOKE_BACKLOG_SOURCE_NAMES)
+        for name in pipeline.EU_ACCELERATOR_IMPLEMENTED_BESPOKE_SOURCE_NAMES:
+            self.assertIn(name, sources)
+            source = sources[name]
+            self.assertEqual(source.source_type, "Accelerator")
+            self.assertNotEqual(source.adapter, "accelerator_page")
+            self.assertNotEqual(pipeline.adapter_inventory_label(source), "Manual/not implemented")
+            self.assertNotEqual(source.adapter, "eu_accelerator_directory")
+        for name in pipeline.EU_ACCELERATOR_BESPOKE_BACKLOG_SOURCE_NAMES:
+            self.assertIn(name, sources)
+            source = sources[name]
+            self.assertEqual(source.source_type, "Accelerator")
+            self.assertEqual(source.adapter, "accelerator_page")
+            self.assertEqual(pipeline.adapter_inventory_label(source), "Manual/not implemented")
+
+    def test_priority_eu_vc_sources_are_configured(self):
+        sources = {source.name: source for source in pipeline.SOURCES}
+
+        self.assertEqual(len(pipeline.PRIORITY_EU_VC_SOURCE_NAMES), 20)
+        for name in pipeline.PRIORITY_EU_VC_SOURCE_NAMES:
+            self.assertIn(name, sources)
+            source = sources[name]
+            self.assertEqual(source.source_type, "VC portfolio")
+            self.assertTrue(source.adapter)
+
     def test_sources_include_20_jobs_sources_with_dedicated_ats_adapters(self):
         job_sources = [source for source in pipeline.SOURCES if source.source_type == "Jobs"]
         adapters = {source.name: source.adapter for source in job_sources}
@@ -1276,6 +1306,235 @@ class SearchAdapterTests(unittest.TestCase):
 
         self.assertEqual([hit.company for hit in hits], ["Blynksolve"])
         self.assertIn("pharma", hits[0].matched_terms)
+
+    def test_nhs_innovation_accelerator_extracts_innovation_links(self):
+        source = pipeline.Source("NHS Innovation Accelerator", "Accelerator", "https://nhsaccelerator.com/innovations/", "UK", "High", "Annual", "Innovation extraction", "NHS-backed health innovations.", "nhs_innovation_accelerator")
+        html = """
+        <a href="/innovations/ai-dimension/">AI Dimension AI-powered imaging workflow for clinicians.</a>
+        <a href="/faqs/">Frequently asked questions</a>
+        """
+
+        hits = pipeline.parse_nhs_innovation_accelerator_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["AI Dimension"])
+        self.assertEqual(hits[0].source_type, "Accelerator")
+        self.assertIn("nhs_innovation_accelerator", hits[0].matched_terms)
+
+    def test_nlc_health_extracts_external_portfolio_websites(self):
+        source = pipeline.Source("NLC Health", "Accelerator", "https://nlc.health/portfolio", "EU", "High", "Quarterly", "Venture extraction", "European health venture builder.", "nlc_health")
+        html = """
+        <article><h3>PEP Health</h3><p>Patient experience analytics for healthcare providers.</p><a href="https://www.pephealth.ai/">Visit website</a></article>
+        <button>Accept All</button><a href="/ventures/">Ventures</a>
+        """
+
+        hits = pipeline.parse_nlc_health_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["PEP Health"])
+        self.assertEqual(hits[0].website, "https://www.pephealth.ai/")
+        self.assertIn("nlc_health", hits[0].matched_terms)
+
+    def test_yesdelft_medtech_extracts_health_sector_json_records(self):
+        source = pipeline.Source("YES!Delft MedTech", "Accelerator", "https://yesdelft.com/wp-json/wp/v2/startups", "EU", "Medium", "Quarterly", "Startup extraction", "Medtech and health startups.", "yesdelft_medtech")
+        payload = [
+          {
+            "title": {"rendered": "EchoPatch"},
+            "link": "https://yesdelft.com/startups/echopatch/",
+            "content": {"rendered": "<p>Wearable medical device for cardiac diagnostics.</p>"},
+          }
+        ]
+
+        hits = pipeline.parse_yesdelft_medtech_payload(source, payload, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["EchoPatch"])
+        self.assertEqual(hits[0].discovery_url, "https://yesdelft.com/startups/echopatch/")
+
+    def test_bioinnovation_institute_extracts_human_health_projects(self):
+        source = pipeline.Source("BioInnovation Institute", "Accelerator", "https://bii.dk/community/start-ups-projects/", "EU", "High", "Quarterly", "Project extraction", "BII human health startups.", "bioinnovation_institute")
+        payload = {
+          "projectItems": [
+            {
+              "title": "Equilibrium Diagnostics",
+              "summary": "Non-invasive kidney diagnostics for chronic kidney disease.",
+              "url": "https://www.linkedin.com/company/equilibrium-diagnostics/",
+              "externalLink": "https://www.linkedin.com/company/equilibrium-diagnostics/",
+              "focusAreas": [{"name": "Human health"}],
+              "programs": [{"name": "Venture Lab"}],
+              "subAreas": [{"name": "Diagnostics"}],
+            },
+            {
+              "title": "Planet Biofuel",
+              "summary": "Industrial enzymes for agriculture.",
+              "url": "https://planet.example",
+              "focusAreas": [{"name": "Planetary health"}],
+              "programs": [{"name": "Venture Lab"}],
+              "subAreas": [],
+            },
+          ]
+        }
+
+        hits = pipeline.parse_bioinnovation_institute_payload(source, payload, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Equilibrium Diagnostics"])
+        self.assertEqual(hits[0].category_or_track, "Diagnostics")
+
+    def test_yesdelft_medtech_runner_emits_triggers(self):
+        source = pipeline.Source("YES!Delft MedTech", "Accelerator", "https://yesdelft.com/wp-json/wp/v2/startups", "EU", "Medium", "Quarterly", "Startup extraction", "Medtech and health startups.", "yesdelft_medtech")
+        payload = [
+          {
+            "title": {"rendered": "ClinicFlow"},
+            "link": "https://yesdelft.com/startups/clinicflow/",
+            "content": {"rendered": "<p>Clinical workflow software for hospitals.</p>"},
+          }
+        ]
+
+        with patch.object(pipeline, "ACCELERATOR_SOURCE_PAGES", {"YES!Delft MedTech": ["https://yesdelft.com/wp-json/wp/v2/startups?sectors=49"]}), patch.object(pipeline, "fetch_json_url", return_value=(payload, None)):
+            discovery_hits, trigger_events, result = pipeline.run_yesdelft_medtech(source)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["ClinicFlow"])
+        self.assertEqual([event.trigger_type for event in trigger_events], ["Accelerator/cohort"])
+        self.assertIn("YES!Delft pages/endpoints scanned", result)
+
+    def test_nucleate_activator_extracts_health_records_from_reader_text(self):
+        source = pipeline.Source("Nucleate Activator", "Accelerator", "https://nucleate.org/companies", "EU/US/global", "High", "Annual", "Company extraction", "Academic biotech accelerator.", "nucleate_activator")
+        markdown = """
+        Markdown Content:
+        3DDiagnostix San diego
+
+         Launched 2022
+
+        Diagnostics 3D DiagnostiX develops diagnostic tools for early detection of Alzheimer's disease.
+        Aephoris Boston
+
+         Launched 2022
+
+        Eco Tolerance-enhanced yeast for cellulosic diesel.
+        Biosens8 Boston
+
+         Launched 2022
+
+        Medical Devices Biosensor platform targeting ovulation confirmation in fertility medicine.
+        """
+
+        hits = pipeline.parse_nucleate_activator_page(source, markdown, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["3DDiagnostix", "Biosens8"])
+        self.assertEqual(hits[0].cohort_year, "2022")
+        self.assertIn("nucleate_activator", hits[0].matched_terms)
+
+    def test_cdl_health_extracts_only_health_stream_cards(self):
+        source = pipeline.Source("Creative Destruction Lab Health", "Accelerator", "https://creativedestructionlab.com/companies/", "EU/UK/Canada", "High", "Annual", "Company extraction", "CDL health streams.", "cdl_health")
+        html = """
+        <a href="/companies/correlia-biosystems/" class="js-companybio-link company-link--noscale">
+          <p class="companybio-location">Correlia Biosystems</p>
+          <p class="companybio-stream">Health</p>
+        </a>
+        <a href="/companies/energy-grid/" class="js-companybio-link company-link--noscale">
+          <p class="companybio-location">Energy Grid</p>
+          <p class="companybio-stream">Energy</p>
+        </a>
+        """
+
+        hits = pipeline.parse_cdl_health_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Correlia Biosystems"])
+        self.assertEqual(hits[0].category_or_track, "Health")
+
+    def test_masschallenge_healthcare_extracts_cohort_links_from_article_json(self):
+        source = pipeline.Source("MassChallenge HealthTech", "Accelerator", "https://masschallenge.org/articles/healthcare-life-sciences-traction-cohort-2026/", "US/global", "Medium", "Annual", "Cohort extraction", "Healthcare cohort.", "masschallenge_healthcare")
+        payload = {
+            "title": {"rendered": "MassChallenge Announces the 2026 Healthcare &amp; Life Sciences Traction Cohort"},
+            "link": "https://masschallenge.org/articles/healthcare-life-sciences-traction-cohort-2026/",
+            "content": {"rendered": """
+                <h2>MEET THE COHORT</h2>
+                <p><strong>MEDTECH</strong></p>
+                <p><a href="https://latde-dx.com/">Latde Diagnostics</a> | <a href="https://safebvm.com/">SafeBVM Corp.</a></p>
+                <p><strong>DIGITAL HEALTH &amp; AI</strong></p>
+                <p><a href="https://mindmuscle.health/">MindMuscle</a></p>
+                <h2>BUILDING THE FUTURE OF HEALTHCARE</h2>
+            """},
+        }
+
+        hits = pipeline.parse_masschallenge_healthcare_article(source, payload, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Latde Diagnostics", "SafeBVM", "MindMuscle"])
+        self.assertEqual(hits[0].category_or_track, "Medtech")
+        self.assertEqual(hits[-1].category_or_track, "Digital Health & AI")
+
+    def test_rockstart_health_extracts_healthcare_vertical_json_records(self):
+        source = pipeline.Source("Rockstart Health", "Accelerator", "https://rockstart.com/portfolio/vertical-healthcare/", "EU", "Medium", "Quarterly", "Healthcare portfolio extraction", "Rockstart healthcare vertical.", "rockstart_health")
+        payload = [
+            {
+                "title": {"rendered": "Aisel Health"},
+                "link": "https://rockstart.com/portfolio-company/aisel-health/",
+                "date": "2025-04-13T11:16:32",
+            }
+        ]
+
+        hits = pipeline.parse_rockstart_health_payload(source, payload, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Aisel Health"])
+        self.assertEqual(hits[0].category_or_track, "Healthcare")
+        self.assertEqual(hits[0].cohort_year, "2025")
+
+    def test_rockstart_health_extracts_healthcare_vertical_html_cards(self):
+        source = pipeline.Source("Rockstart Health", "Accelerator", "https://rockstart.com/portfolio/vertical-healthcare/", "EU", "Medium", "Quarterly", "Healthcare portfolio extraction", "Rockstart healthcare vertical.", "rockstart_health")
+        html = """
+        <h5 class="elementor-heading-title"><a href="https://www.aisel.co/" target="_blank">Aisel Health</a></h5>
+        <p>AI-driven innovation in psychiatry, streamlining workflows with pre-assessments.</p>
+        """
+
+        hits = pipeline.parse_rockstart_health_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Aisel Health"])
+        self.assertEqual(hits[0].website, "https://www.aisel.co/")
+
+    def test_sbri_healthcare_extracts_directory_items(self):
+        source = pipeline.Source("SBRI Healthcare", "Grant/funding", "https://sbrihealthcare.co.uk/impact-case-studies/company-directory", "UK", "High", "Quarterly", "Portfolio extraction", "NHS-facing innovation portfolio.", "sbri_healthcare")
+        html = """
+        <div class="directory-item">
+          <h3>Sensixa</h3>
+          <div class="tableWrap">
+            <table>
+              <tr><th>Project</th><td>Care for adaptive living with interactive sensing</td></tr>
+              <tr><th>Description</th><td><p>Miniaturised sensor and app used to predict adverse events.</p></td></tr>
+              <tr><th>Health Innovation Network Partner</th><td>Health Innovation Network South London</td></tr>
+              <tr><th>Website</th><td><a href="http://sensixa.com/">http://sensixa.com/</a></td></tr>
+            </table>
+          </div>
+        </div>
+        """
+
+        hits = pipeline.parse_sbri_healthcare_page(source, html, source.url)
+
+        self.assertEqual([hit.company for hit in hits], ["Sensixa"])
+        self.assertEqual(hits[0].website, "http://sensixa.com/")
+        self.assertIn("sbri_healthcare", hits[0].matched_terms)
+
+    def test_sifted_ranking_parses_public_health_entries(self):
+        source = pipeline.Source("Sifted AI 100 2025", "Public ranking", "https://sifted.eu/rankings/ai-100-2025", "Europe", "Medium", "Annual", "Sifted ranking scan", "AI ranking with health and biotech entries.", "sifted_ranking")
+        html = """
+        <a href="https://cardia.example">CardiaAI</a>
+        Location Cambridge UK Founded 2024 Stage Seed CardiaAI builds clinical AI diagnostic software for hospitals.
+        <a href="https://defense.example">DroneForge</a>
+        Location Munich Germany Founded 2023 Stage Seed DroneForge builds defence robotics.
+        """
+
+        hits, anonymized = pipeline.parse_sifted_ranking_page(source, html, source.url)
+
+        self.assertFalse(anonymized)
+        self.assertEqual([hit.company for hit in hits], ["CardiaAI"])
+        self.assertIn("sifted_ranking", hits[0].matched_terms)
+
+    def test_sifted_ranking_reports_anonymized_prioritization_only(self):
+        source = pipeline.Source("Sifted Healthtech Investors 2025", "Investor prioritization", "https://sifted.eu/rankings/europes-most-active-investors-in-2025-healthtech", "Europe", "High", "Annual", "Sifted ranking scan", "Healthtech investor ranking.", "sifted_ranking")
+        html = "<p>Anonymized Company</p><p>Anonymized City, Anonymized Country</p>"
+
+        with patch.object(pipeline, "fetch_raw_text", return_value=(html, None)):
+            discovery_hits, trigger_events, result = pipeline.run_sifted_ranking(source)
+
+        self.assertEqual(discovery_hits, [])
+        self.assertEqual(trigger_events, [])
+        self.assertIn("prioritization only", result)
 
     def test_priority_vc_parsers_extract_portfolio_company_links(self):
         fixtures = [
