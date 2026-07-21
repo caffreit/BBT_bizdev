@@ -1,0 +1,30 @@
+{
+  "campaign_name": "AI performance and validation evidence",
+  "subject": "Your AUC isn't the hard part",
+  "theme": "Performance metrics, representative datasets and defensible ground truth for regulated AI devices",
+  "primary_service": "V&V",
+  "company_targets": {
+    "company_types": { "required": [], "preferred": ["Startup", "University spinout", "Scaleup"], "excluded": ["Academic/non-commercial"] },
+    "employee_bands": { "required": [], "preferred": [], "excluded": [] },
+    "maturity_stages": { "required": [], "preferred": ["Prototype/preclinical", "Clinical/validation", "Regulatory"], "excluded": [] },
+    "product_profiles": { "required": [], "preferred": ["AI-enabled health", "SaMD/digital health", "Diagnostic/IVD"], "excluded": ["Non-regulated/wellness"] },
+    "services": { "required": [], "preferred": ["V&V", "Regulatory support", "AI implementation", "IEC 62304"], "excluded": [] },
+    "regulatory_signals": { "required": [], "preferred": ["Clinical study/validation", "Regulatory pathway stated", "IEC 62304"], "excluded": [] }
+  },
+  "contact_targets": {
+    "primary_functions": ["Founder/executive", "QA/regulatory", "Clinical/medical"],
+    "secondary_functions": ["R&D/engineering/product"],
+    "excluded_functions": ["HR", "Commercial"],
+    "preferred_seniorities": ["Executive", "Director/VP", "Manager/lead"],
+    "preferred_buying_roles": ["Economic buyer / sponsor", "Technical buyer / influencer", "Clinical influencer", "Technical buyer / delivery owner"],
+    "title_keywords": ["founder", "chief", "quality", "regulatory", "clinical", "validation", "AI", "machine learning", "data science"],
+    "excluded_title_keywords": ["recruitment", "talent", "sales"],
+    "business_unit_keywords": ["medical", "health", "digital", "AI", "diagnostic"],
+    "require_business_unit_match": false
+  },
+  "company_score_threshold": 60,
+  "contact_score_threshold": 65,
+  "minimum_classification_confidence": 0.55,
+  "rationale": "The email is most relevant to regulated AI product teams defining validation metrics, datasets and ground truth.",
+  "confidence": 0.9
+}

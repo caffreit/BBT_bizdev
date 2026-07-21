@@ -14,9 +14,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import date
 from html.parser import HTMLParser
+from http.client import InvalidURL
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin, urlparse
+from urllib.parse import quote, urljoin, urlparse, urlunparse
 from urllib.request import Request, urlopen
 
 
@@ -157,13 +158,32 @@ class PageParser(HTMLParser):
             self._anchor.append(data)
 
 
+def normalize_http_url(url: str) -> str:
+    """Return an absolute HTTP(S) URL safe for urllib, or an empty string."""
+    try:
+        parsed = urlparse(html.unescape(url).strip())
+    except (TypeError, ValueError):
+        return ""
+    if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
+        return ""
+    return urlunparse(parsed._replace(
+        path=quote(parsed.path, safe="/%:@!$&'()*+,;=-._~"),
+        params=quote(parsed.params, safe="%:@!$&'()*+,;=-._~"),
+        query=quote(parsed.query, safe="=&?/:@!$'()*+,;%-._~"),
+        fragment="",
+    ))
+
+
 def fetch_page(url: str, timeout: int = 12) -> tuple[str, list[tuple[str, str]], str]:
+    url = normalize_http_url(url)
+    if not url:
+        return "", [], ""
     req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/xhtml+xml"})
     try:
         with urlopen(req, timeout=timeout) as response:
-            final_url = response.geturl()
+            final_url = normalize_http_url(response.geturl())
             raw = response.read(750_000).decode("utf-8", "ignore")
-    except (OSError, HTTPError, URLError, ValueError):
+    except (OSError, HTTPError, URLError, ValueError, InvalidURL):
         return "", [], ""
     parser = PageParser()
     try:
@@ -173,10 +193,12 @@ def fetch_page(url: str, timeout: int = 12) -> tuple[str, list[tuple[str, str]],
     text = clean(html.unescape(" ".join(parser.text)))[:30_000]
     links: list[tuple[str, str]] = []
     for href, anchor in parser.links:
-        absolute = urljoin(final_url, href)
+        absolute = normalize_http_url(urljoin(final_url, html.unescape(href).strip()))
+        if not absolute:
+            continue
         if urlparse(absolute).netloc.lower().removeprefix("www.") != urlparse(final_url).netloc.lower().removeprefix("www."):
             continue
-        links.append((absolute.split("#", 1)[0], anchor))
+        links.append((absolute, anchor))
     return text, links, final_url
 
 

@@ -1,10 +1,12 @@
 import unittest
+from unittest.mock import patch
 
 from bbt_bizdev.subscriber_enrichment import (
     CompanySeed,
     build_company_seeds,
     classify_website_status,
     email_domain,
+    fetch_page,
     parse_google_news,
     rules_classify,
     select_internal_pages,
@@ -65,6 +67,31 @@ class SubscriberEnrichmentTests(unittest.TestCase):
         selected = select_internal_pages(links)
         self.assertEqual([item["category"] for item in selected], ["Regulatory/quality", "Product/technology", "About/company"])
         self.assertNotIn("https://acme.example/privacy", [item["url"] for item in selected])
+
+    def test_fetch_page_encodes_spaces_in_internal_links(self):
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *_): return None
+            def geturl(self): return "https://example.org/"
+            def read(self, *_): return b'<a href="/About Sussex Partnership NHS Trust">About</a>'
+
+        with patch("bbt_bizdev.subscriber_enrichment.urlopen", return_value=Response()):
+            _, links, _ = fetch_page("https://example.org")
+        self.assertEqual(links[0][0], "https://example.org/About%20Sussex%20Partnership%20NHS%20Trust")
+
+    def test_fetch_page_rejects_relative_url_without_raising(self):
+        self.assertEqual(fetch_page("/About Sussex Partnership NHS Trust"), ("", [], ""))
+
+    def test_fetch_page_preserves_existing_percent_encoding(self):
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *_): return None
+            def geturl(self): return "https://example.org/"
+            def read(self, *_): return b'<a href="/already%20encoded">About</a>'
+
+        with patch("bbt_bizdev.subscriber_enrichment.urlopen", return_value=Response()):
+            _, links, _ = fetch_page("https://example.org")
+        self.assertEqual(links[0][0], "https://example.org/already%20encoded")
 
     def test_news_selection_requires_exact_company_and_ranks_relevant_article(self):
         rss = """<rss><channel>
