@@ -70,12 +70,14 @@ class SubscriberEnrichmentTests(unittest.TestCase):
 
     def test_fetch_page_encodes_spaces_in_internal_links(self):
         class Response:
-            def __enter__(self): return self
-            def __exit__(self, *_): return None
-            def geturl(self): return "https://example.org/"
-            def read(self, *_): return b'<a href="/About Sussex Partnership NHS Trust">About</a>'
+            url = "https://example.org/"
+            status_code = 200
+            content = b'<a href="/About Sussex Partnership NHS Trust">About</a>'
+            encoding = "utf-8"
+            apparent_encoding = "utf-8"
+            headers = {"Content-Type": "text/html"}
 
-        with patch("bbt_bizdev.subscriber_enrichment.urlopen", return_value=Response()):
+        with patch("bbt_bizdev.subscriber_enrichment.requests.get", return_value=Response()):
             _, links, _ = fetch_page("https://example.org")
         self.assertEqual(links[0][0], "https://example.org/About%20Sussex%20Partnership%20NHS%20Trust")
 
@@ -84,12 +86,14 @@ class SubscriberEnrichmentTests(unittest.TestCase):
 
     def test_fetch_page_preserves_existing_percent_encoding(self):
         class Response:
-            def __enter__(self): return self
-            def __exit__(self, *_): return None
-            def geturl(self): return "https://example.org/"
-            def read(self, *_): return b'<a href="/already%20encoded">About</a>'
+            url = "https://example.org/"
+            status_code = 200
+            content = b'<a href="/already%20encoded">About</a>'
+            encoding = "utf-8"
+            apparent_encoding = "utf-8"
+            headers = {"Content-Type": "text/html"}
 
-        with patch("bbt_bizdev.subscriber_enrichment.urlopen", return_value=Response()):
+        with patch("bbt_bizdev.subscriber_enrichment.requests.get", return_value=Response()):
             _, links, _ = fetch_page("https://example.org")
         self.assertEqual(links[0][0], "https://example.org/already%20encoded")
 
@@ -105,6 +109,7 @@ class SubscriberEnrichmentTests(unittest.TestCase):
 
     def test_website_status_separates_unavailable_and_external_redirects(self):
         self.assertEqual(classify_website_status("acme.com", "", ""), ("Unavailable", ""))
+        self.assertEqual(classify_website_status("acme.com", "", "", "blocked"), ("Unverified/Blocked", ""))
         self.assertEqual(classify_website_status("acme.com", "content", "https://www.acme.com/about"), ("Available", ""))
         self.assertEqual(classify_website_status("acme.com", "content", "https://parent.example/acme"), ("External redirect", "https://parent.example/acme"))
 

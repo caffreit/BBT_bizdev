@@ -56,6 +56,7 @@ COMPANY_WEIGHTS = {
 }
 CONTACT_WEIGHTS = {"function": 40, "seniority": 25, "buying_role": 15, "title": 15, "data_quality": 5}
 GENERIC_PREFIXES = {"admin", "contact", "hello", "info", "office", "sales", "support", "team", "enquiries", "inquiries"}
+SPREADSHEET_ERROR_VALUES = {"#REF!", "#DIV/0!", "#VALUE!", "#NAME?", "#N/A", "#NULL!", "#NUM!"}
 PROFILE_VERSION = "campaign_profile_v1"
 
 
@@ -308,13 +309,18 @@ def score_company(company: dict[str, Any], profile: dict[str, Any]) -> dict[str,
         review.append("No substantive product, service, regulatory, or maturity match")
     company_id = str(company.get("company_id") or "")
     domain = str(company.get("domain") or "").lower()
+    raw_company_name = str(company.get("canonical_company") or "").strip()
+    invalid_company_name = not raw_company_name or raw_company_name.upper() in SPREADSHEET_ERROR_VALUES
+    company_name = "Unknown company" if invalid_company_name else raw_company_name
     if not company_id or not domain or float(company.get("resolution_confidence") or 0) <= 0:
         exclusions.append("Company identity is unresolved")
+    if invalid_company_name:
+        exclusions.append("Company name is missing or invalid")
     eligible = not exclusions and not review and score >= int(profile["company_score_threshold"])
     status = "Eligible" if eligible else ("Excluded" if exclusions else "Review")
     return {
         "Company ID": company_id,
-        "Company": company.get("canonical_company", ""),
+        "Company": company_name,
         "Domain": domain,
         "Company Type": company.get("company_type", "Unknown"),
         "Employee Band": company.get("employee_band", "Unknown"),
@@ -337,6 +343,15 @@ def score_company(company: dict[str, Any], profile: dict[str, Any]) -> dict[str,
 def _is_generic(email: str) -> bool:
     local = email.split("@", 1)[0].lower() if "@" in email else ""
     return local in GENERIC_PREFIXES or any(local.startswith(prefix + ".") for prefix in GENERIC_PREFIXES)
+
+
+def campaign_angle(company_decision: dict[str, Any], profile: dict[str, Any]) -> str:
+    company = str(company_decision.get("Company") or "the company")
+    product = str(company_decision.get("Product Profile") or "Unknown")
+    maturity = str(company_decision.get("Maturity Stage") or "Unknown")
+    descriptors = [value.lower() for value in (maturity, product) if value and value != "Unknown"]
+    work = f"the company's {' '.join(descriptors)} work" if descriptors else "the company's current product work"
+    return f"Discuss {profile['primary_service']} support for {company}'s needs around {profile['theme'].lower()}, in the context of {work}."
 
 
 def score_contact(contact: dict[str, Any], company_decision: dict[str, Any], profile: dict[str, Any]) -> dict[str, Any]:
@@ -395,11 +410,11 @@ def score_contact(contact: dict[str, Any], company_decision: dict[str, Any], pro
         review.append(f"Company decision is {company_decision['Decision']}")
     eligible = not exclusions and not review and company_decision["Decision"] == "Eligible" and score >= int(profile["contact_score_threshold"])
     status = "Eligible" if eligible else ("Excluded" if exclusions else "Review")
-    angle = contact.get("Outreach Angle") or f"Discuss {profile['primary_service'].lower()} in relation to {profile['theme']}"
+    angle = campaign_angle(company_decision, profile)
     return {
         "Record ID": contact.get("Record ID", ""),
         "Company ID": contact.get("Company ID", ""),
-        "Company": contact.get("Resolved Company") or company_decision.get("Company", ""),
+        "Company": company_decision.get("Company") or contact.get("Resolved Company", ""),
         "First Name": contact.get("First Name", ""),
         "Last Name": contact.get("Last Name", ""),
         "Email": email,

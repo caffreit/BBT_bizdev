@@ -99,6 +99,7 @@ companies.getRange(`L2:O${companyRows.length + 1}`).conditionalFormats.add("cont
 companies.getRange(`E2:E${companyRows.length + 1}`).conditionalFormats.add("containsText", { text: "Available", format: { fill: green, font: { color: "#176B4D" } } });
 companies.getRange(`E2:E${companyRows.length + 1}`).conditionalFormats.add("containsText", { text: "Unavailable", format: { fill: "#FCE8E6", font: { color: "#9C2B1B" } } });
 companies.getRange(`E2:E${companyRows.length + 1}`).conditionalFormats.add("containsText", { text: "External redirect", format: { fill: "#FFF2CC", font: { color: "#7F6000" } } });
+companies.getRange(`E2:E${companyRows.length + 1}`).conditionalFormats.add("containsText", { text: "Unverified/Blocked", format: { fill: "#E8EAF6", font: { color: "#3949AB" } } });
 review.getRange(`D2:D${data.review_queue.length + 1}`).dataValidation = { rule: { type: "list", values: ["Pending manual validation", "Validated", "Corrected", "Rejected"] } };
 review.getRange(`E2:E${data.review_queue.length + 1}`).dataValidation = { rule: { type: "list", values: ["High", "Medium", "Low"] } };
 review.getRange(`D2:D${data.review_queue.length + 1}`).conditionalFormats.add("containsText", { text: "Pending", format: { fill: "#FFF2CC", font: { color: "#7F6000" } } });

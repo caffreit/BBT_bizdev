@@ -20,12 +20,17 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urljoin, urlparse, urlunparse
 from urllib.request import Request, urlopen
 
+import requests
+from requests import Response
+from requests.exceptions import ConnectionError as RequestsConnectionError
+from requests.exceptions import RequestException, SSLError, Timeout
+
 
 MODEL = "openai/gpt-5.6-luna"
 REASONING_EFFORT = "medium"
-ENRICHMENT_VERSION = "source_attribution_v3"
+ENRICHMENT_VERSION = "source_attribution_v4_resilient_web"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-USER_AGENT = "BlueBridge subscriber research pilot/1.0"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 UNKNOWN = "Unknown"
 MISSING = {"", "n/a", "na", "none", "null", "unknown", "-"}
 PERSONAL_DOMAINS = {
@@ -174,23 +179,39 @@ def normalize_http_url(url: str) -> str:
     ))
 
 
-def fetch_page(url: str, timeout: int = 12) -> tuple[str, list[tuple[str, str]], str]:
-    url = normalize_http_url(url)
-    if not url:
-        return "", [], ""
-    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/xhtml+xml"})
-    try:
-        with urlopen(req, timeout=timeout) as response:
-            final_url = normalize_http_url(response.geturl())
-            raw = response.read(750_000).decode("utf-8", "ignore")
-    except (OSError, HTTPError, URLError, ValueError, InvalidURL):
-        return "", [], ""
+@dataclass
+class WebsiteFetch:
+    text: str = ""
+    links: list[tuple[str, str]] | None = None
+    final_url: str = ""
+    state: str = "unavailable"
+    detail: str = ""
+
+    def __post_init__(self):
+        if self.links is None:
+            self.links = []
+
+
+def _response_to_fetch(response: Response) -> WebsiteFetch:
+    final_url = normalize_http_url(response.url)
+    status = int(response.status_code)
+    if status in {401, 403, 407, 429}:
+        return WebsiteFetch(final_url=final_url, state="blocked", detail=f"HTTP {status}")
+    if status >= 400:
+        state = "unavailable" if status in {404, 410, 451} else "transient"
+        return WebsiteFetch(final_url=final_url, state=state, detail=f"HTTP {status}")
+    raw_bytes = response.content[:750_000]
+    encoding = response.encoding or response.apparent_encoding or "utf-8"
+    raw = raw_bytes.decode(encoding, "ignore")
     parser = PageParser()
     try:
         parser.feed(raw)
     except Exception:
         pass
-    text = clean(html.unescape(" ".join(parser.text)))[:30_000]
+    page_text = clean(html.unescape(" ".join(parser.text)))[:30_000]
+    if not page_text:
+        content_type = clean(response.headers.get("Content-Type", "response"))
+        page_text = f"[Website responded successfully: HTTP {status}; {content_type}]"
     links: list[tuple[str, str]] = []
     for href, anchor in parser.links:
         absolute = normalize_http_url(urljoin(final_url, html.unescape(href).strip()))
@@ -199,7 +220,57 @@ def fetch_page(url: str, timeout: int = 12) -> tuple[str, list[tuple[str, str]],
         if urlparse(absolute).netloc.lower().removeprefix("www.") != urlparse(final_url).netloc.lower().removeprefix("www."):
             continue
         links.append((absolute, anchor))
-    return text, links, final_url
+    return WebsiteFetch(page_text, links, final_url, "available", f"HTTP {status}")
+
+
+def fetch_page_detail(url: str, timeout: int = 20) -> WebsiteFetch:
+    url = normalize_http_url(url)
+    if not url:
+        return WebsiteFetch(detail="Invalid URL")
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-GB,en;q=0.9",
+        "Cache-Control": "no-cache",
+    }
+    verify = True
+    for attempt in range(2):
+        try:
+            response = requests.get(url, headers=headers, timeout=(min(10, timeout), timeout), allow_redirects=True, verify=verify)
+            return _response_to_fetch(response)
+        except SSLError as exc:
+            if verify:
+                verify = False
+                continue
+            return WebsiteFetch(state="blocked", detail=f"TLS error: {clean(exc)[:160]}")
+        except Timeout as exc:
+            if attempt == 0:
+                time.sleep(0.25)
+                continue
+            return WebsiteFetch(state="transient", detail=f"Timeout: {clean(exc)[:160]}")
+        except RequestsConnectionError as exc:
+            return WebsiteFetch(state="unavailable", detail=f"Connection error: {clean(exc)[:160]}")
+        except RequestException as exc:
+            return WebsiteFetch(state="transient", detail=f"Request error: {clean(exc)[:160]}")
+    return WebsiteFetch(state="transient", detail="Request failed")
+
+
+def fetch_page(url: str, timeout: int = 20) -> tuple[str, list[tuple[str, str]], str]:
+    result = fetch_page_detail(url, timeout)
+    return result.text, list(result.links or []), result.final_url
+
+
+def fetch_website(domain: str, timeout: int = 20) -> WebsiteFetch:
+    domain = clean(domain).lower().removeprefix("www.")
+    candidates = [f"https://{domain}", f"https://www.{domain}", f"http://{domain}", f"http://www.{domain}"]
+    fallback: WebsiteFetch | None = None
+    for candidate in candidates:
+        result = fetch_page_detail(candidate, timeout)
+        if result.state == "available":
+            return result
+        if fallback is None or (fallback.state == "unavailable" and result.state in {"blocked", "transient"}):
+            fallback = result
+    return fallback or WebsiteFetch(detail="No URL variant responded")
 
 
 def score_internal_link(url: str, anchor: str) -> tuple[int, str]:
@@ -295,15 +366,42 @@ def google_news(company: str) -> tuple[list[dict[str, str | int]], str]:
     return parse_google_news(company, raw), ""
 
 
-def classify_website_status(domain: str, page_text: str, final_url: str) -> tuple[str, str]:
+def classify_website_status(domain: str, page_text: str, final_url: str, fetch_state: str = "") -> tuple[str, str]:
+    source_host = domain.lower().removeprefix("www.")
+    final_host = urlparse(final_url).netloc.lower().removeprefix("www.") if final_url else ""
+    same_site = bool(final_host) and (final_host == source_host or final_host.endswith("." + source_host) or source_host.endswith("." + final_host))
+    if final_host and not same_site:
+        return "External redirect", final_url
+    if fetch_state in {"blocked", "transient"}:
+        return "Unverified/Blocked", final_url
     if not page_text or not final_url:
         return "Unavailable", ""
-    source_host = domain.lower().removeprefix("www.")
-    final_host = urlparse(final_url).netloc.lower().removeprefix("www.")
-    same_site = final_host == source_host or final_host.endswith("." + source_host) or source_host.endswith("." + final_host)
-    if not same_site:
-        return "External redirect", final_url
     return "Available", ""
+
+
+def normalize_existing_statuses(input_json: Path, output_json: Path) -> dict:
+    payload = json.loads(input_json.read_text(encoding="utf-8"))
+    original_flagged = int(payload["stats"].get("website_recovered", 0)) + int(payload["stats"].get("website_failures", 0)) + int(payload["stats"].get("website_unverified_or_blocked", 0))
+    for row in payload["companies"]:
+        if row.get("website_status") != "Unverified/Blocked" or not row.get("homepage_url"):
+            continue
+        status, redirect = classify_website_status(row["domain"], "", row["homepage_url"], "blocked")
+        if status != "External redirect":
+            continue
+        row["website_status"] = status
+        row["redirect_target"] = redirect
+        errors = [item.strip() for item in row.get("errors", "").split(";") if item.strip() and not item.strip().startswith("Website unverified or blocked")]
+        errors.append("Website redirected to different domain")
+        row["errors"] = "; ".join(dict.fromkeys(errors))
+    stats = payload["stats"]
+    stats["website_failures"] = sum(row["website_status"] == "Unavailable" for row in payload["companies"])
+    stats["website_unverified_or_blocked"] = sum(row["website_status"] == "Unverified/Blocked" for row in payload["companies"])
+    stats["website_recovered"] = original_flagged - int(stats["website_failures"]) - int(stats["website_unverified_or_blocked"])
+    prior_review = {row["Company ID"]: row for row in payload.get("review_queue", [])}
+    payload["review_queue"] = [_review_row(row, prior_review.get(row["company_id"])) for row in payload["companies"]]
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_json.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    return payload
 
 
 def extract_employee_band(text: str) -> str:
@@ -524,11 +622,11 @@ def select_pilot(seeds: list[CompanySeed], size: int) -> list[CompanySeed]:
     return chosen[:size]
 
 
-def research_company(seed: CompanySeed, cache_dir: Path, api_key: str, model: str, reasoning_effort: str) -> dict:
+def research_company(seed: CompanySeed, cache_dir: Path, api_key: str, model: str, reasoning_effort: str, force: bool = False) -> dict:
     cache_dir.mkdir(parents=True, exist_ok=True)
     cache_mode = hashlib.sha1((f"{ENRICHMENT_VERSION}|{model}|{reasoning_effort}" if api_key else f"{ENRICHMENT_VERSION}|evidence-rules").encode()).hexdigest()[:8]
     cache_file = cache_dir / f"{seed.company_id}-{cache_mode}.json"
-    if cache_file.exists():
+    if cache_file.exists() and not force:
         try:
             cached = json.loads(cache_file.read_text(encoding="utf-8"))
             if not (api_key and cached.get("llm_error") and cached.get("llm_used") != "Yes"):
@@ -536,13 +634,14 @@ def research_company(seed: CompanySeed, cache_dir: Path, api_key: str, model: st
         except (OSError, json.JSONDecodeError):
             pass
     started = time.time()
-    homepage, homepage_links, final_url = fetch_page(f"https://{seed.domain}")
+    website_fetch = fetch_website(seed.domain)
+    homepage, homepage_links, final_url = website_fetch.text, list(website_fetch.links or []), website_fetch.final_url
     errors = []
-    if not homepage:
-        homepage, homepage_links, final_url = fetch_page(f"http://{seed.domain}")
-    website_status, redirect_target = classify_website_status(seed.domain, homepage, final_url)
+    website_status, redirect_target = classify_website_status(seed.domain, homepage, final_url, website_fetch.state)
     if website_status == "Unavailable":
         errors.append("Website unavailable")
+    elif website_status == "Unverified/Blocked":
+        errors.append(f"Website unverified or blocked ({website_fetch.detail})")
     elif website_status == "External redirect":
         errors.append("Website redirected to different domain")
     selected_internal = select_internal_pages(homepage_links)
@@ -698,9 +797,186 @@ def build_payload(input_path: Path, output_json: Path, sample_size: int, cache_d
     return payload
 
 
+def _seed_from_company(row: dict) -> CompanySeed:
+    return CompanySeed(
+        row["company_id"], row["domain"], row["canonical_company"], row["company_resolution"],
+        float(row["resolution_confidence"]), int(row["contact_count"]), int(row["missing_company_count"]), row.get("company_conflict", ""),
+    )
+
+
+def _review_row(company: dict, prior: dict | None = None) -> dict:
+    reasons = []
+    if company["company_conflict"]: reasons.append(company["company_conflict"])
+    if company["resolution_confidence"] < 0.8: reasons.append("Company identity needs confirmation")
+    if company["confidence"] < 0.6: reasons.append("Low classification confidence")
+    if company["product_profile"] == UNKNOWN: reasons.append("Product profile unknown")
+    if company["company_type"] == UNKNOWN: reasons.append("Company type unknown")
+    if company["employee_band"] == UNKNOWN: reasons.append("Employee band unknown")
+    if company["errors"]: reasons.append(company["errors"])
+    return {
+        "Company ID": company["company_id"], "Company": company["canonical_company"], "Domain": company["domain"],
+        "Review Status": (prior or {}).get("Review Status", "Pending manual validation"),
+        "Priority": "High" if company["resolution_confidence"] < 0.8 or company["product_profile"] == UNKNOWN else "Medium",
+        "Review Reasons": "; ".join(reasons) or "Validate evidence and classifications",
+        "Reviewer Notes": (prior or {}).get("Reviewer Notes", ""), "Source URLs": company["source_urls"],
+    }
+
+
+def repair_existing_payload(input_json: Path, output_json: Path, cache_dir: Path, max_workers: int, model: str, reasoning_effort: str, reenrich: bool = True) -> dict:
+    payload = json.loads(input_json.read_text(encoding="utf-8"))
+    companies = payload["companies"]
+    targets = [row for row in companies if row.get("website_status") == "Unavailable"]
+
+    probes: dict[str, WebsiteFetch] = {}
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futures = {pool.submit(fetch_website, row["domain"]): row for row in targets}
+        for future in as_completed(futures):
+            row = futures[future]
+            try:
+                probes[row["company_id"]] = future.result()
+            except Exception as exc:
+                probes[row["company_id"]] = WebsiteFetch(state="transient", detail=f"Probe error: {clean(exc)[:160]}")
+
+    recovered_ids = set()
+    for row in targets:
+        probe = probes[row["company_id"]]
+        status, redirect = classify_website_status(row["domain"], probe.text, probe.final_url, probe.state)
+        row["website_status"] = status
+        row["redirect_target"] = redirect
+        if probe.final_url:
+            row["homepage_url"] = probe.final_url
+        old_errors = [item.strip() for item in row.get("errors", "").split(";") if item.strip() and item.strip() != "Website unavailable"]
+        if status == "Unavailable":
+            old_errors.append("Website unavailable")
+        elif status == "Unverified/Blocked":
+            old_errors.append(f"Website unverified or blocked ({probe.detail})")
+        else:
+            recovered_ids.add(row["company_id"])
+        row["errors"] = "; ".join(dict.fromkeys(old_errors))
+
+    api_key = os.getenv("OPENROUTER_API_KEY", "").strip() or os.getenv("BBT_OPENROUTER_API_KEY", "").strip()
+    if recovered_ids and reenrich and not api_key:
+        raise RuntimeError("An OpenRouter API key is required for selective re-enrichment of recovered websites")
+    recovered_rows = [row for row in companies if row["company_id"] in recovered_ids] if reenrich else []
+    replacements: dict[str, dict] = {}
+    with ThreadPoolExecutor(max_workers=min(max_workers, 12)) as pool:
+        futures = {
+            pool.submit(research_company, _seed_from_company(row), cache_dir, api_key, model, reasoning_effort, True): row
+            for row in recovered_rows
+        }
+        for future in as_completed(futures):
+            original = futures[future]
+            try:
+                refreshed = future.result()
+                # A transient second fetch must not undo a successful status probe.
+                if refreshed["website_status"] in {"Available", "External redirect"}:
+                    replacements[original["company_id"]] = refreshed
+                else:
+                    original["errors"] = "; ".join(filter(None, [original.get("errors", ""), "Selective re-enrichment fetch did not reproduce recovery"]))
+            except Exception as exc:
+                original["errors"] = "; ".join(filter(None, [original.get("errors", ""), f"Selective re-enrichment failed: {clean(exc)[:180]}"]))
+
+    payload["companies"] = [replacements.get(row["company_id"], row) for row in companies]
+    company_by_id = {row["company_id"]: row for row in payload["companies"]}
+    for contact in payload["contacts"]:
+        company = company_by_id.get(contact["Company ID"])
+        if not company or company["company_id"] not in recovered_ids:
+            continue
+        primary, angle, segment = contact_angle(contact["Contact Function"], company["services"], company["maturity_stage"])
+        contact["Primary Service Relevance"] = primary
+        contact["Outreach Angle"] = angle
+        contact["Campaign Segment"] = segment
+
+    prior_review = {row["Company ID"]: row for row in payload.get("review_queue", [])}
+    payload["review_queue"] = [_review_row(row, prior_review.get(row["company_id"])) for row in payload["companies"]]
+    stats = payload["stats"]
+    stats.update({
+        "run_date": date.today().isoformat(),
+        "website_failures": sum(row["website_status"] == "Unavailable" for row in payload["companies"]),
+        "website_unverified_or_blocked": sum(row["website_status"] == "Unverified/Blocked" for row in payload["companies"]),
+        "website_recovered": len(recovered_ids),
+        "selectively_reenriched": len(replacements),
+        "selective_llm_cost_usd": round(sum(float(row.get("estimated_cost_usd", 0)) for row in replacements.values()), 6),
+        "llm_used_companies": sum(row.get("llm_used") == "Yes" for row in payload["companies"]),
+        "estimated_cost_usd": round(sum(float(row.get("estimated_cost_usd", 0)) for row in payload["companies"]), 6),
+        "unknown_company_type": sum(row["company_type"] == UNKNOWN for row in payload["companies"]),
+        "unknown_employee_band": sum(row["employee_band"] == UNKNOWN for row in payload["companies"]),
+        "unknown_product_profile": sum(row["product_profile"] == UNKNOWN for row in payload["companies"]),
+        "unknown_maturity": sum(row["maturity_stage"] == UNKNOWN for row in payload["companies"]),
+        "manual_reviews_pending": len(payload["review_queue"]),
+    })
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_json.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    return payload
+
+
+def selective_reenrich_recovered(original_json: Path, repaired_json: Path, output_json: Path, cache_dir: Path, max_workers: int, model: str, reasoning_effort: str) -> dict:
+    original = json.loads(original_json.read_text(encoding="utf-8"))
+    payload = json.loads(repaired_json.read_text(encoding="utf-8"))
+    originally_unavailable = {row["company_id"] for row in original["companies"] if row.get("website_status") == "Unavailable"}
+    targets = [row for row in payload["companies"] if row["company_id"] in originally_unavailable and row.get("website_status") in {"Available", "External redirect"}]
+    api_key = os.getenv("OPENROUTER_API_KEY", "").strip() or os.getenv("BBT_OPENROUTER_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("An OpenRouter API key is required for selective re-enrichment")
+
+    replacements: dict[str, dict] = {}
+    with ThreadPoolExecutor(max_workers=min(max_workers, 12)) as pool:
+        futures = {
+            pool.submit(research_company, _seed_from_company(row), cache_dir, api_key, model, reasoning_effort, True): row
+            for row in targets
+        }
+        for future in as_completed(futures):
+            prior = futures[future]
+            try:
+                refreshed = future.result()
+                if refreshed["website_status"] in {"Available", "External redirect"} and refreshed.get("homepage_url"):
+                    replacements[prior["company_id"]] = refreshed
+                else:
+                    prior["errors"] = "; ".join(filter(None, [prior.get("errors", ""), "Selective re-enrichment fetch did not reproduce recovery"]))
+            except Exception as exc:
+                prior["errors"] = "; ".join(filter(None, [prior.get("errors", ""), f"Selective re-enrichment failed: {clean(exc)[:180]}"]))
+
+    payload["companies"] = [replacements.get(row["company_id"], row) for row in payload["companies"]]
+    company_by_id = {row["company_id"]: row for row in payload["companies"]}
+    for contact in payload["contacts"]:
+        company = company_by_id.get(contact["Company ID"])
+        if not company or company["company_id"] not in replacements:
+            continue
+        primary, angle, segment = contact_angle(contact["Contact Function"], company["services"], company["maturity_stage"])
+        contact["Primary Service Relevance"] = primary
+        contact["Outreach Angle"] = angle
+        contact["Campaign Segment"] = segment
+
+    prior_review = {row["Company ID"]: row for row in payload.get("review_queue", [])}
+    payload["review_queue"] = [_review_row(row, prior_review.get(row["company_id"])) for row in payload["companies"]]
+    stats = payload["stats"]
+    stats.update({
+        "run_date": date.today().isoformat(),
+        "selective_reenrichment_targets": len(targets),
+        "selectively_reenriched": len(replacements),
+        "selective_llm_cost_usd": round(sum(float(row.get("estimated_cost_usd", 0)) for row in replacements.values()), 6),
+        "website_failures": sum(row["website_status"] == "Unavailable" for row in payload["companies"]),
+        "website_unverified_or_blocked": sum(row["website_status"] == "Unverified/Blocked" for row in payload["companies"]),
+        "llm_used_companies": sum(row.get("llm_used") == "Yes" for row in payload["companies"]),
+        "estimated_cost_usd": round(sum(float(row.get("estimated_cost_usd", 0)) for row in payload["companies"]), 6),
+        "unknown_company_type": sum(row["company_type"] == UNKNOWN for row in payload["companies"]),
+        "unknown_employee_band": sum(row["employee_band"] == UNKNOWN for row in payload["companies"]),
+        "unknown_product_profile": sum(row["product_profile"] == UNKNOWN for row in payload["companies"]),
+        "unknown_maturity": sum(row["maturity_stage"] == UNKNOWN for row in payload["companies"]),
+    })
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_json.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    return payload
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build Bluebridge subscriber enrichment pilot data")
     parser.add_argument("--input", type=Path)
+    parser.add_argument("--repair-existing", type=Path, help="Repair website statuses in an existing enrichment JSON and selectively re-enrich recovered companies")
+    parser.add_argument("--normalize-existing-statuses", type=Path, help="Normalize already-probed redirect statuses without making network requests")
+    parser.add_argument("--selective-reenrich", type=Path, help="Repaired JSON whose recovered websites should be selectively re-enriched")
+    parser.add_argument("--original-json", type=Path, help="Original JSON used to identify records that were previously unavailable")
+    parser.add_argument("--status-only", action="store_true", help="With --repair-existing, update website and redirect fields without sending evidence to the LLM")
     parser.add_argument("--output-json", type=Path)
     parser.add_argument("--sample-size", type=int, default=150)
     parser.add_argument("--cache-dir", type=Path, default=Path(".subscriber_enrichment_cache"))
@@ -729,6 +1005,24 @@ def main() -> int:
         if error or not result:
             raise RuntimeError(error or "OpenRouter returned no result")
         print(json.dumps({"status": "ok", "model": args.model, "reasoning_effort": args.reasoning_effort, "classification": result, "usage": usage}, indent=2))
+        return 0
+    if args.normalize_existing_statuses:
+        if not args.output_json:
+            parser.error("--output-json is required with --normalize-existing-statuses")
+        payload = normalize_existing_statuses(args.normalize_existing_statuses, args.output_json)
+        print(json.dumps(payload["stats"], indent=2))
+        return 0
+    if args.selective_reenrich:
+        if not args.original_json or not args.output_json:
+            parser.error("--original-json and --output-json are required with --selective-reenrich")
+        payload = selective_reenrich_recovered(args.original_json, args.selective_reenrich, args.output_json, args.cache_dir, args.max_workers, args.model, args.reasoning_effort)
+        print(json.dumps(payload["stats"], indent=2))
+        return 0
+    if args.repair_existing:
+        if not args.output_json:
+            parser.error("--output-json is required with --repair-existing")
+        payload = repair_existing_payload(args.repair_existing, args.output_json, args.cache_dir, args.max_workers, args.model, args.reasoning_effort, not args.status_only)
+        print(json.dumps(payload["stats"], indent=2))
         return 0
     if not args.input or not args.output_json:
         parser.error("--input and --output-json are required unless --synthetic-smoke-test is used")

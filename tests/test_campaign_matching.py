@@ -98,19 +98,31 @@ class CampaignMatchingTests(unittest.TestCase):
         self.assertNotIn("Acme Medical", serialized)
 
     def test_matching_selects_one_primary_and_one_backup(self):
-        enrichment = {"companies": [company()], "contacts": [contact(), contact("contact-2", "bob@acme.example", "Quality Director", "QA/regulatory", "Director/VP", "Technical buyer / influencer"), contact("contact-3", "cara@acme.example")]}
+        stale = contact()
+        stale["Outreach Angle"] = "Insufficient evidence for tailored outreach"
+        enrichment = {"companies": [company()], "contacts": [stale, contact("contact-2", "bob@acme.example", "Quality Director", "QA/regulatory", "Director/VP", "Technical buyer / influencer"), contact("contact-3", "cara@acme.example")]}
         result = match_campaign(enrichment, profile(), waive_suppression=True)
         selected = {row["Record ID"]: row for row in result["contact_decisions"]}
         self.assertEqual(selected["contact-1"]["Selection"], "Primary")
         self.assertEqual(selected["contact-3"]["Selection"], "Backup")
         self.assertEqual(selected["contact-2"]["Selection"], "Not retained")
         self.assertEqual(result["summary"]["primary_contacts"], 1)
+        self.assertNotIn("Insufficient evidence", selected["contact-1"]["Personalisation Angle"])
+        self.assertIn("ai-enabled health", selected["contact-1"]["Personalisation Angle"].lower())
 
     def test_explicit_company_exclusion_and_unknown_required_value_fail_closed(self):
         excluded = match_campaign({"companies": [company(product="Non-regulated/wellness")], "contacts": [contact()]}, profile(), waive_suppression=True)
         self.assertEqual(excluded["company_decisions"][0]["Decision"], "Excluded")
         unknown = match_campaign({"companies": [company(product="Unknown")], "contacts": [contact()]}, profile(), waive_suppression=True)
         self.assertEqual(unknown["company_decisions"][0]["Decision"], "Review")
+
+    def test_spreadsheet_error_company_name_is_safely_excluded(self):
+        bad_company = company()
+        bad_company["canonical_company"] = "#NAME?"
+        result = match_campaign({"companies": [bad_company], "contacts": [contact()]}, profile(), waive_suppression=True)
+        self.assertEqual(result["company_decisions"][0]["Decision"], "Excluded")
+        self.assertEqual(result["contact_decisions"][0]["Company"], "Unknown company")
+        self.assertNotIn("#NAME?", result["contact_decisions"][0]["Personalisation Angle"])
 
     def test_enterprise_without_business_unit_can_qualify_but_is_warned(self):
         result = match_campaign({"companies": [company(company_type="Enterprise")], "contacts": [contact()]}, profile(), waive_suppression=True)
