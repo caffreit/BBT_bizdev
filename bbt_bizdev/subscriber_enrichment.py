@@ -825,7 +825,10 @@ def _review_row(company: dict, prior: dict | None = None) -> dict:
 def repair_existing_payload(input_json: Path, output_json: Path, cache_dir: Path, max_workers: int, model: str, reasoning_effort: str, reenrich: bool = True) -> dict:
     payload = json.loads(input_json.read_text(encoding="utf-8"))
     companies = payload["companies"]
-    targets = [row for row in companies if row.get("website_status") == "Unavailable"]
+    targets = [
+        row for row in companies
+        if row.get("website_status") in {"Unavailable", "Unverified/Blocked"}
+    ]
 
     probes: dict[str, WebsiteFetch] = {}
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
@@ -845,7 +848,13 @@ def repair_existing_payload(input_json: Path, output_json: Path, cache_dir: Path
         row["redirect_target"] = redirect
         if probe.final_url:
             row["homepage_url"] = probe.final_url
-        old_errors = [item.strip() for item in row.get("errors", "").split(";") if item.strip() and item.strip() != "Website unavailable"]
+        old_errors = [
+            item.strip()
+            for item in row.get("errors", "").split(";")
+            if item.strip()
+            and item.strip() != "Website unavailable"
+            and not item.strip().startswith("Website unverified or blocked (")
+        ]
         if status == "Unavailable":
             old_errors.append("Website unavailable")
         elif status == "Unverified/Blocked":
@@ -913,7 +922,11 @@ def repair_existing_payload(input_json: Path, output_json: Path, cache_dir: Path
 def selective_reenrich_recovered(original_json: Path, repaired_json: Path, output_json: Path, cache_dir: Path, max_workers: int, model: str, reasoning_effort: str) -> dict:
     original = json.loads(original_json.read_text(encoding="utf-8"))
     payload = json.loads(repaired_json.read_text(encoding="utf-8"))
-    originally_unavailable = {row["company_id"] for row in original["companies"] if row.get("website_status") == "Unavailable"}
+    originally_unavailable = {
+        row["company_id"]
+        for row in original["companies"]
+        if row.get("website_status") in {"Unavailable", "Unverified/Blocked"}
+    }
     targets = [row for row in payload["companies"] if row["company_id"] in originally_unavailable and row.get("website_status") in {"Available", "External redirect"}]
     api_key = os.getenv("OPENROUTER_API_KEY", "").strip() or os.getenv("BBT_OPENROUTER_API_KEY", "").strip()
     if not api_key:
