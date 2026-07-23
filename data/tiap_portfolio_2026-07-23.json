@@ -1,0 +1,467 @@
+{
+  "source": "Toronto Innovation Acceleration Partners (TIAP)",
+  "source_url": "https://tiap.ca/portfolio/",
+  "collected_at": "2026-07-23",
+  "reported_total": 57,
+  "extracted_total": 57,
+  "active_total": 41,
+  "exited_total": 16,
+  "records": [
+    {
+      "company": "AmacaThera",
+      "website": "https://www.amacathera.ca/",
+      "description": "Novel drug delivery platform",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "CoHealth",
+      "website": "",
+      "description": "Delivery platform for educational health content",
+      "status": "Exited / acquired in 2020",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "NerveX Neurotechnologies",
+      "website": "",
+      "description": "Developing Neural Implant for nervous system modulation",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Dalriada Drug Discovery",
+      "website": "https://dalriadatx.com/",
+      "description": "Turn-key drug discovery services – from concept to IND",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "eQOL",
+      "website": "",
+      "description": "Developing E-health solution for chronic health conditions",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Structura Biotechnology",
+      "website": "https://structura.bio/",
+      "description": "Unlocking the potential of Cryo-EM in Drug Discovery",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Cohesys",
+      "website": "",
+      "description": "Developing Surgical tape for fractures",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Micellae Delivery Systems",
+      "website": "https://micellae.com/",
+      "description": "Novel drug delivery platform for pharmaceutical and consumer products",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Phycus",
+      "website": "https://www.phycusbio.com/",
+      "description": "Making ingredients for cosmetics",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Tabiat Research",
+      "website": "https://www.tabiat.care/",
+      "description": "Remote patient monitoring for respiratory disorders",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "EBT Medical",
+      "website": "https://ebtmedical.com/",
+      "description": "Medical Device for pelvic health disorders",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Medical device / medtech"
+    },
+    {
+      "company": "ODAIA",
+      "website": "https://www.odaia.ai/",
+      "description": "Automated predictive insights for healthcare providers",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Pearl Interactives",
+      "website": "https://pearlinteractives.com/",
+      "description": "Interactive media for children’s health, wellness and learning",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Ardra Bio",
+      "website": "https://www.ardrabio.com/",
+      "description": "Manufacturers high quality materials sustainably",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Phenomic AI",
+      "website": "https://phenomic.ai/",
+      "description": "Developing novel therapies for cancer and fibrosis",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Dynamic Memory Solutions",
+      "website": "https://hippocamera.com/",
+      "description": "Developing digital tools to enhance memory",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Mutuo Health",
+      "website": "https://mutuohealth.com",
+      "description": "Developing AI-powered digital scribe technology for medical applicatoins",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Appulse Power",
+      "website": "",
+      "description": "Developed energy efficient power electronic systems for data storage units",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Hypercare",
+      "website": "https://www.hypercare.com",
+      "description": "Clinician platform for coordinated patient care",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Bitnobi",
+      "website": "https://www.bitnobi.com",
+      "description": "Privacy-protected data sharing platform",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Notch Therapeutics",
+      "website": "https://notchtx.com",
+      "description": "Cellular Immunotherapies leveraging a proprietary T-cell platform",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Radiant Biotherapeutics",
+      "website": "https://radiantbio.com",
+      "description": "Leveraging multi-specific/valent antibody platform to develop therapeutics in cancer, inflammation and infectious disease",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Medly Therapeutics",
+      "website": "https://medly.ca",
+      "description": "Integrates heart failure treatment and monitoring from hospital to home",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Damona Pharmaceuticals",
+      "website": "http://damonapharma.com",
+      "description": "Development of small molecules for treatment of cognitive symptoms associated with brain disorders and aging",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Blue J",
+      "website": "https://www.bluej.com",
+      "description": "AI-powered research platform to bring clarity to various areas of the law",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "BlueDot",
+      "website": "https://bluedot.global",
+      "description": "Global biothreat Intelligence platform to monitor infectious disease transmission and outbreak",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Crowdmark",
+      "website": "https://crowdmark.com",
+      "description": "Online grading software for instructors",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Encycle Therapeutics",
+      "website": "",
+      "description": "Developing macrocycle platform for inflammatory disease",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Fibrocor Therapeutics",
+      "website": "https://www.fibrocortherapeutics.com",
+      "description": "Developing fibrosis therapeutics with a patient derived target discovery engine",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Forbius (Formation Biologics)",
+      "website": "https://forbius.com",
+      "description": "Developing novel biologic therapies for cancer",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Legworks",
+      "website": "https://legworks.com",
+      "description": "For-profit social enterprise enhancing mobility with prosthetics",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "QD Solar",
+      "website": "https://qdsolarinc.com",
+      "description": "Develops novel materials technology to enhance efficiency of solar cells",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Radialis",
+      "website": "https://www.radialis.com",
+      "description": "Medical device leveraging PET imaging for early diagnosis of cancers",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Medical device / medtech"
+    },
+    {
+      "company": "7D Surgical",
+      "website": "https://7dsurgical.com",
+      "description": "Imagine guided surgical navigation for spinal applications",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Vasomune Therapeutics",
+      "website": "https://vasomune.com",
+      "description": "Novel therapies to combat vascular dysfunction disorders",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "XOR Labs",
+      "website": "",
+      "description": "Medical device for organ transplants",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Medical device / medtech"
+    },
+    {
+      "company": "Zucara Therapeutics",
+      "website": "https://www.zucara.ca",
+      "description": "Novel therapy for hypoglycemia in diabetic patients",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Triphase",
+      "website": "",
+      "description": "Novel therapies for oncology",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "BresoTec",
+      "website": "https://bresotec.com/",
+      "description": "At home sleep apnea diagnostic device",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Medical device / medtech"
+    },
+    {
+      "company": "InventoRR",
+      "website": "https://www.inventorrmd.ca/",
+      "description": "Commercializing trauma and surgical devices",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Medical device / medtech"
+    },
+    {
+      "company": "Bright Angel Therapeutics",
+      "website": "https://www.brightangeltherapeutics.com",
+      "description": "Development of novel therapeutics for treatment of drug-resistant and life-threatening fungal infections",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Nanogenix",
+      "website": "",
+      "description": "Developing novel photosensitizer platform for dermatology and oncology applications",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "VitalHub",
+      "website": "https://www.vitalhub.com/",
+      "description": "Developing hospital platform to track patient test results",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Flybits",
+      "website": "http://www.flybits.com",
+      "description": "Developing Context Aware software solutions",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "TrendMD",
+      "website": "https://www.trendmd.com",
+      "description": "Recommendation engine for scholarly publishers",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "PhenoTips (Gene42)",
+      "website": "https://phenotips.com",
+      "description": "Clinical software for collection of phenotpic patient information with genetic disorders",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Granata",
+      "website": "",
+      "description": "Real-time decision support tools for multiple industries",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Otosim",
+      "website": "https://www.otosim.com/",
+      "description": "Medical Simulation for Otoscopy and Opthalmoscopy training",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Kapplex",
+      "website": "",
+      "description": "Novel microfluidics platform for small volumes",
+      "status": "Exited",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Quantum Bridge Technologies",
+      "website": "https://qubridge.io/",
+      "description": "Quantum internet that changes that secures development and transfer of data",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Mazlite",
+      "website": "https://www.mazlite.com/",
+      "description": "Spray monitoring solution for applications in health and automotive",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Lorica Cyber",
+      "website": "http://www.loricacyber.com",
+      "description": "Cyber security software",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "HDAX Therapeutics",
+      "website": "http://www.hdaxtx.com",
+      "description": "Novel Therapeutics targeting histone deacetylases",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Reeddi",
+      "website": "https://www.reeddi.com/",
+      "description": "Products to bridge accessibilty gap in developing countries",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Bedside Clinical Systems",
+      "website": "",
+      "description": "Decision support tools forhospital based clinical care",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "QurCan Therapeutics",
+      "website": "https://www.qurcan.com",
+      "description": "Pioneering nanotechnologies to accelerate ​advanced nano-medicines.",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Healthcare operations / IT"
+    },
+    {
+      "company": "Grey Matter Neurosciences",
+      "website": "https://greymatterneurosciences.com/",
+      "description": "Neurotechnology company developing medical devices that facilitate therapeutic brain stimulation",
+      "status": "Active",
+      "portfolio_url": "https://tiap.ca/portfolio/",
+      "product_type": "Medical device / medtech"
+    }
+  ]
+}

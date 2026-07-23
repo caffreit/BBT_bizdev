@@ -1,0 +1,860 @@
+{
+  "collected_at": "2026-07-23",
+  "source_name": "adMare BioInnovations",
+  "source_urls": [
+    "https://www.admarebio.com/en/companies-weve-helped-build",
+    "https://www.admarebio.com/en/accelerator-companies"
+  ],
+  "reported_totals": {
+    "helped_build_directory": 39,
+    "accelerator_directory": 13,
+    "total": 52
+  },
+  "extracted_total": 52,
+  "detail_pages_fetched": 52,
+  "errors": [],
+  "records": [
+    {
+      "company": "26 Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/26-therapeutics",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "",
+      "description": "",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Abdera Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/abdera-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.abderatherapeutics.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/abdera-therapeutics/",
+      "line_of_business": "Therapeutics - Oncology",
+      "description": "Abdera Therapeutics Inc. is a precision oncology company focused on developing next-generation effective targeted alpha radiation therapies (TATs) for patients with relapsed, refractory and metastatic cancers.",
+      "more_information": [
+        {
+          "title": "adMare Launches Abdera with AbCellera as a Founding Partner",
+          "url": "https://www.admarebio.com/admare-launches-abdera-with-abcellera-as-a-founding-partner/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "ARNA Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/arna-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://arnatherapeutics.wordpress.com",
+      "email": "info@arnatherapeutics.com",
+      "linkedin": "https://www.linkedin.com/company/arna-therapeutics/about/",
+      "line_of_business": "Therapeutics - Neuroscience",
+      "description": "ARNA Therapeutics is a private biotechnology company developing new therapeutic approaches to treat patients with neurodegenerative diseases.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Artelo Biosciences",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/artelo-biosciences",
+      "cohort": "Companies we've helped build",
+      "website": "https://artelobio.com",
+      "email": "info@artelobio.com",
+      "linkedin": "https://www.linkedin.com/company/artelo-biosciences-inc/",
+      "line_of_business": "",
+      "description": "Artelo Biosciences is a clinical stage company using cutting-edge science to improve patient care. They were founded in 2017 on the promise of therapeutic development based on lipid-signaling modification, including targeting the receptors of the endocannabinoid system. Their mission is to alter the course of treatment for those with a diagnosis of cancer and other serious conditions.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Bellus Health",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/bellus-health-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.bellushealth.com",
+      "email": "info@bellushealth.com",
+      "linkedin": "https://www.linkedin.com/company/bellus-health/",
+      "line_of_business": "Therapeutics - Chronic Cough",
+      "description": "Bellus Health is developing BLU-5937, a P2X3 antagonist, to help people with chronic cough and other afferent hypersensitization-related disorders",
+      "more_information": [
+        {
+          "title": "BELLUS Health to Participate in the Cowen & Co. 42nd Annual Health Care Conference",
+          "url": "https://ir.bellushealth.com/news-releases/news-release-details/bellus-health-participate-cowen-co-42nd-annual-health-care"
+        },
+        {
+          "title": "BELLUS Health Reports Year 2021 Financial Results and Business Highlights",
+          "url": "https://ir.bellushealth.com/news-releases/news-release-details/bellus-health-reports-year-2021-financial-results-and-business"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "bowen's FX Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/bowens-fx-therapeutics",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.bowensfx.com",
+      "email": "stuartc@bowensfx.com",
+      "linkedin": "https://www.linkedin.com/company/bowen-s-fx-therapeutics/",
+      "line_of_business": "Therapeutics",
+      "description": "Bowen's FX Therapeutics was founded by Jeff Parr following the diagnosis of his grandson, Bowen Parr with full mutation Fragile X Syndrome and Jeff’s desire to find a cure for Bowen and all who have Fragile X. Our lead program is an engineered Fragile X Messenger Ribonucleoprotein (FMRP) replacement strategy in Lead Optimization, with an aim of selecting a clinical candidate in 2025.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Bright Angel Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/bright-angel-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.brightangeltherapeutics.com",
+      "email": "info@brightangeltherapeutics.com",
+      "linkedin": "https://www.linkedin.com/company/brightangeltherapeutics/",
+      "line_of_business": "Therapeutics",
+      "description": "Bright Angel Therapeutics is a pre-clinical stage biotechnology company focused on the development of novel therapeutics for the treatment of drug-resistant and life-threatening fungal infections.",
+      "more_information": [
+        {
+          "title": "Bright Angel Therapeutics Announces New Funding to Advance Therapies for Invasive Fungal Infections",
+          "url": "https://www.brightangeltherapeutics.com/bright-angel-therapeutics-announces-new-funding-to-advance-therapies-for-invasive-fungal-infections"
+        },
+        {
+          "title": "Schrödinger and MaRS Innovation Announce the Launch of Bright Angel Therapeutics",
+          "url": "https://www.brightangeltherapeutics.com/dec-21-2017"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Encycle Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/encycle-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "Therapeutics - Acquired",
+      "description": "Encycle Therapeutics was created to develop a unique platform technology that enables the rapid synthesis of drug-like macrocycles or membrane-permeable nacellins. The company was acquired by Zealand Pharma in 2019.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Epigene Therapeutics Inc.",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/epigene-therapeutics-inc",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "",
+      "description": "",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Epitopea",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/epitopea",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.epitopea.com",
+      "email": "Alan.Rigby@epitopea.com",
+      "linkedin": "https://www.linkedin.com/company/epitopea/",
+      "line_of_business": "Immunotherapeutics",
+      "description": "Epitopea is a transatlantic cancer immunotherapeutics company developing accessible off-the-shelf RNA-based immunotherapies for use in hard-to-treat cancers by targeting a new class of untapped tumor-specific antigens, which are known as Cryptigen TM TSAs, that are broadly shared across multiple patients with the same tumor type.",
+      "more_information": [
+        {
+          "title": "Epitopea closes USD $31 million pre-series A financing",
+          "url": "https://www.admarebio.com/en/news-details/epitopea-closes-usd-31-million-pre-series-a-financing"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Eupraxia Pharmaceuticals",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/eupraxia-pharmaceuticals-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.eupraxiapharma.com",
+      "email": "info@eupraxiapharma.com",
+      "linkedin": "https://www.linkedin.com/company/2813136/admin/",
+      "line_of_business": "Drug Delivery",
+      "description": "Eupraxia is a clinical-stage biotechnology company focused on the development of locally delivered, extended-release alternatives to currently approved drugs.",
+      "more_information": [
+        {
+          "title": "Eupraxia Pharmaceuticals Completes C$14.7 million Overnight Marketed Offering",
+          "url": "https://eupraxiapharma.com/news/news-details/2022/Eupraxia-Pharmaceuticals-Completes-C14.7-million-Overnight-Marketed-Offering/default.aspx"
+        },
+        {
+          "title": "Eupraxia Pharmaceuticals Announces Pricing of Overnight Marketed Offering",
+          "url": "https://eupraxiapharma.com/news/news-details/2022/Eupraxia-Pharmaceuticals-Announces-Pricing-of-Overnight-Marketed-Offering/default.aspx"
+        },
+        {
+          "title": "Eupraxia Pharmaceuticals Announces Overnight Marketed Offering",
+          "url": "https://eupraxiapharma.com/news/news-details/2022/Eupraxia-Pharmaceuticals-Announces-Overnight-Marketed-Offering/default.aspx"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Evolved Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/evolved-therapeutics",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/evolved-therapeutics/about/",
+      "line_of_business": "",
+      "description": "Evolved Therapeutics is focused on establishing innovative antibody discovery platforms to enable the discovery of first- and best-in-class therapeutics.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Find Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/find-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.findtherapeutics.com",
+      "email": "info@findtherapeutics.com",
+      "linkedin": "",
+      "line_of_business": "Therapeutics - Rare Diseases",
+      "description": "Find Therapeutics designs ground-breaking therapies through precision-targeting of membrane receptors to bring hope to people living with autoimmune diseases. The company was launched in 2020 with investments from CTI Life Sciences, adMare BioInnovations, and Domain Therapeutics, and GPCR technology and know-how from Peptimimesis Pharma.",
+      "more_information": [
+        {
+          "title": "Find Therapeutics Appoints Dr. Philippe Douville as Chief Executive Officer",
+          "url": "https://www.findtherapeutics.com/cms_files/php5Dzz6Q.pdf"
+        },
+        {
+          "title": "Find Therapeutics, a new drug development company dedicated to breakthrough therapies against rare diseases launches in Montreal",
+          "url": "https://www.findtherapeutics.com/cms_files/phpQdNQQI.pdf"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Flosonics Medical",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/flosonics-medical-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.flosonicsmedical.com",
+      "email": "",
+      "linkedin": "https://ca.linkedin.com/company/flosonics-medical",
+      "line_of_business": "Medical Devices",
+      "description": "Flosonics Medical is a medical device company focused on developing non-invasive sensors to improve the management of critically-ill patients.",
+      "more_information": [
+        {
+          "title": "MedTech Innovator",
+          "url": "https://flosonicsmedical.com/medtech-innovator/"
+        },
+        {
+          "title": "Flosonics Accepted into Lazaridis Scale-Up Program",
+          "url": "https://flosonicsmedical.com/flosonics-accepted-into-lazaridis-scale-up-program/"
+        },
+        {
+          "title": "Flosonics Medical Secures $5 Million Seed Round Funding",
+          "url": "https://flosonicsmedical.com/flosonics-medical-secures-5-million-seed-round-funding/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "FORUS Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/forus-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.forustherapeutics.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/forus-therapeutics/",
+      "line_of_business": "Biopharmaceuticals - Oncology",
+      "description": "FORUS Therapeutics is a biopharmaceutical company dedicated to advancing differentiated, novel medicines for hematologic malignancies and other forms of cancer.",
+      "more_information": [
+        {
+          "title": "FORUS THERAPEUTICS WILL BE PRESENTING AT THE BLOOM BURTON & CO. HEALTHCARE INVESTOR CONFERENCE ON MAY 3RD, 2022",
+          "url": "https://forustherapeutics.com/forus-therapeutics-will-be-presenting-at-the-bloom-burton-co-healthcare-investor-conference-on-may-3rd-2022/"
+        },
+        {
+          "title": "FORUS THERAPEUTICS SECURES $2.5M CAD IN GROWTH CAPITAL FROM SILICON VALLEY BANK",
+          "url": "https://forustherapeutics.com/forus-therapeutics-secures-2-5m-cad-in-growth-capital-from-silicon-valley-bank/"
+        },
+        {
+          "title": "WELCOME, MARIE-JOSÈPHE CHAMPAGNE",
+          "url": "https://forustherapeutics.com/welcome-mj-champagne/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Immugenia",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/immugenia-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://immugenia.com",
+      "email": "sgagne@immugenia.com",
+      "linkedin": "https://www.linkedin.com/company/immugenia-inc/",
+      "line_of_business": "Therapeutics - Gene Editing",
+      "description": "Immugenia is an early stage immuno-oncology company developing a novel approach to CAR therapy by engineering hematopoietic stem cells to treat cancer and prevent relapses. Our proprietary technology allows for the CAR to be expressed selectively in T and NK cells in order to leverage their synergistic activity against cancer.",
+      "more_information": [
+        {
+          "title": "Read the press release",
+          "url": "https://www.newswire.ca/news-releases/immugenia-obtains-pre-seed-funding-from-admare-bioinnovations-acet-capital-and-sherbrooke-innopole-to-develop-a-cancer-treatment-which-would-prevent-relapses-891873030.html"
+        },
+        {
+          "title": "Read the article (in French)",
+          "url": "https://www.latribune.ca/2022/10/13/un-nouveau-traitement-contre-le-cancer-sera-developpe-a-sherbrooke-a7e8dfabadc7c6f1964c795c149b5695"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Inversago Pharma",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/inversago-pharma-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.inversago.com",
+      "email": "info@inversago.com",
+      "linkedin": "https://www.linkedin.com/company/inversago-pharma/",
+      "line_of_business": "Therapeutics - Metabolic",
+      "description": "Inversago Pharma is a clinical-stage, biotech company aiming to provide new treatment options that improve the lives of patients affected by metabolic conditions such as Prader-Willi Syndrome (PWS), non-alcoholic steatohepatitis (NASH), type 1 diabetes (T1D) and diabetic nephropathy.",
+      "more_information": [
+        {
+          "title": "Inversago Pharma to present at upcoming Bloom Burton & Co. Healthcare Investor Conference to be held on May 2-3, 2022 in Toronto, ON",
+          "url": "https://inversago.com/en/2022/inversago-pharma-to-present-at-upcoming-bloom-burton-co-healthcare-investor-conference-to-be-held-on-may-2-3-2022-in-toronto-on/"
+        },
+        {
+          "title": "Inversago Pharma Announces Dosing of First Participant with Metabolic Syndrome in Phase 1B Clinical Trial",
+          "url": "https://inversago.com/en/2022/inversago-pharma-announces-dosing-of-first-participant-with-metabolic-syndrome-in-phase-1b-clinical-trial/"
+        },
+        {
+          "title": "Inversago Pharma Completes Phase 1 Clinical Trial on First-in-Class, Peripheral CB1 Blocker and Provides Strategy Update",
+          "url": "https://inversago.com/en/2022/inversago-pharma-completes-phase-1-clinical-trial-on-first-in-class-peripheral-cb1-blocker-and-provides-strategy-update/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Jenthera Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/jenthera-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.jenthera.com",
+      "email": "laurent.ziri@jenthera.com",
+      "linkedin": "https://www.linkedin.com/company/jenthera-therapeutics-inc/",
+      "line_of_business": "Therapeutics - Gene Editing",
+      "description": "Jenthera Therapeutics is offers a new CRISPR technology by directly addressing the inherent limitations of current CRISPR methodologies.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Kainova Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/kainova-therapeutics",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.kainovatx.com",
+      "email": "contact@kainovatx.com",
+      "linkedin": "https://www.linkedin.com/company/domain-therapeutics/",
+      "line_of_business": "Immuno-oncology",
+      "description": "Kainova Therapeutics is a clinical-stage biopharmaceutical company, headquartered in Montreal, Canada, driving a robust pipeline of breakthrough therapies that precisely modulate G protein-coupled receptors (GPCRs) to transform patient outcomes, particularly in immuno-oncology and inflammation. Kainova’s key programs include a unique clinical-stage Treg-depleting anti-CCR8 antibody with differentiated competitive features and a first-in-class pre-IND stage biased antagonist of PAR2. By unlocking challenging and unexploited GPCR targets through its validated approach that integrates deep biological knowledge, Kainova delivers highly differentiated therapies designed to address unmet medical needs and improve therapeutic efficacy. Grounded in scientific excellence and recognized for a solid track record of collaborations with major pharma, physicians and KOLs worldwide, Kainova creates long-term value in competitive and fast-expanding markets. Operating in North America, France and Australia, Kainova is progressing with clinical momentum towards global commercialization. As GPCRs gain renewed attention as next-generation drug targets, Kainova is uniquely positioned to lead the field, combining deep biological insight with commercial maturity to drive global impact.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Kairos Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/kairos-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.zymeworks.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/zymeworks/",
+      "line_of_business": "Therapeutics - Acquired",
+      "description": "Kairos Therapeutics was a biopharmaceutical company that developed a proprietary next-generation antibody-drug conjugate platform. It was merged with Zymeworks in 2016",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "KalGene Phamaceuticals",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/kalgene-phamaceuticals-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.kalgene.com",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "Therapeutics - Neuroscience",
+      "description": "KalGene is a biotechnology company developing precision medicine therapeutics designed to slow the progression of Alzheimer’s disease with an antibody-based approach",
+      "more_information": [
+        {
+          "title": "KalGene Pharmaceuticals, Inc. announces a new peer-review publication demonstrating the efficacy of KG207 in clearing toxic oligomer species of amyloid beta in translational imaging studies",
+          "url": "https://www.kalgene.com/blog-1/ahqtt7ok6laft0mps6lx6kdpfaipiu"
+        },
+        {
+          "title": "Kalgene Pharmaceuticals Inc., an Alzheimer’s focused company using a next generation engineered drug candidate, has appointed new leadership.",
+          "url": "https://www.kalgene.com/blog-1/Blog%20Post%20Title%20One-6x34e"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "KisoJi",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/kisoji-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.kisojibiotech.com",
+      "email": "gordon.ngan@kbimail.com",
+      "linkedin": "",
+      "line_of_business": "Therapeutics - Oncology",
+      "description": "KisoJi is a privately-held next-generation antibody company developing multi-specific antibodies to improve outcomes in oncology.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Mesentech",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/mesentech-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.mesentech.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/mesentech/",
+      "line_of_business": "Therapeutics - Bone Health",
+      "description": "Mesentech is a pre-clinical platform company developing innovative drugs that rebuild bone lost to disease and trauma",
+      "more_information": [
+        {
+          "title": "Bob Ward joins Mesentech's Board of Directors",
+          "url": "https://mesentech.com/news/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Neurasic Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/neurasic-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/neurasictherapeutics/about/",
+      "line_of_business": "Therapeutics - Neuroscience",
+      "description": "Neurasic Therapeutics is a company created to advance research that aims to provide new opiate-sparing pain-relieving drugs.",
+      "more_information": [
+        {
+          "title": "New Company to Advance Research into Made-in-Canada Therapy for Patients with Chronic Pain",
+          "url": "https://www.neurasictherapeutics.com/new-company-to-advance-research-into-made-in-canada-therapy-for-patients-with-chronic-pain/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Nexelis",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/nexelis-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.nexelis.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/nexelis/",
+      "line_of_business": "Contrac Research",
+      "description": "Nexelis is an immunology-centric CRO specialized in preclinical models and clinical assay development in single and multiplex formats and sample analysis for low-, mid- and large-scale clinical testing.",
+      "more_information": [
+        {
+          "title": "CGI helps Nexelis gain a competitive advantage through digitization of business and IT workflows",
+          "url": "https://nexelis.com/news-events/news/cgi-helps-nexelis-gain-a-competitive-advantage/"
+        },
+        {
+          "title": "Nexelis and JOINN Laboratories sign Letter of Intent entering partnership to support international sponsors in China in the bioanalytical field",
+          "url": "https://nexelis.com/news-events/news/nexelis-and-joinn-laboratories-sign-letter-of-intent-entering-partnership-to-support-international-sponsors-in-china-in-the-bioanalytical-field/"
+        },
+        {
+          "title": "Nexelis acquires the GSK vaccines clinical bioanalytical laboratory located in Marburg – Germany and enters into a 5-year strategic agreement with GSK",
+          "url": "https://nexelis.com/news-events/news/test/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "NIMIUM Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/nimium-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.nimium.ca",
+      "email": "pwalker@nimium.ca",
+      "linkedin": "https://www.linkedin.com/company/nimium-therapeutics/",
+      "line_of_business": "Therapeutics - Metabolic",
+      "description": "NIMIUM Therapeutics is a Montreal biotech focused on the development of an innovative therapeutic to treat cardiometabolic diseases",
+      "more_information": [
+        {
+          "title": "Research breakthrough shows promise for new therapeutics to help reduce sugar and fat and maintain good health as we age",
+          "url": "https://www.newswire.ca/news-releases/research-breakthrough-shows-promise-for-new-therapeutics-to-help-reduce-sugar-and-fat-and-maintain-good-health-as-we-age-801329233.html"
+        },
+        {
+          "title": "New life sciences company takes aim at obesity, toxic effects of overnutrition",
+          "url": "https://www.newswire.ca/news-releases/new-life-sciences-company-takes-aim-at-obesity-toxic-effects-of-overnutrition-844986367.html"
+        },
+        {
+          "title": "NIMIUM Therapeutics and Paraza Pharma form partnership to develop new medicines to treat cardiometabolic diseases (CMDs), obesity and type 2 diabetes",
+          "url": "https://www.newswire.ca/news-releases/nimium-therapeutics-and-paraza-pharma-form-partnership-to-develop-new-medicines-to-treat-cardiometabolic-diseases-cmds-obesity-and-type-2-diabetes-816530373.html"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "OB Pharmaceuticals",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/ob-pharmaceuticals",
+      "cohort": "Companies we've helped build",
+      "website": "https://obpharmaceuticals.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/ob-pharmaceuticals/",
+      "line_of_business": "",
+      "description": "OB Pharmaceuticals is an early stage biopharmaceutical company dedicated to improving the lives of individuals through the development of first-in-class therapeutics for more effective prevention and mangement of epilepsy and other related seizue disorders.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Ocythera",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/ocythera",
+      "cohort": "Companies we've helped build",
+      "website": "https://ocythera.com",
+      "email": "info@ocythera.com",
+      "linkedin": "https://www.linkedin.com/company/ocythera/",
+      "line_of_business": "",
+      "description": "Based in Montreal, Ocythera is developing a new generation of non-retinoid therapies for rare bone diseases. Originating from pivotal research made at Queen’s University and drug discovery from adMare BioInnovations, the company is advancing highly selective compounds with an improved safety and efficacy profile, targeting one of the enzymes involved in the metabolism of retinoic acids. To learn more about Ocythera, visit ocythera.com.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Overture Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/overture-therapeutics",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "",
+      "description": "",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Precision Nanosystems Inc.",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/precision-nanosystems-inc-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.precisionnanosystems.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/precision-nanosystems-inc-/",
+      "line_of_business": "Drug Delivery",
+      "description": "Precision Nanosystems Inc. creates innovative solutions that empower researchers to harness powerful nanotechnology to transform our understanding and treatment of diseases.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Sepset Biosciences",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/sepset-biosciences-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.sepset.ca",
+      "email": "info@asepmedical.com",
+      "linkedin": "",
+      "line_of_business": "Diagnostics",
+      "description": "Sepset Biosciences is a diagnostic company developing a point-of-care blood test for hospitals to identify septic patients in the emergency room (ER), and predict those who will have high risk for organ failure.",
+      "more_information": [
+        {
+          "title": "Sepsis endotypes: The early bird still gets the worm",
+          "url": "https://www.sepset.ca/news/sepsis-endotypes-the-early-bird-still-gets-the-worm"
+        },
+        {
+          "title": "Could artificial intelligence help people survive one of the world's deadliest diseases?",
+          "url": "https://www.sepset.ca/news/could-artificial-intelligence-help-people-survive-one-of-the-worlds-deadliest-diseases"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Sitka Biopharma",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/sitka-biopharma-1",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "Therapeutics - Oncology",
+      "description": "Sitka Biopharma is a preclinical biotechnology company focused on developing its breakthrough nanoparticle platform technology to increase absorption of drugs in difficult-to-penetrate tissues.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "SoundBite Medical Solutions",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/soundbite-medical-solutions-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.soundbitemedical.com",
+      "email": "info@soundbitemedical.com",
+      "linkedin": "https://www.linkedin.com/company/soundbite-medical-solutions-inc./",
+      "line_of_business": "Medical Devices",
+      "description": "SoundBite Medical Solutions is a medical devices company developing and commercializing proprietary wire-based devices and generator technology that delivers shockwave energy within the cardiovascular system to treat chronic total occlusions (CTO’s)",
+      "more_information": [
+        {
+          "title": "Soundbite Medical Announces Issuance Of A Fifth U.S. Patent Covering Novel Active Balloon Devices Intended For Plaque Modification Of Calcified Arteries",
+          "url": "https://soundbitemedical.com/blog/soundbite-medical-announces-issuance-of-a-fifth-u-s-patent-covering-novel-active-balloon-devices-intended-for-plaque-modification-of-calcified-arteries/"
+        },
+        {
+          "title": "Soundbite Medical Solutions Announces Issuance of a Fourth U.S. Patent Further Expanding Coverage of its Core Technology",
+          "url": "https://soundbitemedical.com/blog/soundbite-medical-solutions-announces-issuance-of-a-fourth-u-s-patent-further-expanding-coverage-of-its-core-technology/"
+        },
+        {
+          "title": "Soundbite Medical’s Proprietary Shock Wave Technology Now Cracks Calcium In Germany, a Promising Solution for CLI Patients",
+          "url": "https://soundbitemedical.com/blog/soundbite-medicals-proprietary-shock-wave-technology-now-cracks-calcium-in-germany-a-promising-solution-for-cli-patients/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Specific Biologics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/specific-biologics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://specificbiologics.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/specific-biologics/",
+      "line_of_business": "Therapeutics - Gene Editing",
+      "description": "Specific Biologics Inc.'s (SBI) mission is to develop novel gene editing technologies to treat diseases at the genetic level in cells inside the body.",
+      "more_information": [
+        {
+          "title": "Specific Biologics Inc. Announces Therapeutic Development Award from the Cystic Fibrosis Foundation",
+          "url": "https://www.newswire.ca/news-releases/specific-biologics-inc-announces-therapeutic-development-award-from-the-cystic-fibrosis-foundation-825345410.html"
+        },
+        {
+          "title": "Specific Biologics Closes Seed Financing with Industry Leaders Lumira Ventures and adMare BioInnovations",
+          "url": "https://www.newswire.ca/news-releases/specific-biologics-closes-seed-financing-with-industry-leaders-lumira-ventures-and-admare-bioinnovations-861811144.html"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "SpecificiT Pharma",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/specificit-pharma",
+      "cohort": "Companies we've helped build",
+      "website": "",
+      "email": "",
+      "linkedin": "",
+      "line_of_business": "",
+      "description": "",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Thryv Therapeutics Inc.",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/thryv-therapeutics-inc-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://thryvtrx.ca",
+      "email": "admin@thryvtrx.com",
+      "linkedin": "https://www.linkedin.com/company/thryv-therapeutics-inc/",
+      "line_of_business": "Biotechnology",
+      "description": "Thryv Therapeutics Inc. (previously LQT Therapeutics Inc.), is a privately owned company based in Montreal, Quebec, Canada. They have been pioneering a precision medicine approach to treat Long QT Syndrome via SGK1 inhibition since 2019 and have since evolved their portfolio to include the treatment of resistant and rare cancers. The development of SGK1 inhibitors represents a novel approach to target treatment-resistant cancers, and complement existing therapies. This strategic evolution has secured an additional US$15M financing fuelling Thryv to complete a proof-of-concept study for LQTS, and submit an IND for the treatment of resistant cancer.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "viDA Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/vida-therapeutics-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.vidatherapeutics.com",
+      "email": "info@vidatherapeutics.com",
+      "linkedin": "https://www.linkedin.com/company/vidatherapeutics/",
+      "line_of_business": "Therapeutics - Immunology",
+      "description": "viDA Therapeutics is advancing first-in-class drugs for the treatment of autoimmune and age-related chronic inflammatory diseases.",
+      "more_information": [
+        {
+          "title": "Granzyme B: A pathological role in skin aging and age-dependent skin injury",
+          "url": "https://static1.squarespace.com/static/5a10b33780bd5e96f8b67546/t/606c84501ef15a1a8dcc0bcb/1617724497708/viDA+-+Granzyme+B+-+A+pathological+role+in+skin+aging+and+age-dependent+skin+injury.pdf"
+        },
+        {
+          "title": "Granzyme B identified as a potential therapeutic target for treating autoimmune blister diseases",
+          "url": "https://static1.squarespace.com/static/5a10b33780bd5e96f8b67546/t/5ffef459d58add22fc38f85d/1610544217726/viDA+-+Granzyme+B+inhibition+reduces+disease+severity+in+autoimmune+blistering+diseases+-+Jan+2021.pdf"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Zucara Therapeutics Inc.",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/zucara-therapeutics-inc-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.zucara.ca",
+      "email": "https://www.zucara.ca/contact-us/contact-form/",
+      "linkedin": "https://www.linkedin.com/company/zucara-therapeutics-inc-/",
+      "line_of_business": "Therapeutics - Metabolic",
+      "description": "Zucara Therapeutics Inc. is developing the first once-daily therapeutic to prevent hypoglycemia (low blood sugar) in people with diabetes",
+      "more_information": [
+        {
+          "title": "Zucara Therapeutics Announces Publication of Preclinical Study Demonstrating ZT-01’s Ability to Restore Glucagon Release in Type 1 Diabetes",
+          "url": "https://www.zucara.ca/news/zucara-therapeutics-announces-publication-of-preclinical-study-demonstrating-zt-01s-ability-to-restore-glucagon-release-in-type-1-diabetes/"
+        },
+        {
+          "title": "Zucara Therapeutics Doses First Patients in Phase 1b Trial of ZT-01",
+          "url": "https://www.zucara.ca/news/zucara-therapeutics-doses-first-patients-in-phase-1b-trial-of-zt-01/"
+        },
+        {
+          "title": "Zucara Therapeutics Successfully Completes Single and Multiple Ascending Dose Phase 1 Trial of ZT-01",
+          "url": "https://www.zucara.ca/news/toronto-canada-may-26-2021-zucara-therapeutics-inc-zucara-or-the-company-a-diabetes-life-sciences-company-developing-the-first-once-daily-therapeutic-to-pr/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "Zymeworks Inc.",
+      "detail_url": "https://www.admarebio.com/en/companies-weve-helped-build/zymeworks-inc-1",
+      "cohort": "Companies we've helped build",
+      "website": "https://www.zymeworks.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/zymeworks/",
+      "line_of_business": "Therapeutics - Oncology",
+      "description": "Zymeworks Inc. is a publicly listed (NYSE: ZYME), clinical-stage, biopharmaceutical company dedicated to the discovery, development, and commercialization of next-generation multifunctional biotherapeutics, initially focused on the treatment of cancer.",
+      "more_information": [
+        {
+          "title": "Zymeworks Provides Corporate Update And Reports Year-End 2021 Financial Results",
+          "url": "https://ir.zymeworks.com/news-releases/news-release-details/zymeworks-provides-corporate-update-and-reports-year-end-2021"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "9Bio",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/9bio",
+      "cohort": "Accelerator companies",
+      "website": "https://9bio.ca",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/9bio/",
+      "line_of_business": "",
+      "description": "9Bio is a biotech company based in Quebec City, QC, focusing on the development of immuno-oncology therapeutics. Their AI-assisted structural biology platform considers both anatomical and biochemical contexts to help in the design of drugs aimed at selectively targeting tumours. This method is intended to create medicines that are more specific to tumours rather than healthy tissues, potentially enhancing safety and efficacy. The company's current pipeline comprises three therapies in the discovery stage.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Cura Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/cura-therapeutics",
+      "cohort": "Accelerator companies",
+      "website": "https://www.curatherapeutics.com",
+      "email": "info@curatherapeutics.com",
+      "linkedin": "",
+      "line_of_business": "",
+      "description": "Cura Therapeutics is developing innovative immunotherapies to cure cancer and infectious diseases. Their technologies harness cytokines to create multi-functional proteins with potent anti-cancer and antiviral properties.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Modelis",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/modelis",
+      "cohort": "Accelerator companies",
+      "website": "https://modelis.ca",
+      "email": "james.doyle@modelis.ca",
+      "linkedin": "https://www.linkedin.com/company/modelis-inc/",
+      "line_of_business": "Therapeutics/biotech",
+      "description": "Modelis is a Montreal-based biotech company doing drug discovery differently, looking for therapies for rare disorders where no one is looking. At Modelis’ core is its target discovery platform, at the intersection of in vivo biology and machine learning, aiming to decomplexify biology to uncover mechanistic insights into disease pathologies, and leverage them into better, more efficient therapies. Our goal is to be building the premier engine for biological discoveries into rare disorders, unlocking entire segments of this largely untouched market, and enabling better drug discovery, faster. The company's lead program seeks to develop a disease-modifying, first in class therapy for Cori disease, a rare glycogen storage disorder with an unmet medical need.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Molecular Forecaster",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/molecular-forecaster",
+      "cohort": "Accelerator companies",
+      "website": "https://molecularforecaster.com",
+      "email": "info@molecularforecaster.com",
+      "linkedin": "https://www.linkedin.com/company/molecular-forecaster/",
+      "line_of_business": "Drug discovery software and services",
+      "description": "Molecular Forecaster Inc. is a Research as a Service (RaaS) company, providing computer-aided drug discovery (CADD) technology and expertise to biotechs and pharmas around the world. With proprietary software tools, and expertise in drug discovery, quantum mechanics, molecular dynamics, chemoinformatics and artificial intelligence, our team of chemists, biologists and computer scientists are helping organizations large and small fast-track their preclinical drug design and discovery programs. Molecular Forecaster is democratizing CADD by bringing the intimate collaboration of a partner, with the logistical integration of a CRO.",
+      "more_information": [
+        {
+          "title": "https://molecularforecaster.com/partners",
+          "url": "https://molecularforecaster.com/partners"
+        },
+        {
+          "title": "https://molecularforecaster.com/fr/partenariat",
+          "url": "https://molecularforecaster.com/fr/partenariat-avec-admare-bioinnovations/"
+        },
+        {
+          "title": "https://molecularforecaster.com/collaboration-2/",
+          "url": "https://molecularforecaster.com/collaboration-2/ "
+        },
+        {
+          "title": "https://molecularforecaster.com/fr/collaboration/",
+          "url": "https://molecularforecaster.com/fr/collaboration/"
+        }
+      ],
+      "detail_fetched": true
+    },
+    {
+      "company": "NorthMiRs",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/northmirs",
+      "cohort": "Accelerator companies",
+      "website": "",
+      "email": "",
+      "linkedin": "www.linkedin.com/company/northmirs",
+      "line_of_business": "",
+      "description": "NorthMiRs is an early-stage biotech company with expertise in formulation and preclinical research with a mission to develop therapies for sepsis.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "QThero",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/qthero",
+      "cohort": "Accelerator companies",
+      "website": "https://www.quthero.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/quthero/",
+      "line_of_business": "",
+      "description": "Quthero Canada is an early stage life science company based on a technology developed at the University of Toronto. In ageing and upon injury such as myocardial infarction, the balance of cytokines is disturbed, creating a pro-inflammatory environment which hampers healing and regeneration. Quthero has a patented Q-peptide derived from Angiopoietin-1, that can help restore the balance to orchestrate healing and regeneration. In the adMare Accelerator, Quthero will focus on developing new heart failure drugs based on the Q-peptide technology.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "RejuvenRx",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/rejuvenrx",
+      "cohort": "Accelerator companies",
+      "website": "https://rejuvenrx.com",
+      "email": "info@rejuvenrx.com",
+      "linkedin": "",
+      "line_of_business": "",
+      "description": "RejuvenRx Inc. is an emerging biotech company located in Montreal, QC, aiming to develop new therapeutics for aging and cancers that focus on stem cell biology. Supported by an innovative platform identifying stem cell therapeutic targets, the company is building a pipeline of transformative drug discovery programs. These programs are intended to use molecular glue modalities and conventional inhibition methods to potentially enhance patient health and longevity.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "SeraGene Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/seragene-therapeutics",
+      "cohort": "Accelerator companies",
+      "website": "https://www.seragenetx.com",
+      "email": "info@seragenetx.com",
+      "linkedin": "https://www.linkedin.com/company/seragene-tx/",
+      "line_of_business": "",
+      "description": "SeraGene Therapeutics is a biotech company located in Vancouver, BC, that focuses on developing low treatment burden RNA-based therapies for a broad range of blood coagulation disorders. They utilize deep expertise in nanomedicine and clotting biology with the aim of improving patient lives by reducing the frequency and severity of bleeding or clotting events.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Targa Biomedical",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/targa-biomedical",
+      "cohort": "Accelerator companies",
+      "website": "https://www.targabiomedical.com",
+      "email": "info@targabiomedical.com",
+      "linkedin": "https://www.linkedin.com/company/targa-biomedical/",
+      "line_of_business": "",
+      "description": "Targa Biomedical is a biotechnology company developing pharmacological assets optimizing the manufacturing quality and clinical impact of cell therapy and increasing opportunities for life-saving organ transplantation.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "TATUM bioscience",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/tatum-bioscience",
+      "cohort": "Accelerator companies",
+      "website": "https://www.tatumbio.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/tatum-bioscience/",
+      "line_of_business": "",
+      "description": "TATUM bioscience is a therapeutics company based in Sherbrooke, QC, concentrating on developing a new type of immunotherapy for cancer treatment. Their approach involves a modular synthetic biology platform to develop nanofilaments that are designed to help stimulate the immune system to target tumors. This method aims to enhance the immune system's ability to recognize and attack cancer cells, potentially improving treatment outcomes.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Telescope Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/telescope-therapeutics",
+      "cohort": "Accelerator companies",
+      "website": "https://www.telescopetherapeutics.com",
+      "email": "",
+      "linkedin": "https://www.linkedin.com/company/telescopetherapeutics/",
+      "line_of_business": "",
+      "description": "Telescope Therapeutics offers an iPSC-based platform to help optimize clinical trials “in-a-dish” for drug discovery. We also have proprietary drug discovery programs for cardiovascular and renal disease.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Trepso Therapeutics",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/trepso-therapeutics",
+      "cohort": "Accelerator companies",
+      "website": "https://www.trepso.com",
+      "email": "info@trepso.com",
+      "linkedin": "",
+      "line_of_business": "Therapeutics; Biopharma",
+      "description": "Trepso Therapeutics Inc. is a start-up company developing a best-in-class peptide therapeutic for the treatment of intervertebral disc disease (IVDD) and other diseases associated with degenerating articular joints, such as osteoarthritis. Chronic back and knee pain remain under-served, highly prevalent conditions and leading causes of functional disability worldwide. Current therapeutic approaches are relatively non-specific, short-acting and target symptoms rather than the disease. When therapeutic avenues are exhausted, highly invasive surgical approaches with variable and somewhat limited success remain the only option. Thus, there is an urgent need for better approaches, ones that deal directly with the pathological state of the degeneration. Ideally, an effective therapeutic would reduce the inflammatory response, provide long-term pain relief, restore structural integrity and biomechanical function, and prevent or delay the need for surgical intervention. Trepso has a strong foundation of more than twenty years of scientific research led by Drs. John Antoniou, MD and Fackson Mwale, PhD, both professors at McGill University’s Department of Surgery. The lead product candidate is based on the bioactive portion of Link N, an endogenous peptide that acts as a growth factor and key regulator of normal cartilage and disc extracellular matrix turnover. Trepso's proprietary 8 amino acid peptide (sLinkN) differentiates itself from other treatment approaches as it not only reverses the structural deterioration due to the underlying disease, sLinkN blocks the inflammatory and pain-producing pathways directly. Extensive in vitro and in vivo animal model data support sLinkN's potential as a disease-modifying agent for addressing IVDD and osteoarthritis.",
+      "more_information": [],
+      "detail_fetched": true
+    },
+    {
+      "company": "Valence Discovery",
+      "detail_url": "https://www.admarebio.com/en/accelerator-companies/valence-discovery",
+      "cohort": "Accelerator companies",
+      "website": "https://www.valencediscovery.com",
+      "email": "hello@valencediscovery.com",
+      "linkedin": "https://www.linkedin.com/company/valence-discovery/",
+      "line_of_business": "Artificial Intelligence",
+      "description": "Valence is building the world’s most powerful chemistry engine. The company has pioneered the application of few-shot learning in drug design, along with the development of best-in-class AI methods for molecular representation, structure and ligand-based de novo design, and multiparameter optimization, enabling the design of novel chemistry against previously intractable biology. Valence’s AI-based generative chemistry engine has been extensively validated and is being used to identify and design drug candidates in collaboration with industry-leading partners.",
+      "more_information": [],
+      "detail_fetched": true
+    }
+  ]
+}

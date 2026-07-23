@@ -1,3 +1,6 @@
+import json
+import html
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -59,7 +62,7 @@ class SearchAdapterTests(unittest.TestCase):
     def test_sources_include_52_vc_portfolio_pages(self):
         vc_sources = [source for source in pipeline.SOURCES if source.source_type == "VC portfolio"]
 
-        self.assertEqual(len(vc_sources), 52)
+        self.assertEqual(len(vc_sources), 56)
         self.assertTrue(all(source.adapter for source in vc_sources))
         adapters = {source.name: source.adapter for source in vc_sources}
         self.assertEqual(adapters["Fountain Healthcare Partners portfolio"], "fountain_healthcare")
@@ -97,6 +100,293 @@ class SearchAdapterTests(unittest.TestCase):
             self.assertEqual(source.adapter, "accelerator_page")
             self.assertEqual(pipeline.adapter_inventory_label(source), "Manual/not implemented")
 
+    def test_mars_health_source_uses_dedicated_adapter(self):
+        adapters = {source.name: source.adapter for source in pipeline.SOURCES}
+
+        self.assertEqual(adapters["MaRS Health Sciences"], "mars_health")
+
+    def test_mars_health_parser_extracts_official_api_records(self):
+        source = pipeline.Source(
+            "MaRS Health Sciences",
+            "Accelerator",
+            "https://www.marsdd.com/our-sectors/health/",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Official health ventures API extraction",
+            "Canadian biotech, medtech, diagnostics, and digital health companies.",
+            "mars_health",
+        )
+        payload = {
+            "ventureInfo": [
+                {
+                    "title": "Fluid AI",
+                    "permalink": "https://www.marsdd.com/venture/fluid-ai/",
+                    "company_url": "https://fluidai.md/",
+                    "description": "Postoperative monitoring technology.",
+                    "venture_type": "health",
+                }
+            ]
+        }
+
+        hits = pipeline.parse_mars_health_payload(
+            source,
+            payload,
+            "https://www.marsdd.com/wp-json/mars/v1/ventures?sector=health&page=1",
+        )
+
+        self.assertEqual([hit.company for hit in hits], ["Fluid AI"])
+        self.assertEqual(hits[0].website, "https://fluidai.md/")
+        self.assertEqual(hits[0].category_or_track, "Health")
+        self.assertIn("mars_health", hits[0].matched_terms)
+
+    def test_mars_health_runner_paginates_and_checks_official_total(self):
+        source = pipeline.Source(
+            "MaRS Health Sciences",
+            "Accelerator",
+            "https://www.marsdd.com/our-sectors/health/",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Official health ventures API extraction",
+            "Canadian health ventures.",
+            "mars_health",
+        )
+        pages = [
+            {
+                "current_page": "1",
+                "max_pages": 2,
+                "total_found": 2,
+                "ventureInfo": [
+                    {
+                        "title": "Fluid AI",
+                        "permalink": "https://www.marsdd.com/venture/fluid-ai/",
+                        "company_url": "https://fluidai.md/",
+                    }
+                ],
+            },
+            {
+                "current_page": "2",
+                "max_pages": 2,
+                "total_found": 2,
+                "ventureInfo": [
+                    {
+                        "title": "Retispec",
+                        "permalink": "https://www.marsdd.com/venture/retispec/",
+                        "company_url": "https://www.retispec.com/",
+                    }
+                ],
+            },
+        ]
+
+        with patch.object(
+            pipeline,
+            "ACCELERATOR_SOURCE_PAGES",
+            {"MaRS Health Sciences": ["https://www.marsdd.com/wp-json/mars/v1/ventures?sector=health&page=1"]},
+        ), patch.object(pipeline, "fetch_json_url", side_effect=[(pages[0], None), (pages[1], None)]):
+            discovery_hits, trigger_events, result = pipeline.run_mars_health(source)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["Fluid AI", "Retispec"])
+        self.assertEqual(len(trigger_events), 2)
+        self.assertIn("2/2 public directory ventures", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_mars_ventureconnect_source_uses_snapshot_adapter(self):
+        adapters = {source.name: source.adapter for source in pipeline.SOURCES}
+
+        self.assertEqual(
+            adapters["MaRS VentureConnect Healthcare & Life Sciences"],
+            "mars_ventureconnect",
+        )
+
+    def test_mars_ventureconnect_snapshot_runner_checks_reported_total(self):
+        source = pipeline.Source(
+            "MaRS VentureConnect Healthcare & Life Sciences",
+            "Accelerator",
+            "https://app.marsdd.com/companies",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Verified browser snapshot extraction",
+            "Canadian health companies.",
+            "mars_ventureconnect",
+        )
+        payload = {
+            "collected_at": "2026-07-23",
+            "reported_total": 2,
+            "extracted_total": 2,
+            "records": [
+                {
+                    "company": "LIOR Pupillometry",
+                    "profile_url": "https://app.marsdd.com/companies/lior-pupillometry",
+                    "tags": ["Medical Device", "Diagnostics Imaging and Sensors"],
+                    "description": "Portable neurological screening device.",
+                },
+                {
+                    "company": "NodeAI",
+                    "profile_url": "https://app.marsdd.com/companies/nodeai",
+                    "tags": ["Diagnostics", "AI-Enabled Diagnostics"],
+                    "description": "AI diagnostic software for lung cancer.",
+                },
+            ],
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            snapshot = Path(temp_dir) / "mars.json"
+            snapshot.write_text(json.dumps(payload), encoding="utf-8")
+            discovery_hits, trigger_events, result = pipeline.run_mars_ventureconnect(source, snapshot)
+
+        self.assertEqual([hit.company for hit in discovery_hits], ["LIOR Pupillometry", "NodeAI"])
+        self.assertEqual(discovery_hits[0].category_or_track, "Medical Device; Diagnostics Imaging and Sensors")
+        self.assertEqual(len(trigger_events), 2)
+        self.assertIn("2/2 VentureConnect", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_tiap_source_uses_dedicated_adapter(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "Toronto Innovation Acceleration Partners (TIAP)")
+
+        self.assertEqual(source.adapter, "tiap_portfolio")
+        self.assertEqual(source.url, "https://tiap.ca/portfolio/")
+
+    def test_tiap_parser_preserves_status_website_and_description(self):
+        source = pipeline.Source(
+            "Toronto Innovation Acceleration Partners (TIAP)",
+            "Accelerator",
+            "https://tiap.ca/portfolio/",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Official static portfolio extraction",
+            "",
+            "tiap_portfolio",
+        )
+        html = """
+        <div class="eael-filterable-gallery-item-wrap eael-cf-active-portfolio">
+          <div><a href="https://cohesys.ca/"><h1 class="fg-item-title">Cohesys</h1></a>
+          <div class="fg-item-content"><p>Developing surgical tape for fractures.</p></div></div>
+        </div>
+        <div class="eael-filterable-gallery-item-wrap eael-cf-exited">
+          <div><a><h1 class="fg-item-title">CoHealth (Acquired in 2020)</h1></a>
+          <div class="fg-item-content"><p>Delivery platform for educational health content.</p></div></div>
+        </div>
+        """
+
+        hits = pipeline.parse_tiap_portfolio_html(source, html)
+
+        self.assertEqual([hit.company for hit in hits], ["Cohesys", "CoHealth"])
+        self.assertEqual(hits[0].website, "https://cohesys.ca/")
+        self.assertEqual(hits[0].category_or_track, "Active")
+        self.assertEqual(hits[1].category_or_track, "Exited / acquired in 2020")
+        self.assertIn("educational health content", hits[1].company_description)
+
+    def test_tiap_runner_checks_active_and_exited_totals(self):
+        source = pipeline.Source(
+            "Toronto Innovation Acceleration Partners (TIAP)",
+            "Accelerator",
+            "https://tiap.ca/portfolio/",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Official static portfolio extraction",
+            "",
+            "tiap_portfolio",
+        )
+
+        def card(index, status):
+            return f"""
+            <div class="eael-filterable-gallery-item-wrap eael-cf-{status}">
+              <div><a href="https://venture-{index}.example/"><h1 class="fg-item-title">Venture {index:02d}</h1></a>
+              <div class="fg-item-content"><p>Health technology company {index}.</p></div></div>
+            </div>
+            """
+
+        html = "".join(card(index, "active-portfolio") for index in range(41))
+        html += "".join(card(index, "exited") for index in range(41, 57))
+
+        hits, triggers, result = pipeline.run_tiap_portfolio(source, fetcher=lambda url: (html, None))
+
+        self.assertEqual(len(hits), 57)
+        self.assertEqual(len(triggers), 57)
+        self.assertIn("57/57", result)
+        self.assertIn("41/41 active", result)
+        self.assertIn("16/16 exited", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+        _, _, incomplete = pipeline.run_tiap_portfolio(source, fetcher=lambda url: (card(1, "active-portfolio"), None))
+        self.assertIn("INCOMPLETE", incomplete)
+
+    def test_admare_source_uses_dedicated_adapter(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "adMare BioInnovations")
+
+        self.assertEqual(source.adapter, "admare_portfolio")
+        self.assertEqual(source.url, "https://www.admarebio.com/en/companies-weve-helped-build")
+
+    def test_admare_parsers_preserve_cohort_and_detail_fields(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "adMare BioInnovations")
+        index_html = """
+        <div class="list-item-container">
+          <h5><a href="/en/companies-weve-helped-build/flosonics-medical-1">Flosonics Medical</a></h5>
+        </div>
+        """
+        records = pipeline.parse_admare_index_html(index_html, source.url, "Companies we've helped build")
+        detail_html = """
+        <div class="search-object-detail-bloc"><h1>Flosonics Medical</h1>
+          <div class="item-website"><a href="//www.flosonicsmedical.com">Website</a></div>
+          <div class="item-email"><a href="mailto:hello@example.com"></a></div>
+          <div class="item-LinkedIn" data-url="https://linkedin.com/company/flosonics-medical"></div>
+          <div class="item-line-of"><span>Medical Devices</span></div>
+          <div class="item-detail-right"><h2>Description</h2>
+            <p>Non-invasive sensors for critically ill patients.</p>
+            <h2>More information</h2><ul><li><a href="https://example.com/news">Funding news</a></li></ul>
+            <a class="btn-text-bt-arrow-back">Back</a>
+          </div>
+        </div>
+        """
+        records[0].update(pipeline.parse_admare_detail_html(detail_html, records[0]["detail_url"]))
+        hits = pipeline.parse_admare_records(source, records)
+
+        self.assertEqual([hit.company for hit in hits], ["Flosonics Medical"])
+        self.assertEqual(hits[0].website, "https://www.flosonicsmedical.com")
+        self.assertEqual(hits[0].category_or_track, "Medical Devices")
+        self.assertIn("critically ill", hits[0].company_description)
+        self.assertIn("LinkedIn:", hits[0].matched_terms)
+
+    def test_admare_runner_checks_both_official_cohorts(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "adMare BioInnovations")
+        pages = {}
+
+        def index_page(prefix, count):
+            return "".join(
+                f'<div class="list-item-container"><h5><a href="/en/{prefix}/company-{index}">Company {prefix[:1]}{index:02d}</a></h5></div>'
+                for index in range(count)
+            )
+
+        pages[source.url] = index_page("companies-weve-helped-build", 39)
+        pages[pipeline.ADMARE_ACCELERATOR_URL] = index_page("accelerator-companies", 13)
+        for url, html in list(pages.items()):
+            for href in re.findall(r'href="([^"]+)"', html):
+                detail_url = pipeline.urljoin(url, href)
+                pages[detail_url] = """
+                <div class="search-object-detail-bloc"><h1>Company</h1>
+                  <div class="item-website"><a href="https://company.example">Website</a></div>
+                  <div class="item-line-of"><span>Therapeutics</span></div>
+                  <div class="item-detail-right"><h2>Description</h2><p>Drug development company.</p>
+                  <h2>More information</h2><a class="btn-text-bt-arrow-back">Back</a></div>
+                </div>
+                """
+
+        hits, triggers, result = pipeline.run_admare_portfolio(
+            source,
+            fetcher=lambda url: (pages.get(url, ""), None if url in pages else "not found"),
+        )
+
+        self.assertEqual(len(hits), 52)
+        self.assertEqual(len(triggers), 52)
+        self.assertIn("52/52 adMare companies", result)
+        self.assertIn("39/39 helped-build", result)
+        self.assertIn("13/13 accelerator", result)
+        self.assertNotIn("INCOMPLETE", result)
+
     def test_priority_eu_vc_sources_are_configured(self):
         sources = {source.name: source for source in pipeline.SOURCES}
 
@@ -128,7 +418,7 @@ class SearchAdapterTests(unittest.TestCase):
         spinout_sources = [source for source in pipeline.SOURCES if source.source_type == "University/spinout"]
         names = {source.name for source in spinout_sources}
 
-        self.assertEqual(len(spinout_sources), 58)
+        self.assertEqual(len(spinout_sources), 60)
         self.assertTrue(all(pipeline.adapter_inventory_label(source) != "Manual/not implemented" for source in spinout_sources))
         self.assertIn("University/spinout", pipeline.DISCOVERY_TERMS)
         self.assertEqual(pipeline.SOURCE_TRIGGER_TYPES["University/spinout"], "University/spinout origin")
@@ -189,7 +479,7 @@ class SearchAdapterTests(unittest.TestCase):
             "UT Austin spinouts",
             "MD Anderson spinouts",
             "Vanderbilt University spinouts",
-            "University of Toronto spinouts",
+            "University of Toronto Health & Life Sciences startups",
         ]:
             self.assertIn(name, names)
 
@@ -222,6 +512,100 @@ class SearchAdapterTests(unittest.TestCase):
         discovery_hits, trigger_events = pipeline.build_university_spinout_evidence(source, html)
 
         self.assertEqual([hit.company for hit in discovery_hits], ["RetinaAI Health"])
+
+    def test_uoft_health_source_uses_dedicated_adapter(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "University of Toronto Health & Life Sciences startups")
+
+        self.assertEqual(source.adapter, "uoft_health_startups")
+        self.assertEqual(source.source_type, "University/spinout")
+        self.assertIn("startups-directory", source.url)
+
+    def test_uoft_health_parser_preserves_directory_metadata(self):
+        source = pipeline.Source(
+            "University of Toronto Health & Life Sciences startups",
+            "University/spinout",
+            "https://entrepreneurs.utoronto.ca/our-startups/startups-directory/",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Official REST directory extraction",
+            "",
+            "uoft_health_startups",
+        )
+        payload = {
+            "structured_posts": [
+                {
+                    "title": "Cohesys",
+                    "link": "https://entrepreneurs.utoronto.ca/startup/cohesys/",
+                    "excerpt": "Medical-device company developing a flexible surgical adhesive.",
+                    "terms": {
+                        "category": [
+                            {"id": 58, "name": "Health &amp; Life Sciences"},
+                            {"id": 59, "name": "Medical Devices"},
+                        ]
+                    },
+                    "postmeta": {
+                        "location": ["Toronto, ON"],
+                        "size": ["1-10"],
+                        "additional_links_0_link": [
+                            'a:3:{s:5:"title";s:23:"Visit Cohesys Website";s:3:"url";s:22:"http://www.cohesys.ca/";s:6:"target";s:6:"_blank";}'
+                        ],
+                    },
+                    "accelerator_post_tags": '<a title="accelerator: UTEST">UTEST</a>',
+                }
+            ]
+        }
+
+        hits = pipeline.parse_uoft_health_startup_payload(source, payload)
+
+        self.assertEqual(len(hits), 1)
+        self.assertEqual(hits[0].company, "Cohesys")
+        self.assertEqual(hits[0].website, "http://www.cohesys.ca/")
+        self.assertEqual(hits[0].geography, "Toronto, ON")
+        self.assertIn("Medical Devices", hits[0].matched_terms)
+        self.assertIn("UTEST", hits[0].matched_terms)
+        self.assertIn("listed size: 1-10", hits[0].matched_terms)
+
+    def test_uoft_health_runner_paginates_and_checks_total(self):
+        source = pipeline.Source(
+            "University of Toronto Health & Life Sciences startups",
+            "University/spinout",
+            "https://entrepreneurs.utoronto.ca/our-startups/startups-directory/",
+            "Canada",
+            "High",
+            "Quarterly",
+            "Official REST directory extraction",
+            "",
+            "uoft_health_startups",
+        )
+        records = [
+            {
+                "title": f"Health Venture {index:03d}",
+                "link": f"https://entrepreneurs.utoronto.ca/startup/health-venture-{index:03d}/",
+                "excerpt": "Health technology company.",
+                "terms": {"category": [{"id": 58, "name": "Health & Life Sciences"}]},
+                "postmeta": {"location": ["Toronto, ON"]},
+            }
+            for index in range(171)
+        ]
+        requested_pages = []
+
+        def fake_fetcher(url, payload):
+            requested_pages.append(int(payload["pageNum"]))
+            self.assertEqual(json.loads(payload["taxQueries"]), {"category": ["58"]})
+            start = (int(payload["pageNum"]) - 1) * 16
+            return {
+                "total_posts": 171,
+                "structured_posts": records[start : start + 16],
+            }, None
+
+        hits, triggers, result = pipeline.run_uoft_health_startups(source, fetcher=fake_fetcher)
+
+        self.assertEqual(len(hits), 171)
+        self.assertEqual(len(triggers), 171)
+        self.assertEqual(requested_pages, list(range(1, 12)))
+        self.assertIn("171/171", result)
+        self.assertNotIn("INCOMPLETE", result)
 
     def test_university_spinout_adapter_uses_curated_official_fallbacks(self):
         source = pipeline.Source("EPFL spinouts", "University/spinout", "https://www.epfl.ch/innovation/startup/", "Europe", "High", "Quarterly", "Spinout extraction", "EPFL medical startups.", "university_spinout_directory")
@@ -1432,12 +1816,378 @@ class SearchAdapterTests(unittest.TestCase):
           <p class="companybio-location">Energy Grid</p>
           <p class="companybio-stream">Energy</p>
         </a>
+        <a href="/companies/voxcell/" class="js-companybio-link company-link--noscale">
+          <p class="companybio-location">VoxCell BioInnovation</p>
+          <p class="companybio-stream">Biomedical Engineering, Cancer</p>
+        </a>
         """
 
         hits = pipeline.parse_cdl_health_page(source, html, source.url)
 
-        self.assertEqual([hit.company for hit in hits], ["Correlia Biosystems"])
+        self.assertEqual([hit.company for hit in hits], ["Correlia Biosystems", "VoxCell BioInnovation"])
         self.assertEqual(hits[0].category_or_track, "Health")
+        self.assertEqual(hits[1].category_or_track, "Biomedical Engineering, Cancer")
+
+    def test_cdl_health_runner_audits_canadian_sites_and_detail_pages(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "Creative Destruction Lab Health")
+        pages = {}
+
+        def card(index, location, stream="Health"):
+            return f"""
+            <a href="/companies/company-{index}/" class="js-companybio-link company-link--noscale">
+              <p class="companybio-location">Company {index:03d}</p>
+              <p class="companybio-stream">{stream}</p>
+            </a>
+            """
+
+        toronto_indexes = range(139)
+        vancouver_indexes = range(109, 226)
+        pages[pipeline.CDL_CANADA_DIRECTORY_URLS["CDL-Toronto"]] = "".join(
+            card(index, "CDL-Toronto", "Biomedical Engineering, Cancer" if index == 0 else "Health")
+            for index in toronto_indexes
+        )
+        pages[pipeline.CDL_CANADA_DIRECTORY_URLS["CDL-Vancouver"]] = "".join(
+            card(index, "CDL-Vancouver")
+            for index in vancouver_indexes
+        )
+        for index in range(226):
+            pages[f"https://creativedestructionlab.com/companies/company-{index}/"] = f"""
+            <meta property="og:description" content="Health company {index} description." />
+            <div class="company-category">
+              <p><strong>Site:</strong> CDL-{"Toronto" if index < 139 else "Vancouver"}</p>
+              <p><strong>Cohort Year:</strong> 2024/25</p>
+              <p><strong>Stream:</strong> Health</p>
+            </div>
+            <a class="btn company-website-link" href="https://company-{index}.example/">Website</a>
+            <h2 class="c-primary">Company {index:03d}</h2>
+            """
+
+        hits, triggers, result = pipeline.run_cdl_health(
+            source,
+            fetcher=lambda url: (pages.get(url, ""), None if url in pages else "not found"),
+            max_workers=4,
+        )
+
+        self.assertEqual(len(hits), 226)
+        self.assertEqual(len(triggers), 226)
+        self.assertIn("226/226 unique Canadian-site", result)
+        self.assertIn("139/139 Toronto", result)
+        self.assertIn("117/117 Vancouver", result)
+        self.assertNotIn("INCOMPLETE", result)
+        self.assertEqual(hits[0].website, "https://company-0.example/")
+        self.assertEqual(hits[0].cohort_year, "2024/25")
+
+    def test_centech_health_source_uses_dedicated_adapter(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "Centech – Medtech")
+
+        self.assertEqual(source.adapter, "centech_health")
+
+    def test_centech_health_parser_preserves_api_metadata(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "Centech – Medtech")
+        payload = [
+            {
+                "id": 1,
+                "link": "https://centech.co/en/startups/aion-healthtech/",
+                "title": {"rendered": "Aion Healthtech"},
+                "categories": [5, 1094],
+                "acf": {
+                    "startups_cohorte": "Hiver 2026",
+                    "startups_radio": "radio1",
+                    "startups_website": {"url": "https://aion.example/"},
+                    "startups_link": {"url": "https://linkedin.com/company/aion"},
+                    "startups_description_en": "AI-assisted mental-health data analysis.",
+                },
+            }
+        ]
+
+        hits = pipeline.parse_centech_health_payload(source, payload)
+
+        self.assertEqual([hit.company for hit in hits], ["Aion Healthtech"])
+        self.assertEqual(hits[0].website, "https://aion.example/")
+        self.assertEqual(hits[0].cohort_year, "2026")
+        self.assertIn("Digital Health", hits[0].category_or_track)
+        self.assertIn("Propulsé", hits[0].category_or_track)
+        self.assertIn("LinkedIn:", hits[0].matched_terms)
+
+    def test_centech_health_runner_checks_records_and_unique_companies(self):
+        source = next(source for source in pipeline.SOURCES if source.name == "Centech – Medtech")
+        payload = []
+        for index in range(95):
+            company_index = index if index < 92 else index - 92
+            payload.append(
+                {
+                    "id": index,
+                    "link": f"https://centech.co/startups/company-{index}/",
+                    "title": {"rendered": f"Company {company_index:02d}"},
+                    "categories": [32],
+                    "acf": {"startups_radio": "radio2"},
+                }
+            )
+
+        hits, triggers, result = pipeline.run_centech_health(
+            source,
+            fetcher=lambda url: (payload, None),
+        )
+
+        self.assertEqual(len(hits), 95)
+        self.assertEqual(len(triggers), 95)
+        self.assertIn("95/95", result)
+        self.assertIn("92/92 unique", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_remaining_canada_tier_a_sources_use_dedicated_adapters(self):
+        expected = {
+            "CTS Santé": "cts_sante_portfolio",
+            "District 3 – Bio and Health": "district3_health",
+            "OBIO": "obio_cohorts",
+            "MEDTEQ+": "medteq_portfolio",
+            "Innovate Calgary / UCeed Health": "uceed_health",
+            "University of Alberta Health Innovation Hub": "ualberta_health_hub",
+            "Innovation UBC Human Health portfolio": "innovation_ubc_health",
+        }
+        actual = {source.name: source.adapter for source in pipeline.SOURCES if source.name in expected}
+        self.assertEqual(actual, expected)
+
+    def test_cts_sante_runner_traverses_complete_portfolio_sitemap(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "cts_sante_portfolio")
+        urls = [f"https://ctssante.com/portfolio/company-{index}/" for index in range(21)]
+        pages = {
+            pipeline.CTS_SITEMAP_URL: "".join(f"<loc>{url}</loc>" for url in urls),
+            **{
+                url: (
+                    f"<h1>CTS Company {index}</h1>"
+                    f'<meta name="description" content="Medical technology company {index}.">'
+                    f'<a href="https://cts-{index}.example/">Website</a>'
+                )
+                for index, url in enumerate(urls)
+            },
+        }
+        hits, triggers, result = pipeline.run_cts_sante(
+            source, fetcher=lambda url: (pages.get(url, ""), None if url in pages else "missing")
+        )
+        self.assertEqual(len(hits), 21)
+        self.assertEqual(len(triggers), 21)
+        self.assertNotIn("INCOMPLETE", result)
+        self.assertEqual(hits[-1].website, "https://cts-20.example/")
+
+    def test_district3_runner_filters_all_paginated_cards(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "district3_health")
+
+        def card(index, stream):
+            return (
+                '<div class="startup_grid-card">'
+                f'<a href="https://d3-{index}.example/">D3 Company {index}</a>'
+                f'<div class="news_grid-card-text">Company description {index}</div>'
+                f'<div class="tag" fs-cmsfilter-field="stream">{stream}</div></div>'
+            )
+
+        pages = {
+            source.url: "".join(card(i, "Healthcare" if i < 10 else "High Tech") for i in range(20)),
+            f"{source.url}?37e06a8e_page=2": "".join(
+                card(i, "Biotech" if i < 22 else "Social Innovation") for i in range(20, 25)
+            ),
+            f"{source.url}?37e06a8e_page=3": "",
+        }
+        hits, _, result = pipeline.run_district3(
+            source, fetcher=lambda url: (pages.get(url, ""), None)
+        )
+        self.assertEqual(len(hits), 12)
+        self.assertEqual({hit.category_or_track for hit in hits}, {"Healthcare", "Biotech"})
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_obio_runner_preserves_program_records_and_repeat_company(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "obio_cohorts")
+        pages = {
+            url: "<html>" + " | ".join(companies) + "</html>"
+            for _, _, url, companies in pipeline.OBIO_COHORTS
+        }
+        hits, _, result = pipeline.run_obio(source, fetcher=lambda url: (pages[url], None))
+        self.assertEqual(len(hits), 25)
+        self.assertEqual(len({hit.company.lower() for hit in hits}), 24)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_medteq_runner_requires_all_investment_portfolio_cards(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "medteq_portfolio")
+        boxes = "".join(
+            f'<div class="box"><p>{company} develops medical technology.</p></div>'
+            for company in pipeline.MEDTEQ_COMPANIES
+        )
+        html = f'<section><div class="mosaique-logos">{boxes}</div></section>'
+        hits, _, result = pipeline.run_medteq(source, fetcher=lambda url: (html, None))
+        self.assertEqual(len(hits), 17)
+        self.assertEqual(hits[1].company, "Gray Oncology Solutions")
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_uceed_runner_collects_both_health_funds(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "uceed_health")
+        pages = {}
+        for cohort, url, expected in pipeline.UCEED_PAGES:
+            pages[url] = "<h2>Health Fund Portfolios</h2>" + "".join(
+                f'<h3>{cohort} Company {index}</h3><p>Health venture.</p>'
+                f'<a href="https://uceed-{expected}-{index}.example/">Visit website</a>'
+                for index in range(expected)
+            ) + "<h2>Advisors</h2>"
+        hits, _, result = pipeline.run_uceed(source, fetcher=lambda url: (pages[url], None))
+        self.assertEqual(len(hits), 42)
+        self.assertTrue(all(hit.website for hit in hits))
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_ualberta_runner_uses_complete_company_card_directory(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "ualberta_health_hub")
+        html = "".join(
+            '<div class="card"><div class="card-header">'
+            f'<span>Alberta Company {index}</span></div>'
+            f'<div class="card-body"><p>Health product {index}</p>'
+            f'<a href="https://alberta-{index}.example/">Company</a></div></div>'
+            for index in range(44)
+        )
+        hits, _, result = pipeline.run_ualberta(source, fetcher=lambda url: (html, None))
+        self.assertEqual(len(hits), 44)
+        self.assertEqual(hits[0].geography, "Alberta, Canada")
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_innovation_ubc_runner_traverses_seven_pages_and_exact_health_filter(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "innovation_ubc_health")
+        pages = {}
+        counts = [60, 60, 60, 60, 60, 60, 25]
+        health_counts = [22, 22, 22, 22, 22, 22, 20]
+        company_index = 0
+        for page, (count, health_count) in enumerate(zip(counts, health_counts)):
+            rows = []
+            for index in range(count):
+                impact = "Human Health" if index < health_count else "Planetary Health"
+                rows.append(
+                    f"<tr><td><h5>UBC Company {company_index}</h5></td>"
+                    f"<td>Vancouver, BC</td><td>{impact}</td><td>Spin-off</td>"
+                    f'<td><a href="https://ubc-{company_index}.example/"><i></i></a>'
+                    f'<a href="https://linkedin.com/company/ubc-{company_index}"><i></i></a></td></tr>'
+                )
+                company_index += 1
+            url = source.url if page == 0 else f"{source.url}?page={page}"
+            pages[url] = "<table><tbody>" + "".join(rows) + "</tbody></table>"
+        pages[f"{source.url}?page=7"] = "<table></table>"
+        hits, _, result = pipeline.run_innovation_ubc(
+            source, fetcher=lambda url: (pages.get(url, ""), None)
+        )
+        self.assertEqual(len(hits), 152)
+        self.assertTrue(all(hit.website for hit in hits))
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_tier_a_canada_investors_use_dedicated_adapters(self):
+        expected = {
+            "Lumira Ventures portfolio": "lumira_portfolio",
+            "Genesys Capital portfolio": "genesys_portfolio",
+            "Amplitude Ventures portfolio": "amplitude_portfolio",
+            "BDC current health and life-sciences portfolio": "bdc_health_portfolio",
+            "FACIT oncology investment portfolio": "facit_portfolio",
+        }
+        actual = {source.name: source.adapter for source in pipeline.SOURCES if source.name in expected}
+        self.assertEqual(actual, expected)
+
+    def test_lumira_runner_checks_current_and_exited_denominators(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "lumira_portfolio")
+        cards, modals = [], []
+        for index in range(59):
+            status = "exits" if index < 25 else "current"
+            cards.append(
+                f'<div class="col grid-item {status}"><a class="stretched-link" '
+                f'data-bs-target="#portfolio-popup-{index}"></a></div>'
+            )
+            modals.append(
+                f'<div id="portfolio-popup-{index}" class="modal portfolio-madal">'
+                f'<div class="member-img-modal"><img alt="Lumira Company {index}"></div>'
+                f'<div class="modal-member-desc">Medical technology. Industry: Medical Device | '
+                f'Headquarters: Toronto, Ontario <a href="https://lumira-{index}.example/">Website</a></div></div>'
+            )
+        hits, _, result = pipeline.run_lumira(source, fetcher=lambda url: ("".join(cards + modals), None))
+        self.assertEqual(len(hits), 59)
+        self.assertIn("34/34 current", result)
+        self.assertIn("25/25 exited", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_genesys_runner_traverses_all_active_investment_details(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "genesys_portfolio")
+        links = "".join(f'<a href="/investments/company-{index}"><img></a>' for index in range(12))
+
+        def fetcher(url):
+            if url == source.url:
+                return links + '<a href="/investments/coming-soon"></a>', None
+            index = url.rsplit("-", 1)[-1]
+            return (
+                f'<h1>Genesys Company {index}</h1><p>Healthcare company developing a clinical product.</p>'
+                f'<a href="https://genesys-{index}.example/">Company website</a>',
+                None,
+            )
+
+        hits, _, result = pipeline.run_genesys(source, fetcher=fetcher)
+        self.assertEqual(len(hits), 12)
+        self.assertTrue(all(hit.website for hit in hits))
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_amplitude_runner_decodes_complete_embedded_portfolio(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "amplitude_portfolio")
+        records = []
+        for index in range(24):
+            status = "exited" if index < 4 else "active"
+            records.append({
+                "title": f"Amplitude Company {index}",
+                "portfolio_status": {"value": status},
+                "categories": ["oncology"],
+                "content": "Canadian precision medicine company.",
+                "website": f"https://amplitude-{index}.example/",
+            })
+        raw_html = f'<portfolio-page :portfolios="{html.escape(json.dumps(records), quote=True)}"></portfolio-page>'
+        hits, _, result = pipeline.run_amplitude(source, fetcher=lambda url: (raw_html, None))
+        self.assertEqual(len(hits), 24)
+        self.assertIn("20/20 active", result)
+        self.assertIn("4/4 exited", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_bdc_runner_unions_six_health_filters_and_company_details(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "bdc_health_portfolio")
+        counts = dict(zip(pipeline.BDC_HEALTH_SECTORS, [9, 3, 2, 3, 6, 8]))
+        detail_pages = {}
+
+        def fetcher(url):
+            if "FilterByFund" in url:
+                sector = re.search(r"industrySector=([^&]+)", url).group(1)
+                cards = []
+                offset = sum(value for key, value in counts.items() if pipeline.BDC_HEALTH_SECTORS.index(key) < pipeline.BDC_HEALTH_SECTORS.index(sector))
+                for index in range(counts[sector]):
+                    company_index = offset + index
+                    detail_url = f"https://www.bdc.ca/en/bdc-capital/venture-capital/portfolio/company-{company_index}"
+                    detail_pages[detail_url] = (
+                        f'<meta name="description" content="Health company {company_index}.">'
+                        f'Region Ontario Industry sector {sector} Investment year 2025 Fund Seed Venture Fund '
+                        f'<a href="https://bdc-{company_index}.example/">Website</a>'
+                    )
+                    cards.append(
+                        f'<a title="BDC Company {company_index}" '
+                        f'href="/en/bdc-capital/venture-capital/portfolio/company-{company_index}"></a>'
+                    )
+                return "".join(cards), None
+            return detail_pages[url], None
+
+        hits, _, result = pipeline.run_bdc_health(source, fetcher=fetcher, max_workers=2)
+        self.assertEqual(len(hits), 31)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_facit_runner_excludes_institution_owned_pre_company_assets(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "facit_portfolio")
+        articles = []
+        for index in range(81):
+            name = f"OICR (Asset {index})" if index < 25 else f"FACIT Company {index}"
+            articles.append(
+                f'<article id="portfolio-{index}"><a href="/portfolio/company-{index}"><h1>{name}</h1></a>'
+                '<div class="term"><div class="label">Innovation Type:</div><div class="value">Medical Technologies</div></div>'
+                '<div class="term"><div class="label">Funding Stage:</div><div class="value">Seed</div></div>'
+                f'<div class="innovation">Oncology product company {index}.</div></article>'
+            )
+        hits, _, result = pipeline.run_facit(source, fetcher=lambda url: ("".join(articles), None))
+        self.assertEqual(len(hits), 56)
+        self.assertTrue(all(hit.company_description for hit in hits))
+        self.assertIn("25 institution-owned", result)
+        self.assertNotIn("INCOMPLETE", result)
 
     def test_masschallenge_healthcare_extracts_cohort_links_from_article_json(self):
         source = pipeline.Source("MassChallenge HealthTech", "Accelerator", "https://masschallenge.org/articles/healthcare-life-sciences-traction-cohort-2026/", "US/global", "Medium", "Annual", "Cohort extraction", "Healthcare cohort.", "masschallenge_healthcare")

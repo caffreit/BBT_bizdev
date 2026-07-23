@@ -1,0 +1,2563 @@
+{
+  "source": "University of Toronto Venture Directory",
+  "source_url": "https://entrepreneurs.utoronto.ca/our-startups/startups-directory/",
+  "filter": "Health & Life Sciences",
+  "filter_category_id": 58,
+  "collected_at": "2026-07-23",
+  "reported_total": 171,
+  "extracted_total": 171,
+  "unique_company_count": 167,
+  "duplicate_name_record_count": 4,
+  "records": [
+    {
+      "company": "16bit",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/16bit/",
+      "website": "https://www.16bit.ai",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "16 Bit designs, trains, and validates machine-learning algorithms to streamline the process of interpreting radiology images. With imaging data banks continually growing and the health system’s increasing reliance on medical-imaging services, radiologists have become a bottleneck in the overall delivery of healthcare. By augmenting medical analysis workflows with artificially intelligent tools, 16 Bit will help physicians diagnose and monitor disease by improving accuracy and efficiency.",
+      "location": "Toronto, ON",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "32 Bio Sciences",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/covira-surgical/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "32 Bio Sciences develops drugs that work by modulating the biological activity of the gut microbiome to prevent diseases. Its platform technology generated a lead asset (CS-0003) that modulates bacterial virulence and restores microbial communities to prevent post-surgical infection. 32 Bio Sciences’ approach is transformative to the field and the world is taking notice. In the 4th quarter of last year Business Worldwide Magazine named Covira Among the 2021 - Top 20 Most Innovative Companies to Watch.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Able Innovations",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/able-innovations/",
+      "website": "https://www.ableinnovations.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Able Innovations is developing cutting edge technology to transfer individuals with restricted mobility, such as elderly or disabled individuals, from one surface to another (ex. bed to wheelchair, etc.).",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Centre for Entrepreneurship",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "AceAge",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/aceage/",
+      "website": "https://www.aceage.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "AceAge is a healthcare technology company, creating intuitive products to ease the aging process and improve health outcomes.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Acorn Biolabs",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/acorn-biolabs/",
+      "website": "https://www.acorn.me",
+      "categories": [
+        "Genomics",
+        "Health & Life Sciences"
+      ],
+      "description": "Acorn is a healthcare technology company focused on giving every human being the best chance to experience more healthy years with its easy, affordable and non-invasive stem cell collection, analysis and cryopreservation service.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": []
+    },
+    {
+      "company": "Akira Health",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/akira-health/",
+      "website": "https://www.akirahealth.ca",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Akira by TELUS Health is a national on-demand virtual care solution.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Allarta Life Science Inc",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/allarta-life-science-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Allarta Life Science is a pre-clinical life science company based in Hamilton, Ontario, Canada, developing next generation biomaterials for immune-privileged delivery of cells, stem cells and biologics.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "AmacaThera",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/amacathera/",
+      "website": "https://www.amacathera.ca/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "AmacaThera is focused on developing a unique, injectable hydrogel platform technology that addresses the critical problem of sustaining therapeutic delivery of pharmacological agents for multiple disease areas.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Aquarius Neurotechnologies Ltd",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/aquarius-neurotechnologies-ltd/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Aquarius Neurotechnologies has designed a technology that will transform novel discoveries in basic science to successful clinical outcomes: RodentIQ consists of an ergonomic design which emulates human smart wear and ensures rodent well-being over the entire pre-clinical trial period.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Ariel Precision Medicine",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ariel-precision-medicine/",
+      "website": "https://arielmedicine.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "Ariel Precision Medicine has developed decision-support tools that integrate complex genetics into clinical decision making to enable earlier diagnosis and targeted management for complex chronic digestive and metabolic diseases. By leveraging genetic information, AI, and clinical inputs, Ariel creates a “risk profile” for patients to help clinicians better understand what is driving a patient’s condition, allowing them to focus on treating the biological disease drivers rather than the physical symptoms. With an initial focus on pancreatitis and an expanding product line, Ariel’s platform is currently in the market and being used by over 250 physicians across 120 institutions.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Arma Biosciences",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/arma/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Arma enables on-demand, personalized health monitoring at the molecular level. <br>",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Artificial Intelligence Imaging Sensors (AiimSense Inc.)",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/artificial-intelligence-imaging-sensors-aiimsense-inc/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences"
+      ],
+      "description": "AiimSense develops portable brain scanners to turn expensive head scans with specialized procedures into real-time monitoring routine and preventative care at patient’s bedside.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Atlis Labs",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/atlis-labs/",
+      "website": "https://www.altislabs.com/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Altis is a clinical information company advancing medical research and knowledge. Altis’ software platform Nota enables researchers to operationalize imaging data and leverage predictive imaging insights at scale. Life Sciences companies use Nota to accelerate and optimize R&D of their most promising therapies across all stages of clinical development.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Atorvia",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/atorvia/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "A life sciences company engineering targeted therapies for kidney failure.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "SpinUp",
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Avro Life Science",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/avro-life-science/",
+      "website": "https://www.avrolifesci.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "Avro Life Science develops skin patches that administer generic drugs through the skin and eliminate the need for oral medication. Their first product – an allergy patch for children – helps children avoid the negative side effects of taking oral medication (ie. trouble swallowing, forgetting to take medicine, etc.).",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Awake Labs",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/awake-labs/",
+      "website": "https://www.awakelabs.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Awake Labs’ app, Reveal, empowers families to better care for brain and mental health disorders by allowing individuals, families, educators, and therapists to engage with each other and improve long-term outcomes. Reveal aggregates the information collected from the network of caregivers and applies machine learning to measure progress and to make therapy more effective.",
+      "location": "Toronto, ON",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "AXONIS Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/axonis-therapeutics/",
+      "website": "",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "AXONIS Therapeutics is advancing breakthrough drug discoveries to develop first-in-class therapies for currently incurable neurological disorders, in order to make a real difference for patients, their families, and the global healthcare system.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "B-Celera",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/b-celera/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "B-celera has innovated a technology that provides a novel route of aspirin administration through direct systemic absorption on the inner cheek (buccal administration) in two forms (rapid or slow-release).",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "BioBox Analytics Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/biobox-analytics-inc/",
+      "website": "https://biobox.io/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "BioBox Analytics is an end-to-end informatics solution for scientists and clinicians working with genomic data, allowing them to process, analyze and explore their data all in one platform.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Biotx.ai",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/biotx-ai/",
+      "website": "https://www.biotx.ai",
+      "categories": [
+        "Genomics",
+        "Health & Life Sciences"
+      ],
+      "description": "biotx.ai uses machine-learning techniques to analyze genomic data in combination with various sources of scientific literature to characterize polygenetic biomarkers and inform the development of novel diagnostics and therapies. The company uses open-source data to generate its internal biomarker portfolio as well as the data of pharmaceutical and biotechnology companies to help those clients direct their research efforts.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "BlueDot",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/bluedot/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences",
+        "Population Health"
+      ],
+      "description": "BlueDot is a leading organization that uses human and artificial intelligence to detect, assess, and respond to infections disease threats.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "BrainFx",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/brainfx/",
+      "website": "https://www.brainfx.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "BrainFx creates clinical digital-assessment tools (both web and tablet-based) for healthcare professionals, so they can measure the effects of brain disorders on a person’s ability to function in real life. The premier offering is BrainFx 360, a new, comprehensive, standardized, research-based digital assessment tool designed to measure the functional impact of mild to moderate brain injury or disorder.",
+      "location": "Toronto, ON",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Braze Mobility",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/braze-mobility/",
+      "website": "https://www.brazemobility.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Braze Mobility has launched the world's first blind spot sensor systems for wheelchairs that increase driver awareness and safety by providing feedback on the location and proximity of obstacles through customizable, multi-modal alerts.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Centre for Entrepreneurship"
+      ]
+    },
+    {
+      "company": "Bright Angel Therapeutics Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/bright-angel-therapeutics-inc/",
+      "website": "https://www.brightangeltherapeutics.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Bright Angel combines the expertise of world-renowned mycology experts with Schrödinger’s cutting-edge computational technology to develop innovative therapeutics for the treatment of invasive fungal infections.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Cohesys",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/cohesys/",
+      "website": "http://www.cohesys.ca/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Cohesys is a medical-device company developing BoneTape, a flexible surgical adhesive to improve the ease and outcome of procedures that currently rely on rigid metal plates and screws.",
+      "location": "Toronto, ON",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Conceptualiz Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/conceptualiz-inc/",
+      "website": "http://www.conceptualiz.com/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Conceptualiz is a provider of automated mobile app 3D pre-operative surgical planning, medical modeling and 3D printing software for healthcare providers.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "Cordance Medical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/cordance-medical/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Cordance Medical has developed a medical device that will enhance drug delivery to brain diseases by reversibly opening up the blood-brain barrier (BBB) in a simple, painless, patient-friendly 30 minute visit.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Cosm Medical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/cosm-medical/",
+      "website": "https://www.cosm.care",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "COSM Medical is a medical-device company that is developing a hardware and software platform to personalize treatments for pelvic floor disorders (PFDs), such as incontinence and pelvic organ prolapse. COSM’s first product is a made-to-measure gynecological prosthetics platform called Gynethotics that improves pessary performance and reduces complications while removing the art of pessary fittings.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Cove Neurosciences Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/cove-neurosciences-inc/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences"
+      ],
+      "description": "In the clinical trial setting, only 8.2% of drugs tested for neurological diseases reach the clinical setting, relative to 15% of all drugs overall. This is largely due to the lack of biomarkers to characterize the heterogeneity of patients, as well as variable response to therapeutics. Accordingly, there is a critical unmet need for biomarkers of neurologic diseases. To address this gap, we have developed a software pipeline, CoveConnectTM, designed to derive biomarkers of neurologic diseases in clinical trial. By merging machine learning learning approaches with neuroscience expertise, CoveConnectTM closes the divide between data processing and neuroscience, enabling the neuroscience industry to effectively manage and comprehend data from MRIs and EEGs. As such, our solution is an essential tool in accelerating, de-risking, and advancing clinical trials in the Alzheimer’s setting.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "Creative Medical Solutions",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/creative-medical-solutions/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Creative Medical Solutions is transforming uroflowmetry testing and addressing the rising patient load with a medical device designed to elevate patient care and streamline provider efficiency. Our device offers greater comfort, facilitates faster testing, and permits higher throughput in clinics.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "CTRL Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ctrl-therapeutics/",
+      "website": "https://www.cellular-analytics.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "A developer of a microfluidic platform designed to optimize the detection of rare circulating tumor cells. Formerly known as Cellular Analytics.",
+      "location": "Toronto, ON",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Curatio",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/curatio/",
+      "website": "https://curatio.me/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Curatio Inc. provides caregivers and patients a holistic, end-to-end, management system.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": []
+    },
+    {
+      "company": "Curovate",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/curovate/",
+      "website": "https://www.curovate.com/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Curovate is making physiotherapy accessible to everyone through mobile apps. Curovate was developed by a physiotherapist and provides mobile app rehabilitation following major orthopedic surgery and is available in the Apple App Store and the Google Play Store.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Dalriada Therapeutics Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/dalriada-therapeutics-inc/",
+      "website": "https://www.dalriadatx.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Our company develops novel therapeutics for treatment of proliferative diseases, with a focus on cancer and psoriasis.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Decoy Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/decoy-therapeutics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Engineering broad acting antivirals that target the viruses of today and pre-emptively protect against the viruses of tomorrow.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Deep Breathe AI",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/deep-breathe-ai/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Redefining ultrasound diagnostics for respiratory diseases with AI-driven accuracy ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "Deep Genomics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/deep-genomics/",
+      "website": "https://www.deepgenomics.com/",
+      "categories": [
+        "Genomics",
+        "Health & Life Sciences"
+      ],
+      "description": "Deep Genomics Inc. develops an artificial intelligence-powered discovery platform that supports geneticists, molecular biologists, chemists, toxicologists, and drug developers in the identification and development of genetic medicines. Deep Genomics Inc. was founded in 2014 and is based in Toronto, Canada.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "DigiOmics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/digiomics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "We are a microfluidics company that has developed a method of targeting and lysing single cells in a complex background of other cells for –omics based analysis of the single cells.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Dynamik Therapies",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/dynamik-therapies/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Dinamik Therapies is a clinical stage biotechnology start-up being incubated at the Princess Margaret Cancer Centre in Toronto Canada. We create precision nanomedicines to transform the care for the 450,000 patients and survivors with oral cancers.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "UTEST"
+      ]
+    },
+    {
+      "company": "e Health Access",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/e-health-access/",
+      "website": "https://www.evaidya.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "A health care technology start-up with the focus of creating solutions to help patients get better educated on their medications and improve health care outcomes.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": []
+    },
+    {
+      "company": "EBT Medical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ebt-medical/",
+      "website": "https://www.ebtmedical.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "EBT Medical is commercializing a new class of electrical neuromodulation therapies aimed at treating overactive bladder. EBT is a venture-backed, clinical stage company pursuing disruptive neuromodulation technologies, focused on pelvic floor disorders. Our first product is a novel, discreet non-invasive neuromodulation therapy & associated ecosystem for patients with overactive bladder, centered on a new target: the Saphenous nerve.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "eHealth Access INC.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ehealth-access-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "We are a Toronto based health technology start-up with a focus on providing intuitive and accessible health technology solutions to patients.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Eigen Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/eigen-therapeutics/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Eigen Therapeutics is an operator of a biotechnology company intended to develop combination therapeutics for cancer. The company is in the research and development of synergistic therapies that improve efficacy while reducing the toxicity of small molecule therapies and immunotherapies, enabling physicians to get access to novel drugs in areas of unmet medical need.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Elev8 & Perform",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/elev8-perform/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Quantum Physiology"
+      ],
+      "description": "Elev8 and Perform has created a wearable technology leveraging quantum nanotechnology biology to enhance athlete longevity and performance. Elev8 works with members of the Olympics, NBA, and Harvard, revolutionizing how athletes train, recover, and excel at all levels.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "Black Founders Network",
+        "SICIEEIL",
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Empower Health",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/empower-health/",
+      "website": "https://empower.ca/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Empower Health created the iamsick.ca digital health platform with the goal of leveraging healthcare system data to improve healthcare access & equity, while reducing healthcare delivery costs. The iamsick.ca API powers partner apps, which include major Canadian brands, and offers a national data management/analytics framework that will remove barriers in accessing healthcare ‚Äì from language barriers to long wait-times.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": []
+    },
+    {
+      "company": "En Carta Diagnostics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/en-carta-diagnostics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Healthcare",
+        "HealthTech"
+      ],
+      "description": "En Carta Diagnostics is the developer of a biotechnology platform designed for molecular diagnostics through synthetic biology. The company's platform offers ready-to-use tests against validated targets, as well as in-house development of new tools against virtually any DNA or RNA target using its patented technologies, enabling healthcare professionals to easily detect and identify infections.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Encora Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/encora-therapeutics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "We’re 4 MIT engineers who started Encora to research wearable solutions for patients with movement disorders. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Epiloid Biotechnology",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/epiloid-biotech/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences"
+      ],
+      "description": "Epiloid provides contract research services for preclinical pharmaceutical research, specializing in electrophysiological analysis of patient-derived human cerebral organoids.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Epineuron Technologies",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/epineuron-technologies/",
+      "website": "https://www.epineurontech.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Epineuron Technologies is a medical device company that helps surgeons expedite nerve recovery through electro-stimulation after nerve-repair surgeries.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "eQOL",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/eqol/",
+      "website": "https://eqol.ca/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "eQOL is building eHealth solutions that will support people afflicted with chronic health conditions and the health care ecosystem around them. By developing and integrating technology into the health care delivery process, our mission will be to enhance Quality Of Life.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "ExCellThera",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/excellthera/",
+      "website": "https://www.excellthera.com",
+      "categories": [
+        "Cell & Gene Therapy",
+        "Health & Life Sciences"
+      ],
+      "description": "ExCellThera is an advanced clinical stage biotechnology company focused on delivering molecules and bioengineering solutions to expand stem and immune cells for therapeutic use.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "Flow Robotics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/flow-robotics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "<br><br>Flow Robotics, a Toronto-based med-tech startup, is revolutionizing small intestinal diagnostics and treatment by developing innovative, less invasive endoscopic solutions that enhance efficiency, accessibility, and outcomes for healthcare providers and patients alike.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "The Hatchery",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "FluidAI",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/nerv/",
+      "website": "https://www.nervtechnology.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "NERv Technology is a medical device company that manufactures diagnostic systems to detect and monitor complications after general and abdominal surgery.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Front Line Medical Technologies",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/front-line-medical-technologies/",
+      "website": "https://www.frontlinemedtech.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Front Line Medical Technologies provides a medical device for a critical emergency procedure that cuts off blood flow below the heart to stem extreme blood loss in patients.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Goji Technology Systems Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/goji-technology-systems-inc-2/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Gojitech is driven to create a healthcare system that works the way clinicians work, where its Clinician Interaction Cloud solution simply sits as an add-on to existing electronic health record systems making it easier for clinicians to deal with their digital systems using voice commands and touchless gestures powered by artificial intelligence. With Gojitech, the clinicians can simply use voice commands to automate structured clinical notes with ease, data entry, data selection, and other routine actions (for example, prescribing, progress notes, consult notes, ordering tests, competing forms, referrals, and booking appointments among others). No more \"death by 1000 clicks\", no more manual data entry, and significant time saving (around 1-2 hours per day) and new revenues (convert the saved time to more revenue generating patient visits or simply time away).",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Good Cap",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/good-cap/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "GoodCap Pharmaceuticals Inc. is a leading Canadian drug development company devoted to harnessing and applying the physical and mental health benefits of mushrooms and mushroom-derived compounds. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "HDAX Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/hdax-therapeutics/",
+      "website": "",
+      "categories": [
+        "Cell & Gene Therapy",
+        "Health & Life Sciences"
+      ],
+      "description": "HDAX Therapeutics is a preclinical stage company pioneering next-gen precision therapeutics for diseases with microtubule dysfunction, such as neuropathies and cardiovascular diseases.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "UTEST",
+        "Creative Destruction Lab",
+        "Black Founders Network"
+      ]
+    },
+    {
+      "company": "Health Bridge",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/health-bridge/",
+      "website": "http://www.health-bridge.ca/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Health-Bridge is eliminating the language barrier. To allow patients to communicate key diagnostic information when language is a barrier they provide on demand video interpretation, and intake forms, all accessible, with human centred design and usable by an elderly, computer illiterate population.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "The Hatchery"
+      ]
+    },
+    {
+      "company": "HelpWear",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/helpwear/",
+      "website": "https://www.helpwear.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "HelpWear develops a 24/7 at home ECG monitor, that procures clinical grade data from a patients wrist.The device is prescribed by clinicians and can be worn in long durations, to provide meaningful clinical insights on a patients cardiac health. This continuous, non-invasive monitoring, provides better patient outcomes, at a lower cost, in a convenient form factor for both clinicians and patients alike.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "HoneyBee",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/honeybee/",
+      "website": "https://www.honeybeehub.io/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Honeybee connects researchers and study participants. Our web and mobile app is a place to participate in ground-breaking research. Earn cash & rewards. And discover yourself. We improve people-driven research outcomes through faster study fill-rates and better data diversity. Our mission is to increase global research participation so everyone is represented in the development of products, services and regulations. #ParticipateInChange",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Centre for Entrepreneurship",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Hygienic Echo",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/hygienic-echo/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Hygienic Echo Inc. is a rapidly growing company with an innovative and informed approach to healthcare management and infection control that can significantly increase hand hygiene and infection control performance.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Hypercare",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/hypercare/",
+      "website": "https://www.hypercare.com/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Hypercare creates software that revolutionizes how healthcare providers collaborate with each other. As medicine becomes increasing complex and team-based, Hypercare ensures that patients do not fall through the cracks.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Iconthin Biotech",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/iconthin-biotech/",
+      "website": "https://www.iconthin.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Population Health"
+      ],
+      "description": "Iconthin Biotech Corp. is dedicated to developing high-quality microalgae products with the goal of improving human health through innovative research and development in biotechnology.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "iMerciv",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/imerciv/",
+      "website": "https://www.imerciv.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "iMerciv caters to the orientation & mobility needs of blind, deaf-blind and visually impaired communities around the globe. We strive to empower people living with vision loss through new wearable assistive technology. iMerciv is based in Toronto, Canada and was founded in August of 2014 in order to change the game for those living with vision loss all over the world.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Centre for Entrepreneurship"
+      ]
+    },
+    {
+      "company": "ImmunoBiochem",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/immunobiochem/",
+      "website": "http://immunobiotec.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "ImmunoBiochem is a secretome-focused biotech developing novel tumor microenvironment-targeted potentiated biologics designed to overcome cancer heterogeneity and poor penetration of biological therapeutics in solid tumors, like triple-negative breast cancer (TNBC).",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "ImmunoBiochem",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/immunobiochem-2/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Developer of an innovative biopharmaceutical company intended to develop novel biological therapeutics to address significant unmet needs in oncology and immuno-oncology. The company's technology focuses on involving a proprietary technology to address the challenge of cancer heterogeneity in solid tumors with its tumor microenvironment-targeted antibody-drug conjugates that comprise a novel class of potentiated biological therapeutics, combining the targeting capabilities of monoclonal antibodies with the cytotoxic properties of small molecule cancer drugs, enabling medical researchers to selectively and specifically destroy cancer cells while minimizing damage to normal tissues.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Indaggo",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/indaggo/",
+      "website": "https://www.indaggo.com/",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Indaggo is a software platform created for researchers by researchers. It was developed to simplify the laboratory management process to help researchers efficiently address the rising health needs of our population.",
+      "location": "Toronto",
+      "listed_size": "1-10",
+      "accelerators": [
+        "SICIEEIL"
+      ]
+    },
+    {
+      "company": "Inso Biosciences",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/inso-biosciences/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "Inso Biosciences is a biotech company that democratizes biology and genomics by its development on high-precision automated solutions that can remove the need for sample processing by hand, thus to reduce sample variability and provide a robust way to get you to your desired results.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "InSpek",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/inspek/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "We are building the next generation of biological and chemical monitoring systems using integrated photonics.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Inteligex",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/inteligex/",
+      "website": "https://www.inteligex.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Inteligex is a healthcare company that provides precision cell and molecular therapies to restore lost function and independence for people living with spinal cord injuries and other disease of the central nervous system.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Intellijoint Surgical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/intellijoint-surgical/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Healthcare",
+        "HealthTech"
+      ],
+      "description": "Mama’s Life Products offers innovative, eco-friendly wellness and personal care products designed to support a natural, healthy lifestyle. Our commitment to sustainability and quality ensures that every item we produce is safe, effective, and kind to both people and the planet.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "InventoRR M.D. Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/inventorr-m-d-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "InventoRR MD focuses on commercializing groundbreaking trauma and general surgery devices that improve patient recovery outcomes, simplify procedures for doctors, and reduce costs for healthcare organizations. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Iregained Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/iregained-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "We help give hope to those wanting to regain their independence with our DEEP RESEARCH DRIVEN PRODUCTS AND SOLUTIONS.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Janpix",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/janpix/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Mama’s Life Products offers innovative, eco-friendly wellness and personal care products designed to support a natural, healthy lifestyle. Our commitment to sustainability and quality ensures that every item we produce is safe, effective, and kind to both people and the planet.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Juniper Genomics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/juniper-genomics/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "eHealth / Digital Health",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Juniper Genomics is an operator of a genomics and data science company intended to help parents make informed decisions about themselves and their embryos. The company's technology uses modern genomics and data science to help overcome the barriers and challenges facing IVF patients and offer a chance at term pregnancy, enabling future parents to understand and use data from themselves and their embryos to make decisions that are right for their families.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "Kare Chemicals Technologies",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/kare-chemicals-technologies/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices",
+        "Research",
+        "Technology"
+      ],
+      "description": "Kare tackles cannabis production for medicine with a greener solution. Their method creates pure cannabinoids synthetically, eliminating the need for energy-guzzling greenhouses and waste. This eco-friendly approach yields consistent, high-purity cannabinoids for medical products and research, solving the issue of unreliable quality in the current market.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Black Founders Network"
+      ]
+    },
+    {
+      "company": "Kelello Health",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/kelello-health/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences"
+      ],
+      "description": "Kelello Health provides an AI-powered approach to help you and your doctor monitor your mental health and provide state-of-the-art support when care is needed. The scalable Kelello Health platform provides a user-friendly interface to track and visualize trends in mood, quality of life, medication, weight, activity, and sleep. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Krosslinker",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/krosslinker/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "At KROSSLINKER, we innovate and transform Aerogel for challenging insulation applications. Our first product aims to serve the cold-chain biopharma packaging industry by protecting temperature-sensitive pharmaceuticals, precious biologics, and vaccines throughout their shipping journey with our transformative technology.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Kuano",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/kuano/",
+      "website": "https://www.kuano.ai",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Kuano offers simulation software that develops enzyme inhibitors for various applications. Enzyme-inhibitor-based drugs for pharmaceuticals, insecticides and herbicides for agriculture developed by Kuano’s molecular simulation will exhibit superior binding, selectivity and be more resistant to genetic mutations while significantly reducing the development time and costs.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "LEADOPTIK",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/leadoptik/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "LEADOPTIK Inc. is a deep-tech startup based in San Jose, California. We are building miniature imaging platform for minimally invasive procedures.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Liberum Biotech Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/liberum-biotech-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Liberum, is an early stage SOSV-backed venture (currently raising their seed round) focused on speeding up protein discovery via our proprietary cell-free protein synthesis platform. We have developed the fastest (30x) and cheapest (4x) way to synthesize proteins such as enzymes and nanobodies.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Liberum Biotechnologies",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/liberum-biotechnologies/",
+      "website": "http://liberumbio.com/",
+      "categories": [
+        "Biomaterials / Advanced Materials",
+        "Health & Life Sciences"
+      ],
+      "description": "Liberum offers next generation protein manufacturing.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "LifeScreen",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/lifescreen/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "LifeScreen is a Toronto-based biotechnology company developing a skin-based test that is able to quantify rates of aging and prognose the onset of age-associated diseases. Our technology has been validated to predict the age of tumour diagnosis in human patients genetically predisposed to developing cancer.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Limax Biosciences",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/limax-biosciences/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Novel biomaterials to transform healthcare.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "LSK Technologies Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/lsk-technologies-inc/",
+      "website": "https://www.lifesci-key.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Life Sciences Key Technologies aims to bring decentralized laboratory capacity to the point of need, globally. We provide “pop-up” lab capacity to virtually any setting.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Magellan Biomedical Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/magellan-biomedical-inc/",
+      "website": "http://magellanbiomedical.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Magellan Biomedical is a medical device company that is developing a novel navigation technology platform to facilitate minimally invasive cardiovascular interventions.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Magnetic Insight Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/magnetic-insight-inc/",
+      "website": "https://www.magneticinsight.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "MPI enables best in class cellular imaging to measure the efficacy of cancer immunotherapies.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": []
+    },
+    {
+      "company": "Maman Biomedical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/maman-biomedical/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences"
+      ],
+      "description": "A life sciences company engineering targeted therapies for kidney failure.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "SpinUp",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Maman Biomedical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/maman-biomedical-2/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Maman Biomedical is an operator of a biomedical company designed to revolutionize fertility treatments by eliminating the need for multiple daily injections. The company is building the world's first needle-free hormone patch for fertility treatment - delivering the same drugs, with fewer risks, and none of the needle trauma, enabling patients undergoing fertility treatments to reduce their pain.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "ManagingLife",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/managinglife/",
+      "website": "https://www.managinglife.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "ManagingLife is a digital health company that has created a virtual pain clinic for people suffering from pain to track their pain levels and for treatment to be viewed by various stakeholders.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "MedChart",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/medchart/",
+      "website": "https://www.medchart.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Medchart digitizes and simplifies the request and release of health information for healthcare providers, lawyers, insurance providers, and patients.",
+      "location": "",
+      "listed_size": "51-100",
+      "accelerators": [
+        "Start@UTIAS",
+        "The Hatchery"
+      ]
+    },
+    {
+      "company": "MedEssist",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/medessist/",
+      "website": "https://www.medessist.ca/",
+      "categories": [
+        "Health & Life Sciences",
+        "SaaS"
+      ],
+      "description": "MedEssist offers a digital platform that helps pharmacists manage the complex logistics of vaccine delivery, including assigning doses to individual patients and distributing critical health information.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "MedMe Health",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/medme-health/",
+      "website": "https://www.medmehealth.com/",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "MedMe is a novel digital pharmacy care platform for patients and their caregivers. Our unique network solution provides personalized virtual pharmacare and same-day medication delivery directly to your hands; anytime, anywhere.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "The Hatchery"
+      ]
+    },
+    {
+      "company": "MedStack",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/medstack/",
+      "website": "https://www.medstack.co",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "MedStack is a platform for app-enabled healthcare. MedStack delivers automation-powered developer-flexible cloud hosting with built-in security protocols backed by real-time HIPAA and PIPEDA auditable privacy policies.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Mekonos",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/mekonos/",
+      "website": "https://www.mekonos.com",
+      "categories": [
+        "Cell & Gene Therapy",
+        "Health & Life Sciences"
+      ],
+      "description": "Mekonos offers a chip technology to enable industrial scale genetic modification and cell editing in a safe, highly targeted, highly efficient and versatile manner. This technology is vital in the areas of cancer immunotherapy, gene engineering, and drug development.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Menten AI",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/menten-ai/",
+      "website": "https://www.menten.ai",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Menten AI produces custom enzymes by reverse-engineering a desired chemical reaction and designing enzymes that catalyze the reaction. Currently, the development of new enzymes involves a complex process that is computationally expensive, whereby enzymes are blindly produced using a combination of random mutations and iterations that are manually computed.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Micellae Delivery Systems",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/micellae-delivery-systems/",
+      "website": "https://www.micellae.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "MICELLAE Delivery Systems Inc. is a technology-based start-up born out of the University of Toronto, providing¬†the most advanced Drug Delivery System with food-grade excipients designed to significantly improve the solubility & bioavailability of fat-soluble compounds including cannabinoids.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Micromensio Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/micromensio-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Materials & Manufacturing",
+        "Semiconductors"
+      ],
+      "description": "Micromensio is developing next-generation disposable, scalable micro-computers with on-chip sensors, data processing and communication capabilities.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "The Hatchery",
+        "UTEST"
+      ]
+    },
+    {
+      "company": "MIMOSA Diagnostics Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/mimosa-diagnostics-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Materials & Manufacturing",
+        "Medical Devices"
+      ],
+      "description": "MIMOSA provides a proactive approach to skin health, allowing clinicians to implement earlier interventions, or even prevent them from being needed at all. \n\nTheir products promote inclusive and equitable healthcare, enabling patients in remote areas and racialized people across the globe to access the critical health care everyone deserves.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Molecule Works",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/molecule-works/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Materials & Manufacturing"
+      ],
+      "description": "Through molecular-level design and engineering, we develop and manufacture advanced material products that enable innovative solutions to separation and molecular conversion processes",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Monark Health",
+      "profile_url": "https://utest.to/startup/monark-health/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences",
+        "Health & Wellness",
+        "Mental Health",
+        "Population Health"
+      ],
+      "description": "Introduces the next generation of AI-psychotherapy treatments for alcohol addiction (alcohol use disorder - AUD) and related conditions. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "Mutuo Health Solutions",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/mutuo-health-solutions/",
+      "website": "https://mutuohealth.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Mutuo's product AutoScribe uses AI-powered natural language processing to analyze patient-clinician conversations and automatically generate in near real-time suggested medical notes and electronic medical record actions for the clinician.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Myant Inc",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/myant-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Myant knits sensors and actuators into everyday textiles, giving them the ability to sense and react to the human body. This continuous bidirectional interface to the human operating system will empower humanity to transform its capabilities and performance, help people proactively manage health and deliver treatment, and allow us to build better connections to our own selves and those around us.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Naloomar",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/naloomar/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Naloomar uses its novel sensor technology to detect small molecules like drugs and metabolites at massive throughput down to single cells. This enabling technology will revolutionize small molecule detection, which is a critical bottleneck for both healthcare research and diagnostics.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Naloomar",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/naloomar-2/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Health & Wellness",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Operator of a biotech company intended to develop innovative sensor technology that helps to detect small molecules like drugs and metabolites. The company aims to bring the precision of deoxyribonucleic acid sequencing to the field of metabolite detection that has the potential to transform healthcare by providing valuable insights into disease mechanisms and drug response, enabling researchers to analyze small molecules at the single-cell level.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Nanovista",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/nanovista/",
+      "website": "https://www.nanovista.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Multimodal visualization agents designed to enhance image-guided high-precision cancer therapy including surgery, radiotherapy, and chemotherapy",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "NearWave",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/nearwave/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "The NearWave Imager is a revolutionary handheld clinical near-infrared light imaging based device poised to democratize point-of-care diagnostics and imaging in breast cancer.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Neurastasis",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/neurastasis/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "NeuraStasis is a mission driven company guided by its commitment to producing meaningful clinical change for people across the socioeconomic and geographic spectrum.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Neuropeutics Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/neuropeutics-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals",
+        "Precision Medicine"
+      ],
+      "description": "A pharmaceutical company developing disease modifying treatments to extend neurodegenerative disease patients’ survival and improve their quality of life.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "NewCode Oncology",
+      "profile_url": "https://utest.to/startup/newcode-oncology/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Biotech",
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "NewCode Oncology has developed an AI-enabled, RNA-Seq based universal tumour classifier with utility in drug development and diagnostics. The company is pursuing sarcoma as the first entry-point to market, targeting clinical trial partnerships while developing a clinical diagnostic and decision support tool.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "NorthMiRs",
+      "profile_url": "https://utest.to/startup/northmirs-is-an-early-stage-therapeutic-startup-developing-gene-therapies-for-the-treatment-of-sepsis/",
+      "website": "",
+      "categories": [
+        "Cell & Gene Therapy",
+        "Health & Life Sciences"
+      ],
+      "description": "NorthMiRs is an early-stage therapeutic startup developing gene therapies for the treatment of sepsis. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "Notogen, Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/notogen-inc-2/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "The basis of Notogen's initial technology is the study of the conditions sustained by the presence of notochordal cells in the spinal disc. Notogen has identified a compound that preserves critical cells and can mediate degeneration and inflammation while promoting the presence of healthy disc tissues in laboratory in vitro and in vivo models.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Novela Neurotech",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/novela-neurotech/",
+      "website": "https://novelaneuro.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Novela Neurotech is a NeuroData company enabling personalized remote care for chronic neurological conditions.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Nurenyx Inc",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/nurenyx-inc/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Nurenyx is a company with the mission to become the leading provider of AI-driven digital technologies and solutions to challenges in health and auxiliary areas.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Oncoustics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/oncoustics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Healthcare",
+        "Medical Devices"
+      ],
+      "description": "Mama’s Life Products offers innovative, eco-friendly wellness and personal care products designed to support a natural, healthy lifestyle. Our commitment to sustainability and quality ensures that every item we produce is safe, effective, and kind to both people and the planet.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "OneDrug",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/onedrug/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "OneDrug is tackling bad drug reactions with a quick (20 minute) in-office test. This point-of-care device helps doctors personalize treatment based on a patient’s genes, reducing side effects and saving healthcare costs. OneDrug positions Canada as a leader in personalized medicine with this innovation.\n",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Black Founders Network"
+      ]
+    },
+    {
+      "company": "Opti-fold",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/opti-fold/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Social Impact"
+      ],
+      "description": "Optifold provides a cost effective alternative to double eyelid surgery or achieving the perfect eyelid symmetry. We deliver customized products tailored to your facial structure. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "ICUBE"
+      ]
+    },
+    {
+      "company": "Origami Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/origami-therapeutics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Origami Therapeutics is a preclinical-stage company developing novel protein degrader therapeutics with a proprietary drug discovery platform which holds the promise for disease-modification in neurodegenerative diseases such as Huntington’s Disease. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Orthosium",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/orthosium/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Orthosium was founded to address the daily problems that patients face from lower-body injuries.  Recovery from these injuries can take up to 3 to 4 months. Often patients struggle to follow prescribed guidelines resulting in improper healing and a delayed recovery. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Oxalys Pharmaceuticals",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/oxalys-pharmaceuticals/",
+      "website": "https://www.oxalys.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Oxalys Pharmaceuticals aim to develop therapies that are simple to administer, and that can halt, slow, or reverse the course of brain degeneration.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Centre for Entrepreneurship"
+      ]
+    },
+    {
+      "company": "OXcan (Oxford Cancer Analytics)",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/oxcan-oxford-cancer-analytics/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences"
+      ],
+      "description": "Oxford Cancer Analytics is transforming curative cancer treatments through a minimally invasive blood test and machine learning.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Oxford Brain Diagnostics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/oxford-brain-diagnostics/",
+      "website": "https://www.oxfordbraindiagnostics.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Oxford Brain Diagnostics is a medical imaging company that analyzes brain MRIs to measure the progression of brain-related diseases such as Alzheimer’s.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Pancella",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/pancella/",
+      "website": "https://www.pancella.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "panCELLa is developing therapeutic tools applied to a therapeutic cell line that is modified to provide a high level of safety before and after the cells are introduced to the patient. FailSafe acts as a safety switch: the suicide gene is activated by a pro-drug to shut down only the cells that are deregulating while allowing the therapeutic cells to continue to function and treat the patient.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Paradox Immunotherapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/paradox-immunotherapeutics/",
+      "website": "https://www.linkedin.com/company/paradoximmuno/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "We are a pharmaceutical company dedicated to the creation of antibody therapies for the treatment of rare protein misfolding diseases, including those characterized by amyloidosis.¬† Paradox's scientific team has proven expertise and know-how to selectively target misfolded proteins with monoclonal antibodies with a proven track record of success.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Pathomics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/pathomics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Our solution presents complex data in a format that helps researchers understand how their new drug compounds can impact diseases",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "PharmAssess",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/pharmassess/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Our vision is to evolve and empower the pharmacy profession. We promote transformative practice change by equipping pharmacies with powerful clinical software solutions that enable pharmacists to practice to their fullest clinical potential. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Phenomic AI",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/phenomic-ai/",
+      "website": "https://phenomic.ai/",
+      "categories": [
+        "Health & Life Sciences",
+        "Software"
+      ],
+      "description": "Cell based phenotypic screening has proven to be a promising approach to early drug discovery, however it‚Äôs adoption by pharmaceutical research teams has been hindered by challenging assay development and complex data analysis workflows. At Phenomic AI, we‚Äôre taking an AI based approach to develop a ground-breaking phenotypic drug discovery platform that accelerates assay development and automates the interpretation of high-content image based screening data. To date we‚Äôve worked with several early adopters of our platform and have setup an internal drug discovery program.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "PhenoTips",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/phenotips/",
+      "website": "https://phenotips.com/index.html",
+      "categories": [
+        "Health & Life Sciences",
+        "Software"
+      ],
+      "description": "Our mission is to empower clinicians to provide life-saving, personalized care to patients through technologies that make clinical data complete, standardized, shareable, and interoperable.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Pixel Photonics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/pixel-photonics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Connecting photonic integration and single-photon detection with high-performance many-channel superconducting nanowire detectors.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "PocketHealth",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/pockethealth/",
+      "website": "https://www.pocket.health",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "PocketHealth is a patient-centric cloud platform that enables medical imaging providers across North America to share imaging records electronically with patients, instantly and securely. Since its launch in 2016, the platform has grown its functionality to enable direct sharing between hospitals and physicians, as well as instant DICOM retrieval and automated importing capability, creating a unified image management solution for their over 500 hospital and imaging clinic customers across North America. The company believes that by placing patients at the center of the record release process, data moves more ethically, easily and securely throughout the care journey.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Polyrna Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/polyrna-therapeutics/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Polyrna Therapeutics is a pre-clinical biotech startup with a platform technology to rationally design novel poly-targeting RNAi. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Protagonist health",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/protagonist-health/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Protagonist Health takes a research and data driven approach to provide personalized behaviour feedback to help implement lifestyle changes to decrease risk and lead a healthier life.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "ProteinQure",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/proteinqure/",
+      "website": "https://www.proteinqure.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "ProteinQure is automating the computational design of protein-based drugs by developing an algorithm that scales to large proteins and automates a large fraction of the protein drug discovery process. The company’s technology combines quantum annealing and reinforcement learning to lower the cost and increase speed of the drug development.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Psyonic",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/psyonic/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "With the Ability Hand™, PSYONIC is redefining what it means to be human for individuals with limb differences. It’s not just about what our users can achieve, it’s beyond that.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Qanatpharma",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/quanatpharma/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Qanatpharma is a Swiss and Toronto based innovative pharma company bringing solutions to microvascular medicine.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "QSM Diagnostics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/qsm-diagnostics/",
+      "website": "https://www.qsmdiagnostics.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "QSM Diagnostics is a hardware company selling a point-of-care solution to detect pathogens early and instantaneously using quorum-sensing molecules. It is starting in the veterinary space to detect ear infections.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "QurCan Therapeutics Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/qurcan-therapeutics/",
+      "website": "https://www.nanologylabs.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "QurCan Therapeutics develops a novel theranostic technology with capability of detecting brain tumor at early stages using MRI. Simultaneously, it sensitizes cancer cells which improves the radiation therapy outcome. Formerly known as Nanology Labs.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST",
+        "Creative Destruction Lab",
+        "Health Innovation Hub (H2i)",
+        "Centre for Entrepreneurship"
+      ]
+    },
+    {
+      "company": "Radiant Biotherapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/radiant-biotherapeutics/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Mama’s Life Products offers innovative, eco-friendly wellness and personal care products designed to support a natural, healthy lifestyle. Our commitment to sustainability and quality ensures that every item we produce is safe, effective, and kind to both people and the planet.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    },
+    {
+      "company": "Ranomics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ranomics/",
+      "website": "https://www.ranomics.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Ranomics offers high throughput solutions for protein engineering, drug discovery, genomics research and synthetic biology.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "Ripple Therapeutics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ripple-therapeutics/",
+      "website": "https://www.rippletherapeutics.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Pharmaceuticals"
+      ],
+      "description": "Ripple Therapeutics is the therapeutics/drug delivery spin out of Interface Biologics, Inc. (IBI) after the sale of its surface modification business to Evonik (ETR:EFK) was completed.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "Robotic Algometry",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/robotic-algometry-2/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences"
+      ],
+      "description": "Our mission is to transform preclinical pain testing and improve clinical outcomes for patients with pain. Our robot RAMalgo enables better, faster, more comprehensive pain testing. By identifying better drugs at the preclinical stage, more of them will succeed in clinical trials.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Ruh",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/ruh-2/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Healthcare"
+      ],
+      "description": "Developer of a mindfulness application designed specifically for Muslims to improve mental and spiritual strength and well-being. The company’s application integrates contemporary clinical psychology techniques with Islamic traditions, enabling students, busy professionals, and everyday users to increase their levels of happiness and mental well-being.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Sheba Microsystems Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/sheba-microsystems-inc/",
+      "website": "https://shebamicrosystems.ca/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Developer of MEMS micro-actuator technology to enable lower power, slimmer, and faster AF and OIS in compact cameras.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": []
+    },
+    {
+      "company": "Shift Health",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/shift-health/",
+      "website": "https://www.shifthealth.io",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Shift Health brings a science mindset to strategy consulting for the health research and innovation ecosystem.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Shiphrah Biomedical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/shiphrah-biomedical/",
+      "website": "http://shiphrahbiomedical.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Shiphrah Biomedical Inc. is a women's health company specializing in sleep health in pregnancy and working at the intersection of engineering, science, medicine, and artificial intelligence to solve one of the greatest challenges in pregnancy (sleep) and one of the greatest challenges in sleep (pregnancy).",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "SilicoLabs",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/silicolabs/",
+      "website": "",
+      "categories": [
+        "Artificial Intelligence / Machine Learning",
+        "Health & Life Sciences",
+        "Health & Wellness"
+      ],
+      "description": "SilicoLabs creates virtual experiences that simulate real-world scenarios to train/assess humans & AI behaviour and save precious time and resources",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "SMS NanoTech",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/sms-nanotech/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "SMS NanoTech is focusing on developing innovative platforms for the early stage detection of infectious diseases.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Sound Options Tinnitus Treatments",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/sound-options-tinnitus-treatments/",
+      "website": "https://www.soundoptions.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Precision Medicine"
+      ],
+      "description": "Sound Options Tinnitus Treatments has used up-to-date neuroscience research to develop software that customizes a sound therapy for each person with tinnitus.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Centre for Entrepreneurship"
+      ]
+    },
+    {
+      "company": "South West Exposures",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/south-west-exposures/",
+      "website": "https://www.linkedin.com/in/swexposures/",
+      "categories": [
+        "Biomaterials / Advanced Materials",
+        "Health & Life Sciences"
+      ],
+      "description": "South West Exposures (SWE) designs and fabricates custom Tungsten and Lucite shielding solutions for Nuclear Medicine applications. SWE is honoured to be a recipient of the Ontario Centre of Excellence Award and our products are proudly Canadian produced. Our value proposition is recognized for optimizing the safety profile of Theranostic Radiopharmaceutical handling; by mitigating occupational radiation exposure and enhancing regulatory compliance; from production \"bench\", through transport, to patient \"bedside\".",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "SPARKED",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/sparked/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "SPARKED serves individuals with cardiovascular disease (CVD) symptoms, CVD family history, or an interest in their personal health status. We offer a device that fits in your hands and screens for the risk of CVD using a saliva sample. Providing results rapidly and without the need for a traditional laboratory or technical training. By placing health status information in your hands, SPARKED can provide knowledge of silent signals of CVD....",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Steadiwear",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/steadiwear/",
+      "website": "https://www.steadiwear.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Steadiwear's flagship product is the Steadi-One. A lightweight,¬†compact and responsive glove that stabilizes hand tremors in Essential tremor and Parkinson's disease using a new class of stabilization technology.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Centre for Entrepreneurship"
+      ]
+    },
+    {
+      "company": "Structura Biotechnology",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/structura-biotechnology/",
+      "website": "https://structura.bio/",
+      "categories": [
+        "Cell & Gene Therapy",
+        "Health & Life Sciences"
+      ],
+      "description": "Structura Bio builds machine learning algorithms and robust scientific software to enable high throughput cryo-electron microscopy (cryoEM) structure determination for structural biology research and drug discovery.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Swift Medical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/swift-medical/",
+      "website": "https://www.swiftmedical.com",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Swift Medical is the leader in Wound Care Management Technology for the healthcare enterprise.",
+      "location": "",
+      "listed_size": "51-100",
+      "accelerators": []
+    },
+    {
+      "company": "Synakis",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/synakis/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Health & Wellness"
+      ],
+      "description": "Synakis has developed a novel ocular hydrogel that is injectable, biocompatible, biodegradable, low swelling and transparent. Our biomaterial can be used as a vitreous substitute for vitreoretinal surgery and to deliver engineered therapeutics to treat leading causes of blindness.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Synakis",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/synakis-3/",
+      "website": "",
+      "categories": [
+        "Biotech",
+        "Health & Life Sciences",
+        "Healthcare",
+        "Pharmaceuticals"
+      ],
+      "description": "Developer of a biodegradable hydrogel vitreous substitute intended to transform the treatment of retinal detachment and similar conditions which use vitreous substitutes. The company's platform is commercializing and translating vitreous substitutes into an injectable, non-cytotoxic in vitro and in vivo, surgical device, enabling low-swelling, stable, and optically transparent with a refractive index and density similar to those of the native vitreous.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Synex Medical",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/synex-medical/",
+      "website": "https://www.synexmedical.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Synex Medical is a wearable ring that uses nuclear magnetic resonance to non-invasively quantify biomarkers such as glucose and ketones.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Synova Life Sciences",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/synova-life-sciences/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Synova Life Sciences is a privately-owned biotechnology company that develops medical devices and methodologies to harvest the body's power to treat the symptoms associated with degenerative conditions.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "TalkToMedi",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/medium-ai/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "<br>TalkToMedi (previously Medium AI) is a clinical-grade, AI-native voice agent platform designed specifically for medical clinics in Canada to automate patient communication and administrative tasks. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "TATUM Bioscience",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/tatum-bioscience/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "We use synthetic biology to develop multipronged immunotherapies capable of triggering strong and systemic antitumoral immune responses.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Therapy Innovation Inc.",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/therapy-innovation-inc/",
+      "website": "https://therapyinnovationinc.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Therapy Innovation Inc. helps improve patient outcomes and reduce rehabilitation costs for health insurance providers through their patented technologies.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Tidbit",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/tidbit/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Tidbit's web tool helps scientific and medical researchers easily create infographic summaries on their studies.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "ToothPod",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/toothpod/",
+      "website": "",
+      "categories": [
+        "Consumer Packaged Goods",
+        "Dental",
+        "Health & Life Sciences"
+      ],
+      "description": "Toothpods are a dental smart-gum to supplement your oral hygiene when there is no access to a toothbrush or toothpaste through anti-inflammatory, anti-microbial and remineralizing properties.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "Trexo Robotics",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/trexo-robotics/",
+      "website": "https://www.trexorobotics.com",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Trexo Robotics has created the first pediatric exoskeleton to help children with disabilities walk. Trexo Home is helping children live healthier and happier lives by enabling access to regular exercise.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Creative Destruction Lab",
+        "The Hatchery"
+      ]
+    },
+    {
+      "company": "U CORP",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/u-corp/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Our mission is to have this smart gum be completely environmentally friendly as a biodegradable product.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)",
+        "The Hatchery"
+      ]
+    },
+    {
+      "company": "Vibraint",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/vibraint-2/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "VIBRAINT improves people's lives using modern neurotechnologies.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "ViroCarb",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/virocarb/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "Antiviral company with a paradigm shift drug platform that provides broad-spectrum protection against pathogenic viruses",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST"
+      ]
+    },
+    {
+      "company": "VitalTracer",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/vitaltracer/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences"
+      ],
+      "description": "VitalTracer - A healthcare firm introduces a wrist band that produces a data which is capable of measuring vitals such as ECG signal, PPG signal, Accelerometer signal, Gyroscope signal and Skin temperature with an easy to use design. ",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Vrit",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/vrit-2/",
+      "website": "",
+      "categories": [
+        "Health & Life Sciences",
+        "Materials & Manufacturing"
+      ],
+      "description": "Vrit is transforming surgical care with a handheld bioprinter that eliminates the need for autografts, enabling advanced, minimally invasive procedures. Our innovative product line includes novel bioinks and the handheld bioprinter, empowering surgeons with cutting-edge tools for improved patient outcomes.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": [
+        "UTEST",
+        "Health Innovation Hub (H2i)",
+        "Creative Destruction Lab"
+      ]
+    },
+    {
+      "company": "Wisedocs",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/wisedocs/",
+      "website": "https://www.bht.ai",
+      "categories": [
+        "eHealth / Digital Health",
+        "Health & Life Sciences"
+      ],
+      "description": "Wisedocs is a technology company comprised of clinicians, engineers, and data scientists working together to build an AI/ML powered platform that empowers the independent medical examination industry with quick access to key information within medical records.",
+      "location": "",
+      "listed_size": "11-50",
+      "accelerators": [
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Xpan Inc",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/xpan-inc/",
+      "website": "http://xpanmedical.com/",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Xpan has developed a patent-pending trocar that would eliminate the need for trocar replacement when larger tools are needed, thereby reducing costs and time of operations, as well as improving patient safety and reducing morbidity.",
+      "location": "",
+      "listed_size": "1-10",
+      "accelerators": [
+        "The Hatchery",
+        "Health Innovation Hub (H2i)"
+      ]
+    },
+    {
+      "company": "Zucara",
+      "profile_url": "https://entrepreneurs.utoronto.ca/startup/zucara/",
+      "website": "https://www.zucara.ca",
+      "categories": [
+        "Health & Life Sciences",
+        "Medical Devices"
+      ],
+      "description": "Zucara Therapeutics is developing the first once-daily therapeutic to prevent hypoglycemia (low blood sugar) in patients with diabetes.",
+      "location": "",
+      "listed_size": "",
+      "accelerators": []
+    }
+  ]
+}

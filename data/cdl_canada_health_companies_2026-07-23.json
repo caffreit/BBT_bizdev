@@ -1,0 +1,2948 @@
+{
+  "collected_at": "2026-07-23",
+  "source_name": "Creative Destruction Lab Health",
+  "source_urls": {
+    "CDL-Toronto": "https://creativedestructionlab.com/companies/?location=toronto",
+    "CDL-Vancouver": "https://creativedestructionlab.com/companies/?location=vancouver"
+  },
+  "scope_note": "CDL-Toronto or CDL-Vancouver program participation in health-related streams; program site does not prove Canadian headquarters.",
+  "reported_totals": {
+    "toronto": 139,
+    "vancouver": 117,
+    "unique_union": 226,
+    "overlap": 30
+  },
+  "extracted_total": 226,
+  "detail_pages_fetched": 226,
+  "errors": [],
+  "records": [
+    {
+      "company": "16 Bit",
+      "detail_url": "https://creativedestructionlab.com/companies/16-bit/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://www.16bit.ai/",
+      "description": "16 Bit designs, trains, and validates machine-learning algorithms to streamline the process of interpreting radiology images. With imaging data banks continually growing and the health system’s increasing reliance on medical-imaging services, radiologists have become a bottleneck in the overall delivery of healthcare. By augmenting medical analysis workflows with artificially intelligent tools, 16 Bit will help […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "4D Surgical",
+      "detail_url": "https://creativedestructionlab.com/companies/4d-surgical/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://www.4dsurgical.com/",
+      "description": "4D Surgical is developing an image-guided robotic system that enables precise and efficient neurosurgical access to superficial and deep brain structures. They have developed a novel electromagnetic actuator and robotic technologies that enable neurosurgical robots and neuroimaging with MRI to be used simultaneously for precision guidance during minimally invasive surgeries. Standard neurosurgical procedures rely on […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "A4i",
+      "detail_url": "https://creativedestructionlab.com/companies/a4i/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://a4i.me/",
+      "description": "A4i is a software company developing a digital therapeutic for schizophrenia and psychosis. The software consists of a clinically-prescribed mobile app and clinical portal that allow clinicians to monitor patients’ condition, and enables patients to manage their own condition. The patient app features a patent-protected, clinically-tested engagement feed, and audio hallucination recognition tool that gives […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "AddGraft Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/addgraft-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "website": "https://addgrafttherapeutics.com/",
+      "description": "AddGraft Therapeutics cell therapy platform is building stem cell based bio factories capable of producing and deploying any protein directly into a patient’s bloodstream. AddGraft hopes to address some of the major problems with current cell therapies including toxicity, transgene capacity, dose flexibility / control, stable long term expression, and complicated CMC with an ex […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Alpha Cognition",
+      "detail_url": "https://creativedestructionlab.com/companies/alpha-cognition/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://www.alphacognition.com/",
+      "description": "Alpha Cognition is a drug development company that has developed a compound and identified associated brain receptors that rejuvenate brain cells to address a broad range of mental illnesses and brain-related diseases.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Altis Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/altis-labs/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "http://altislabs.com/",
+      "description": "Altis Labs is the computational imaging company accelerating clinical trials with AI. Biopharmaceutical sponsors like AstraZeneca and Bayer rely on Altis’ AI models to run smaller, faster, and more successful clinical trials by quantifying treatment effect earlier. To train its deep learning models, Altis has built the world’s largest real-world cancer imaging database with associated […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Aperture Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/aperture-bio/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://aperture.bio/",
+      "description": "Aperture Bio has developed a single cell proteomics and spatial profiling platform that generates rapid, robust biomarker readouts from minute samples, enabling researchers and drug developers to understand the tumor microenvironment.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Applikate Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/applikate-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://www.applikatetechnologies.com/",
+      "description": "Applikate Technologies is a hardware and software company that has developed the first fully automated histology platform with integrated digital imaging. Their patented technology (Clearing Histology with MultiPhoton Microscopy; CHiMP) is a method of staining and imaging whole samples without the need to slice them (i.e., no physical damage). The platform automates the pathology workflow, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Ariel Precision Medicine",
+      "detail_url": "https://creativedestructionlab.com/companies/ariel-precision-medicine/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://arielmedicine.com/",
+      "description": "Ariel Precision Medicine has developed decision-support tools that integrate complex genetics into clinical decision making to enable earlier diagnosis and targeted management for complex chronic digestive and metabolic diseases. By leveraging genetic information, AI, and clinical inputs, Ariel creates a “risk profile” for patients to help clinicians better understand what is driving a patient’s condition, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Arma Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/arma-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "http://creativedestructionlab.com/",
+      "description": "Arma Biosciences is commercializing a first-in-class sensing technology that represents the foundation for a new collection of portable, wearable and implantable monitoring devices. The sensors are versatile and adaptable to the analysis of biomarkers for chronic disease, infectious disease, or personal wellness in biological fluids including blood, saliva, or urine. Requiring no reagents or complex […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Aufero Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/aufero-medical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://techalliance.ca/burst/",
+      "description": "Aufero Medical is a medical device company that produces a catheter stabilizer for a critical procedure called catheter ablation surgery, where radiofrequency energy is used to burn parts of the heart causing arrhythmia.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Augmental",
+      "detail_url": "https://creativedestructionlab.com/companies/augmental/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "http://augmental.tech/",
+      "description": "Augmental is developing the MouthPad^: a smart teeth retainer that enables computer control with tongue, jaw, head, and breath gestures. Using the MouthPad^, people with hand impairment will be able to independently interact with their electronic devices to the same level of expression as an abled-bodied person. Augmental’s vision is to transform human-computer interaction with […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Axoft",
+      "detail_url": "https://creativedestructionlab.com/companies/axoft/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.axoft.us/",
+      "description": "Axoft is a Brain Computer Interface company developing a brain implant that reliably communicates with neurons over time. Axoft’s novel implant material mimics the soft tissues of the brain, enabling access to long-term, high resolution neural code while minimizing implant drift and long-term damage to brain tissue. Axoft’s vision is to leverage their device to […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "AXONIS Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/axonis-therapeutics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://axonis.us/",
+      "description": "AXONIS Therapeutics is developing first-in-class therapies that enable neurons to resist degeneration, restore excitation/inhibition balance and regenerate, in order to rescue nervous system functions. Their lead drug candidate, an oral KCC2 (CNS-specific chloride transporter) enhancer, acts as a multi-modal neuromodulatory therapy for spinal cord injury, neuropathic pain and other neurological disorders.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Babbly",
+      "detail_url": "https://creativedestructionlab.com/companies/babbly/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://babbly.co/",
+      "description": "Babbly offers software for parents and health-care providers to monitor early speech-based cognitive development of children and provide personalized recommendations to address potential issues.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Bairitone Health",
+      "detail_url": "https://creativedestructionlab.com/companies/bairitone-health/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://bairitone.com/",
+      "description": "Bairitone makes a wearable device for sleep that uses AI and Sonar techniques to identify anatomic problems associated with apneas and snoring in the upper airway. Given this information, doctors can make targeted and personalized treatment plans for people with obstructive sleep apnea or snoring.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Biohybrid Solutions",
+      "detail_url": "https://creativedestructionlab.com/companies/biohybrid-solutions/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://biohybridsolutions.com/",
+      "description": "Biohybrid Solutions is a biotechnology company that grows polymer from the surface of proteins to create a molecular “nanoarmor” around the protein that enhances the stability and tunes protein performance (improved activity; pharmacokinetics) at just one-tenth of the cost.",
+      "detail_fetched": true
+    },
+    {
+      "company": "biotx.ai",
+      "detail_url": "https://creativedestructionlab.com/companies/biotx-ai/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "http://biotx.ai/",
+      "description": "biotx.ai uses machine-learning techniques to analyze genomic data in combination with various sources of scientific literature to characterize polygenetic biomarkers and inform the development of novel diagnostics and therapies. The company uses open-source data to generate its internal biomarker portfolio as well as the data of pharmaceutical and biotechnology companies to help those clients direct […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "BrainSpec",
+      "detail_url": "https://creativedestructionlab.com/companies/brainspec/",
+      "stream": "Cancer, Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://brainspec.co/",
+      "description": "BrainSpec is developing software that generates a “virtual brain biopsy” from brain chemistry data collected by magnetic resonance spectroscopy (MRS). Their software uses an AI-powered MRS data processor and the first central database for brain chemistry ever created on a large scale. It enables a fast, non-invasive, and radiation-free biopsy for the diagnosis and treatment […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Brenus Pharma",
+      "detail_url": "https://creativedestructionlab.com/companies/brenus-pharma/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://www.brenus-pharma.com/",
+      "description": "Brenus Pharma has developed a platform to generate the next generation of therapeutic cancer vaccines, enabling the immune system to recognize and target tumor cells.",
+      "detail_fetched": true
+    },
+    {
+      "company": "bridge7 Oncology",
+      "detail_url": "https://creativedestructionlab.com/companies/bridge7/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2017/18",
+      "website": "https://www.bridge7.ai/",
+      "description": "Bridge7 uses AI to scale clinical expertise to improve the efficiency, consistency and quality of delivering cancer care.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Canurta Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/canurta-therapeutics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2024/25",
+      "website": "https://canurta.com/",
+      "description": "Canurta Therapeutics is a biotech company that has developed a proprietary platform that can produce high-purity botanical compounds for neurodegenerative disease treatments, particularly ALS. Current treatments for ALS often target only a single pathway, leaving patients with limited solutions. Canurta’s CNR 401, derived from rare botanical sources like cannflavins, provides a more comprehensive multi-pathway treatment. […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Capsigen",
+      "detail_url": "https://creativedestructionlab.com/companies/capsigen/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "website": "https://www.capsigen.com/",
+      "description": "Capsigen is an adeno-associated virus (AAV) gene therapy company that engineers viral capsids that can deliver gene payloads to target cells while avoiding other tissues and organs, improving drug efficacy and reducing toxicity. Their platform screens billions of capsid candidates simultaneously and incorporates machine learning and a rational design platform to generate capsids that are […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Case45",
+      "detail_url": "https://creativedestructionlab.com/companies/case45/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://www.linkedin.com/company/case45/about/",
+      "description": "Case45 is developing novel pan-cancer precision biomarkers using AI to prognosticate and tailor cancer therapies for patients.",
+      "detail_fetched": true
+    },
+    {
+      "company": "CereCura Nanotherapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/cerecura-nanotherapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://www.cerecura.com/",
+      "description": "CereCura Nanotherapeutics Inc is a preclinical-stage neuroscience company developing new therapeutics that combine lipid nanoparticles (LNP) and RNA to treat brain disease.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Clarity",
+      "detail_url": "https://creativedestructionlab.com/companies/clarity/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "https://clarity-technologies.com/",
+      "description": "Clarity is building the infrastructure layer for non-invasive brain therapy and intelligence, starting with a prescription, at-home treatment for Alzheimer’s. The platform delivers 40Hz gamma sensory stimulation within cognitively engaging, personalized VR experiences, enabling targeted neuromodulation while continuously capturing structured neural-behavioral data at scale. Early clinical studies demonstrate safety, reliable gamma entrainment, and improvements in […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Clee Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/clee-medical/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "http://cleemedical.com",
+      "description": "Clee Medical is building a real-time intraoperative imaging and AI-driven navigation platform based on Optical Coherence Tomography (OCT), enabling direct, continuous visualization of brain tissue during surgery. By overcoming the limitations of static pre-operative imaging, the system adapts to intraoperative changes and provides ultra-high-resolution insight at the point of care. The result is a step-change […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Cohesys",
+      "detail_url": "https://creativedestructionlab.com/companies/cohesys/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "http://h2i.utoronto.ca/venture/cohesys/",
+      "description": "Cohesys is a medical-device company developing BoneTape, a flexible surgical adhesive to improve the ease and outcome of procedures that currently rely on rigid metal plates and screws. The venture is initially targeting the craniomaxillofacial (facial reconstruction, cranio maxillofacial fixation [CMF]) fracture-surgery market.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Concarlo Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/concarlo-therapeutics/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://concarlo.com/",
+      "description": "Concarlo Therapeutics is developing first-in-class inhibitors of p27, the master regulator of CDK2/4/6, to address drug resitant cancers.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Cordance Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/cordance-medical/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://cordancemedical.com/",
+      "description": "Cordance Medical is developing a non-invasive cap that reversibly opens up the blood-brain barrier (BBB) directly at the site of diseased brain tissue. It can be used for a variety of neurological disorders using a combination of ultrasound and microbubbles. This will enable improved drug delivery for systemic therapies and increase the arsenal of available […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "COSM Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/cosm-medical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "http://h2i.utoronto.ca/venture/cosm-medical-corp/",
+      "description": "COSM Medical is a medical-device company that is developing a hardware and software platform to personalize treatments for pelvic floor disorders (PFDs), such as incontinence and pelvic organ prolapse. COSM’s first product is a made-to-measure gynecological prosthetics platform called Gynethotics that improves pessary performance and reduces complications while removing the art of pessary fittings.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Covira Surgical",
+      "detail_url": "https://creativedestructionlab.com/companies/covira-surgical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.covirasurgical.com/",
+      "description": "Covira Surgical is a biotech company that develops medications that work by modulating the biological activity of the gut microbiome. This company is based on the work of Dr. John Alverdy, MD, a world authority on the molecular basis of post-surgical infections. Its platform technology generated a lead asset (CS-0003) that modulates bacterial virulence and […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Cytosolix",
+      "detail_url": "https://creativedestructionlab.com/companies/cytosolix-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://cytosolix.com/",
+      "description": "Cytosolix is a platform that produces novel derivatives of known small-molecule oncology drugs. These derivatives selectively target cancer cells by targeting acidity in the tumor microenvironment, significantly improving the efficacy of treatment by reducing dose-limiting toxicities.",
+      "detail_fetched": true
+    },
+    {
+      "company": "D2B3",
+      "detail_url": "https://creativedestructionlab.com/companies/d2b3/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "https://d2b3.bio",
+      "description": "D2B3 is developing a proprietary monoclonal antibody, D2B3-01, that temporarily opens the blood-brain barrier (BBB) to allow therapeutic agents (including small molecules, peptides, proteins, and oligonucleotides) to reach the brain, then reseals within hours. The venture tackles a fundamental obstacle in neurology and neuro-oncology: over 98% of drugs cannot cross the BBB, which slows development, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Decoy Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/decoy-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://decoytx.com/",
+      "description": "Decoy Therapeutics (DecoyTx) is a pharmaceutical company commercializing its IMPACT platform, which designs and develops antiviral products that prevent viral infection. Decoy’s platform is fast (weeks to develop lead candidates), versatile (can use different payloads for different viruses/variants), and cheap (at scale, ~$1 USD/dose). DecoyTx is validating this platform with its first product, DCOY101, an […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Encapsulate",
+      "detail_url": "https://creativedestructionlab.com/companies/encapsulate/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "http://www.encapsulate.bio/",
+      "description": "Encapsulate is developing an automated tumor-on-a-chip system that replicates the clinical response of cancer patients by screening patient-derived microtumors against clinical treatment regimens to generate a personalized patient response profile.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Encora Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/encora-therapeutics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://encoratherapeutics.com/",
+      "description": "Encora is developing a wearable device that uses non-invasive, vibratory stimulation to the wrist for acute hand tremor relief. Over eight million Americans suffer from debilitating hand tremors but are not adequately served by the current treatment options. Current options include pharmaceuticals, which have relatively low efficacy and significant side effects, or brain-stimulation surgery, which […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Epineuron Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/epineuron-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "http://epineurontech.com/",
+      "description": "Epineuron Technologies is a medical device company that helps surgeons expedite nerve recovery through electro-stimulation after nerve-repair surgeries.",
+      "detail_fetched": true
+    },
+    {
+      "company": "EpiVario",
+      "detail_url": "https://creativedestructionlab.com/companies/epivario/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://epivario.com/",
+      "description": "EpiVario Inc. is pioneering epigenetic therapeutic development to redefine treatment landscapes for neuropsychiatric disorders. Spun out of the Epigenetics Institute at the University of Pennsylvania, the company develops innovative therapeutics targeting a newly identified epigenetic process involved in trauma-induced fear and stress responses, and addiction-related drug craving. This discovery provides a unique therapeutic target for […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Evolution Devices",
+      "detail_url": "https://creativedestructionlab.com/companies/evolution-devices/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "http://www.evolutiondevices.com",
+      "description": "Evolution Devices has developed a wearable device called EVOWALK that uses AI-enabled Functional Electrical Stimulation to treat movement disorders. Their beachhead indication is Drop Foot, commonly caused by nerve or muscle injury. Their device acts as a real-time movement analyzer and provides targeted muscle stimulation at the right time to improve mobility, increase walking speed, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Exogene",
+      "detail_url": "https://creativedestructionlab.com/companies/exogene/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://exogene.co.uk/",
+      "description": "Exogene is a biotechnology startup accelerating the discovery of T-cell-receptor(TCR)-based cell therapies for otherwise untreatable solid tumors. They are building a machine learning platform to comprehensively screen TCRs from tumor-infiltrating lymphocytes (TILs) derived from cancer patients to rapidly find new cancer targets and target-specific TCRs for therapeutic application. Using novel wet-lab TCR screening technologies (yeast […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "FIGUR8",
+      "detail_url": "https://creativedestructionlab.com/companies/figur8/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://figur8tech.com/",
+      "description": "The FIGUR8 technology platform is a versatile set of sensors designed to shift point-of-care musculoskeletal (MSK) diagnostic feedback from the clinic to the home. The platform is the first and only solution for testing the severity and tracking the recovery of MSK injuries via lightweight, low-profile, on-body sensors. FIGUR8 provides an interface that links clinicians […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "FluidAI (formerly NERv Technology)",
+      "detail_url": "https://creativedestructionlab.com/companies/fluidai/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://fluidai.md/",
+      "description": "FluidAI (formerly NERv Technology) is a medical device company that manufactures diagnostic systems to detect and monitor complications after general and abdominal surgery.",
+      "detail_fetched": true
+    },
+    {
+      "company": "ForCell",
+      "detail_url": "https://creativedestructionlab.com/companies/forcell/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://forcell.co/",
+      "description": "ForCell can apply compressive forces onto non-adherent cells to permit efficient gene modification of red blood cells.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Forcen",
+      "detail_url": "https://creativedestructionlab.com/companies/forcen/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "http://www.sensormedicallabs.com/",
+      "description": "Forcen is a platform-technology company that has developed a force-sensing film that can be applied to robotic surgical instruments, industrial robots, and aerospace applications to enable them to sense their surroundings with the same precision as a person. The first application of the company’s product, ForceFilm, provides surgeons with real-time force data, resulting in increased […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Front Line Medical Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/front-line-medical-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://frontlinemedtech.com/",
+      "description": "Front Line Medical Technologies provides a medical device for a critical emergency procedure that cuts off blood flow below the heart to stem extreme blood loss in patients.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Full Circles Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/full-circles-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://fullcirclestx.com/",
+      "description": "Full Circles Therapeutics is developing a non-viral gene writing platform to commercialize “once-and-done” genomic therapies for oncology and genetic diseases.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Gisens Biotech",
+      "detail_url": "https://creativedestructionlab.com/companies/gisens-biotech/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.gisensbiotech.com/",
+      "description": "Gisens Biotech (Gisens) is a point-of-care diagnostic company that develops and utilizes a reagent-free graphene chip biosensor with a microelectronic reader to detect biomarkers in less than five minutes. Gisens’ graphene biosensor is capable of detecting antigens at 10-fold lower concentration than conventional lateral flow assays with a 99.8% predictive value and 100% sensitivity. It […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "GoodCap Pharmaceuticals",
+      "detail_url": "https://creativedestructionlab.com/companies/goodcap-pharmaceuticals-inc/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://goodcap.com/",
+      "description": "Goodcap is developing psychedelic therapeutics for mood disorders, starting with post-traumatic stress disorder (PTSD). Their lead drug candidate combines psilocybin, a 5HT2a receptor agonist, and eugenol, a transient receptor potential (TRP) agonist, to mediate both chronic inflammation and oxidative stress, the root causes of the symptomatology of PTSD. It provides PTSD patients with immediate relief […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Guardian Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/guardian-bio/",
+      "stream": "Advanced Therapies, Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "description": "Guardian Bio is a therapeutics platform creating the next generation of cell-based cancer vaccines for late stage, solid tumor cancer patients. The proprietary platform is based on conventional dendritic cells type 1 (cDC1s), recently defined and identified as primary drivers of anti-cancer immunity. Guardian Bio differentiates a patient’s stem cells into a cDC1-based therapy that […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "HDAX Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/hdax-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://hdaxtx.com/",
+      "description": "HDAX Therapeutics is a preclinical stage company developing next-gen (2-site binding) small molecule therapeutics for diseases stemming from microtubule dysfunction.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Heart Input Output",
+      "detail_url": "https://creativedestructionlab.com/companies/heart-input-output/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://www.heartio.ai/",
+      "description": "HeartIO is a cloud software company allowing hospital doctors to non-invasively detect the presence and severity of coronary artery disease at the point of care. The platform uses data from common hospital equipment that monitors heart rhythm (12-lead ECG), and a machine learning algorithm built on a database of ten million patients to accurately predict […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "HHC Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/hhc-medical/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://hhc-medical.com/",
+      "description": "HHC Medical uses wireless electroporation to deliver genetic therapies safely",
+      "detail_fetched": true
+    },
+    {
+      "company": "Honeycomb Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/honeycomb-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "description": "Honeycomb Therapeutics is operating at the nexus between cell therapy, synthetic biology and biologics. We aim to revolutionize how biologics are administered. Rather than using cells as the therapeutic, we will engineer a long-lived cell type called B cells to make and deliver the therapeutics within the patient’s own body. Using advanced cell engineering technologies, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "HOPO Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/hopo-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "description": "HOPO Therapeutics is a clinical-stage pharmaceutical company developing best-in-class treatments for heavy metal poisoning. Designed to be both safer and more effective than existing chelation therapies, the orally-available drug candidates are aimed at treating exposure to a wide range of heavy metals. Priority use cases include radioactive threat isotopes from a nuclear disaster or dirty […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Hyivy Health",
+      "detail_url": "https://creativedestructionlab.com/companies/hyivy-health/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://creativedestructionlab.com/companies/hyivy-health/www.hyivy.com",
+      "description": "Hyivy Health is a medical device and digital health company developing a device for pelvic floor rehabilitation. Their first product is a vaginal wand that measures the vital signs of the pelvic floor (sensation, healthy tissue, muscle control, lubrication, and incontinence) and delivers therapy to improve the strength and function of the muscles, reduce scar […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Hylid Diagnostics",
+      "detail_url": "https://creativedestructionlab.com/companies/hylid-diagnostics-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.hylidx.com/",
+      "description": "Hylid Diagnostics is a medical device company using novel optical sensors to bring affordable, lab-quality blood testing to the home. Their first target market is the 126 million chronic kidney disease (CKD) patients in Canada, US and Europe. Using a hand-held instrument coupled with single-use cartridges, patients measure their biomarkers from a drop of blood.",
+      "detail_fetched": true
+    },
+    {
+      "company": "IDUN Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/idun-technologies/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://iduntechnologies.com/",
+      "description": "IDUN technologies is a platform company building a database of brain activity with their built-in EEG earbud device (think: airpods). IDUN leverages their proprietary sensor material to measure and process brain signals with the same signal quality as the clinical gold-standard gel EEG. Their first customer is sleep intervention companies where user EEG data can […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Immplacate",
+      "detail_url": "https://creativedestructionlab.com/companies/immplacate/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://immplacatehealth.com/en/home",
+      "description": "Immplacate is a preclinical-stage cell therapy company that is clinically developing educated mesenchymal cells (EMCs) for treatment of unwanted immune responses. Mesenchymal stromal cells (MSCs) are cells that can differentiate into a variety of other cell types.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Inso Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/inso-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.inso.bio",
+      "description": "Inso Biosciences has developed a device that extracts undamaged, intact DNA from biological samples, a requisite for long-read genome sequencing. The device is based on proprietary microfluidic pillars that take biological samples, break open cells, and harvest DNA in the condition it existed while in a fully functioning cell. Inso Biosciences’ device can be used […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Integrated Nanotherapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/integrated-nanotherapeutics-inc/",
+      "stream": "Advanced Therapies, Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "website": "https://www.integratedntx.com/",
+      "description": "Integrated Nanotherapeutics Inc. (INT) is a biopharmaceutical company (Vancouver, Canada) that is developing a new class of therapeutics, “antigen-specific immune tolerance” using their proprietary multi-cargo lipid nanoparticles (LNPs) platform to deliver mRNA of one or multiple auto-antigens, along with an immune modulator small molecule to train the immune system not to attack self-antigen and to […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Inteligex",
+      "detail_url": "https://creativedestructionlab.com/companies/inteligex/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://www.inteligex.ca/",
+      "description": "Inteligex is a regenerative medicine company developing stem cell therapy for spinal cord injuries (SCI). Existing methods to treat SCI such as surgery, limit disease progression but do not allow repair and regeneration of the injured spinal cord. Inteligex has developed two stem cell products, Intellicells and SMaRT cells that are able to repair and […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "InventoRR M.D",
+      "detail_url": "https://creativedestructionlab.com/companies/inventorr-m-d-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://inventorrmd.ca",
+      "description": "InventoRR MD is a medical device company developing AbClo, a device that allows surgeons to efficiently close any large abdominal incision at the end of surgery. AbClo is a dynamic closure system that ensures a rapid and consistent closure on openings that were once extremely difficult and dangerous to close.",
+      "detail_fetched": true
+    },
+    {
+      "company": "IRegained",
+      "detail_url": "https://creativedestructionlab.com/companies/iregained-inc/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://iregained.ca/",
+      "description": "IRegained is developing an in-home, clinician-directed digital rehabilitation device that assists stroke and traumatic brain injury (TBI) survivors to regain unassisted use of their upper extremities, with a specific focus on hand usage. The product can be used in a rehab clinic, or a patient’s home via remote guidance from therapists. The device provides gamified […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Iterate Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/iterate-labs/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://iteratelabs.co/",
+      "description": "Iterate Labs is a biomechanics and IOT workplace safety company developing the first industrial wearable and software platform for preventing repetitive motion injuries in industrial workers. Its first product, the Delta One, collects 3D motion data on the hand and wrist, and integrates with the gloves workers are already wearing; its software platform provides data […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "JelikaLite",
+      "detail_url": "https://creativedestructionlab.com/companies/jelikalite-corp/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://jelikalite.com/ ",
+      "description": "JelikaLite is developing a neuromodulation wearable for autistic children to improve communication skills and reduce social anxiety. The device uses transcranial photobiomodulation (tPBM). This noninvasive stimulation technique shines near-infrared light on specific head regions to improve brain function by reducing inflammation, increasing blood flow, and improving functional brain connectivity. JelikeLite is building the first FDA-breakthrough […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Jenthera",
+      "detail_url": "https://creativedestructionlab.com/companies/jenthera/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://jenthera.com/",
+      "description": "Jenthera is a CRISPR Cas9-based gene-editing platform that allows for the development of cell-specific precision gene editing (disruption; insertions; corrections), opening up new possibilities for tackling genetic diseases.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Karla Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/karla-therapeutics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.karla-tx.com/",
+      "description": "Karla Therapeutics aims to treat mood disorders with antibodies that neutralize a newly discovered circulating protein secreted by T-Cells (Imood). Data in mice from this team demonstrates that increased Imood expression leads to anxiety-like behaviours, and blocking Imood expression regresses anxiety-like behaviours, while patients with psychiatric disorders exhibit increased levels of Imood. Approximately one in […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Kheiron Medical Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/kheiron-medical-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://www.kheironmed.com/",
+      "description": "Kheiron Medical uses advanced AI techniques to help radiologists more efficiently analyze mammography x-ray images for breast cancer screening. The venture has brought together knowledge from radiology, machine learning, and high-performance computing to design tools that help radiologists save time and diagnose more accurately by acting as an independent second reader.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Kolibri",
+      "detail_url": "https://creativedestructionlab.com/companies/kolibri/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "description": "Kolibri is revolutionizing the way we grow cells at scale using sound. Showing 100x increase in cell density and 50x reduction in production costs, Kolibri patented bioreactors which help our partners in drug development unlock patient access to gene therapies. Being cell-agnostic and scalable, Kolibri’s process has significant potential across a range of high-value cell-based […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Lantern Laboratory",
+      "detail_url": "https://creativedestructionlab.com/companies/lantern-laboratory-inc/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2024/25",
+      "website": "https://www.lanternlaboratory.com/",
+      "description": "Lantern Laboratory has developed an intraoperative brain monitor that uses proprietary algorithms to analyze EEG signals in real time, optimizing anesthesia care. Anesthesia dosing is currently subjective, and incorrect dosing can lead to serious consequences, such as postoperative delirium, long-term cognitive decline, and increased mortality. Lantern’s brain monitor provides real-time, patient-specific data on cognitive age […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "LEADOPTIK",
+      "detail_url": "https://creativedestructionlab.com/companies/leadoptik/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.leadoptik.com/",
+      "description": "LEADOPTIK Inc. is a venture-backed startup based in San Jose, California building miniature Lidar systems for surgical devices. Their sub-millimeter imaging platform empowers minimally invasive surgery with 3D navigation capability and pathology grade imaging in real-time. LEADOPTIK’s core technology is based on metasurfaces that allow for optics 100x smaller than the width of a human […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Liberum Biotech",
+      "detail_url": "https://creativedestructionlab.com/companies/liberum-biotech/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://creativedestructionlab.com/companies/liberum-biotech/liberumbio.com",
+      "description": "Liberum Biotech built a benchtop device that combines electronics, microfluidics, and cell-free biology to enable low-cost, programmable, on-demand manufacturing of proteins. This platform can produce small (~1mg) doses of purified proteins ten times faster than conventional methods (hours instead of days). The proteins can be of various sizes, biological activities, and can include certain post-translational […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Lilium Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/lilium-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://www.liliumtx.com/",
+      "description": "Lilium Therapeutics is building precisely targeted, higher capacity, safer, more effective, and more manufacturable gene delivery vehicles (STAR Vectors) to unlock genetic medicines for new patient populations.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Limax Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/limax-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.limaxbiosciences.com/",
+      "description": "Limax Biosciences produces the next generation of stretchable hydrogel-based tissue adhesive materials to revolutionize treatments for injuries inside and outside the body. Existing hemostatic dressings and sealants have weak tissue adhesion that result in leaks, tissue rigidity, and cytotoxicity. Limax’s degradable, hydrogel-based material addresses these limitations through strong and rapid adhesion to wet tissue surfaces […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "LINDA Lifetech",
+      "detail_url": "https://creativedestructionlab.com/companies/linda-lifetech/",
+      "stream": "Artificial Intelligence, Cancer",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://lindalifetech.com/",
+      "description": "LINDA Lifetech is an AI-powered software that scans for indicators of breast cancer using images collected by healthcare professionals. The images are processed by machine learning algorithms and a report about potential abnormalities is generated and used by healthcare professionals to triage patients, and validate their initial diagnoses. The platform helps healthcare professionals optimize their […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Magellan Biomedical",
+      "detail_url": "https://creativedestructionlab.com/companies/magellan-biomedical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "http://magellanbiomedical.com/",
+      "description": "Magellan Biomedical is developing a catheter navigation tool that allows for accurate position control of the tip of a flexible device (e.g., guidewire or catheter) and tracking the position of the device relative to the anatomy, which enables real-time 3D visualization and facilitates precise manipulation and control of the device. The technology has broad applications […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "ManagingLife",
+      "detail_url": "https://creativedestructionlab.com/companies/managinglife/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://managinglife.com/",
+      "description": "ManagingLife is a digital health company that has created a virtual pain clinic for people suffering from pain to track their pain levels and for treatment to be viewed by various stakeholders.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Maxonis",
+      "detail_url": "https://creativedestructionlab.com/companies/maxonis/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "https://www.maxonis.com/",
+      "description": "Maxonis is developing a peptide-hydrogel therapeutic that promotes nerve tissue regeneration following spinal cord injury (SCI) and peripheral nerve injury (PNI). Current treatment options for nerve repair are limited, invasive, and often yield poor functional recovery, leaving patients with few effective solutions. Maxonis’ off-the-shelf injectable hydrogel delivers the patented laminin-derived peptide LDP-196 to stimulate localized […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "mDETECT",
+      "detail_url": "https://creativedestructionlab.com/companies/mdetect-inc/",
+      "stream": "Biomedical Engineering, Cancer",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.mdetect-inc.com/",
+      "description": "mDETECT is a DNA-methylation-based liquid biopsy company that has developed a highly specific and sensitive blood test for the detection and management of metastatic breast cancer. The test can rapidly and accurately determine the tumor burden in patients to assess therapy response. Blood tests for prostate cancer and uveal melanoma are also part of the […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Mechano Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/mechano-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://mechano-therapeutics.com/",
+      "description": "Mechano Therapeutics has invented a novel drug delivery platform which uses the forces from the patient’s natural movements as the drug release mechanism.",
+      "detail_fetched": true
+    },
+    {
+      "company": "MeOmics Precision Medicine",
+      "detail_url": "https://creativedestructionlab.com/companies/meomics-precision-medicine/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://meomics.tech/",
+      "description": "MeOmics has developed a human neuronal cell screening platform to aid neuropsychiatric drug development. The platform uses stem cells from patient blood samples to create active neuron networks, from which it can detect signals that act as biomarkers for psychiatric disorders. Combined with patient data (clinical and genomic), the platform can predict the likelihood of […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "MetaStem Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/metastem-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "description": "MetaStem Therapeutics is developing a tumor-specific antibody-drug conjugate for the treatment of cancer based on a novel tumor target called podocalyxin (PODXL).",
+      "detail_fetched": true
+    },
+    {
+      "company": "MindTrace",
+      "detail_url": "https://creativedestructionlab.com/companies/mindtrace/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "http://creativedestructionlab.com/",
+      "description": "MindTrace is a medical software company developing personalized 3D brain maps to guide neurosurgeries. One of the challenges for surgeons removing brain tumors is to remove as many tumors as possible without damaging the nearby healthy tissue, which can cause cognitive damage. MindTrace pairs 3D brain maps with machine learning algorithms to simulate surgical resection […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Modulari-T",
+      "detail_url": "https://creativedestructionlab.com/companies/modulari-t/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://modularit.bio/",
+      "description": "Modulari-T has developed a new receptor architecture to reprogram multiple immune cell types to treat cancer and other diseases.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Modulo Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/modulo-bio/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://www.modulo.bio/",
+      "description": "Modulo Bio is developing a platform that couples machine learning and cell-based models to reprogram the neuroimmune system and slow or reverse neurological diseases. The platform engineers brain immune cells, called microglia, from human tissues at scale and, using neuroimmune system models, assesses how the microglia behave under different conditions. The platform can be used […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "MyoGene Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/myogene-bio/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "http://www.myogenebio.com/",
+      "description": "MyoGene Bio is developing therapies for muscle diseases with a gene editing therapy for DMD.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Mytide Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/mytide-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://mytide.io/",
+      "description": "Mytide Therapeutics is a biotechnology company developing an industrialized peptide manufacturing platform with AI capabilities that both designs and produces peptides at a higher quality (more than 90%), speed (100 times faster), and reduced direct cost (3 times lower).",
+      "detail_fetched": true
+    },
+    {
+      "company": "Nanochon",
+      "detail_url": "https://creativedestructionlab.com/companies/nanochon/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "http://www.nanochon.com/",
+      "description": "Nanochon is a biotechnology company producing a novel 3D printed material that replaces lost and damaged cartilage and encourages new tissue growth to treat joint-related issues due to injuries and osteoarthritis. This material will increase the accessibility of treating knee damage and improve outcomes by temporarily replacing cartilage while encouraging the regrowth of natural cartilage.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Nanology Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/nanology-labs/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "http://www.nanologylabs.com/",
+      "description": "Nanology Labs is developing a nano-theranostic agent with capabilities to simultaneously detect solid tumours and improve radiation therapy. This nanoparticulate system is equipped with smart and tumour-selective reactivity that enables sensitive detection of tumours at early stages using MRI as well as can sensitize the tumour to radiation therapy by generating oxygen in the tumour, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "NearWave",
+      "detail_url": "https://creativedestructionlab.com/companies/nearwave/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://nearwave.co/",
+      "description": "NearWave is a hardware company that develops a noninvasive breast cancer chemotherapy monitoring device. The device combines a form of infrared spectroscopy and novel photo sensors to detect cancer markers. This is done by measuring the characteristic absorption and scatter of light from biological molecules which are indicative of cancer. NearWave’s technology can predict cancer […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Neuradaptive",
+      "detail_url": "https://creativedestructionlab.com/companies/neuradaptive/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2024/25",
+      "description": "Neuradaptive is developing an adaptive neuromodulation device designed to stimulate neural circuits involved in learning and memory, initially targeting stroke and traumatic brain injury (TBI) recovery. Their device integrates precisely timed deep brain stimulation with personalized, AI-enabled behavioral training, offering a more targeted and effective alternative to existing therapies for neurological conditions. This approach not […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Neuralenz",
+      "detail_url": "https://creativedestructionlab.com/companies/neuralenz/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2024/25",
+      "website": "https://www.neuralenz.com",
+      "description": "Neuralenz has developed a non-invasive, photonics device that continuously and quantitatively measures cerebral blood flow and intracranial pressure, targeting neurocritical care applications such as stroke, traumatic brain injury, and dementia. Currently, Neurologists rely on continuous data obtained from invasive intracranial sensors to diagnose and manage interventions for neurocritical care patients. Neuralenz can obtain the same […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Neurastasis",
+      "detail_url": "https://creativedestructionlab.com/companies/neurastasis/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.neurastasis.com/",
+      "description": "NeuraStasis is developing an electrical stimulation device to delay the effects of acute ischemic stroke (AIS). The thesis behind this technology is that noninvasive electrical stimulation can preserve brain viability and help protect patients from a lifetime of disability. NeuraStasis’ initial addressable market focuses on AIS patients at stroke centers between diagnosis and revascularization. NeuraStasis […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "NeuraWorx",
+      "detail_url": "https://creativedestructionlab.com/companies/neuraworx/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.linkedin.com/company/neuraworx/",
+      "description": "NeuraWorx aims to prevent and slow the progression of neurodegenerative disease such as Alzheimer’s Dementia with their mouthguard device. NeuraWorx’s device uniquely stimulates the cranial nerves to improve the flow of blood and cerebrospinal fluid through the brain – both of which are shown in literature to remove brain toxins. Their device will be safer, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "NeuroBionics",
+      "detail_url": "https://creativedestructionlab.com/companies/neurobionics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "https://neurobionics.io/",
+      "description": "NeuroBionics is pioneering a new class of minimally invasive neuromodulation technologies that deliver deep brain and peripheral nerve stimulation without open surgery. Using hair-thin, catheter-delivered bioelectronic fibers that navigate blood vessels smaller than 2mm, the system can precisely target deep neural circuits while reducing procedural risks and recovery times. Backed by over a decade of […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Nia Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/nia-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://niatherapeutics.com",
+      "description": "Nia Therapeutics is developing a brain stimulation device to treat memory loss. Nia is initially targeting patients with traumatic brain injuries and plans to target neurodegenerative diseases both of which cause memory loss that is currently untreatable.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Noa Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/noa-therapeutics/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://noatherapeutics.com/",
+      "description": "Noa Therapeutics is a preclinical biotech company developing of non-steroidal, multimodal small molecules to address the complexity of inflammatory barrier diseases.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Nomic Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/nplex-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://www.nplexbio.com/",
+      "description": "Nomic Bio (formerly nplex biosciences) is a biotechnology company that offers pharma and academia the ability to measure many proteins from blood samples with high sensitivity and cost efficiency. Its platform is immediately deployable in many research facilities as it is compatible with current workflows, read-out instruments, and automation tools.",
+      "detail_fetched": true
+    },
+    {
+      "company": "NuvoBio",
+      "detail_url": "https://creativedestructionlab.com/companies/nuvobio/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://nuvobio.com/",
+      "description": "NuvoBio is developing an artificial intelligence platform to design highly-specific peptide therapeutics without requiring previous knowledge of the protein structure.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Obatala Sciences",
+      "detail_url": "https://creativedestructionlab.com/companies/obatala-sciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://obatalasciences.com/",
+      "description": "Obatala Sciences is a biotechnology toolkit company providing stem cells, hydrogels, and stell cell–based therapies to advance the fields of obesity and diabetes regenerative medicine treatments.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Odin Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/odin-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://odinhealthtech.com/",
+      "description": "Odin Technologies provides a wearable device that measures patient blood flow, allowing for nurses and physicians to monitor and make treatment decisions.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Oncoelectronics",
+      "detail_url": "https://creativedestructionlab.com/companies/oncoelectronics/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://www.linkedin.com/company/oncoelectronics/",
+      "description": "Oncoelectronics has developed a flexible implantable electrode that treats cancers by zapping them with electricity.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Origami Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/origami-therapeutics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://origamitherapeutics.com/",
+      "description": "Origami is discovering oral drugs to halt neurodegeneration. Their approach involves eliminating the toxic proteins that are the underlying cause of neurodegeneration using protein degraders to restore normal function. Origami’s discovery platform leverages our proprietary human disease models to select the drugs with the best chance of clinical success.",
+      "detail_fetched": true
+    },
+    {
+      "company": "OrisDX",
+      "detail_url": "https://creativedestructionlab.com/companies/orisdx/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "http://www.orisdx.com/",
+      "description": "OrisDX has developed a test that detects oral cancers through saliva using genetic and molecular techniques.",
+      "detail_fetched": true
+    },
+    {
+      "company": "OXcan (Oxford Cancer Analytics)",
+      "detail_url": "https://creativedestructionlab.com/companies/oxcan-oxford-cancer-analytics/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://www.oxcan.org/",
+      "description": "OXcan has developed a liquid biopsy blood test to detect cancers early, starting with lung cancer, by generating unique blood-based biomarkers through the use of advanced proteomics and AI.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Oxford Brain Diagnostics",
+      "detail_url": "https://creativedestructionlab.com/companies/oxford-brain-diagnostics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://oxfordbraindiagnostics.com/",
+      "description": "Oxford Brain Diagnostics is a medical imaging company that analyzes brain MRIs to measure the progression of brain-related diseases such as Alzheimer’s.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Oxford Immune Algorithmics",
+      "detail_url": "https://creativedestructionlab.com/companies/oxford-immune-algorithmics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://www.oxfordimmunealgorithmics.co.uk/",
+      "description": "Oxford Immune Algorithmics (OIA) has developed hardware and software, ‘Algocyte,’ that enables clinical blood tests to be done from home. Using a finger prick a patient can load their blood onto a cartridge, insert it into the mobile health reader; the results are then uploaded to the cloud where they are analyzed by OIA’s proprietary […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Panakeia Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/panakeia-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://panakeia.ai/",
+      "description": "Panakeia Technologies is a deep-learning platform that allows pathologists to get comprehensive diagnostic information from biopsy images—i.e., locates cancer tissues, distinguishes between benign and invasive cancers, infers aggressiveness and biomarker profiles.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Panaxium",
+      "detail_url": "https://creativedestructionlab.com/companies/panaxium/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://panaxium.com",
+      "description": "Panaxium is developing an ultra-precision personalized neurostimulation therapy for stroke patients. The therapy combines AI-enabled MRI imaging analysis with implants to drive bioelectrically-instigated brain rewiring to restore lost functions (motor, speech, cognitive, etc.). Uniquely, the implants are biocompatible and iontronic, using ion-conducting polymers. Panaxium can measure and stimulate the necessary neural targets on a continuous […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "panCELLa",
+      "detail_url": "https://creativedestructionlab.com/companies/pancella/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://pancella.com/",
+      "description": "panCELLa is developing therapeutic tools applied to a therapeutic cell line that is modified to provide a high level of safety before and after the cells are introduced to the patient. FailSafe acts as a safety switch: the suicide gene is activated by a pro-drug to shut down only the cells that are deregulating while […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Pando Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/pando-biosciences/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://pando.bio/",
+      "description": "Pando is a synthetic biology company, leveraging generative AI and high-throughput experiments to discover, optimize, and design high-value biological molecules and systems.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Paradox Immunotherapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/paradox-immunotherapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://www.linkedin.com/company/paradoximmuno/?originalSubdomain=ca",
+      "description": "Paradox Immunotherapeutics is a pharmaceutical company developing immunotherapies for diseases caused by misfolding of proteins (defects in protein structure). The company’s lead product (LX-96) is an antibody to treat organ failure caused by Amyloid light-chain (AL) amyloidosis – a disease caused by protein misfolding, where the defective proteins clog organs, particularly the heart and kidneys. […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "PhenoTips",
+      "detail_url": "https://creativedestructionlab.com/companies/phenotips/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://phenotips.com/",
+      "description": "PhenoTips is a cloud platform that helps geneticists at hospitals document genetic conditions, family history, and other phenotypic data to analyze risk factors and generate predictive insights into potential genetic causes.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Phosphoenix",
+      "detail_url": "https://creativedestructionlab.com/companies/phosphoenix/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://phosphoenix.nl/",
+      "description": "Phosphoenix is developing a neural interface to restore rudimentary sight to blind individuals. The interface uses high-density and ultra-flexible probes to stimulate nerve cells in parts of the brain responsible for vision. By activating specific combinations of electrodes, it generates recognizable shapes and patterns, enabling blind individuals to identify objects and navigate their surroundings. Phosphoenix’s […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Prima Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/prima-medical/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "description": "Prima is a pattern recognition software technology that helps guide doctor treatment during a cardiac ablation procedure (focusing on atrial fibrillation) to improve procedure outcomes. Prima’s technology inputs biosignal datasets that currently exist in the procedure, detects clinically important signal patterns, and displays on-screen to the physician suggesting next steps for best outcome.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Psyonic",
+      "detail_url": "https://creativedestructionlab.com/companies/psyonic/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.psyonic.io/",
+      "description": "Psyonic produces bionic prosthetic hands for amputees. The product provides industry-leading reaction times, touch feedback via vibrations, and is robust to impacts. It is covered by Medicare, with little to no out-of-pocket costs to users.",
+      "detail_fetched": true
+    },
+    {
+      "company": "QSM Diagnostics",
+      "detail_url": "https://creativedestructionlab.com/companies/qsm-diagnostics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://qsmdiagnostics.com/",
+      "description": "QSM Diagnostics is a hardware company selling a point-of-care solution to detect pathogens early and instantaneously using quorum-sensing molecules. It is starting in the veterinary space to detect ear infections.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Quthero",
+      "detail_url": "https://creativedestructionlab.com/companies/quthero/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://quthero.com/",
+      "description": "Quthero is developing novel treatments for rapid, active, and scarless healing for skin wounds (surgical wounds, burns, chronic ulcers) and internal tissues. The technology enables perfect epithelial restoration, which accelerates time to wound closure, inhibits scar tissue formation, and eliminates complications and risks of impaired and improper healing (including infection, pain, amputation, immobility, reduced life […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Realyze Intelligence",
+      "detail_url": "https://creativedestructionlab.com/companies/realyze-intelligence/",
+      "stream": "Cancer",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2023/24",
+      "website": "https://realyzeintelligence.com/",
+      "description": "Realyze intelligence is a software company that uses AI to accelerate clinical trial enrollment and collection of real-world data for oncology.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Revalia Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/revalia-bio/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://revaliabio.com/home",
+      "description": "Revalia Bio reimagines how we treat chronic diseases that end in organ failure. Revalia disrupts the current preclinical model for device and drug development by using human organs obtained from deceased donors. Their proprietary data capture, integration and analysis systems allows Revalia to record up to five days of data (e.g., expression, metabolic, and functional) […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Revolve Surgical",
+      "detail_url": "https://creativedestructionlab.com/companies/revolve-surgical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "http://revolvesurgical.com/",
+      "description": "Revolve Surgical is a surgical robotics company with a product that closely resembles a typical surgical instrument that reduces the space, cost, and training required compared to current surgical robots.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Roga",
+      "detail_url": "https://creativedestructionlab.com/companies/roga/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://www.rogalife.com",
+      "description": "Roga has developed a brain stimulation wearable device designed to reduce anxiety-related brain activity and an app that provides anti-anxiety sessions and treatment progress-tracking analytics. The device uses an FDA-approved stimulation method for treating anxiety that they have miniaturized to enable on-the-go, discreet, everyday use. Their initial target is the employee stress market, and they […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Sachi Bio",
+      "detail_url": "https://creativedestructionlab.com/companies/sachi-bio/",
+      "stream": "Advanced Therapies",
+      "directory_locations": [
+        "CDL-Toronto",
+        "CDL-Vancouver"
+      ],
+      "cohort_year": "2022/23",
+      "website": "https://www.sachibio.com/",
+      "description": "Sachi Bio is an RNA therapeutic platform company with a lead autoimmune (inflammasome inhibitor) program that has shown rapid remission and relief in aggressive Ulcerative Colitis and Multiple Sclerosis models (>90% reduction in inflammation in <1week), with excellent target product (oral, shelf-stable, long half-life) and safety-biodistribution profile. Sachi Bio’s platform performs target identification, and first-in-class […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "SaluTech",
+      "detail_url": "https://creativedestructionlab.com/companies/salutech/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2018/19",
+      "website": "https://www.salutech.it",
+      "description": "SaluTech has developed a conductive biomaterial (CBM) to treat the underlying cause of arrhythmia. This CBM has the ability to reduce/diminish arrhythmia while being nontoxic, biocompatible, and inexpensive to produce.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Sinaptica Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/sinaptica-therapeutics/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2024/25",
+      "website": "https://sinapticatx.com/",
+      "description": "Sinaptica Therapeutics has developed SinaptiStim™, a personalized rTMS (repetitive Transcranial Magnetic Stimulation) neuromodulation system delivering non-invasive, ML-driven neurostimulation to enhance neuroplasticity in key brain networks to slow the progression of Alzheimer's. Current treatments for Alzheimer’s are minimally effective in delaying cognitive decline, are burdened by IV infusions, brain bleeding/swelling, and require costly MRI monitoring. Sinaptica […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "SiNON Nano Sciences",
+      "detail_url": "https://creativedestructionlab.com/companies/sinon-nano-sciences/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2023/24",
+      "website": "https://sinontx.com/",
+      "description": "SiNON Nano Sciences is developing a Carbon NanoDot (CND) drug delivery system specifically designed for targeted treatment of brain tumors. These CNDs are unique because they only open at the tumor site, enabling higher concentrated doses while significantly reducing overall toxicity and enhancing therapeutic efficacy. The tunable platform delivery system can encapsulate multiple therapeutics, including […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Specific Biologics",
+      "detail_url": "https://creativedestructionlab.com/companies/specific-biologics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://specificbiologics.com/",
+      "description": "Specific Biologics is a gene-editing platform designed to accurately edit cells in a target tissue to treat certain genetic diseases.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Swiftsure Innovations",
+      "detail_url": "https://creativedestructionlab.com/companies/swiftsure-innovations/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "http://creativedestructionlab.com/",
+      "description": "Swiftsure Innovations has designed the Complete Care Endotracheal Tube (CCET), a medical device that allows for large volume nasal and oral irrigation of patients on life support, without the risk of aspiration or tissue injury. By reducing the bacterial and viral load in the mouth and nose, the CCET aims to reduce secondary bacterial pneumonia […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Synaptrix Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/synaptrix-labs/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "https://www.synaptrix-labs.com/",
+      "description": "Synaptrix Labs, founded by three NYU graduates, is developing non-invasive brain–computer interfaces that translate EEG signals into real-time commands, beginning with wheelchair, computer, and communication control for people with severe motor impairments. The venture improves on eye-tracking and sip-and-puff systems, which are often slow, unreliable, and difficult to calibrate, by offering a hands-free, non-surgical headband […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "sync2brain",
+      "detail_url": "https://creativedestructionlab.com/companies/sync2brain-gmbh/",
+      "stream": "Neuro",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2025/26",
+      "website": "https://sync2brain.com/",
+      "description": "sync2brain is developing bossdevice, a closed-loop TMS system that uses real-time EEG to deliver personalized, phase-synchronized brain stimulation for psychiatric disorders, starting with OCD and depression. By tailoring therapy to each patient’s brain state, the system overcomes the limitations of one-size-fits-all treatments, improving outcomes and reducing side effects. Unlike conventional TMS systems or research-only tools, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "SynchroPET",
+      "detail_url": "https://creativedestructionlab.com/companies/synchropet/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://creativedestructionlab.com/companies/synchropet/www.synchropet.com",
+      "description": "SynchroPET has developed a miniaturized PET scanner (medical imaging device that measures radiotracer in the body) that retrofits existing medical imaging devices such as MRI or other traditional PET. In patients with cancer, for example, SynchroPET helps assess the proportion of the radiotracer absorbed by the cancerous tumours and the rest of the body over […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Synex Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/synex-medical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2019/20",
+      "website": "https://synexmedical.com/",
+      "description": "Synex Medical is a wearable ring that uses nuclear magnetic resonance to non-invasively quantify biomarkers such as glucose and ketones.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Synova Life Sciences",
+      "detail_url": "https://creativedestructionlab.com/companies/synova-life-sciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.synovalife.com/",
+      "description": "Synova Life Sciences is a hardware company that is developing an automated device that extracts stem cells from fat tissue. It is a cell therapy platform for use in point-of-care regenerative medicine, tissue engineering, and clean meat production. Synova’s patented process uses modified shockwaves applied to a sterile container to reduce a three to four […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "TATUM Bioscience",
+      "detail_url": "https://creativedestructionlab.com/companies/tatum-bioscience/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://www.tatumbio.com/",
+      "description": "TATUM bioscience is a synthetic biology company developing a new class of biologics called synthetic advanced biologics. The company was founded on the premise that more than 50 percent of cancer patients do not respond to checkpoint inhibitor treatments and are left with no therapeutic solutions. Combination therapies are currently put forward to address this […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Tidal Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/tidal-medical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2021/22",
+      "website": "https://tidalmedical.com/",
+      "description": "Tidal Medical is a medical device company that develops a non-invasive, wearable system for heart failure patients that allows clinicians to monitor their pulmonary artery pressure from home without the costs, risks and discomfort of invasive implants. Clinical studies have shown that pulmonary artery pressure-based heart failure management strategies can reduce hospitalizations, readmissions, and mortality […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "TissueForm",
+      "detail_url": "https://creativedestructionlab.com/companies/tissueform/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://www.tissueforminc.com/",
+      "description": "TissueForm has developed a novel biomaterial to address clinical problems in plastic surgery and regenerative medicine. We create biomaterials of tissue and protein components which crosslink at body temperature and mimic natural tissue upon injection. TissueForm’s first product, NatruDerme, is a dermal filler designed to mimic skin. NatruDerme provides a ‘best-case’ and natural biomaterial that […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Unravel Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/unravel-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2020/21",
+      "website": "https://wyss.harvard.edu/technology/cognixense-modeling-cognitive-disorders/",
+      "description": "Unravel Biosciences has developed a vertically integrated computational platform to improve drug discovery. Instead of classic pharma, which takes a target of interest and develops drugs to bind that specific target, Unravel’s platform screens many drugs in parallel for their real-world impact (e.g., the complete gene expression profiles and resulting physiological changes), reversing this process […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Xpan",
+      "detail_url": "https://creativedestructionlab.com/companies/xpan-inc/",
+      "stream": "Biomedical Engineering, Cancer",
+      "directory_locations": [
+        "CDL-Toronto"
+      ],
+      "cdl_site": "CDL-Toronto",
+      "cohort_year": "2022/23",
+      "website": "https://xpanmedical.com/",
+      "description": "Xpan is developing a miniaturized access port (trocar) for minimally invasive surgery, which can enter the body at a smaller, less invasive size than current standard devices before expanding to larger, desired sizes, with minimal tissue trauma. This aims to increase safety and efficiency of minimally invasive surgeries.",
+      "detail_fetched": true
+    },
+    {
+      "company": "20/20 OptimEyes Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/20-20-optimeyes-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://www.2020optimeyes.ca/",
+      "description": "20/20 OptimEyes Technologies offers a new ocular drug delivery method: a proprietary eye drop formulation that adheres to mucosal surfaces. The proprietary micelle-based drops deliver more drug than conventional eye drops and, due to their adhesive properties, allow for fewer doses and fewer side effects.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Alavida",
+      "detail_url": "https://creativedestructionlab.com/companies/alavida/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://alavida.co/",
+      "description": "Alavida is changing the way people think about alcohol addiction treatment by offering personalized evidence-based treatment at an affordable price regardless of where a person is located or their current level of alcohol consumption. Venture just launched LA office and is expanding to Texas, NYC and Florida in 2018.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Altay Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/altay-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.altaytherapeutics.com/",
+      "description": "Altay Therapeutics (Altay) is developing small molecule therapies to treat chronic inflammation and cancers by targeting disease-causing transcription factors. Preliminary data of the lead candidate, PCE1911, has been shown to treat Ewing’s Sarcoma. Further, mouse data on the second candidate, E46, has been shown to prevent and reverse lung fibrosis.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Aluna",
+      "detail_url": "https://creativedestructionlab.com/companies/aluna/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.aluna.io/",
+      "description": "Aluna is developing a respiratory management system consisting of a portable spirometer and gamified app for people suffering from respiratory conditions including asthma, chronic obstructive pulmonary disease (COPD), cystic fibrosis (CF), and pulmonary fibrosis. Aluna’s machine-learning algorithms work to predict attacks and empower self-management using 1800+ expert pulmonologist-labelled datasets collected from the Aluna spirometer.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Ananya Health",
+      "detail_url": "https://creativedestructionlab.com/companies/ananya-health/",
+      "stream": "Biomedical Engineering, Cancer",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2022/23",
+      "website": "https://www.ananya.health/",
+      "description": "Ananya Health is building a cryoablation platform to freeze abnormal cells before they become cervical cancer. The company’s proprietary medical device achieves ablative temperatures without consumable gas, making the procedure portable, battery-powered, and 10x cheaper than traditional cryoablation.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Arrowsmith Genetics",
+      "detail_url": "https://creativedestructionlab.com/companies/arrowsmith-genetics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "description": "Arrowsmith Genetics (AGx) is a preclinical stage, precision oncology company. AGx’s technology analyzes patient-specific tumour mutations, uses the results to identify new drug targets, and generates small-molecule therapy candidates for those targets. The company’s humanized yeast platform is fast, suitable for essential proteins, and finds binding sites that are unique to the targeted protein to […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Aspero Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/aspero-medical/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.asperomedical.com",
+      "description": "Aspero Medical focuses on improving gastrointestinal balloon endoscopy for the patient and physician. Our technology enhances device performance, saving time and money, while improving patient outcomes.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Augment Health",
+      "detail_url": "https://creativedestructionlab.com/companies/augment-health-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2022/23",
+      "website": "https://augmenthealth.org/",
+      "description": "Augment Health is a medical technology company developing the first active bladder monitoring platform to support urologists in treating the 7 million neurogenic bladder patients in the US. The product enables improved bladder health, treatment insights, and access to care.",
+      "detail_fetched": true
+    },
+    {
+      "company": "AxCell Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/axcell-labs/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://axcell-labs.com/en/home/",
+      "description": "AxCell Labs creates biocompatible soft tissue implants derived from bacterial cellulose using a proprietary process designed to enhance tissue regeneration through cell colonization. The depyrogenation process developed by AxCell Labs exceeds FDA standards by 5X and offers superior efficiency, reduces production time, and enhances safety and applicability of bacterial cellulose in medical applications such as […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Axem Neurotechnology",
+      "detail_url": "https://creativedestructionlab.com/companies/axem-neurotechnology/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.axemneuro.com/",
+      "description": "Axem Neurotechnology is developing a headband that allows healthcare professionals to quickly obtain brain activity measurements that can be used to track motor recovery and guide treatment in stroke patients . The device uses functional near-infrared spectroscopy (fNIRS) to measure changes in brain activity during movement.",
+      "detail_fetched": true
+    },
+    {
+      "company": "AyrFlo Innovation Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/ayrflo-innovation-labs-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "https://ayrflo.ai/",
+      "description": "AyrFlo Innovation Labs is developing a wearable airflow sensor that uses ultrasound and machine-learning techniques to monitor post-operative and ICU patients’ ventilation health. Poor outcomes in patients without a breathing tube (non-intubated) are due to the inability of current monitoring devices, such as pulse oximetry and end-tidal CO2, to recognize and respond to respiratory changes […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Beam Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/beam-medical-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "https://beamradiology.com/",
+      "description": "Beam Medical is a forward-thinking product development and commercialization team specializing in chronic low back pain diagnostic and treatment. Committed to innovation and excellence, we design cutting-edge interventional spine solutions for clinicians to better address pathologies for individuals suffering from chronic lower back pain.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Biomimir",
+      "detail_url": "https://creativedestructionlab.com/companies/biomimir/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2022/23",
+      "website": "https://www.biomimir.ca/",
+      "description": "BioMimir produces a flexible, elastic hydrogel that functions as a wound sealant, wound filler, and tissue regenerator. The biomaterial is composed of a proprietary synthetic adhesive (a block copolymer) that holds the wound closed, and a collagenous matrix to fill the wound and promote healthy cells to regrow into the material. This tri-functionality (sealant, filler, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Biomotum",
+      "detail_url": "https://creativedestructionlab.com/companies/biomotum/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://www.biomotum.com/",
+      "description": "Biomotum develops smart robotic exoskeletons for the treatment of impaired mobility. The company’s initial product, the SPARK Rehabilitation System, is a wearable, robotic ankle-assisting device that provides on-demand mobility enhancement to children and adults with physical disabilities that impair walking.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Biosense",
+      "detail_url": "https://creativedestructionlab.com/companies/biosense-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.biosense-inc.com/",
+      "description": "Biosense is a wellness and medical technology company that has developed sensitive nanomaterial-based biosensors that enable rapid measurement of important metabolites from a small sample of saliva. Biosense’s nanomaterial platform demonstrates high sensitivity while maintaining target specificity using conventional enzymes. The initial focus is measurement of lactate for professional sports, with plans to eventually move […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Blue Mesa Health",
+      "detail_url": "https://creativedestructionlab.com/companies/blue-mesa-health/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://www.bluemesahealth.com/",
+      "description": "We provide people at risk for chronic disease with a technology-enabled behaviour change program, based on the CDC’s landmark Diabetes Prevention Program. Blue Mesa Health’s integratable client app software with health coach dashboard, integratable software with Bodytrace and Fitbit API, and Real-time feedback to participants on behavior change progress, help hundreds of thousands of people […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "BugSeq",
+      "detail_url": "https://creativedestructionlab.com/companies/bugseq/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://bugseq.com/",
+      "description": "BugSeq empowers microbiology labs to detect and prevent infectious diseases with next-generation sequencing. BugSeq replaces manual, expensive pipeline creation and data analysis traditionally conducted by a bioinformatician in a time-consuming manner, with an automated, end-to-end solution hosted in the cloud. BugSeq’s reports enable clinical, public health, and biodefense laboratories to identify unknown and novel pathogens, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Catena Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/catena-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://www.catenabiosciences.com/",
+      "description": "Catena Biosciences develops protein- and cell-based therapies via enzyme-based protein-to-protein attachment. The company’s technology can conjugate any two soluble proteins together — including large, complex proteins not suitable for traditional approaches — without extensive modification. Catena can also vary which attachment sites are used and how much attachment occurs to customize therapies.",
+      "detail_fetched": true
+    },
+    {
+      "company": "CellFE",
+      "detail_url": "https://creativedestructionlab.com/companies/cellfe/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://cellfebiotech.com/",
+      "description": "CellFE (Cell Fluidics Engineering) is developing a scalable and high-throughput microfluidic device for the efficient delivery of gene-editing molecules into cells. CellFE’s technology uses rapid cell compressions to elicit a unique cell behaviour by causing them to exchange fluid with their environment and uptake large molecules (more than 10 kilobases cargo tested to date) while […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Coastal Genomics",
+      "detail_url": "https://creativedestructionlab.com/companies/coastal-genomics-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.coastalgenomics.com/",
+      "description": "Coastal Genomics Inc (CGI) has automated the benchmark life science technique of DNA size selection by gel electrophoresis with its Ranger Technology. CGI’s platform enables an increased throughput of up to 384x over the manual DNA sequencing process, while ensuring industry-leading consistency and repeatability of results.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Cognivive",
+      "detail_url": "https://creativedestructionlab.com/companies/cognivive/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://www.cognivive.com/",
+      "description": "Cognivive develops evidence-based virtual reality (VR) treatment games to enable home-based neuro-rehabilitation recovery. Cognivive combines neuroscience with sophisticated game design to create treatments that constantly adapt to the patient’s ability, creating truly personalized digital medicines. The self-motivating nature of the games will result in patients self-administering high-therapeutic treatment “doses” at home with much greater adherence.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Concha Labs",
+      "detail_url": "https://creativedestructionlab.com/companies/concha-labs/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.conchalabs.com/",
+      "description": "Concha Labs is creating a personalized solution for the 50M Americans and 1B people worldwide that suffer from hearing loss. Its proprietary software technology enables users to try, buy, and tune hearing aids in real-time, improving access and user satisfaction while eliminating the need for repeat tuning appointments with audiologists.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Correlia Biosystems",
+      "detail_url": "https://creativedestructionlab.com/companies/correlia-biosystems/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "http://www.correliabio.com/index.html",
+      "description": "Correlia Biosystems has developed an ultra-efficient sample analysis platform for animal research, drug development & diagnostics. The platform automates protein detection with dramatic/measured breakthroughs in speed, sample miniaturization, and efficiency (up to 7200x more data per hour).",
+      "detail_fetched": true
+    },
+    {
+      "company": "Corveus Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/corveus-medical/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.corveusmedical.com",
+      "description": "Corveus Medical is developing a one-time, catheter-based solution that provides immediate relief from the symptoms and reduces the severity of chronic heart failure. Corveus’ device performs a unique, targeted nerve ablation (a procedure that destroys nerve tissue), to inactivate a sympathetic nerve branch, which provides significant benefit for class III heart failure patients by removing […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Creatus Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/creatus-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "http://www.creatusbio.com/",
+      "description": "Creatus BioSciences is to design and develop yeast-based organism to produce high value molecules that disrupt traditional chemical production and enable new bioprocesses. Xylitol (Creatus Bio’s first product) can potentially be the next low-cost “”sugar alternative”” option for consumers.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Current Surgical",
+      "detail_url": "https://creativedestructionlab.com/companies/current-surgical/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.currentsurgical.com/",
+      "description": "Current Surgical is developing a digital ablation platform for the precise treatment of solid tumors. The product is a smart surgical needle leveraging ultrasound technology for real-time guidance of the needle-tip position and to selectively destroy the tumor and its margins using focused heat.",
+      "detail_fetched": true
+    },
+    {
+      "company": "D.Sole",
+      "detail_url": "https://creativedestructionlab.com/companies/d-sole-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.d-sole.com/",
+      "description": "D.Sole is a clinical decision support system that uses smart foot insoles and an ML platform for early detection and monitoring of foot complications in diabetic patients. With its data-driven insights into patient's feet, D.Sole can reduce foot complications by up to 98%, saving insurers an estimated $8 USD billion annually. D.Sole's wearable technology seamlessly […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Diadem Biotherapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/diadem-biotherapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.diadembio.com/",
+      "description": "Diadem Biotherapeutics (Diadem) engineers signalling proteins to display on the surface of cell-derived vesicles (exosomes) to treat cancer, chronic inflammation and autoimmune diseases. Diadem’s engineered exosomes mimic natural cell signaling in an agonist (activating) manner through clinically validated immune checkpoint receptors that play a role in autoimmune diseases or immune control of cancer.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Djit Medtech",
+      "detail_url": "https://creativedestructionlab.com/companies/djit-medtech-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.djit-medtech.com",
+      "description": "Djit Medtech is a medical device company developing a finger joint implant that offers motion preserving pain relief for millions of end-stage arthritis patients who are unable to get joint replacement due to limitations in currently available devices. Djit’s solution does not require healthy ligaments for stability and can be easily revised throughout the patient’s […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "eMurmur",
+      "detail_url": "https://creativedestructionlab.com/companies/csd-labs/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://emurmur.com/",
+      "description": "eMurmur offers AI driven heart murmur detection software and an auscultation training & testing platform. eMurmur is the first mover in achieving and clinically proving expert level heart murmur detection accuracy, making auscultation an objective procedure for the first time since the invention of the stethoscope.",
+      "detail_fetched": true
+    },
+    {
+      "company": "EyecareX",
+      "detail_url": "https://creativedestructionlab.com/companies/eyecarex/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.eyecarex.com/",
+      "description": "EyecareX leverages computer vision and generative AI to provide a comprehensive suite of automated, remote eye testing tools to enhance optometry clinic efficiency. EyecareX’s AI-powered platform enables patients to conduct tests at home via mobile app, streamlining the diagnostic process and boosting optometrist productivity by 200-300%. By outsourcing routine tests (visual acuity, color vision, extraocular […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "FemtoFluidics",
+      "detail_url": "https://creativedestructionlab.com/companies/femtofluidics/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "https://www.femtofluidics.tech/",
+      "description": "Fluid-handling technology on a circuit grid choreographed by software. Our vision is to replace a room full of expensive liquid-handling robotics with a rack of electronics w/ low operating costs and high reliability, no moving parts. Chemical protocols will not only be fully automated, but will also be fully programmable and customizable. Changing the protocol […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "FibroDynamx",
+      "detail_url": "https://creativedestructionlab.com/companies/fibrodynamx/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.fibrodynamx.com/",
+      "description": "FibroDynamx is a drug discovery company developing therapies that promote tissue regeneration, without scarring. The platform is based on their Regenerative Blueprint, which combines proprietary data from their reindeer model with human wound healing data. Their first product (FD-001, a protein-based drug) prevents scar formation, and improves skin regeneration 10-fold in animal models of skin […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "FluoretiQ",
+      "detail_url": "https://creativedestructionlab.com/companies/fluoretiq/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://www.fluoretiq.com/",
+      "description": "FluoretiQ is developing a rapid-diagnostic technology platform called NANOPLEX to identify and enumerate bacteria in 15 minutes. NANOPLEX uses species-selective probes and a quantum-enhanced fluorometer to rapidly identify the bacterial strains present in patient samples 100 times faster than current lab-based techniques without compromising accuracy.",
+      "detail_fetched": true
+    },
+    {
+      "company": "GenXys Health Care Systems",
+      "detail_url": "https://creativedestructionlab.com/companies/genxys-health-care-systems/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.genxys.com",
+      "description": "GenXys is a precision-prescribing software company with a pedigree in pharmacogenetics (PGx), ensuring individuals get the right medications, at the right doses, at the right time, enabling improved patient safety, increased medication efficacy, and reduced health care costs. Its first product, TreatGx, combines individual variables to enable precise and personalized prescription options based on condition(s), […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Goldfinch Health",
+      "detail_url": "https://creativedestructionlab.com/companies/goldfinch-health/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.goldfinchhealth.com/",
+      "description": "Goldfinch Health is a surgery and recovery-focused, tech-enabled service to benefit employers and insurance companies. This is done by providing patients with deep clinical advocacy at all stages of surgery, resulting in a faster recovery from surgery and a dramatic reduction of opioid use.",
+      "detail_fetched": true
+    },
+    {
+      "company": "GuideStar Medical Devices",
+      "detail_url": "https://creativedestructionlab.com/companies/guidestar-medical-devices/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.guidestarmd.com/",
+      "description": "GuideStar Medical Devices (GuideStar) has developed a medical device that prevents dural punctures. The device attaches to epidural needles and automatically stops the needle movement upon detecting the epidural space.",
+      "detail_fetched": true
+    },
+    {
+      "company": "HeadCheck Health",
+      "detail_url": "https://creativedestructionlab.com/companies/headcheck-health/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://www.headcheckhealth.com/",
+      "description": "HeadCheck is a SaaS concussion testing & compliance monitoring solution that works for any sports organization. Currently, Venture working with BC Hockey, which could mean every Hockey player in BC (7 Leagues, 150 Minor Associations, and 55,000 players) to be boarded on HeadCheck platform within 2 years",
+      "detail_fetched": true
+    },
+    {
+      "company": "HTuO Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/htuo-biosciences/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.htuobio.com/",
+      "description": "HTuO Biosciences is a drug discovery company that uses fundamental physics-based models of molecular interactions to optimize drugs and their targets. The computational platform brings together several advances to make drug-target simulations more reliable and better capture their emergent properties. This improved reliability enables HTuO to tackle hard to drug targets and ultimately expand the […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Human in Motion Robotics",
+      "detail_url": "https://creativedestructionlab.com/companies/human-in-motion-robotics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "http://www.humaninmotion.ca/",
+      "description": "Human in Motion is developing an exoskeleton system that will help people with motion disabilities to walk with a full range of motion. Without Human in Motion’s technology, an exoskeleton system that can cover full range of motion would be very bulky.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Humon",
+      "detail_url": "https://creativedestructionlab.com/companies/humon/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://humon.io/",
+      "description": "Humon is a wearable that helps athletes train smarter by monitoring the way their muscles use oxygen in real-time. Unlike any of the competitive wearable solutions that measure systemic body parameters, such as heart rate or respiratory rate, Humon provides a real-time & localized muscle measurement to optimize athletes’ training",
+      "detail_fetched": true
+    },
+    {
+      "company": "Implant Genius",
+      "detail_url": "https://creativedestructionlab.com/companies/implant-genius/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://implantgenius.com/",
+      "description": "Implant Genius currently provides dental implant planning services, and plans to also provide dental patient diagnosis and treatment planning via its proprietary product, TxGenius. The company intends for its proprietary algorithms to validate patient-submitted dental records, diagnose dental conditions, and inform expert-driven treatment planning. Implant Genius also created a line of orthognathic surgical and craniomaxillofacial […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "InnoVein",
+      "detail_url": "https://creativedestructionlab.com/companies/innovein/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://www.innoveinmedical.com/",
+      "description": "Innovein: over 10% of the US suffers from bad valves in the veins of legs, with no option for replacement; Innovein, a Y Combinator backed healthcare company, addresses this unmet need with a minimally invasive valve for the veins. The founding team of three in aggregate has invented and brought over 15 healthcare device inventions […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Juvena Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/juvena-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.juvenatherapeutics.com/",
+      "description": "Juvena Therapeutics discovers and develops protein-based therapeutics that promote tissue regeneration to specifically target muscle regeneration, sarcopenia, and other rare degenerative muscle diseases. The Machine Learning (ML)-enhanced discovery platform efficiently identifies lead candidates through proteomics and high-throughput screening for restored cell function to optimize for preclinical development.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Labrador Systems",
+      "detail_url": "https://creativedestructionlab.com/companies/labrador-systems/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://labradorsystems.com/",
+      "description": "Labrador Systems (Labrador) designs and develops a new generation of assistive robots for use in homes and care settings that physically bring needed items within reach. This is made possible by fusing robotics, consumer electronics & augmented reality (AR) to achieve the performance of commercial robots at 1/10th the cost.",
+      "detail_fetched": true
+    },
+    {
+      "company": "LifestyleRx",
+      "detail_url": "https://creativedestructionlab.com/companies/lifestylerx/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2022/23",
+      "description": "LifestyleRx is a virtual care company focused on Type II diabetes reversal. In addition to providing patients with all the support and tools necessary to reverse their Type II diabetes, LifestyleRx specializes in increasing readiness-for-change and are focused on the 95% of patients with low self-efficacy, rather than only the 5% who are highly motivated. […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Luna Diagnostics",
+      "detail_url": "https://creativedestructionlab.com/companies/luna-diagnostics/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.lunadiagnostics.com",
+      "description": "Luna Diagnostics is developing a rapid, simple, and cost-effective point-of-care (POC) diagnostic platform for detection of microorganisms and their antibiotic resistance profiles associated with sepsis, gastrointestinal and urinary tract infections. Compared to current diagnostics, Luna Diagnostics’ platform is highly multiplexed, i.e. it can detect over 100 biomarkers within a sample in one test, thus providing […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Mediphage Bioceuticals",
+      "detail_url": "https://creativedestructionlab.com/companies/mediphage-bioceuticals/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "website": "https://www.mediphage.ca/",
+      "description": "Mediphage Bioceuticals is a phage therapeutics company developing next-generation genetics medicines that are safer, customizable, and redosable through our flagship product, ministring DNA. Mediphage Bioceuticals leverages second generation ministrings further manipulated and decorated inside the human body once they recombine with a carrier in a delivery vehicle that targets a specific physical, genetic or biochemical […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Mesentech",
+      "detail_url": "https://creativedestructionlab.com/companies/mesentech/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://mesentech.com/",
+      "description": "Mesentech Inc. has developed, validated and patented a novel drug conjugate system for the delivery of therapeutic agents to bone. This system has been used to generate novel bone promoting drugs for indications in rare genetic bone diseases and orthopaedics/dentistry.",
+      "detail_fetched": true
+    },
+    {
+      "company": "MindfulGarden Digital Health",
+      "detail_url": "https://creativedestructionlab.com/companies/mindfulgarden-digital-health-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "https://mindfulgarden.com/",
+      "description": "MindfulGarden (MG) is addressing the high human and economic costs associated with in-hospital delirium, a sudden change in the brain that results in longer stays, increased mortality, and a 9X chance of future cognitive impairment including earlier onset of dementia. The company’s patent pending interactive biofeedback platform distracts, engages and de-escalates patient agitation levels, leading […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Modality.AI",
+      "detail_url": "https://creativedestructionlab.com/companies/modality-ai/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://hello.modality.ai/",
+      "description": "Modality.AI developed a software, Nina, to screen and monitor ALS, Parkinson’s, depression, and other neurological and psychiatric conditions. Nina is a conversational remote patient monitoring software that captures speech and facial responses by a standard webcam and mic. In real-time, Modality.AI’s computer vision and machine learning algorithm extract the information clinicians need to evaluate disease […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Moonrise Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/moonrise-medical/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.moonrisemedical.com",
+      "description": "Moonrise medical is developing an AI-enabled ultrasound-based technology platform that optimizes the management of peripheral vascular disease, diabetes and foot wounds. The AI-enabled technology allows for sophisticated ultrasound evaluation, commonly managed by specialized providers, to be performed at-scale in the hands of non-experts. The technology is based on clinical evidence showing expedited wound healing and […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Naegis Pharmaceuticals",
+      "detail_url": "https://creativedestructionlab.com/companies/naegis-pharmaceuticals-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.naegispharma.com/",
+      "description": "Naegis Pharmaceuticals is developing treatments for inflammatory conditions with a focus on the discovery and development of novel small molecules that target pro-inflammatory mediators involved in ocular and pulmonary diseases. The company’s most advanced program is a lead compound that reaches the back of the eye upon topical (eye drop) administration, thereby opening up the […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Navega Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/navega-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.navegatx.com",
+      "description": "Navega is a preclinical company developing a gene therapy that is injected into the patient’s spine. This results in a protein binding to and turning off one place in the genome; this is the same place that is mutated in the genome of humans that feel no pain. Our technology achieves this in a way […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Northernmost (NoMo)",
+      "detail_url": "https://creativedestructionlab.com/companies/northernmost-nomo/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "http://northernmost.ca",
+      "description": "Northernmost™ is a medical device company developing NoMo™ Kidney Pump, a next-generation perfusion machine designed to modernize the preservation and transport of donor kidneys for transplantation. NoMo is purpose-built to obsolete the ice cooler, addressing the severe shortage of donor kidneys for the treatment for End Stage Renal Disease (ESRD).",
+      "detail_fetched": true
+    },
+    {
+      "company": "Notch Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/notchtx/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://notchtx.com/",
+      "description": "NotchTX is a platform technology that uses stem cells to produce progenitor T-cells that can be manufactured at scale, will potentially be less toxic, longer lasting, and will substitute mature T-cells as a starting cell source for current and future T-cell therapies. ProT Therapeutics’ technology includes proprietary, fully-defined, scalable, serum-free and feeder-free method to generate […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "OMx Personal Health Analytics",
+      "detail_url": "https://creativedestructionlab.com/companies/omx/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://drugbankplus.com/",
+      "description": "OMx Personal Health Analytics developed DrugBank, a curated pharmaceutical knowledge base for clinical software and drug development. DrugBank’s comprehensive molecular information about drugs, their mechanisms, interactions, and targets enables customers to develop more effective algorithms for drug repurposing and personalized medicine with a lower time and cost for their R&D.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Orpyx Medical Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/orpyx-medical-technologies/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "http://orpyx.com/",
+      "description": "Orpyx Medical Technologies has developed a wearable sensor-based technology for advanced wound care and athletic performance optimization. Their flagship product is the SurroSense Rx, a smart insole technology used in the prevention and management of diabetic foot ulcers and amputation, with clinical studies that have demonstrated the device’s ability to prevent 80-91% of diabetic foot […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Palm Therapeutics",
+      "detail_url": "https://creativedestructionlab.com/companies/palm-therapeutics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://palmtherapeutics.com/",
+      "description": "Palm Therapeutics develops small-molecule therapies for currently untreatable diseases by targeting protein palmitoylation, an essential modulator of disease progression. The company’s technology allows for the development of uniquely potent and protein-selective small molecule palmitoylation inhibitors. Drug-induced selective depalmitoylation makes it possible to inhibit proteins that couldn’t previously be targeted.",
+      "detail_fetched": true
+    },
+    {
+      "company": "PanTHERA CryoSolutions",
+      "detail_url": "https://creativedestructionlab.com/companies/panthera-cryosolutions/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "http://pantheracryo.com/",
+      "description": "PanTHERA CryoSolutions PanTHERA CryoSolutions designs and manufactures cryopreservation solutions for cells, tissues, and organs in research and clinical markets. The patented ice recrystallization inhibitor (IRI) technology exceeds its competitors’ products by providing superior cryopreservation to increase cell recovery and quality for its customers. This technology enables customers to use less costly storage and transportation systems, […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Point Fit Technology",
+      "detail_url": "https://creativedestructionlab.com/companies/point-fit-technology-limited/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "https://pointfittech.com/",
+      "description": "Point Fit Technology Limited (PFTL) is a wellness device company (scaling into medical devices) developing a non-invasive and continuous biochemical monitoring skin patch sweat sensor. PFTL’s nanomembrane platform transduces sweat biomarker signals into electrical signals that are then displayed in real-time on their mobile app. Initial use of the product will be for athletes monitoring […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Prescryptive Health",
+      "detail_url": "https://creativedestructionlab.com/companies/prescryptive-health-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://www.prescryptive.com/",
+      "description": "Prescryptive Health implements a free market-based framework and platform for direct, transparent commerce among US prescription drug market participants that enables plan sponsors, pharmacies, and consumers to take control of prescription drug costs by eliminating intermediaries that today control market access and price. Leveraging a private blockchain, Prescryptive Health replaces traditional supply chain intermediaries with […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Primary Bioscience",
+      "detail_url": "https://creativedestructionlab.com/companies/primary-bioscience/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://www.primarybioscience.com/",
+      "description": "Primary Bioscience is a proteomics company that is developing a single-molecule protein sequencing that minimizes bias and allows for comprehensive analysis of unknown samples. While there are other companies that can identify known proteins, there are no alternative companies that provide de novo protein sequencing services on the market. Ultimately, Primary Bioscience’s technology opens doors […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "ProbiusDx",
+      "detail_url": "https://creativedestructionlab.com/companies/probiusdx/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://www.probiusdx.com/",
+      "description": "ProbiusDx has developed an analytical platform that brings the unique integration of multiscale biological information to identify small and large molecules. This multiscale phenotyping can be performed in the background matrix directly, without sample preparation and in limited sample volumes to enable broad-spectrum and efficient longitudinal studies for preclinical therapeutic discovery and validation.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Prognostiq Health (fka Llif Healthcare)",
+      "detail_url": "https://creativedestructionlab.com/companies/prognostiq-health-fka-llif-healthcare/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.llifhealthcare.com",
+      "description": "Llif Healthcare has developed a data platform that provides physician groups with feedback on their quality of clinical care, resource utilization, and, in the future, billing information. Using this data, the platform will have the ability to predict patient volumes and match MD and mid-level provider resources accordingly within a hospital setting, resulting in increased […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Promedix",
+      "detail_url": "https://creativedestructionlab.com/companies/promedix-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2022/23",
+      "website": "https://www.promedixinc.com/",
+      "description": "ProMedix “FlowSense” rapidly and noninvasively identifies worsening peripheral blood flow, one of the earliest physiological indications of sepsis. FlowSense monitors changes in the capillaries of the fingertips, indicating impaired circulation; facilitating earlier therapeutic interventions by physicians and improving patient outcomes.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Protillion Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/protillion-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://www.protillion.com/",
+      "description": "Protillion Biosciences has developed a high-throughput protein analysis platform to generate large quantitative binding datasets to guide drug discovery. Their proprietary platform leverages NextGen sequencing tools and DNA libraries bound to sequencing flow cells to generate protein arrays and protein-protein binding datasets across entire libraries, to accelerate the discovery and optimization of biologics.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Proton Intelligence",
+      "detail_url": "https://creativedestructionlab.com/companies/proton-intelligence/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "https://www.protonintel.com/",
+      "description": "Proton Intelligence (ProtonIntel) is developing a wearable sensor to measure potassium. By continuously monitoring potassium in real-time from the interstitial fluid of the skin, ProtonIntel’s technology helps clinicians and at-risk individuals prevent adverse events caused by potassium imbalances, such as heart arrhythmias and sudden cardiac deaths.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Ravata Solutions",
+      "detail_url": "https://creativedestructionlab.com/companies/ravata-solutions/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "http://www.ravatasolutions.com/",
+      "description": "Ravata has developed a technology revolutionizing a key step in animal gene-editing. Their technology has demonstrated the ability to create lab mice for 47% the current costs and with 50% fewer animals.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Rehabtronics",
+      "detail_url": "https://creativedestructionlab.com/companies/rehabtronics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://www.rehabtronics.com",
+      "description": "Rehabtronics’ medical device prevents pressure injuries (PIs), one of the most common hospital-acquired complications (40% of hospital patients are at-risk). Their patented product (Prelivia) reduces PI damage by 80% by stimulating local blood circulation and tissue perfusion. It is the only solution that directly treats the underlying cause (ischemia) of PIs.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Reveal Surgical (formerly ODS Medical)",
+      "detail_url": "https://creativedestructionlab.com/companies/ods-medical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://odsmed.com/",
+      "description": "Reveal Surgical (formerly ODS Medical) is a handheld optics probe which identifies cancerous tissue in real-time during brain tumour surgery directly in the patient, without the need for contrast or other agents. Reveal Surgical uses Raman spectroscopy signatures and the probe relies on machine learning for cancer detection and is as accurate as a trained […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "SafKan Health",
+      "detail_url": "https://creativedestructionlab.com/companies/safkan-health/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "https://otoset.com/",
+      "description": "SafKan has developed the first and only automated ear-cleaning device, the OtoSet, for the 610M people worldwide with excess or impacted earwax. Current earwax removal procedures take 20-30 minutes using an ear & bladder syringe, whereas SafKan’s OtoSet uses automated pulsed irrigation and continuous suction to dislodge and dispose of excess earwax in just 35 […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "SiDx",
+      "detail_url": "https://creativedestructionlab.com/companies/sidx/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://sidx.com/",
+      "description": "SiDx is developing a rapid, near-bedside blood-typing platform to speed patient care. SiDx’s patented, 5-minute test rapidly and simultaneously detects the presence of antigens and antibodies in blood, providing accurate results in a multiplexed system, thus enabling type-specific transfusions in emergencies.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Sonic Incytes Medical",
+      "detail_url": "https://creativedestructionlab.com/companies/sonic-incytes-medical/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "http://sonicincytes.com/",
+      "description": "Sonic Incytes is developing quantitative ultrasound for point-of-care diagnostic and procedure guidance, with core technology that uses traditional ultrasound equipment to quantify a tissue’s physical properties by measuring shear wave propagation. This technology will enable earlier disease detection and more reliable monitoring of disease progression for fibrosis, cancer, and acute disorders, with liver fibrosis and […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Sonus Microsystems",
+      "detail_url": "https://creativedestructionlab.com/companies/sonus-microsystems/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://sonusmicrosystems.com/",
+      "description": "Sonus Microsystems has developed and patented a novel ultrasound transducer fabricated with polymer materials (polyCMUTs)—a platform technology enabling customized applications in materials inspection (non-destructive testing, or NDT), healthcare, and consumer electronics. These new ultrasound devices will allow for significantly improved image acquisition, integration of electronics and AI, mechanical flexibility, and optical transparency, as well as […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Spectra Plasmonics",
+      "detail_url": "https://creativedestructionlab.com/companies/spectra-plasmonics/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2023/24",
+      "website": "http://www.spectraplasmonics.com",
+      "description": "Spectra Plasmonics has developed its flagship product, Amplifi ID, that enables lab-grade chemical analysis of unknown substances by anyone, anywhere, thus removing the bottleneck of relying on third-party laboratories. Their proprietary technology provides a detailed breakdown of a sample in 5-10 minutes, including the presence of minute amounts of dangerous contaminants like fentanyl.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Spiderwort",
+      "detail_url": "https://creativedestructionlab.com/companies/spiderwort-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "http://www.spiderwortbio.com/",
+      "description": "Spiderwort is a tissue-engineering company specializing in the development of cellulose-based biomaterials for repair and regeneration of human tissues. Its biomaterial platform mimics the 3D architecture of targeted tissues with many applications in reconstructive surgery, and the venture’s lead candidate in spinal cord injury repair has encouraging preclinical results in treating paralysis.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Starling Minds",
+      "detail_url": "https://creativedestructionlab.com/companies/starling-minds/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2017/18",
+      "website": "https://www.starlingminds.com/",
+      "description": "SaaS platform that leverages machine learning, video based education/training, and vertical specific avatars to solve the world’s mental illness epidemic. Starling Minds digitizes Cognitive Behaviour Therapy (CBT) and includes scientifically based self-assessment, video education, vertical specific avatars, and evidence based training.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Tag.bio",
+      "detail_url": "https://creativedestructionlab.com/companies/tag-bio/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://tag.bio",
+      "description": "Tag.bio sells Software-as-a-Service (SaaS) to interactively analyze healthcare and life sciences data. The company’s proprietary platform— which includes a data mesh architecture, extensible analytical pipelines, and a collaborative, interactive interface—connects disparate sources of data together to enable medical experts, IT organizations, and data scientists to analyze their own data.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Total Flow Cannula",
+      "detail_url": "https://creativedestructionlab.com/companies/total-flow-cannula/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://creativedestructionlab.com/",
+      "description": "Total Flow Cannula is a novel, specialized tubing (cannula) that ensures blood flow to a patient’s leg during extracorporeal circulation procedures (use of heart-lung machine). The new design enables surgeons to pursue preventive treatment or implement an immediate rescue strategy without additional devices or surgical procedures.",
+      "detail_fetched": true
+    },
+    {
+      "company": "TourniTek",
+      "detail_url": "https://creativedestructionlab.com/companies/tournitek/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://www.tournitek.com/",
+      "description": "TourniTek uses therapeutic cooling to preserve injured limbs in the field until patients can be transported to a trauma centre. TourniTek’s proprietary technology extends the pre-hospital treatment window of injured limbs twice as long as the current standard of care, decreasing the likelihood of amputation and disability.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Trutino Biosciences",
+      "detail_url": "https://creativedestructionlab.com/companies/trutino-biosciences/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2020/21",
+      "website": "https://trutinobio.com/",
+      "description": "Trutino Biosciences (Truitino) designs and manufactures (Cytokine) proteins that makes current cancer treatments more effective and less toxic by activating the patient’s own immune system specifically at the tumor site. Proof-of-concept data demonstrates the method is safe and effective in mice because the molecules are inactive until they reach the tumour, where they become activated […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "TYBR Health",
+      "detail_url": "https://creativedestructionlab.com/companies/tybr-health/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2021/22",
+      "website": "http://www.tybrhealth.com",
+      "description": "TYBR Health is developing an extracellular matrix (ECM)-derived hydrogel spray designed to prevent postoperative adhesion and internal scar formation. The proprietary solution is delivered through a simple device that is compatible with minimally-invasive surgical procedures, and creates a protective barrier around the tissue of interest, resulting in lower postoperative complications.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Vivamed",
+      "detail_url": "https://creativedestructionlab.com/companies/vivamed-inc/",
+      "stream": "Biomedical Engineering",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2024/25",
+      "website": "https://vivamedinc.com/",
+      "description": "Vivamed develops a minimally invasive, wireless, battery-less implant to treat Obstructive Sleep Apnea (OSA). The implant simplifies surgery and recovery compared to existing Hypoglossal Nerve Stimulation devices by eliminating the need for large incisions and bulky batteries. This allows for wider physician adoption and reduces costs for healthcare systems.",
+      "detail_fetched": true
+    },
+    {
+      "company": "Vivid Genomics",
+      "detail_url": "https://creativedestructionlab.com/companies/vivid-genomics/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2019/20",
+      "website": "https://vividgenomics.com/",
+      "description": "Vivid Genomics uses machine learning and disease biology to develop genetic-based tests to identify patient variation across multiple characteristics in dementia. The first set of tests are focused on Alzheimer’s disease; with the information from these tests, pharma companies can better stratify clinical-trial participants and improve the probability of their trial’s success.",
+      "detail_fetched": true
+    },
+    {
+      "company": "VoxCell BioInnovation",
+      "detail_url": "https://creativedestructionlab.com/companies/voxcell-bioinnovation/",
+      "stream": "Biomedical Engineering, Cancer",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2022/23",
+      "website": "https://www.voxcellbio.com/",
+      "description": "VoxCell BioInnovation is creating human-like cancer tissue models and proprietary universal bioinks for the drug development industry. VoxCell’s 3D bioprinted tissue models offer drug developers a more human-like platform containing capillary-sized vasculature, and the chemical composition and mechanical strength of specific soft tissues (healthy and cancerous) to better test the effectiveness of anti-cancer drug candidates. […]",
+      "detail_fetched": true
+    },
+    {
+      "company": "Zennea Technologies",
+      "detail_url": "https://creativedestructionlab.com/companies/zennea-technologies-inc/",
+      "stream": "Health",
+      "directory_locations": [
+        "CDL-Vancouver"
+      ],
+      "cdl_site": "CDL-Vancouver",
+      "cohort_year": "2018/19",
+      "website": "http://www.zenneatech.com/",
+      "description": "Zennea is developing the first clinically proven and fully regulated medical wearable to treat snoring for 30 million sleep-deprived chronic snorers and their partners. Zennea’s proprietary wearable treats upper airway resistance diseases by using transcutaneous neurostimulation to activate relaxing muscles before they can cause blockages.",
+      "detail_fetched": true
+    }
+  ]
+}

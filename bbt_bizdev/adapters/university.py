@@ -5,7 +5,7 @@ import re
 from urllib.parse import urlparse
 
 from ..config import CURATED_UNIVERSITY_SPINOUTS, UNIVERSITY_SPINOUT_SOURCE_PAGES
-from ..http import fetch_raw_text
+from ..http import fetch_form_json, fetch_raw_text
 from ..models import DiscoveryHit, Source, TriggerEvent
 from ..text import (
     clean_page_candidate,
@@ -157,6 +157,11 @@ BBT_EXCLUSION_TERMS = {
     "textiles",
 }
 
+UOFT_FILTERPOSTS_URL = "https://entrepreneurs.utoronto.ca/wp-json/wp/v2/filterposts/"
+UOFT_HEALTH_CATEGORY_ID = "58"
+UOFT_HEALTH_EXPECTED_TOTAL = 171
+UOFT_STARTUPS_PER_PAGE = 16
+
 
 def local_context_for_link(raw_html: str, link_text: str, href: str, window: int = 900) -> str:
     needles = [href, link_text]
@@ -303,10 +308,11 @@ def make_university_spinout_hit(
     context: str = "",
     website_url: str = "",
     require_bbt_relevance: bool = True,
+    trust_official_name: bool = False,
 ) -> DiscoveryHit | None:
     company = clean_page_candidate(company)
     context = clean_text(context or company)
-    if not is_plausible_university_company_name(company):
+    if not company or (not trust_official_name and not is_plausible_university_company_name(company)):
         return None
     if require_bbt_relevance and not is_bbt_relevant_university_context(f"{company} {context}"):
         return None
@@ -336,6 +342,144 @@ def make_university_spinout_hit(
         matched_terms=f"adapter: {source.adapter or 'university_spinout_directory'}; official university directory",
         company_description=context[:1000],
     )
+
+
+def uoft_postmeta_value(postmeta: object, key: str) -> str:
+    if not isinstance(postmeta, dict):
+        return ""
+    value = postmeta.get(key)
+    if isinstance(value, list):
+        value = value[0] if value else ""
+    return clean_text(str(value or ""))
+
+
+def uoft_company_website(postmeta: object) -> str:
+    serialized = uoft_postmeta_value(postmeta, "additional_links_0_link")
+    match = re.search(r's:3:"url";s:\d+:"([^"]+)"', serialized)
+    return clean_text(match.group(1)) if match else ""
+
+
+def uoft_accelerator_names(record: dict) -> list[str]:
+    html = str(record.get("accelerator_post_tags") or "")
+    names = re.findall(r'title=["\']accelerator:\s*([^"\']+)', html, flags=re.I)
+    return list(dict.fromkeys(clean_text(name) for name in names if clean_text(name)))
+
+
+def parse_uoft_health_startup_payload(source: Source, payload: object) -> list[DiscoveryHit]:
+    records = payload.get("structured_posts") or [] if isinstance(payload, dict) else []
+    hits: list[DiscoveryHit] = []
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        terms = record.get("terms") or {}
+        categories = []
+        if isinstance(terms, dict):
+            categories = [
+                clean_text(str(item.get("name") or ""))
+                for item in terms.get("category") or []
+                if isinstance(item, dict) and clean_text(str(item.get("name") or ""))
+            ]
+        accelerators = uoft_accelerator_names(record)
+        description = clean_text(str(record.get("excerpt") or ""))
+        hit = make_university_spinout_hit(
+            source,
+            str(record.get("title") or ""),
+            str(record.get("link") or source.url),
+            description,
+            uoft_company_website(record.get("postmeta")),
+            require_bbt_relevance=False,
+            trust_official_name=True,
+        )
+        if not hit:
+            continue
+        location = uoft_postmeta_value(record.get("postmeta"), "location")
+        size = uoft_postmeta_value(record.get("postmeta"), "size")
+        hit.geography = location or source.geography
+        hit.company_description = description
+        hit.matched_terms = (
+            "adapter: uoft_health_startups; official category: Health & Life Sciences"
+            + (f"; categories: {', '.join(categories)}" if categories else "")
+            + (f"; accelerators: {', '.join(accelerators)}" if accelerators else "")
+            + (f"; listed size: {size}" if size else "")
+        )
+        hits.append(hit)
+    return hits
+
+
+def run_uoft_health_startups(
+    source: Source,
+    max_pages: int = 100,
+    fetcher=fetch_form_json,
+) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    all_hits: list[DiscoveryHit] = []
+    expected_total = 0
+    raw_records_seen = 0
+    pages_scanned = 0
+    errors: list[str] = []
+    page_num = 1
+    while page_num <= max_pages:
+        payload = {
+            "initialRequest": "true" if page_num == 1 else "false",
+            "postTypes[]": "startup",
+            "postsPerPage": str(UOFT_STARTUPS_PER_PAGE),
+            "pageNum": str(page_num),
+            "order": "asc",
+            "orderby": "title",
+            "taxQueries": json.dumps({"category": [UOFT_HEALTH_CATEGORY_ID]}),
+            "taxonomyFilters": "category",
+            "baseTaxQuery": "[]",
+            "updateTermCounts": "true" if page_num == 1 else "false",
+        }
+        response, error = fetcher(UOFT_FILTERPOSTS_URL, payload)
+        if error:
+            errors.append(f"page {page_num}: {error}")
+            break
+        page_records = response.get("structured_posts") or []
+        expected_total = max(expected_total, int(response.get("total_posts") or 0))
+        pages_scanned += 1
+        raw_records_seen += len(page_records)
+        all_hits.extend(parse_uoft_health_startup_payload(source, response))
+        if not page_records or raw_records_seen >= expected_total:
+            break
+        page_num += 1
+
+    hits: list[DiscoveryHit] = []
+    seen: set[str] = set()
+    for hit in all_hits:
+        key = hit.company.lower()
+        if key in seen:
+            existing = next(item for item in hits if item.company.lower() == key)
+            if hit.discovery_url != existing.discovery_url:
+                existing.matched_terms += f"; alternate official profile: {hit.discovery_url}"
+            continue
+        seen.add(key)
+        hits.append(hit)
+    triggers: list[TriggerEvent] = []
+    for hit in hits:
+        trigger = source_type_trigger_event(source, hit.company)
+        if trigger:
+            triggers.append(TriggerEvent(hit.company, trigger[0], trigger[1], source.name, hit.discovery_url))
+
+    coverage = (raw_records_seen / expected_total) if expected_total else 0.0
+    duplicate_records = max(0, raw_records_seen - len(hits))
+    result = (
+        f"{pages_scanned} U of T REST pages scanned; "
+        f"{raw_records_seen}/{expected_total or '?'} official Health & Life Sciences records; "
+        f"{len(hits)} unique companies"
+        + (f"; {duplicate_records} duplicate-name records" if duplicate_records else "")
+        + "; "
+        f"{len(triggers)} trigger events"
+    )
+    if (
+        errors
+        or not expected_total
+        or expected_total < UOFT_HEALTH_EXPECTED_TOTAL
+        or coverage < 0.9
+    ):
+        result = f"INCOMPLETE {source.name} extraction: " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
 
 
 def website_from_context_links(source: Source, raw_html: str) -> str:

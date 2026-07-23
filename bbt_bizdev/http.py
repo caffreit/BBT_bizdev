@@ -5,6 +5,7 @@ import json
 import re
 import ssl
 from urllib.error import URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from .config import USER_AGENT, YC_ALGOLIA_API_KEY, YC_ALGOLIA_APP_ID
@@ -64,4 +65,27 @@ def fetch_json_url(url: str) -> tuple[object, str | None]:
         return json.loads(raw.decode("utf-8", "ignore")), None
     except json.JSONDecodeError as exc:
         return {}, f"JSON decode failed: {exc}"
+
+
+def fetch_form_json(url: str, payload: dict) -> tuple[dict, str | None]:
+    try:
+        req = Request(
+            url,
+            data=urlencode(payload, doseq=True).encode("utf-8"),
+            headers={
+                "User-Agent": USER_AGENT,
+                "Accept": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        )
+        raw = urlopen(req, timeout=30).read()
+    except (OSError, URLError) as exc:
+        return {}, str(exc)
+    try:
+        value = json.loads(raw.decode("utf-8", "ignore"))
+    except json.JSONDecodeError as exc:
+        return {}, f"JSON decode failed: {exc}"
+    if not isinstance(value, dict):
+        return {}, "JSON response was not an object"
+    return value, None
 

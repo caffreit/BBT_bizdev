@@ -11,14 +11,18 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 from .adapters.accelerators import (
+    run_admare_portfolio,
     run_arc_hub_healthtech,
     run_bioinnovation_institute,
     run_bioinnovate_ireland,
     run_cdl_health,
+    run_centech_health,
     run_digitalhealth_london,
     run_dogpatch_ndrc,
     run_eit_health_catapult,
     run_health_innovation_hub_ireland,
+    run_mars_health,
+    run_mars_ventureconnect,
     run_masschallenge_healthcare,
     run_mayo_accelerate,
     run_medtech_innovator,
@@ -27,15 +31,32 @@ from .adapters.accelerators import (
     run_nucleate_activator,
     run_rockstart_health,
     run_sbri_healthcare,
+    run_tiap_portfolio,
     run_yesdelft_medtech,
     run_yc_healthcare,
+)
+from .adapters.canada_tier_a import (
+    run_cts_sante,
+    run_district3,
+    run_innovation_ubc,
+    run_medteq,
+    run_obio,
+    run_ualberta,
+    run_uceed,
+)
+from .adapters.canada_investors import (
+    run_amplitude,
+    run_bdc_health,
+    run_facit,
+    run_genesys,
+    run_lumira,
 )
 from .adapters.generic import build_source_page_evidence, find_companies_on_source
 from .adapters.jobs import run_biospace_jobs, run_builtin_jobs, run_greenhouse_discovery, run_job_board_adapter, run_nhs_jobs
 from .adapters.linkedin import enrich_companies_linkedin
 from .adapters.search import run_google_news_search
 from .adapters.sifted import run_sifted_ranking
-from .adapters.university import run_university_spinout_pages
+from .adapters.university import run_university_spinout_pages, run_uoft_health_startups
 from .adapters.vc import run_atlantic_bridge, run_fountain_healthcare, run_seroba_life_sciences
 from .config import (
     ADAPTER_STATUS_NAMES,
@@ -64,7 +85,33 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
     discovery_hits: list[DiscoveryHit] = []
     trigger_events: list[TriggerEvent] = []
     run_log: list[list[str]] = []
+    canada_tier_a_runners = {
+        "cts_sante_portfolio": run_cts_sante,
+        "district3_health": run_district3,
+        "obio_cohorts": run_obio,
+        "medteq_portfolio": run_medteq,
+        "uceed_health": run_uceed,
+        "ualberta_health_hub": run_ualberta,
+        "innovation_ubc_health": run_innovation_ubc,
+        "lumira_portfolio": run_lumira,
+        "genesys_portfolio": run_genesys,
+        "amplitude_portfolio": run_amplitude,
+        "bdc_health_portfolio": run_bdc_health,
+        "facit_portfolio": run_facit,
+    }
     for source in sources:
+        if source.adapter in canada_tier_a_runners:
+            hits, triggers, result = canada_tier_a_runners[source.adapter](source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.source_type == "University/spinout" and source.adapter == "uoft_health_startups":
+            hits, triggers, result = run_uoft_health_startups(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
         if source.source_type == "University/spinout":
             hits, triggers, result = run_university_spinout_pages(source)
             discovery_hits.extend(hits)
@@ -176,6 +223,36 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
             continue
         if source.adapter == "cdl_health":
             hits, triggers, result = run_cdl_health(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "centech_health":
+            hits, triggers, result = run_centech_health(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "mars_health":
+            hits, triggers, result = run_mars_health(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "mars_ventureconnect":
+            hits, triggers, result = run_mars_ventureconnect(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "tiap_portfolio":
+            hits, triggers, result = run_tiap_portfolio(source)
+            discovery_hits.extend(hits)
+            trigger_events.extend(triggers)
+            run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])
+            continue
+        if source.adapter == "admare_portfolio":
+            hits, triggers, result = run_admare_portfolio(source)
             discovery_hits.extend(hits)
             trigger_events.extend(triggers)
             run_log.append([source.name, source.source_type, source.url, ADAPTER_STATUS_NAMES[source.adapter], result])

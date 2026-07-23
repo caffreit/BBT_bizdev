@@ -2,10 +2,14 @@ from __future__ import annotations
 
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from html.parser import HTMLParser
+from pathlib import Path
 from urllib.parse import urlencode, urljoin, urlparse
 
 from ..config import (
     ACCELERATOR_SOURCE_PAGES,
+    MARS_VENTURECONNECT_SNAPSHOT_PATH,
     MEDTECH_INNOVATOR_PORY_APP_URL, MEDTECH_INNOVATOR_PORY_RECORDS_URL, MAYO_READER_PREFIX,
     YC_ALGOLIA_API_KEY, YC_ALGOLIA_APP_ID, YC_HEALTHCARE_QUERY,
 )
@@ -13,6 +17,79 @@ from ..http import fetch_json, fetch_json_url, fetch_raw_text
 from ..models import DiscoveryHit, Source, TriggerEvent
 from ..models import TODAY
 from ..text import clean_page_candidate, clean_text, extract_links, infer_page_product_type, infer_yc_product_type, is_plausible_page_candidate, is_relevant_candidate_link, source_type_trigger_event, text_from_html
+
+
+TIAP_EXPECTED_TOTAL = 57
+TIAP_EXPECTED_ACTIVE = 41
+TIAP_EXPECTED_EXITED = 16
+ADMARE_PORTFOLIO_URL = "https://www.admarebio.com/en/companies-weve-helped-build"
+ADMARE_ACCELERATOR_URL = "https://www.admarebio.com/en/accelerator-companies"
+ADMARE_EXPECTED_BUILT = 39
+ADMARE_EXPECTED_ACCELERATOR = 13
+ADMARE_EXPECTED_TOTAL = ADMARE_EXPECTED_BUILT + ADMARE_EXPECTED_ACCELERATOR
+CENTECH_HEALTH_API_URL = (
+    "https://centech.co/wp-json/wp/v2/startups"
+    "?categories=4,5,32,1094&per_page=100"
+    "&_fields=id,link,slug,title,categories,acf"
+)
+CENTECH_HEALTH_CATEGORIES = {
+    4: "BioTech",
+    5: "Digital Health",
+    32: "Medical Device",
+    1094: "Medtech and Digital Health",
+}
+CENTECH_EXPECTED_RECORDS = 95
+CENTECH_EXPECTED_UNIQUE_COMPANIES = 92
+
+
+class TIAPPortfolioHTMLParser(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.records: list[dict[str, str]] = []
+        self.current: dict[str, str] | None = None
+        self.card_depth = 0
+        self.capture_title = False
+        self.capture_description = False
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attributes = {key: value or "" for key, value in attrs}
+        classes = set(attributes.get("class", "").split())
+        if tag == "div" and "eael-filterable-gallery-item-wrap" in classes:
+            status = "Exited" if "eael-cf-exited" in classes else "Active"
+            self.current = {"company": "", "website": "", "description": "", "status": status}
+            self.card_depth = 1
+            return
+        if self.current is None:
+            return
+        if tag == "div":
+            self.card_depth += 1
+        if tag == "a" and not self.current["website"] and attributes.get("href"):
+            self.current["website"] = attributes["href"]
+        if tag == "h1" and "fg-item-title" in classes:
+            self.capture_title = True
+        if tag == "p":
+            self.capture_description = True
+
+    def handle_endtag(self, tag: str) -> None:
+        if self.current is None:
+            return
+        if tag == "h1":
+            self.capture_title = False
+        if tag == "p":
+            self.capture_description = False
+        if tag == "div":
+            self.card_depth -= 1
+            if self.card_depth == 0:
+                self.records.append(self.current)
+                self.current = None
+
+    def handle_data(self, data: str) -> None:
+        if self.current is None:
+            return
+        if self.capture_title:
+            self.current["company"] += data
+        if self.capture_description:
+            self.current["description"] += data
 
 
 def yc_company_url(hit: dict) -> str:
@@ -167,6 +244,289 @@ def dedupe_hits_with_triggers(source: Source, hits: list[DiscoveryHit]) -> tuple
         if trigger:
             triggers.append(trigger)
     return deduped, triggers
+
+
+def parse_tiap_portfolio_html(source: Source, raw_html: str) -> list[DiscoveryHit]:
+    parser = TIAPPortfolioHTMLParser()
+    parser.feed(raw_html)
+    hits: list[DiscoveryHit] = []
+    for record in parser.records:
+        listed_name = clean_text(record.get("company") or "")
+        status = clean_text(record.get("status") or "")
+        acquired_match = re.search(r"\s*\(Acquired in (\d{4})\)\s*$", listed_name, flags=re.I)
+        company = re.sub(r"\s*\(Acquired in \d{4}\)\s*$", "", listed_name, flags=re.I)
+        if acquired_match:
+            status = f"Exited / acquired in {acquired_match.group(1)}"
+        hit = make_accelerator_hit(
+            source,
+            company,
+            source.url,
+            accelerator_program="Toronto Innovation Acceleration Partners (TIAP)",
+            cohort_label=f"TIAP {status.lower()} portfolio",
+            category_or_track=status,
+            company_description=clean_text(record.get("description") or ""),
+            website=clean_text(record.get("website") or ""),
+            geography="Canada",
+            matched_terms=f"adapter: tiap_portfolio; official portfolio status: {status}",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
+def run_tiap_portfolio(
+    source: Source,
+    fetcher=fetch_raw_text,
+) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    raw_html, error = fetcher(source.url)
+    if error:
+        return [], [], f"INCOMPLETE {source.name} extraction: portfolio fetch failed: {error}"
+    hits, triggers = dedupe_hits_with_triggers(source, parse_tiap_portfolio_html(source, raw_html))
+    active = sum(1 for hit in hits if hit.category_or_track.lower() == "active")
+    exited = sum(1 for hit in hits if hit.category_or_track.lower().startswith("exited"))
+    result = (
+        f"{len(hits)}/{TIAP_EXPECTED_TOTAL} TIAP portfolio companies; "
+        f"{active}/{TIAP_EXPECTED_ACTIVE} active; "
+        f"{exited}/{TIAP_EXPECTED_EXITED} exited; "
+        f"{len(triggers)} trigger events"
+    )
+    if (
+        len(hits) != TIAP_EXPECTED_TOTAL
+        or active != TIAP_EXPECTED_ACTIVE
+        or exited != TIAP_EXPECTED_EXITED
+    ):
+        result = f"INCOMPLETE {source.name} extraction: " + result
+    return hits, triggers, result
+
+
+def parse_admare_index_html(raw_html: str, page_url: str, cohort: str) -> list[dict[str, str]]:
+    records: list[dict[str, str]] = []
+    seen: set[str] = set()
+    pattern = r'<h5\b[^>]*>\s*<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>\s*</h5>'
+    for href, label in re.findall(pattern, raw_html, flags=re.I | re.S):
+        detail_url = urljoin(page_url, href)
+        if detail_url in seen:
+            continue
+        if cohort == "Companies we've helped build" and "/companies-weve-helped-build/" not in detail_url:
+            continue
+        if cohort == "Accelerator companies" and "/accelerator-companies/" not in detail_url:
+            continue
+        company = clean_text(label)
+        if not company:
+            continue
+        seen.add(detail_url)
+        records.append(
+            {
+                "company": company,
+                "detail_url": detail_url,
+                "cohort": cohort,
+            }
+        )
+    return records
+
+
+def parse_admare_detail_html(raw_html: str, detail_url: str) -> dict[str, object]:
+    def field(pattern: str) -> str:
+        match = re.search(pattern, raw_html, flags=re.I | re.S)
+        return clean_text(match.group(1)) if match else ""
+
+    website = field(r'class=["\']item-website["\'].*?href=["\']([^"\']*)["\']')
+    if website.strip("/#"):
+        website = urljoin(detail_url, website)
+    else:
+        website = ""
+    linkedin = field(r'class=["\']item-LinkedIn["\'][^>]*data-url=["\']([^"\']*)["\']')
+    email = field(r'class=["\']item-email["\'].*?href=["\']mailto:([^"\']*)["\']')
+    description_match = re.search(
+        r'class=["\']item-detail-right["\'][^>]*>\s*<h2[^>]*>\s*Description\s*</h2>(.*?)(?:<h2[^>]*>\s*More information\s*</h2>|<a\b[^>]*class=["\']btn-text-bt-arrow-back)',
+        raw_html,
+        flags=re.I | re.S,
+    )
+    description = text_from_html(description_match.group(1)) if description_match else ""
+    more_information: list[dict[str, str]] = []
+    more_match = re.search(
+        r'<h2[^>]*>\s*More information\s*</h2>(.*?)(?:<a\b[^>]*class=["\']btn-text-bt-arrow-back)',
+        raw_html,
+        flags=re.I | re.S,
+    )
+    if more_match:
+        for label, href in extract_links(more_match.group(1), detail_url):
+            if label and href:
+                more_information.append({"title": label, "url": href})
+    return {
+        "company": field(r'class=["\']search-object-detail-bloc["\'][^>]*>\s*<h1[^>]*>(.*?)</h1>'),
+        "website": website,
+        "email": email,
+        "linkedin": linkedin,
+        "line_of_business": field(r'class=["\']item-line-of["\'].*?<span[^>]*>(.*?)</span>'),
+        "description": description,
+        "more_information": more_information,
+    }
+
+
+def collect_admare_records(
+    source: Source,
+    fetcher=fetch_raw_text,
+) -> tuple[list[dict[str, object]], list[str]]:
+    records: list[dict[str, object]] = []
+    errors: list[str] = []
+    pages = [
+        (source.url, "Companies we've helped build"),
+        (ADMARE_ACCELERATOR_URL, "Accelerator companies"),
+    ]
+    for page_url, cohort in pages:
+        raw_html, error = fetcher(page_url)
+        if error:
+            errors.append(f"{page_url}: {error}")
+            continue
+        records.extend(parse_admare_index_html(raw_html, page_url, cohort))
+
+    for record in records:
+        detail_url = str(record["detail_url"])
+        raw_html, error = fetcher(detail_url)
+        if error:
+            errors.append(f"{detail_url}: {error}")
+            record["detail_fetched"] = False
+            continue
+        detail = parse_admare_detail_html(raw_html, detail_url)
+        record.update({key: value for key, value in detail.items() if key != "company"})
+        record["detail_fetched"] = True
+    return records, errors
+
+
+def parse_admare_records(source: Source, records: list[dict[str, object]]) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    for record in records:
+        cohort = clean_text(str(record.get("cohort") or ""))
+        linkedin = clean_text(str(record.get("linkedin") or ""))
+        matched_terms = f"adapter: admare_portfolio; official cohort: {cohort}"
+        if linkedin:
+            matched_terms += f"; LinkedIn: {linkedin}"
+        hit = make_accelerator_hit(
+            source,
+            str(record.get("company") or ""),
+            str(record.get("detail_url") or source.url),
+            accelerator_program="adMare BioInnovations",
+            cohort_label=f"adMare {cohort}",
+            category_or_track=clean_text(str(record.get("line_of_business") or "")) or cohort,
+            company_description=clean_text(str(record.get("description") or "")),
+            website=clean_text(str(record.get("website") or "")),
+            geography="Canada",
+            matched_terms=matched_terms,
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
+def run_admare_portfolio(
+    source: Source,
+    fetcher=fetch_raw_text,
+) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    records, errors = collect_admare_records(source, fetcher)
+    hits, triggers = dedupe_hits_with_triggers(source, parse_admare_records(source, records))
+    built = sum(1 for record in records if record.get("cohort") == "Companies we've helped build")
+    accelerator = sum(1 for record in records if record.get("cohort") == "Accelerator companies")
+    detailed = sum(1 for record in records if record.get("detail_fetched"))
+    result = (
+        f"{len(hits)}/{ADMARE_EXPECTED_TOTAL} adMare companies; "
+        f"{built}/{ADMARE_EXPECTED_BUILT} helped-build portfolio; "
+        f"{accelerator}/{ADMARE_EXPECTED_ACCELERATOR} accelerator companies; "
+        f"{detailed}/{len(records)} detail pages; "
+        f"{len(triggers)} trigger events"
+    )
+    if (
+        len(hits) != ADMARE_EXPECTED_TOTAL
+        or built != ADMARE_EXPECTED_BUILT
+        or accelerator != ADMARE_EXPECTED_ACCELERATOR
+        or detailed != len(records)
+        or errors
+    ):
+        result = f"INCOMPLETE {source.name} extraction: " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+
+def centech_acf_url(value: object) -> str:
+    if isinstance(value, dict):
+        return clean_text(str(value.get("url") or ""))
+    return ""
+
+
+def parse_centech_health_payload(source: Source, payload: object) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    if not isinstance(payload, list):
+        return hits
+    for record in payload:
+        if not isinstance(record, dict):
+            continue
+        acf = record.get("acf") if isinstance(record.get("acf"), dict) else {}
+        categories = [
+            label
+            for category_id, label in CENTECH_HEALTH_CATEGORIES.items()
+            if category_id in set(record.get("categories") or [])
+        ]
+        status = {"radio1": "Propulsé", "radio2": "Alumni"}.get(
+            clean_text(str(acf.get("startups_radio") or "")),
+            "",
+        )
+        cohort = clean_text(str(acf.get("startups_cohorte") or ""))
+        description = clean_text(
+            str(acf.get("startups_description_en") or acf.get("startups_description") or "")
+        )
+        website = (
+            centech_acf_url(acf.get("startups_website_en"))
+            or centech_acf_url(acf.get("startups_website"))
+        )
+        linkedin = centech_acf_url(acf.get("startups_link"))
+        matched_terms = (
+            f"adapter: centech_health; official categories: {', '.join(categories)}; "
+            f"program status: {status}"
+        )
+        if linkedin:
+            matched_terms += f"; LinkedIn: {linkedin}"
+        hit = make_accelerator_hit(
+            source,
+            text_from_html(str((record.get("title") or {}).get("rendered") or "")),
+            clean_text(str(record.get("link") or source.url)),
+            accelerator_program="Centech",
+            cohort_label=" ".join(value for value in ["Centech", status, cohort] if value),
+            cohort_year=infer_cohort_year(cohort),
+            category_or_track="; ".join(categories + ([status] if status else [])),
+            company_description=description,
+            website=website,
+            geography="Canada",
+            matched_terms=matched_terms,
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
+def run_centech_health(
+    source: Source,
+    fetcher=fetch_json_url,
+) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    payload, error = fetcher(CENTECH_HEALTH_API_URL)
+    if error:
+        return [], [], f"INCOMPLETE {source.name} extraction: API fetch failed: {error}"
+    hits, triggers = dedupe_hits_with_triggers(source, parse_centech_health_payload(source, payload))
+    unique_companies = len({hit.company.lower() for hit in hits})
+    result = (
+        f"{len(hits)}/{CENTECH_EXPECTED_RECORDS} Centech health-category records; "
+        f"{unique_companies}/{CENTECH_EXPECTED_UNIQUE_COMPANIES} unique companies; "
+        f"{len(triggers)} trigger events"
+    )
+    if (
+        len(hits) != CENTECH_EXPECTED_RECORDS
+        or unique_companies != CENTECH_EXPECTED_UNIQUE_COMPANIES
+    ):
+        result = f"INCOMPLETE {source.name} extraction: " + result
+    return hits, triggers, result
 
 def extract_meta_description(raw_html: str) -> str:
     patterns = [
@@ -961,9 +1321,17 @@ CDL_HEALTH_STREAMS = {
     "computational health",
     "health",
     "health & wellness",
+    "healthcare delivery",
     "healthcare robotics",
     "neuro",
 }
+CDL_CANADA_DIRECTORY_URLS = {
+    "CDL-Toronto": "https://creativedestructionlab.com/companies/?location=toronto",
+    "CDL-Vancouver": "https://creativedestructionlab.com/companies/?location=vancouver",
+}
+CDL_EXPECTED_TORONTO = 139
+CDL_EXPECTED_VANCOUVER = 117
+CDL_EXPECTED_CANADA_UNION = 226
 
 
 def split_nucleate_header(header: str) -> tuple[str, str]:
@@ -1033,8 +1401,16 @@ def run_nucleate_activator(source: Source) -> tuple[list[DiscoveryHit], list[Tri
         result += "; errors: " + " | ".join(errors)
     return hits, triggers, result
 
-def parse_cdl_health_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
-    hits: list[DiscoveryHit] = []
+def cdl_stream_is_health_relevant(stream: str) -> bool:
+    return any(part.strip().lower() in CDL_HEALTH_STREAMS for part in stream.split(","))
+
+
+def parse_cdl_company_cards(
+    raw_html: str,
+    page_url: str,
+    directory_location: str = "",
+) -> list[dict[str, object]]:
+    records: list[dict[str, object]] = []
     card_pattern = re.compile(
         r'<a\s+href=["\'](?P<href>[^"\']+)["\'][^>]*class=["\'][^"\']*company[^"\']*["\'][^>]*>(?P<body>.*?)</a>',
         flags=re.I | re.S,
@@ -1047,14 +1423,28 @@ def parse_cdl_health_page(source: Source, raw_html: str, page_url: str) -> list[
             continue
         company = clean_page_candidate(name_match.group(1))
         stream = clean_text(stream_match.group(1))
-        if stream.lower() not in CDL_HEALTH_STREAMS:
+        if not cdl_stream_is_health_relevant(stream):
             continue
+        records.append(
+            {
+                "company": company,
+                "detail_url": urljoin(page_url, match.group("href")),
+                "stream": stream,
+                "directory_locations": [directory_location] if directory_location else [],
+            }
+        )
+    return records
+
+
+def parse_cdl_health_page(source: Source, raw_html: str, page_url: str) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    for record in parse_cdl_company_cards(raw_html, page_url):
         hit = make_accelerator_hit(
             source,
-            company,
-            urljoin(page_url, match.group("href")),
+            str(record["company"]),
+            str(record["detail_url"]),
             cohort_label="Creative Destruction Lab companies",
-            category_or_track=stream,
+            category_or_track=str(record["stream"]),
             matched_terms="adapter: cdl_health; health stream company card",
             trust_curated_name=True,
         )
@@ -1062,24 +1452,250 @@ def parse_cdl_health_page(source: Source, raw_html: str, page_url: str) -> list[
             hits.append(hit)
     return hits
 
-def run_cdl_health(source: Source) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
-    urls = ACCELERATOR_SOURCE_PAGES.get(source.name, [source.url])
+
+def parse_cdl_company_detail(raw_html: str, detail_url: str) -> dict[str, object]:
+    def field(label: str) -> str:
+        match = re.search(
+            rf"<strong[^>]*>\s*{re.escape(label)}:\s*</strong>\s*(.*?)</p>",
+            raw_html,
+            flags=re.I | re.S,
+        )
+        return clean_text(match.group(1)) if match else ""
+
+    website_match = re.search(
+        r'class=["\'][^"\']*company-website-link[^"\']*["\'][^>]*href=["\']([^"\']+)["\']',
+        raw_html,
+        flags=re.I | re.S,
+    )
+    company_match = re.search(
+        r'<h2\b[^>]*class=["\'][^"\']*c-primary[^"\']*["\'][^>]*>(.*?)</h2>',
+        raw_html,
+        flags=re.I | re.S,
+    )
+    return {
+        "company": clean_text(company_match.group(1)) if company_match else "",
+        "cdl_site": field("Site"),
+        "cohort_year": field("Cohort Year"),
+        "stream": field("Stream"),
+        "website": urljoin(detail_url, website_match.group(1)) if website_match else "",
+        "description": extract_meta_description(raw_html),
+    }
+
+
+def collect_cdl_canada_health_records(
+    source: Source,
+    fetcher=fetch_raw_text,
+    max_workers: int = 8,
+) -> tuple[list[dict[str, object]], list[str]]:
+    records_by_url: dict[str, dict[str, object]] = {}
+    errors: list[str] = []
+    for location, page_url in CDL_CANADA_DIRECTORY_URLS.items():
+        raw_html, error = fetcher(page_url)
+        if error:
+            errors.append(f"{page_url}: {error}")
+            continue
+        for record in parse_cdl_company_cards(raw_html, page_url, location):
+            detail_url = str(record["detail_url"])
+            if detail_url in records_by_url:
+                existing_locations = records_by_url[detail_url]["directory_locations"]
+                for value in record["directory_locations"]:
+                    if value not in existing_locations:
+                        existing_locations.append(value)
+                continue
+            records_by_url[detail_url] = record
+
+    records = list(records_by_url.values())
+
+    def fetch_detail(record: dict[str, object]) -> tuple[str, str, str | None]:
+        detail_url = str(record["detail_url"])
+        raw_html, error = fetcher(detail_url)
+        return detail_url, raw_html, error
+
+    if records:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = [executor.submit(fetch_detail, record) for record in records]
+            for future in as_completed(futures):
+                detail_url, raw_html, error = future.result()
+                record = records_by_url[detail_url]
+                if error:
+                    errors.append(f"{detail_url}: {error}")
+                    record["detail_fetched"] = False
+                    continue
+                detail = parse_cdl_company_detail(raw_html, detail_url)
+                record.update({key: value for key, value in detail.items() if key != "company" and value})
+                record["detail_fetched"] = True
+    return records, errors
+
+
+def parse_cdl_records(source: Source, records: list[dict[str, object]]) -> list[DiscoveryHit]:
+    hits: list[DiscoveryHit] = []
+    for record in records:
+        site = clean_text(str(record.get("cdl_site") or ""))
+        cohort_year = clean_text(str(record.get("cohort_year") or ""))
+        stream = clean_text(str(record.get("stream") or ""))
+        directory_locations = ", ".join(str(value) for value in record.get("directory_locations") or [])
+        cohort_label = " ".join(value for value in [site or directory_locations, cohort_year] if value)
+        hit = make_accelerator_hit(
+            source,
+            str(record.get("company") or ""),
+            str(record.get("detail_url") or source.url),
+            accelerator_program="Creative Destruction Lab",
+            cohort_label=cohort_label,
+            cohort_year=cohort_year,
+            category_or_track=stream,
+            company_description=clean_text(str(record.get("description") or "")),
+            website=clean_text(str(record.get("website") or "")),
+            geography="Canada",
+            matched_terms=(
+                f"adapter: cdl_health; Canadian CDL site directory: {directory_locations}; "
+                f"official stream: {stream}"
+            ),
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
+def run_cdl_health(
+    source: Source,
+    fetcher=fetch_raw_text,
+    max_workers: int = 8,
+) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    records, errors = collect_cdl_canada_health_records(source, fetcher, max_workers)
+    hits, triggers = dedupe_hits_with_triggers(source, parse_cdl_records(source, records))
+    toronto = sum(1 for record in records if "CDL-Toronto" in record.get("directory_locations", []))
+    vancouver = sum(1 for record in records if "CDL-Vancouver" in record.get("directory_locations", []))
+    detailed = sum(1 for record in records if record.get("detail_fetched"))
+    result = (
+        f"{len(hits)}/{CDL_EXPECTED_CANADA_UNION} unique Canadian-site health companies; "
+        f"{toronto}/{CDL_EXPECTED_TORONTO} Toronto; "
+        f"{vancouver}/{CDL_EXPECTED_VANCOUVER} Vancouver; "
+        f"{detailed}/{len(records)} detail pages; "
+        f"{len(triggers)} trigger events"
+    )
+    if (
+        len(hits) != CDL_EXPECTED_CANADA_UNION
+        or toronto != CDL_EXPECTED_TORONTO
+        or vancouver != CDL_EXPECTED_VANCOUVER
+        or detailed != len(records)
+        or errors
+    ):
+        result = f"INCOMPLETE {source.name} extraction: " + result
+    if errors:
+        result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+
+def parse_mars_health_payload(source: Source, payload: object, endpoint_url: str) -> list[DiscoveryHit]:
+    records = payload.get("ventureInfo") or [] if isinstance(payload, dict) else []
+    hits: list[DiscoveryHit] = []
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        hit = make_accelerator_hit(
+            source,
+            record.get("title") or "",
+            record.get("permalink") or endpoint_url,
+            category_or_track="Health",
+            company_description=clean_text(record.get("description") or ""),
+            website=record.get("company_url") or "",
+            geography="Canada",
+            matched_terms="adapter: mars_health; official MaRS Health ventures API record",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_mars_health(source: Source, max_pages: int = 100) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    base_url = ACCELERATOR_SOURCE_PAGES[source.name][0]
+    base_url = re.sub(r"([?&])page=\d+", r"\1page={page}", base_url)
+    if "{page}" not in base_url:
+        separator = "&" if "?" in base_url else "?"
+        base_url = f"{base_url}{separator}page={{page}}"
+
     hits: list[DiscoveryHit] = []
     errors: list[str] = []
     scanned = 0
-    for url in urls:
-        raw_html, error = fetch_raw_text(url)
+    expected_total = 0
+    expected_pages = 1
+    page = 1
+    while page <= min(expected_pages, max_pages):
+        url = base_url.format(page=page)
+        payload, error = fetch_json_url(url)
         scanned += 1
         if error:
             errors.append(f"{url}: {error}")
-            continue
-        hits.extend(parse_cdl_health_page(source, raw_html, url))
+            break
+        if not isinstance(payload, dict):
+            errors.append(f"{url}: response was not a JSON object")
+            break
+        expected_total = max(expected_total, int(payload.get("total_found") or 0))
+        expected_pages = max(expected_pages, int(payload.get("max_pages") or 1))
+        hits.extend(parse_mars_health_payload(source, payload, url))
+        page += 1
+
     hits, triggers = dedupe_hits_with_triggers(source, hits)
-    result = f"{scanned} CDL company pages scanned; {len(hits)} discovery hits; {len(triggers)} trigger events"
-    if not hits:
-        result = f"INCOMPLETE {source.name} extraction: no health stream company cards found. " + result
+    coverage = (len(hits) / expected_total) if expected_total else 0.0
+    result = (
+        f"{scanned} MaRS Health API pages scanned; "
+        f"{len(hits)}/{expected_total or '?'} public directory ventures; "
+        f"{len(triggers)} trigger events"
+    )
+    if errors or not expected_total or coverage < 0.9 or scanned < expected_pages:
+        result = f"INCOMPLETE {source.name} extraction: " + result
     if errors:
         result += "; errors: " + " | ".join(errors)
+    return hits, triggers, result
+
+def parse_mars_ventureconnect_snapshot(source: Source, payload: object) -> list[DiscoveryHit]:
+    records = payload.get("records") or [] if isinstance(payload, dict) else []
+    collected_at = clean_text(payload.get("collected_at") or "") if isinstance(payload, dict) else ""
+    hits: list[DiscoveryHit] = []
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        tags = record.get("tags") or []
+        if not isinstance(tags, list):
+            tags = [str(tags)]
+        category = "; ".join(clean_text(str(tag)) for tag in tags if clean_text(str(tag)))
+        hit = make_accelerator_hit(
+            source,
+            record.get("company") or "",
+            record.get("profile_url") or source.url,
+            accelerator_program="MaRS VentureConnect",
+            cohort_label=f"Healthcare & Life Sciences directory snapshot {collected_at}".strip(),
+            category_or_track=category,
+            company_description=clean_text(record.get("description") or ""),
+            geography="Canada",
+            matched_terms="adapter: mars_ventureconnect; verified Healthcare & Life Sciences directory snapshot",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+def run_mars_ventureconnect(
+    source: Source,
+    snapshot_path: str | Path | None = None,
+) -> tuple[list[DiscoveryHit], list[TriggerEvent], str]:
+    path = Path(snapshot_path) if snapshot_path else Path(__file__).resolve().parents[2] / MARS_VENTURECONNECT_SNAPSHOT_PATH
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [], [], f"INCOMPLETE {source.name} extraction: snapshot could not be read: {exc}"
+
+    expected_total = int(payload.get("reported_total") or 0) if isinstance(payload, dict) else 0
+    extracted_total = int(payload.get("extracted_total") or 0) if isinstance(payload, dict) else 0
+    hits, triggers = dedupe_hits_with_triggers(source, parse_mars_ventureconnect_snapshot(source, payload))
+    coverage = (len(hits) / expected_total) if expected_total else 0.0
+    result = (
+        f"{len(hits)}/{expected_total or '?'} VentureConnect Healthcare & Life Sciences companies "
+        f"loaded from verified snapshot; {len(triggers)} trigger events"
+    )
+    if not expected_total or extracted_total != expected_total or coverage < 0.9:
+        result = f"INCOMPLETE {source.name} extraction: " + result
     return hits, triggers, result
 
 def masschallenge_category_for_link(content_before_link: str) -> str:
