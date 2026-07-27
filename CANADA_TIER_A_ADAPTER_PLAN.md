@@ -17,6 +17,10 @@ No adapter code should be written until the current source has passed the discov
 11. Innovate Calgary / UCeed Health
 12. University of Alberta Health Innovation Hub
 13. Innovation UBC
+14. McGill health-sector spinoffs
+15. McMaster health startup showcase
+16. Axelys supported startups for the Montréal–Laval university/hospital clusters
+17. Velocity Health company directory for the University of Waterloo ecosystem
 
 CDL Health already has a custom adapter in the codebase. Its step will therefore be a Canada-specific completeness audit and repair, not an automatic rewrite.
 
@@ -131,6 +135,10 @@ Maintain one row per source:
 | Innovate Calgary / UCeed | Complete | Official UCalgary Health Fund and Child Health and Wellness Fund portfolio sections | 42 fund records | 42 records / 34 unique names | 100% | Passed; full suite 157/157 | Both funds retain separate provenance where the same company appears in each |
 | Alberta Health Innovation Hub | Complete | Official UAlberta company-card directory; production route with official preview-host fallback | 44 live cards | 44 | 100% | Passed; full suite 157/157 | Captured 31 websites; directory headline says “nearly 50,” while 44 is the exact live-card denominator |
 | Innovation UBC | Complete | Seven official portfolio pages; exact `Human Health` impact-area match | 152 eligible among 385 live rows | 152 | 100% | Passed; full suite 157/157 | 124 Spin-off, 17 Spin-off/Supported Venture, and 11 Supported Venture records; planetary-health-only rows excluded |
+| McGill | Complete | Official sectorised McGill IP-registered spinoff directory | 30 health-sector companies among 43 total: 25 BioTech/MedTech and 5 Pharmaceuticals | 30 | 100% | Passed; full suite 168/168 | Engineering and software sections are audited for the 43-record denominator but excluded from the health output |
+| McMaster | Complete | Official 52-company showcase plus nine native health-sector AJAX filters | 24 unique health companies among 52 total | 24 | 100% | Passed; full suite 168/168 | Exact per-filter counts are checked and repeat companies across health filters retain all category labels |
+| Axelys | Complete for the public supported-startup index | Official public Algolia index, exact `Startup` keyword, plus all detail pages | 5 startup-tagged records | 5 | 100% | Passed; full suite 168/168 | Captured 5/5 websites. Axelys does not expose institution of origin, so these remain shared Québec-cluster leads rather than being assigned to UdeM, CHUM, Sainte-Justine, Laval, or CHU de Québec |
+| Velocity | Complete | Seven official directory pages, exact native `Health` sector, plus all 123 detail pages | 123 Health companies among 548 total directory records | 123 | 100% | Passed; full suite 168/168 | Captured 123/123 websites, locations, descriptions, status/year fields, and detail tags. Velocity affiliation is not asserted as formal Waterloo IP ownership |
 
 ## Definition of Done for Tier A
 

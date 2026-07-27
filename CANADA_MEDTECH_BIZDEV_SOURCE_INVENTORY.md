@@ -44,13 +44,13 @@ This order avoids broad news scraping before there is a credible company univers
 | --- | --- | --- | --- |
 | A | University of Toronto + University Health Network + Sinai Health + SickKids + Sunnybrook | U of T IPO/Startup Explorer; TIAP; hospital innovation offices | Canada’s deepest academic-health cluster; devices, diagnostics, AI, therapeutics |
 | A | UBC + BC Children’s + Vancouver Coastal Health | Innovation UBC portfolio | Strong biomedical engineering, digital health, genomics, diagnostics; public portfolio filters |
-| A | McGill + McGill University Health Centre | McGill Innovation / tech transfer; Dobson; Montréal health accelerators | Large biomedical research base and strong Montréal life-sciences cluster |
-| A | McMaster + Hamilton Health Sciences | McMaster Entrepreneurship / MILO | Official startup showcase; strong health, diagnostics, engineering and hospital integration |
+| A | McGill + McGill University Health Centre | McGill official IP-registered spinoff directory: 30/30 health-sector companies collected from 43/43 total | Large biomedical research base and strong Montréal life-sciences cluster |
+| A | McMaster + Hamilton Health Sciences | McMaster official startup showcase: 24/24 unique companies across nine native health filters, audited against all 52/52 showcase records | Official startup showcase; strong health, diagnostics, engineering and hospital integration |
 | A | University of Alberta + Alberta Health Services | Health Innovation Hub / TEC Edmonton legacy sources | Major health-research and AI cluster |
 | A | University of Calgary + Alberta Health Services | Innovate Calgary / UCeed | Life-sciences commercialisation plus directly relevant venture funds |
-| A | Université de Montréal + CHUM + Sainte-Justine | Axelys and institutional innovation sources | Large health-sciences research and hospital network |
-| A | Université Laval + CHU de Québec | Axelys / university valorisation | Strong optics, diagnostics, medical technology and health research |
-| A | University of Waterloo | WatCo, Velocity, entrepreneurship ecosystem | Exceptional engineering/startup output; filter aggressively for regulated health products |
+| A | Université de Montréal + CHUM + Sainte-Justine | Shared Axelys public supported-startup index: 5/5 records and websites collected; institution of origin is not exposed | Large health-sciences research and hospital network; records remain cluster-level rather than being attributed without evidence |
+| A | Université Laval + CHU de Québec | Shared Axelys public supported-startup index: 5/5 records and websites collected; institution of origin is not exposed | Strong optics, diagnostics, medical technology and health research; shared Axelys records are not duplicated |
+| A | University of Waterloo | Velocity: 123/123 native Health companies collected from 548/548 records across seven pages, with all detail pages enriched; WatCo exposes technologies, not a public company directory | Exceptional engineering/startup output; Velocity affiliation is not treated as proof of Waterloo-owned IP |
 | B | University of Ottawa + Ottawa Hospital Research Institute + CHEO | Innovation Support Services and hospital commercialisation | Devices, imaging, digital health, clinical research |
 | B | Queen’s University | Queen’s Partnerships and Innovation | Health sciences, engineering, medical devices |
 | B | Western University + Lawson Research Institute | WORLDiscoveries | Medical imaging, devices, health research |

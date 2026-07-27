@@ -418,7 +418,7 @@ class SearchAdapterTests(unittest.TestCase):
         spinout_sources = [source for source in pipeline.SOURCES if source.source_type == "University/spinout"]
         names = {source.name for source in spinout_sources}
 
-        self.assertEqual(len(spinout_sources), 60)
+        self.assertEqual(len(spinout_sources), 64)
         self.assertTrue(all(pipeline.adapter_inventory_label(source) != "Manual/not implemented" for source in spinout_sources))
         self.assertIn("University/spinout", pipeline.DISCOVERY_TERMS)
         self.assertEqual(pipeline.SOURCE_TRIGGER_TYPES["University/spinout"], "University/spinout origin")
@@ -480,8 +480,145 @@ class SearchAdapterTests(unittest.TestCase):
             "MD Anderson spinouts",
             "Vanderbilt University spinouts",
             "University of Toronto Health & Life Sciences startups",
+            "McGill health-sector spinoffs",
+            "McMaster health startup showcase",
+            "Axelys supported startups",
+            "Velocity Health company directory",
         ]:
             self.assertIn(name, names)
+
+    def test_tier_a_canada_university_sources_use_dedicated_adapters(self):
+        expected = {
+            "McGill health-sector spinoffs": "mcgill_health_spinouts",
+            "McMaster health startup showcase": "mcmaster_health_startups",
+            "Axelys supported startups": "axelys_supported_startups",
+            "Velocity Health company directory": "velocity_health_companies",
+        }
+        actual = {source.name: source.adapter for source in pipeline.SOURCES if source.name in expected}
+        self.assertEqual(actual, expected)
+
+    def test_mcgill_runner_checks_all_sections_and_returns_health_sectors(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "mcgill_health_spinouts")
+
+        def records(prefix, count):
+            return "".join(
+                f'<p><strong>Company:</strong> {prefix} {index} '
+                f'<br><strong>Headquarters:</strong> Montreal, QC '
+                f'<a href="https://{prefix.lower()}-{index}.example/">Learn more</a></p>'
+                for index in range(count)
+            )
+
+        raw_html = (
+            "<h3>BioTech/Medtech</h3>" + records("Bio", 25)
+            + "<h3>Engineering</h3>" + records("Engineering", 8)
+            + "<h3>Pharmaceuticals</h3>" + records("Pharma", 5)
+            + "<h3>Software</h3>" + records("Software", 5)
+        )
+        hits, triggers, result = pipeline.run_mcgill_health_spinouts(
+            source, fetcher=lambda url: (raw_html, None)
+        )
+        self.assertEqual(len(hits), 30)
+        self.assertEqual(len(triggers), 30)
+        self.assertNotIn("INCOMPLETE", result)
+        self.assertEqual({hit.category_or_track for hit in hits}, {"BioTech/Medtech", "Pharmaceuticals"})
+
+    def test_mcmaster_runner_uses_native_health_filters_and_deduplicates(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "mcmaster_health_startups")
+
+        def card(company):
+            return (
+                '<div class="col-lg-3 col-md-6"><h3 class="card-title">'
+                f'<a href="https://{company.lower().replace(" ", "-")}.example/">{company}</a>'
+                f'</h3><div class="card-text"><p>{company} health technology.</p></div></div>'
+            )
+
+        all_html = "".join(card(f"Startup {index}") for index in range(52))
+        pages = {}
+        pool = [f"Health Startup {index}" for index in range(24)]
+        cursor = 0
+        for slug, (_, expected) in pipeline.MCMASTER_HEALTH_SECTORS.items():
+            names = [pool[(cursor + index) % len(pool)] for index in range(expected)]
+            pages[slug] = "".join(card(name) for name in names)
+            cursor += expected
+        hits, triggers, result = pipeline.run_mcmaster_health_startups(
+            source,
+            page_fetcher=lambda url: (all_html, None),
+            sector_fetcher=lambda slug: (pages[slug], None),
+        )
+        self.assertEqual(len(hits), 24)
+        self.assertEqual(len(triggers), 24)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_axelys_runner_requires_complete_public_startup_index(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "axelys_supported_startups")
+        payload = {
+            "nbHits": 5,
+            "hits": [
+                {
+                    "EnglishTitle": f"Axelys Company {index}",
+                    "descriptionTruncated": f"Supported startup {index}. https://axelys-{index}.example/",
+                    "finalPathCategories": "Sectors > Life sciences" if index == 0 else "Sectors > Science and Technologies",
+                    "Url": f"https://portfolio.axelys.ca/techcase/ED-{index:04d}",
+                }
+                for index in range(5)
+            ],
+        }
+        hits, triggers, result = pipeline.run_axelys_supported_startups(
+            source,
+            fetcher=lambda: (payload, None),
+            detail_fetcher=lambda url: (
+                f'<a href="https://{url.rsplit("/", 1)[-1].lower()}.example/">Company website</a>',
+                None,
+            ),
+        )
+        self.assertEqual(len(hits), 5)
+        self.assertEqual(len(triggers), 5)
+        self.assertEqual(hits[0].website, "https://ed-0000.example/")
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_velocity_runner_traverses_full_directory_and_enriches_health_details(self):
+        source = next(source for source in pipeline.SOURCES if source.adapter == "velocity_health_companies")
+        pages = {}
+        health_index = 0
+        counts = [90, 90, 90, 90, 90, 90, 8]
+        health_counts = [19, 21, 17, 22, 21, 22, 1]
+        for page, (count, health_count) in enumerate(zip(counts, health_counts), 1):
+            cards = []
+            for index in range(count):
+                is_health = index < health_count
+                company = f"Velocity Health {health_index}" if is_health else f"Other {page}-{index}"
+                if is_health:
+                    health_index += 1
+                sector = "Health" if is_health else "Industrial"
+                cards.append(
+                    '<div class="company_list_item_wrapper">'
+                    f'<div fs-cmsfilter-field="company">{company}</div>'
+                    f'<div fs-cmsfilter-field="Sector">{sector}</div>'
+                    '<div fs-cmsfilter-field="Status">Active</div>'
+                    '<div fs-cmsfilter-field="year">2025</div>'
+                    f'<a href="/company/{company.lower().replace(" ", "-")}">View company</a>'
+                    f'<div class="description">{company} description.</div></div>'
+                )
+            next_link = '<a class="w-pagination-next">View more</a>' if page < 7 else ""
+            url = source.url if page == 1 else f"{source.url}?c17588c1_page={page}"
+            pages[url] = "".join(cards) + next_link
+        for index in range(123):
+            pages[f"https://www.velocityincubator.com/company/velocity-health-{index}"] = (
+                '<a href="https://velocity-health.example/">Visit company</a>'
+                '<div class="detail_item">Location: Waterloo, ON</div>'
+                '<div class="detail_item">Status: Active</div>'
+                '<div class="detail_item">Year joined: 2025</div>'
+                '<div class="detail_item">Tags: Medical Device</div>'
+            )
+        hits, triggers, result = pipeline.run_velocity_health_companies(
+            source,
+            fetcher=lambda url: (pages.get(url, ""), None if url in pages else "missing"),
+            max_workers=4,
+        )
+        self.assertEqual(len(hits), 123)
+        self.assertEqual(len(triggers), 123)
+        self.assertTrue(all(hit.geography == "Waterloo, ON" for hit in hits))
+        self.assertNotIn("INCOMPLETE", result)
 
     def test_sources_include_us_prioritization_sources(self):
         sources = {source.name: source for source in pipeline.SOURCES}

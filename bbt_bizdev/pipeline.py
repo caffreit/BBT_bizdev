@@ -51,6 +51,12 @@ from .adapters.canada_investors import (
     run_genesys,
     run_lumira,
 )
+from .adapters.canada_universities import (
+    run_axelys_supported_startups,
+    run_mcgill_health_spinouts,
+    run_mcmaster_health_startups,
+    run_velocity_health_companies,
+)
 from .adapters.generic import build_source_page_evidence, find_companies_on_source
 from .adapters.jobs import run_biospace_jobs, run_builtin_jobs, run_greenhouse_discovery, run_job_board_adapter, run_nhs_jobs
 from .adapters.linkedin import enrich_companies_linkedin
@@ -98,6 +104,10 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
         "amplitude_portfolio": run_amplitude,
         "bdc_health_portfolio": run_bdc_health,
         "facit_portfolio": run_facit,
+        "mcgill_health_spinouts": run_mcgill_health_spinouts,
+        "mcmaster_health_startups": run_mcmaster_health_startups,
+        "axelys_supported_startups": run_axelys_supported_startups,
+        "velocity_health_companies": run_velocity_health_companies,
     }
     for source in sources:
         if source.adapter in canada_tier_a_runners:
