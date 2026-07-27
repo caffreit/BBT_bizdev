@@ -10,6 +10,9 @@ First-pass source map for finding Canadian medtech, diagnostics, digital-health,
 
 This order avoids broad news scraping before there is a credible company universe.
 
+The operational methodology for steps 2–3 is in
+[`CANADA_COMPANY_ENRICHMENT_PLAN.md`](CANADA_COMPANY_ENRICHMENT_PLAN.md).
+
 ## Priority 1 — Accelerators, Hubs, and Commercialisation Platforms
 
 | Tier | Organisation / source | Geography | Why it matters | Lead access |
