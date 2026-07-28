@@ -68,6 +68,8 @@ class JobPosting:
     description: str = ""
     location: str = ""
     department: str = ""
+    job_id: str = ""
+    posted_at: str = ""
 
 
 @dataclass(frozen=True)

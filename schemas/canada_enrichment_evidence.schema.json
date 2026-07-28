@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canada_enrichment_evidence.schema.json",
+  "title": "Canada enrichment evidence record",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "company_id",
+    "track",
+    "claim_type",
+    "evidence_url",
+    "evidence_date",
+    "captured_at",
+    "extraction_method",
+    "confidence"
+  ],
+  "properties": {
+    "evidence_id": {"type": "string", "minLength": 1},
+    "company_id": {"type": "string", "minLength": 1},
+    "track": {
+      "enum": ["hiring", "funding", "regulatory", "product_development", "news"]
+    },
+    "claim_type": {"type": "string", "minLength": 1},
+    "evidence_url": {"type": "string", "format": "uri"},
+    "evidence_date": {"type": ["string", "null"], "format": "date"},
+    "captured_at": {"type": "string", "format": "date"},
+    "extraction_method": {"type": "string", "minLength": 1},
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "source_type": {"type": "string"},
+    "summary": {"type": "string"},
+    "raw_record": {"type": ["object", "null"]}
+  },
+  "additionalProperties": true
+}

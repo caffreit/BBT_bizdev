@@ -115,6 +115,8 @@ def parse_greenhouse_jobs(data: object) -> list[JobPosting]:
                 description=html_to_text(job.get("content", "")),
                 location=job_location(job.get("location")),
                 department=job_location(job.get("departments")),
+                job_id=str(job.get("id") or job.get("internal_job_id") or ""),
+                posted_at=clean_text(job.get("updated_at", "")),
             )
         )
     return postings
@@ -132,6 +134,8 @@ def parse_lever_jobs(data: object) -> list[JobPosting]:
                 description=html_to_text(job.get("description") or job.get("descriptionPlain") or nested_text(job.get("lists", []))),
                 location=job_location(job.get("categories", {}).get("location") if isinstance(job.get("categories"), dict) else ""),
                 department=job_location(job.get("categories", {}).get("team") if isinstance(job.get("categories"), dict) else ""),
+                job_id=str(job.get("id") or ""),
+                posted_at=str(job.get("createdAt") or ""),
             )
         )
     return postings
@@ -149,6 +153,8 @@ def parse_ashby_jobs(data: object) -> list[JobPosting]:
                 description=html_to_text(job.get("descriptionHtml") or job.get("description") or ""),
                 location=job_location(job.get("location") or job.get("locations")),
                 department=job_location(job.get("department")),
+                job_id=str(job.get("id") or ""),
+                posted_at=clean_text(job.get("publishedAt") or job.get("published_at") or ""),
             )
         )
     return postings
@@ -170,6 +176,8 @@ def parse_workable_jobs(data: object) -> list[JobPosting]:
                 description=html_to_text(job.get("description") or nested_text(job.get("requirements", ""))),
                 location=job_location(job.get("location") or job.get("locations")),
                 department=job_location(job.get("department")),
+                job_id=str(job.get("id") or shortcode or ""),
+                posted_at=clean_text(job.get("published_on") or job.get("created_at") or ""),
             )
         )
     return postings
@@ -188,6 +196,8 @@ def parse_smartrecruiters_jobs(data: object) -> list[JobPosting]:
                 description=html_to_text(job.get("jobAd", {}).get("sections", {}).get("jobDescription", {}).get("text", "") if isinstance(job.get("jobAd"), dict) else job.get("description", "")),
                 location=job_location(job.get("location")),
                 department=job_location(job.get("department")),
+                job_id=str(job.get("id") or job.get("uuid") or ""),
+                posted_at=clean_text(job.get("releasedDate") or job.get("createdOn") or ""),
             )
         )
     return postings
@@ -205,6 +215,8 @@ def parse_recruitee_jobs(data: object) -> list[JobPosting]:
                 description=html_to_text(job.get("description") or job.get("description_html") or ""),
                 location=job_location(job.get("location") or job.get("locations")),
                 department=job_location(job.get("department")),
+                job_id=str(job.get("id") or job.get("slug") or ""),
+                posted_at=clean_text(job.get("published_at") or job.get("created_at") or ""),
             )
         )
     return postings
