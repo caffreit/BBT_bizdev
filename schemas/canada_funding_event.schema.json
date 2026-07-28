@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canada_funding_event.schema.json",
+  "title": "Canada funding event",
+  "type": "object",
+  "required": [
+    "funding_event_id", "company_id", "event_date", "funding_type", "stage",
+    "amount_original", "currency", "investors_or_funders", "use_of_funds",
+    "evidence_url", "captured_at", "extraction_method", "confidence"
+  ],
+  "properties": {
+    "funding_event_id": {"type": "string", "minLength": 1},
+    "company_id": {"type": "string", "minLength": 1},
+    "event_date": {"type": "string", "format": "date"},
+    "funding_type": {"enum": ["equity", "convertible", "debt", "grant", "contribution", "loan", "strategic investment", "undisclosed"]},
+    "stage": {"type": "string"},
+    "amount_original": {"type": "string"},
+    "currency": {"type": "string"},
+    "amount_cad": {"type": ["number", "null"]},
+    "investors_or_funders": {"type": ["array", "string"]},
+    "lead_investor": {"type": "string"},
+    "use_of_funds": {"type": ["array", "string"]},
+    "evidence_url": {"type": "string", "format": "uri"},
+    "captured_at": {"type": "string", "format": "date"},
+    "extraction_method": {"type": "string"},
+    "confidence": {"enum": ["high", "medium", "low"]}
+  },
+  "additionalProperties": true
+}

@@ -627,6 +627,7 @@ The supporting tabs remain the audit trail; the company row contains concise der
 
 ### Work Package 3 — Funding
 
+- **Status: in progress (2026-07-28).** Initial provenance conversion produced 298 official institutional-backing records across 269 canonical companies. No portfolio record was promoted to a dated funding event; announcement and government-disclosure ingestion remains outstanding.
 - Convert existing investor/funder provenance into backing evidence.
 - Add event extraction from company/investor announcements and government disclosure.
 - Add dated amount/stage/use-of-funds fields.
