@@ -133,7 +133,11 @@ def extract_events(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def run_funding_enrichment(
-    canonical_path: Path, provenance_path: Path, output_dir: Path, run_date: str
+    canonical_path: Path,
+    provenance_path: Path,
+    output_dir: Path,
+    run_date: str,
+    event_paths: list[Path] | None = None,
 ) -> dict[str, Any]:
     canonical = json.loads(canonical_path.read_text(encoding="utf-8"))
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
@@ -143,6 +147,22 @@ def run_funding_enrichment(
     # Existing source snapshots are portfolio records. This hook accepts future
     # announcement/government records only when they expose explicit event fields.
     events = extract_events(records)
+    for event_path in event_paths or []:
+        payload = json.loads(event_path.read_text(encoding="utf-8"))
+        rows = payload.get("events", [])
+        if isinstance(rows, list):
+            events.extend(row for row in rows if isinstance(row, dict))
+    events = list({
+        row.get("funding_event_id")
+        or _id(
+            "ca-funding-event",
+            row.get("company_id", ""),
+            row.get("event_date", ""),
+            row.get("evidence_url", ""),
+            row.get("amount_original", ""),
+        ): row
+        for row in events
+    }.values())
 
     backing_by_company: dict[str, list[dict[str, Any]]] = defaultdict(list)
     events_by_company: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -214,6 +234,23 @@ def run_funding_enrichment(
         writer.writeheader()
         writer.writerows(backing)
 
+    with (output_dir / "funding_events.csv").open("w", newline="", encoding="utf-8-sig") as handle:
+        fields = [
+            "funding_event_id", "company_id", "event_date", "funding_type", "stage",
+            "amount_original", "currency", "amount_cad", "investors_or_funders",
+            "lead_investor", "use_of_funds", "agreement_title", "program",
+            "evidence_url", "confidence", "captured_at",
+        ]
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        for event in sorted(events, key=lambda row: row.get("event_date", ""), reverse=True):
+            copy = dict(event)
+            for key in ("investors_or_funders", "use_of_funds"):
+                if isinstance(copy.get(key), list):
+                    copy[key] = "; ".join(str(value) for value in copy[key])
+            writer.writerow(copy)
+
+    recent_cutoff = f"{int(run_date[:4]) - 3}-{run_date[5:]}"
     summary = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": run_date,
@@ -222,9 +259,15 @@ def run_funding_enrichment(
         "companies_with_backing": len(backing_by_company),
         "funding_events": len(events),
         "companies_with_events": len(events_by_company),
+        "events_in_last_three_years": sum(
+            row.get("event_date", "") >= recent_cutoff for row in events
+        ),
+        "disclosed_amount_cad_total": sum(
+            float(row.get("amount_cad") or 0) for row in events
+        ),
         "status_counts": dict(Counter(row["status"] for row in statuses)),
         "backing_type_counts": dict(Counter(row["backing_type"] for row in backing)),
-        "next_step": "Ingest company/investor announcements and government disclosures with explicit event fields.",
+        "next_step": "Ingest company and investor announcements for equity/debt rounds, then review quarantined government matches.",
     }
     (output_dir / "run_summary.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

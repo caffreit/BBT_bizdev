@@ -13,6 +13,13 @@ def main() -> None:
     parser.add_argument("--identity-dir", type=Path, default=Path("outputs/canada_company_identity_2026-07-27"))
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--run-date", default=date.today().isoformat())
+    parser.add_argument(
+        "--event-file",
+        type=Path,
+        action="append",
+        default=[],
+        help="Additional validated funding-event JSON payload; may be repeated.",
+    )
     args = parser.parse_args()
     output_dir = args.output_dir or Path("outputs") / f"canada_funding_{args.run_date}"
     summary = run_funding_enrichment(
@@ -20,6 +27,7 @@ def main() -> None:
         args.identity_dir / "source_provenance.json",
         output_dir,
         args.run_date,
+        event_paths=args.event_file,
     )
     print(json.dumps({"output_dir": str(output_dir), **summary}, ensure_ascii=False))
 
