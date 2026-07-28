@@ -101,7 +101,6 @@ def board_matches_company(account: str, company: dict) -> bool:
     names = [
         company.get("company_name", ""), company.get("legal_name", ""),
         *company.get("aliases", []),
-        urlparse(company.get("website", "")).netloc.split(".")[0],
     ]
     for value in names:
         token = _identity_token(value)

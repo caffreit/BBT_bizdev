@@ -36,7 +36,8 @@ class CanadaHiringTests(unittest.TestCase):
 
     def test_board_identity_rejects_parent_company_redirect(self):
         self.assertTrue(board_matches_company("acmemedicalinc", company()))
-        self.assertFalse(board_matches_company("parentcorp", company()))
+        acquired = {**company("https://parentcorp.com"), "company_name": "Acme Medical"}
+        self.assertFalse(board_matches_company("parentcorp", acquired))
 
     def test_classifies_role_family_and_seniority(self):
         posting = JobPosting("Director, Regulatory Affairs", "https://jobs.example/1")
