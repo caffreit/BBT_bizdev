@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import html
+from http.client import IncompleteRead
 import json
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -42,7 +43,13 @@ ROLE_RULES = (
     ("clinical", ("clinical", "medical affairs")),
     ("manufacturing", ("manufacturing", "process development", "design transfer", "tech transfer", "operations scale")),
     ("software medical product", ("samd", "iec 62304", "cybersecurity", "product safety", "software quality")),
-    ("R&D/product", ("r&d", "research and development", "product development", "biomedical", "systems engineer", "mechanical engineer", "electrical engineer", "firmware")),
+    ("R&D/product", (
+        "r&d", "research and development", "research engineer", "research scientist",
+        "product development", "product engineer", "biomedical", "systems engineer",
+        "mechanical engineer", "electrical engineer", "firmware", "machine learning",
+        "mlops", "full stack", "backend", "infrastructure engineer", "data scientist",
+        "bioinformatics", "computational",
+    )),
     ("commercial expansion", ("country manager", "market access", "reimbursement", "implementation", "partnerships")),
 )
 SENIOR_RULES = (
@@ -68,7 +75,10 @@ def fetch_url(url: str) -> FetchResult:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/json"})
     try:
         with urlopen(request, timeout=25) as response:
-            raw = response.read()
+            try:
+                raw = response.read()
+            except IncompleteRead as exc:
+                raw = exc.partial
             content_type = response.headers.get("Content-Type", "")
             return FetchResult(
                 url=response.geturl(), body=raw.decode("utf-8", "ignore"),
@@ -366,7 +376,20 @@ def run_hiring_enrichment(
     with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
         futures = {pool.submit(enrich_company_hiring, row, run_date, fetcher): row for row in runnable}
         for future in as_completed(futures):
-            results.append(future.result())
+            company = futures[future]
+            try:
+                results.append(future.result())
+            except Exception as exc:
+                results.append({
+                    "company_id": company["company_id"],
+                    "company_name": company.get("company_name", ""),
+                    "careers_url": company.get("website", ""),
+                    "ats_provider": "none", "ats_board_id": "",
+                    "raw_count": None, "accepted_count": None,
+                    "status": "partial", "attempted_at": run_date,
+                    "notes": f"Unexpected site-processing error: {type(exc).__name__}: {str(exc)[:300]}",
+                    "evidence": [],
+                })
     results.sort(key=lambda row: (row["company_name"].lower(), row["company_id"]))
 
     route_groups: dict[str, list[dict]] = {}

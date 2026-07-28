@@ -618,6 +618,7 @@ The supporting tabs remain the audit trail; the company row contains concise der
 
 ### Work Package 2 — Hiring
 
+- **Status: complete (2026-07-28).** Final official-only output: 53 open roles across 32 companies; unconfirmed and blocked cases remain in an explicit review backlog.
 - Discover official careers routes for every company with a website.
 - Use existing Greenhouse, Lever, Ashby, Workable, SmartRecruiters, and Recruitee parsers where applicable.
 - Add company-targeted board discovery rather than broad global job scraping.
