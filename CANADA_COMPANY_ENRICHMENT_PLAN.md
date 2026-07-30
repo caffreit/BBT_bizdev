@@ -644,7 +644,7 @@ The supporting tabs remain the audit trail; the company row contains concise der
 
 ### Work Package 5 — Product Development and News
 
-- **Status: in progress (2026-07-30).** The first top-50 automated pass resolved and checked first-party product, clinical, and newsroom routes, producing 25 evidence-backed current product profiles and 116 identity-filtered Google News discovery candidates. News RSS records remain quarantined for primary-source verification; none are treated as accepted evidence. Twelve official sites were blocked and 13 returned no qualifying product statement. Selection currently uses a documented provisional priority score until the consolidated 100-point model is available.
+- **Status: in progress (2026-07-30).** The first top-50 automated pass resolved and checked first-party product, clinical, and newsroom routes, producing 25 evidence-backed current product profiles and 116 identity-filtered Google News discovery candidates. The 46 recent candidates have now been reviewed against primary sources: 32 supporting articles were consolidated into 20 accepted events, and 14 false, retrospective, or passing-mention results were rejected; no recent candidates remain unresolved. Twelve official sites were blocked and 13 returned no qualifying product statement. Selection currently uses a documented provisional priority score until the consolidated 100-point model is available.
 - Resolve company newsroom/product/pipeline feeds.
 - Run bounded company-specific Google News RSS searches.
 - Classify and deduplicate material events.
@@ -652,6 +652,7 @@ The supporting tabs remain the audit trail; the company row contains concise der
 
 ### Work Package 6 — Presentation
 
+- **Status: complete (2026-07-30).** Generated the filterable 11-tab presentation workbook for all 1,503 canonical companies, including formula-driven 100-point component scores, primary evidence URLs, per-track completeness states, freshness reporting, full supporting audit tabs, and a concise formula-linked top-50 review queue. Incomplete funding and product/news coverage remains explicitly separated from verified zeroes.
 - Generate the filterable workbook.
 - Add component scores and evidence hyperlinks.
 - Add completeness and freshness reporting.
