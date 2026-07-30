@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canada_regulatory_evidence.schema.json",
+  "title": "Canada regulatory evidence record",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "company_id",
+    "jurisdiction",
+    "authority",
+    "record_type",
+    "record_id",
+    "legal_manufacturer",
+    "product_name",
+    "status",
+    "evidence_url",
+    "match_basis",
+    "confidence",
+    "captured_at"
+  ],
+  "properties": {
+    "evidence_id": {"type": "string", "minLength": 1},
+    "company_id": {"type": "string", "minLength": 1},
+    "jurisdiction": {"type": "string", "minLength": 1},
+    "authority": {"type": "string", "minLength": 1},
+    "record_type": {"type": "string", "minLength": 1},
+    "record_id": {"type": "string", "minLength": 1},
+    "legal_manufacturer": {"type": "string", "minLength": 1},
+    "product_name": {"type": "string"},
+    "device_class": {"type": "string"},
+    "status": {
+      "enum": ["active", "archived", "cleared", "approved", "registered", "suspended", "recalled", "unknown"]
+    },
+    "decision_or_start_date": {"type": ["string", "null"], "format": "date"},
+    "evidence_url": {"type": "string", "format": "uri"},
+    "match_basis": {
+      "enum": ["exact legal name", "exact canonical name", "known alias", "manual review"]
+    },
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "captured_at": {"type": "string", "format": "date"},
+    "raw_record": {"type": ["object", "null"]}
+  },
+  "additionalProperties": true
+}

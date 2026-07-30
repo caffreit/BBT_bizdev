@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canada_product_news_event.schema.json",
+  "title": "Canada product-development and news event",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "company_id",
+    "track",
+    "event_date",
+    "event_type",
+    "title",
+    "summary",
+    "product_or_program",
+    "development_stage",
+    "evidence_url",
+    "evidence_date",
+    "captured_at",
+    "source_type",
+    "confidence",
+    "extraction_method"
+  ],
+  "properties": {
+    "evidence_id": {"type": "string", "minLength": 1},
+    "company_id": {"type": "string", "minLength": 1},
+    "track": {"enum": ["product_development", "news"]},
+    "event_date": {"type": "string", "format": "date"},
+    "event_type": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "summary": {"type": "string"},
+    "product_or_program": {"type": "string"},
+    "development_stage": {
+      "enum": ["research", "prototype", "preclinical", "clinical", "validation", "regulatory", "launch", "scale-up", "unknown"]
+    },
+    "evidence_url": {"type": "string", "format": "uri"},
+    "evidence_date": {"type": "string", "format": "date"},
+    "captured_at": {"type": "string", "format": "date"},
+    "source_type": {"type": "string", "minLength": 1},
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "extraction_method": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true
+}

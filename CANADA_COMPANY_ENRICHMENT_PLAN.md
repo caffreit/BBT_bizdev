@@ -635,6 +635,7 @@ The supporting tabs remain the audit trail; the company row contains concise der
 
 ### Work Package 4 — Regulatory
 
+- **Status: complete for the automated pass (2026-07-28).** Health Canada MDALL, MDEL, clinical-trial, FDA 510(k), PMA, De Novo, and registration/listing adapters are implemented with strict exact-name attachment, source-specific completeness, query audits, retries, and manual-review quarantine. The consolidated output contains 473 regulatory records across 101 companies: 100 MDALL licences, 22 MDELs, 76 Canadian trial protocols, 110 FDA 510(k)s, 47 PMAs, 2 De Novo records, and 116 FDA listings. All 1,503 canonical companies have an aggregate regulatory completeness state with no failed or partial final states. The unresolved queue contains 203 non-exact Health Canada name candidates; none affect company summaries or scoring before review. FDA's direct De Novo search rate-blocked the broad company-by-company scan, so current De Novo coverage combines a validated direct pilot with De Novo identifiers from active FDA listings.
 - Build Health Canada MDALL API adapter first.
 - Add MDEL company lookup.
 - Add Health Canada clinical-trial API for relevant drug/biologic companies.
@@ -643,6 +644,7 @@ The supporting tabs remain the audit trail; the company row contains concise der
 
 ### Work Package 5 — Product Development and News
 
+- **Status: in progress (2026-07-30).** The first top-50 automated pass resolved and checked first-party product, clinical, and newsroom routes, producing 25 evidence-backed current product profiles and 116 identity-filtered Google News discovery candidates. News RSS records remain quarantined for primary-source verification; none are treated as accepted evidence. Twelve official sites were blocked and 13 returned no qualifying product statement. Selection currently uses a documented provisional priority score until the consolidated 100-point model is available.
 - Resolve company newsroom/product/pipeline feeds.
 - Run bounded company-specific Google News RSS searches.
 - Classify and deduplicate material events.
