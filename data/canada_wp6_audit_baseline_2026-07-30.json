@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "baseline_id": "canada-wp6-2026-07-30",
+  "audited_at": "2026-08-04",
+  "workbook": "outputs/canada_company_enrichment_wp6_2026-07-30/Canada_Company_Enrichment_Work_Package_6.xlsx",
+  "company_count": 1503,
+  "coverage": {
+    "hiring_complete_or_zero": 144,
+    "hiring_incomplete": 1359,
+    "funding_complete_or_zero": 103,
+    "funding_incomplete": 1400,
+    "regulatory_complete_or_zero": 1473,
+    "regulatory_incomplete": 30,
+    "product_complete_or_zero": 38,
+    "product_incomplete": 1465,
+    "news_complete_or_zero": 50,
+    "news_incomplete": 1453
+  },
+  "evidence_counts": {
+    "verified_open_roles": 53,
+    "dated_funding_events": 506,
+    "institutional_backing_records": 298,
+    "regulatory_records": 473,
+    "product_profiles": 25,
+    "verified_product_news_events": 20
+  },
+  "score_distribution": {
+    "fit": {"minimum": 5, "median": 15, "maximum": 25, "mean": 15.13},
+    "commercial_intent": {"minimum": 0, "median": 0, "maximum": 20, "mean": 0.46},
+    "funding": {"minimum": 0, "median": 0, "maximum": 19, "mean": 1.33},
+    "stage_size": {"minimum": 8, "median": 8, "maximum": 8, "mean": 8.0},
+    "milestone": {"minimum": 0, "median": 0, "maximum": 10, "mean": 0.45},
+    "source_quality": {"minimum": 1, "median": 1, "maximum": 4, "mean": 1.22},
+    "canada_relevance": {"minimum": 2, "median": 2, "maximum": 4, "mean": 2.6},
+    "priority": {"minimum": 1, "median": 26, "maximum": 74, "mean": 28.12}
+  },
+  "top_50": {
+    "minimum_score": 53,
+    "maximum_score": 74,
+    "companies_tied_at_cutoff": 10,
+    "companies_with_any_incomplete_track": 43,
+    "companies_with_zero_verified_relevant_roles": 47,
+    "companies_with_unknown_stage_or_size": 50,
+    "product_not_run_blocked_or_manual": 23,
+    "news_not_run_blocked_or_manual": 17
+  },
+  "global_missingness": {
+    "companies_with_unknown_stage_or_size": 1503,
+    "companies_marked_current_by_existing_freshness_formula": 1503
+  },
+  "sensitivity": {
+    "leave_one_component_out_top_50_overlap": {
+      "fit": 46,
+      "commercial_intent": 45,
+      "funding": 31,
+      "stage_size": 48,
+      "milestone": 40,
+      "source_quality": 48,
+      "canada_relevance": 46
+    }
+  },
+  "known_release_blockers": [
+    "Product and news coverage is not comparable across the universe.",
+    "Product/news enrichment was selected using a provisional ranking and then affected the final ranking.",
+    "Unknown stage and size receives eight positive points for every company.",
+    "Freshness can use capture date rather than the underlying fact or event date.",
+    "Ten companies tie at the top-50 cutoff and are ordered alphabetically.",
+    "Funding events found during product/news verification are not reconciled into canonical funding scoring.",
+    "The current fit score is keyword-category classification rather than BlueBridge service fit."
+  ]
+}

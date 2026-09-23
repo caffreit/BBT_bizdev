@@ -678,3 +678,4 @@ The supporting tabs remain the audit trail; the company row contains concise der
 - `PIPELINE_EXPLAINER.md`
 - `LEAD_SCORING_RULES.md`
 - `LEAD_CLASSIFICATION_RULES.md`
+- `CANADA_COMPANY_AUDIT_REMEDIATION_PLAN.md`

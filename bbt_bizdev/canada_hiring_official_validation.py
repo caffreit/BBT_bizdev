@@ -3,7 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Callable
@@ -40,6 +42,42 @@ SCHEMA = {
     "additionalProperties": False,
 }
 
+CLOSED_MARKERS = (
+    "job is no longer available", "position is no longer available",
+    "position has been filled", "this job has expired", "job has expired",
+    "posting has expired", "no longer accepting applications",
+)
+CURRENT_MARKERS = (
+    "apply now", "apply for this job", "submit application", "job description",
+    "responsibilities", "qualifications", "requirements",
+)
+
+
+@dataclass(frozen=True)
+class PageFetchResult:
+    url: str
+    status: int = 0
+    body: str = ""
+    error: str = ""
+
+
+PageFetcher = Callable[[str], PageFetchResult]
+
+
+def fetch_official_page(url: str) -> PageFetchResult:
+    request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/json"})
+    try:
+        with urlopen(request, timeout=30) as response:
+            return PageFetchResult(
+                url=response.geturl(),
+                status=getattr(response, "status", 200),
+                body=response.read(2_000_000).decode("utf-8", "ignore"),
+            )
+    except HTTPError as exc:
+        return PageFetchResult(url=url, status=exc.code, error=str(exc))
+    except (OSError, URLError) as exc:
+        return PageFetchResult(url=url, error=str(exc))
+
 
 def _host(url: str) -> str:
     return urlsplit(url).netloc.lower().removeprefix("www.")
@@ -53,6 +91,84 @@ def is_official_or_ats(url: str, company_website: str) -> tuple[bool, str]:
     if any(host == suffix or host.endswith("." + suffix) for suffix in ATS_SUFFIXES):
         return True, "ats"
     return False, "none"
+
+
+def verify_official_listing(
+    company: dict, role: dict, url: str, run_date: str,
+    fetcher: PageFetcher = fetch_official_page,
+) -> dict:
+    allowed, source_type = is_official_or_ats(url, company.get("website", ""))
+    base = {
+        "validation_status": "ambiguous",
+        "official_job_url": "",
+        "official_source_type": "none",
+        "live_page_checked_at": run_date,
+        "live_page_status": None,
+        "live_page_notes": "",
+    }
+    if not allowed:
+        return {**base, "live_page_notes": "URL is not on the employer domain or a recognized ATS"}
+    result = fetcher(url)
+    if result.error or result.status in {401, 403, 429} or result.status >= 500:
+        return {
+            **base,
+            "official_source_type": source_type,
+            "live_page_status": result.status or None,
+            "live_page_notes": result.error or f"HTTP {result.status}; current status could not be verified",
+        }
+    if result.status in {404, 410}:
+        return {
+            **base,
+            "validation_status": "closed",
+            "official_source_type": source_type,
+            "live_page_status": result.status,
+            "live_page_notes": f"HTTP {result.status}",
+        }
+    text = re.sub(r"\s+", " ", re.sub(r"(?s)<[^>]+>", " ", result.body)).casefold()
+    if any(marker in text for marker in CLOSED_MARKERS):
+        return {
+            **base,
+            "validation_status": "closed",
+            "official_source_type": source_type,
+            "live_page_status": result.status,
+            "live_page_notes": "Official page states that the role is closed or expired",
+        }
+    title = re.sub(r"\s+", " ", str(role.get("job_title") or "")).strip().casefold()
+    title_tokens = [token for token in re.findall(r"[a-z0-9]+", title) if len(token) >= 4]
+    title_supported = bool(title) and (
+        title in text or (title_tokens and sum(token in text for token in title_tokens) >= max(1, len(title_tokens) - 1))
+    )
+    company_names = [
+        company.get("company_name", ""), company.get("legal_name", ""),
+        *(company.get("aliases") or []),
+    ]
+    company_supported = source_type == "employer" or any(
+        len(str(name).strip()) >= 4 and str(name).strip().casefold() in text
+        for name in company_names
+    )
+    current_supported = any(marker in text for marker in CURRENT_MARKERS)
+    if not title_supported or not company_supported or not current_supported:
+        missing = []
+        if not title_supported:
+            missing.append("job title")
+        if not company_supported:
+            missing.append("company identity")
+        if not current_supported:
+            missing.append("current application signal")
+        return {
+            **base,
+            "official_source_type": source_type,
+            "live_page_status": result.status,
+            "live_page_notes": "Official page did not confirm: " + ", ".join(missing),
+        }
+    return {
+        **base,
+        "validation_status": "official_open",
+        "official_job_url": result.url or url,
+        "official_source_type": source_type,
+        "live_page_status": result.status,
+        "live_page_notes": "Live official page confirms title, identity, and an application signal",
+    }
 
 
 def build_prompt(company: dict, role: dict) -> str:
@@ -158,6 +274,7 @@ def run_official_validation(
     workers: int = 6,
     model: str = MODEL,
     luna_fn: LunaFn = request_luna,
+    page_fetcher: PageFetcher = fetch_official_page,
 ) -> tuple[dict, dict[str, Path]]:
     run_date = run_date or date.today().isoformat()
     api_key = os.getenv("OPENROUTER_API_KEY", "").strip() or os.getenv("BBT_OPENROUTER_API_KEY", "").strip()
@@ -176,17 +293,20 @@ def run_official_validation(
         company = by_id[role["company_id"]]
         direct, source_type = is_official_or_ats(role.get("job_url", ""), company.get("website", ""))
         if direct:
-            return {
+            base = {
                 **role,
-                "validation_status": "official_open",
-                "official_job_url": role["job_url"],
-                "official_source_type": source_type,
-                "validation_method": "direct_official_or_ats_url",
-                "validation_notes": "Specific listing URL is on the employer domain or a recognized ATS",
+                "validation_method": "live_official_page_check",
+                "validation_notes": "",
                 "validated_at": run_date,
                 "validation_prompt_tokens": 0,
                 "validation_completion_tokens": 0,
                 "validation_cost_usd": 0.0,
+            }
+            check = verify_official_listing(company, role, role["job_url"], run_date, page_fetcher)
+            return {
+                **base,
+                **check,
+                "validation_notes": check["live_page_notes"],
             }
         key = hashlib.sha1(
             f"{PROMPT_VERSION}|{model}|{role['company_id']}|{role['job_title']}|{role['job_url']}".encode()
@@ -194,10 +314,17 @@ def run_official_validation(
         cache_path = cache_dir / f"{key}.json"
         if cache_path.exists():
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
-            return validate_result(
+            result = validate_result(
                 company, role, cached.get("decision"), cached.get("usage", {}),
                 cached.get("error", ""), run_date,
             )
+            if result["validation_status"] == "official_open":
+                check = verify_official_listing(
+                    company, role, result["official_job_url"], run_date, page_fetcher
+                )
+                result.update(check)
+                result["validation_notes"] = check["live_page_notes"]
+            return result
         decision, usage, error = luna_fn(company, role, api_key, model)
         cache_path.write_text(json.dumps({
             "company_id": role["company_id"],
@@ -206,7 +333,14 @@ def run_official_validation(
             "usage": usage,
             "error": error,
         }, indent=2, ensure_ascii=False), encoding="utf-8")
-        return validate_result(company, role, decision, usage, error, run_date)
+        result = validate_result(company, role, decision, usage, error, run_date)
+        if result["validation_status"] == "official_open":
+            check = verify_official_listing(
+                company, role, result["official_job_url"], run_date, page_fetcher
+            )
+            result.update(check)
+            result["validation_notes"] = check["live_page_notes"]
+        return result
 
     records = []
     with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
@@ -238,7 +372,7 @@ def run_official_validation(
         "roles_attempted": len(records),
         "status_counts": counts,
         "official_open_roles": counts.get("official_open", 0),
-        "direct_official_or_ats": sum(row["validation_method"] == "direct_official_or_ats_url" for row in records),
+        "direct_official_or_ats": sum(row["validation_method"] == "live_official_page_check" for row in records),
         "luna_searches": sum(row["validation_method"] == "luna_official_search" for row in records),
         "estimated_cost_usd": round(sum(row["validation_cost_usd"] for row in records), 6),
     }

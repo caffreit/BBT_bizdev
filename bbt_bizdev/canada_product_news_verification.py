@@ -202,11 +202,15 @@ def verify_recent_candidates(candidates: list[dict[str, Any]], captured_at: str)
     recent = [row for row in candidates if row.get("freshness") == "recent_24_months"]
     events, decisions = [], []
     event_ids: dict[int, str] = {}
-    company_ids = {row["company_name"]: row["company_id"] for row in recent}
     for index, event in enumerate(PRIMARY_EVENTS):
-        company_id = company_ids.get(event["company"])
-        if not company_id:
+        supporting = [
+            row for row in recent
+            if row["company_name"] == event["company"]
+            and re.search(event["candidate_pattern"], row.get("title", ""), re.I)
+        ]
+        if not supporting:
             continue
+        company_id = supporting[0]["company_id"]
         evidence_id = _event_id(company_id, event)
         event_ids[index] = evidence_id
         events.append({

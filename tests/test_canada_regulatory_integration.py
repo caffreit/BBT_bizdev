@@ -7,6 +7,7 @@ from bbt_bizdev.canada_regulatory_integration import (
     aggregate_status,
     denovo_from_registration,
     integrate_regulatory_outputs,
+    regulatory_signal_semantics,
 )
 
 
@@ -36,6 +37,17 @@ class CanadaRegulatoryIntegrationTests(unittest.TestCase):
         derived = denovo_from_registration(row)
         self.assertEqual("De Novo", derived["record_type"])
         self.assertIn("DEN240001", derived["evidence_url"])
+
+    def test_semantics_do_not_promote_establishment_listing_to_approval(self):
+        mdel = regulatory_signal_semantics({"record_type": "MDEL", "status": "active"})
+        self.assertEqual(mdel["regulatory_signal_class"], "establishment_or_listing")
+        self.assertFalse(mdel["current_milestone_eligible"])
+        archived = regulatory_signal_semantics({"record_type": "MDL/MDALL", "status": "archived"})
+        self.assertEqual(archived["regulatory_signal_class"], "historical_product_authorization")
+        self.assertFalse(archived["current_milestone_eligible"])
+        active = regulatory_signal_semantics({"record_type": "510(k)", "status": "cleared"})
+        self.assertEqual(active["regulatory_signal_class"], "current_product_authorization")
+        self.assertTrue(active["current_milestone_eligible"])
 
     def test_integration_updates_canonical_company(self):
         with tempfile.TemporaryDirectory() as temp:

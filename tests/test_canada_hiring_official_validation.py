@@ -1,7 +1,8 @@
 import unittest
 
 from bbt_bizdev.canada_hiring_official_validation import (
-    build_prompt, is_official_or_ats, validate_result,
+    PageFetchResult, build_prompt, is_official_or_ats, validate_result,
+    verify_official_listing,
 )
 
 
@@ -44,6 +45,33 @@ class CanadaHiringOfficialValidationTests(unittest.TestCase):
         bad = {**decision, "official_job_url": "https://indeed.com/viewjob?jk=1"}
         result = validate_result(company, role, bad, {}, "", "2026-07-28")
         self.assertEqual(result["validation_status"], "ambiguous")
+
+    def test_live_page_check_requires_title_identity_and_application_signal(self):
+        company = {"company_name": "Acme", "website": "https://acme.ca"}
+        role = {"job_title": "Quality Assurance Manager"}
+        result = verify_official_listing(
+            company, role, "https://jobs.lever.co/acme/123", "2026-08-04",
+            lambda url: PageFetchResult(
+                url, 200,
+                "<h1>Quality Assurance Manager</h1><p>Acme</p><button>Apply for this job</button>",
+            ),
+        )
+        self.assertEqual(result["validation_status"], "official_open")
+        self.assertEqual(result["live_page_checked_at"], "2026-08-04")
+
+    def test_live_page_check_rejects_closed_or_unverifiable_pages(self):
+        company = {"company_name": "Acme", "website": "https://acme.ca"}
+        role = {"job_title": "QA Manager"}
+        closed = verify_official_listing(
+            company, role, "https://acme.ca/jobs/qa", "2026-08-04",
+            lambda url: PageFetchResult(url, 200, "This job is no longer available"),
+        )
+        self.assertEqual(closed["validation_status"], "closed")
+        blocked = verify_official_listing(
+            company, role, "https://acme.ca/jobs/qa", "2026-08-04",
+            lambda url: PageFetchResult(url, 403, "", "Forbidden"),
+        )
+        self.assertEqual(blocked["validation_status"], "ambiguous")
 
 
 if __name__ == "__main__":

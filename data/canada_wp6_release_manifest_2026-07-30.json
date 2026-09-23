@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "release_id": "canada-wp6-2026-07-30-baseline",
+  "manifest_created_at": "2026-08-04",
+  "git_revision": "b1168bcbea8d735576ddf86f299253a044d047c4",
+  "scoring_model": "WP6 V1 baseline; comparison only",
+  "inputs": {
+    "canonical_companies": {
+      "path": "outputs/canada_company_identity_2026-07-27/canonical_companies.json",
+      "sha256": "4cd9f975bc774362eaafd66f3f767e6cc9c7be95ca32051cd61c8a55e80585f8",
+      "bytes": 3217100,
+      "record_count": 1503,
+      "generated_at": "2026-07-27",
+      "schema_version": "1.0"
+    },
+    "source_provenance": {
+      "path": "outputs/canada_company_identity_2026-07-27/source_provenance.json",
+      "sha256": "bdfffcc909d723642d84d49eac184bc25cc5914cf41a85d541b3579624b71b08",
+      "bytes": 3826801,
+      "record_count": 1785,
+      "generated_at": "2026-07-27",
+      "schema_version": "1.0"
+    },
+    "hiring_evidence": {
+      "path": "outputs/canada_hiring_wp2_final_2026-07-28/canonical_hiring_evidence.json",
+      "sha256": "1bff518a076d7cd6c207fe076b7c4a817efd3de1f9df5a86e3c4c3f2208eb759",
+      "bytes": 65853,
+      "record_count": 53,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "hiring_companies": {
+      "path": "outputs/canada_hiring_wp2_final_2026-07-28/canonical_companies_hiring_wp2_complete.json",
+      "sha256": "9bf894d7490b576e8b5598546601b13e345628f38302601de7675a7c42347342",
+      "bytes": 3392644,
+      "record_count": 1503,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "funding_events": {
+      "path": "outputs/canada_funding_2026-07-28/funding_events.json",
+      "sha256": "5ee992114f302ad3e7090ef755c6c0c1d8e923e0c73b1c86462557ff6d49b45f",
+      "bytes": 668945,
+      "record_count": 506,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "funding_backing": {
+      "path": "outputs/canada_funding_2026-07-28/funding_backing_evidence.json",
+      "sha256": "af1ed849a3dec4be3075928f875fe1f04dbaf4628f4bc96d507d2cd10558d4cd",
+      "bytes": 246970,
+      "record_count": 298,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "funding_companies": {
+      "path": "outputs/canada_funding_2026-07-28/canonical_companies_with_funding.json",
+      "sha256": "5af84d42364042e422a57cffaeab247b422cfd2e56bd52e92ea7366e67e977ca",
+      "bytes": 3725336,
+      "record_count": 1503,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "regulatory_evidence": {
+      "path": "outputs/canada_regulatory_2026-07-28/regulatory_evidence.json",
+      "sha256": "111f9760362ec15da32ca59ae5784930d4a9531b154b53ea878716e67d36682a",
+      "bytes": 2577893,
+      "record_count": 473,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "regulatory_companies": {
+      "path": "outputs/canada_regulatory_2026-07-28/canonical_companies_regulatory.json",
+      "sha256": "638c865cace901e100a6888bbf2950c2a2bfc931cd32c4ba4fdc64b578b7be53",
+      "bytes": 3561396,
+      "record_count": 1503,
+      "generated_at": "2026-07-28",
+      "schema_version": "1.0"
+    },
+    "product_profiles": {
+      "path": "outputs/canada_product_news_2026-07-30/product_profiles.json",
+      "sha256": "b6a23ed78f38468def76bab847e8882741288ee517d90c9134a826cd507c61da",
+      "bytes": 15505,
+      "record_count": 25,
+      "generated_at": "2026-07-30",
+      "schema_version": "1.0"
+    },
+    "product_news_completeness": {
+      "path": "outputs/canada_product_news_2026-07-30/product_news_completeness.json",
+      "sha256": "f843aaaa95a3ad3954bfefdbbbe2b045e46e4c98336d8cd0d852560fac763252",
+      "bytes": 52108,
+      "record_count": 50,
+      "generated_at": "2026-07-30",
+      "schema_version": "1.0"
+    },
+    "verified_product_news": {
+      "path": "outputs/canada_product_news_2026-07-30/recent_verification/verified_recent_events.json",
+      "sha256": "83af7c1dcb54326a01815a5d6967ff91704998b9a7cb3c907ef43d28a40b08a8",
+      "bytes": 18958,
+      "record_count": 20,
+      "generated_at": "2026-07-30",
+      "schema_version": "1.0"
+    },
+    "duplicate_review": {
+      "path": "outputs/canada_company_identity_2026-07-27/duplicate_review.csv",
+      "sha256": "be9e62dedddac54a43524d70390af401c83565cd2e3f370febef4699fbfe7b9f",
+      "bytes": 39497,
+      "record_count": 202,
+      "generated_at": null,
+      "schema_version": null
+    },
+    "ambiguous_review": {
+      "path": "outputs/canada_company_identity_2026-07-27/ambiguous_name_review.csv",
+      "sha256": "ee5653d1c2459a67a4b8807149a151075af60325aac0ca1ffa86f752aed3e2ec",
+      "bytes": 4756,
+      "record_count": 33,
+      "generated_at": null,
+      "schema_version": null
+    },
+    "baseline_builder": {
+      "path": "scripts/build_canada_wp6_workbook.mjs",
+      "sha256": "5a2383fc0cce222cda37b543060e03919d1321e52131c8b814b4cfe1636440dd",
+      "bytes": 40783,
+      "record_count": null,
+      "generated_at": null,
+      "schema_version": null
+    }
+  }
+}

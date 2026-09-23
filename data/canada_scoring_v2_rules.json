@@ -1,0 +1,137 @@
+{
+  "scoring_version": "2.0-draft.1",
+  "weights": {
+    "fit": 35,
+    "timing": 30,
+    "ability_to_buy": 25,
+    "canada_relevance": 10,
+    "evidence_confidence": 100
+  },
+  "fit": {
+    "regulated_deliverable": {
+      "confirmed": 15,
+      "probable": 10,
+      "category_only": 5,
+      "not_relevant": 0,
+      "unknown": 0
+    },
+    "service_need_points_each": 3,
+    "service_need_cap": 15,
+    "eligible_service_needs": [
+      "product_development",
+      "design_controls",
+      "verification_validation",
+      "quality_systems",
+      "regulatory",
+      "clinical_validation",
+      "software_assurance",
+      "manufacturing_transfer",
+      "scale_up"
+    ],
+    "stage_suitability": {
+      "1-19": 2,
+      "20-50": 5,
+      "51-200": 5,
+      "201-500": 3,
+      "501+": 0,
+      "unknown": 0
+    }
+  },
+  "timing": {
+    "role_points_each": 3,
+    "role_points_cap": 9,
+    "senior_role_bonus": 3,
+    "milestone_points": {
+      "regulatory_submission": 12,
+      "regulatory_clearance": 12,
+      "regulatory_approval": 12,
+      "clinical_validation": 12,
+      "design_verification_validation": 12,
+      "design_transfer": 12,
+      "manufacturing_scale_up": 12,
+      "product_launch": 12,
+      "clinical_study_started": 10,
+      "commercial_pilot": 10,
+      "health_system_implementation": 10,
+      "prototype": 6,
+      "preclinical": 6
+    },
+    "trigger_points": {
+      "expansion": 6,
+      "deployment": 6,
+      "partnership": 4,
+      "licensing_agreement": 4,
+      "new_indication": 4,
+      "new_geography": 4
+    },
+    "recency_factors": [
+      {"maximum_age_days": 365, "factor": 1.0},
+      {"maximum_age_days": 730, "factor": 0.67},
+      {"maximum_age_days": 1095, "factor": 0.33}
+    ]
+  },
+  "ability_to_buy": {
+    "funding_recency_points": 9,
+    "funding_amount_points": [
+      {"minimum_cad": 5000000, "points": 6},
+      {"minimum_cad": 500000, "points": 3},
+      {"minimum_cad": 1, "points": 1}
+    ],
+    "funding_type_factors": {
+      "equity": 1.0,
+      "debt": 0.8,
+      "loan": 0.6,
+      "grant": 0.7,
+      "non_repayable_contribution": 0.7,
+      "repayable_contribution": 0.6,
+      "contribution": 0.5,
+      "undisclosed": 0.4
+    },
+    "institutional_backing_points": 4,
+    "employee_band_points": {
+      "1-19": 2,
+      "20-50": 6,
+      "51-200": 6,
+      "201-500": 4,
+      "501+": 0,
+      "unknown": 0
+    }
+  },
+  "canada_relevance": {
+    "hq": 10,
+    "substantial_product_development": 7,
+    "other_operation": 4,
+    "program_only": 1,
+    "non_canadian": 0,
+    "unknown": 0
+  },
+  "confidence": {
+    "track_weights": {
+      "identity_canada": 15,
+      "firmographics": 15,
+      "hiring": 15,
+      "funding": 20,
+      "regulatory": 15,
+      "product_news": 20
+    },
+    "status_factors": {
+      "complete_matches": 1.0,
+      "complete_zero": 1.0,
+      "partial": 0.5,
+      "manual_review": 0.25,
+      "blocked": 0.0,
+      "failed": 0.0,
+      "no_source": 0.0,
+      "not_run": 0.0,
+      "unknown": 0.0
+    },
+    "comparable_required_tracks": [
+      "identity_canada",
+      "firmographics",
+      "hiring",
+      "funding",
+      "regulatory",
+      "product_news"
+    ]
+  }
+}

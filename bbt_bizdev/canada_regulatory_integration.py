@@ -41,6 +41,16 @@ SOURCE_FILES = {
     ),
 }
 
+PRODUCT_AUTHORIZATION_TYPES = {
+    "mdall", "mdl/mdall", "510(k)", "pma", "de novo", "medical device licence",
+}
+ESTABLISHMENT_OR_LISTING_TYPES = {
+    "mdel", "fda listing", "registration/listing", "device listing",
+}
+CLINICAL_TRIAL_TYPES = {"health canada trial", "clinical trial", "trial protocol"}
+CURRENT_AUTHORIZATION_STATUSES = {"active", "approved", "cleared", "licensed"}
+INACTIVE_STATUSES = {"archived", "suspended", "withdrawn", "revoked", "inactive", "closed"}
+
 
 def _records(path: Path) -> list[dict[str, Any]]:
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -83,6 +93,39 @@ def denovo_from_registration(row: dict[str, Any]) -> dict[str, Any] | None:
     }
 
 
+def regulatory_signal_semantics(row: dict[str, Any]) -> dict[str, Any]:
+    """Classify regulatory records without promoting listings to approvals."""
+    record_type = str(row.get("record_type") or "").strip().casefold()
+    status = str(row.get("status") or "").strip().casefold()
+    if record_type in ESTABLISHMENT_OR_LISTING_TYPES:
+        signal_class = "establishment_or_listing"
+        eligible = False
+        note = "Operational/product-presence evidence; not approval of a specific product."
+    elif record_type in CLINICAL_TRIAL_TYPES or "trial" in record_type:
+        signal_class = "clinical_development"
+        eligible = status not in INACTIVE_STATUSES
+        note = "Clinical-development evidence; not product authorization."
+    elif record_type in PRODUCT_AUTHORIZATION_TYPES:
+        if status in INACTIVE_STATUSES:
+            signal_class = "historical_product_authorization"
+            eligible = False
+            note = "Historical or inactive product authorization; not a current milestone."
+        else:
+            signal_class = "current_product_authorization"
+            eligible = status in CURRENT_AUTHORIZATION_STATUSES or not status
+            note = "Product-level authorization evidence."
+    else:
+        signal_class = "other_regulatory_record"
+        eligible = False
+        note = "Regulatory context requiring source-specific interpretation."
+    return {
+        **row,
+        "regulatory_signal_class": signal_class,
+        "current_milestone_eligible": eligible,
+        "interpretation_note": row.get("interpretation_note") or note,
+    }
+
+
 def aggregate_status(
     source_rows: list[dict[str, Any]], evidence_count: int, review_count: int
 ) -> str:
@@ -112,7 +155,15 @@ def regulatory_summary(records: list[dict[str, Any]]) -> str:
             counts.items(), key=lambda item: (str(item[0][0]), str(item[0][1]))
         )
     ]
-    return "; ".join(parts)
+    semantic_counts = Counter(row.get("regulatory_signal_class") for row in records)
+    semantic = []
+    if semantic_counts.get("current_product_authorization"):
+        semantic.append(f"current product authorization: {semantic_counts['current_product_authorization']}")
+    if semantic_counts.get("establishment_or_listing"):
+        semantic.append(f"establishment/listing: {semantic_counts['establishment_or_listing']}")
+    if semantic_counts.get("clinical_development"):
+        semantic.append(f"clinical development: {semantic_counts['clinical_development']}")
+    return "; ".join([*parts, *semantic])
 
 
 def integrate_regulatory_outputs(
@@ -154,7 +205,8 @@ def integrate_regulatory_outputs(
             source_completeness_rows.extend(rows)
             source_review_rows.extend(_records(directory / review_file))
         source_evidence = list({
-            row["evidence_id"]: row for row in source_evidence_rows
+            row["evidence_id"]: regulatory_signal_semantics(row)
+            for row in source_evidence_rows
         }.values())
         if source == "fda_registration":
             derived = [
@@ -162,7 +214,7 @@ def integrate_regulatory_outputs(
                     denovo_from_registration(row) for row in source_evidence
                 ) if value
             ]
-            source_evidence.extend(derived)
+            source_evidence.extend(regulatory_signal_semantics(row) for row in derived)
         # Later directories are retries and replace the earlier status for the
         # same company without discarding successful records for other companies.
         source_completeness = list({

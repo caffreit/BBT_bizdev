@@ -316,9 +316,33 @@ def identity_supported(company: dict[str, Any], page: dict[str, Any]) -> bool:
     return any(len(token) >= 4 and token in host for token in company_tokens)
 
 
-def google_news_url(company_name: str) -> str:
-    query = f'"{company_name}" (launch OR product OR platform OR clinical OR validation OR partnership)'
+NEWS_QUERY_FAMILIES = (
+    "(launch OR product OR platform OR clinical OR validation)",
+    "(Health Canada OR FDA OR clearance OR approval OR licence OR submission)",
+    "(funding OR financing OR raises OR investment OR grant)",
+    "(manufacturing OR facility OR expansion OR partnership OR deployment OR acquisition)",
+)
+
+
+def google_news_url(company_name: str, query_family: str = NEWS_QUERY_FAMILIES[0]) -> str:
+    query = f'"{company_name}" {query_family}'
     return f"https://news.google.com/rss/search?q={quote(query)}&hl=en-CA&gl=CA&ceid=CA:en"
+
+
+def google_news_urls(company: dict[str, Any]) -> list[str]:
+    names = [
+        company.get("company_name", ""), company.get("legal_name", ""),
+        *(company.get("aliases") or []),
+    ]
+    unique_names = []
+    seen = set()
+    for name in names:
+        cleaned = clean(name)
+        normalized = normalize_name(cleaned)
+        if cleaned and normalized and normalized not in seen:
+            unique_names.append(cleaned)
+            seen.add(normalized)
+    return [google_news_url(name, family) for name in unique_names for family in NEWS_QUERY_FAMILIES]
 
 
 def parse_google_news(company: dict[str, Any], raw: str, captured_at: str) -> list[dict[str, Any]]:
@@ -366,14 +390,27 @@ def parse_google_news(company: dict[str, Any], raw: str, captured_at: str) -> li
 
 
 def fetch_news(company: dict[str, Any], timeout: int = 20) -> tuple[list[dict[str, Any]], str, str]:
-    url = google_news_url(company["company_name"])
-    request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml"})
-    try:
-        with urlopen(request, timeout=timeout) as response:
-            raw = response.read(750_000).decode("utf-8", errors="replace")
-        return parse_google_news(company, raw, date.today().isoformat()), url, ""
-    except (HTTPError, URLError, TimeoutError, OSError) as exc:
-        return [], url, f"{type(exc).__name__}: {clean(exc)[:180]}"
+    urls = google_news_urls(company)
+    candidates, errors = [], []
+    for url in urls:
+        request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml"})
+        try:
+            with urlopen(request, timeout=timeout) as response:
+                raw = response.read(750_000).decode("utf-8", errors="replace")
+            for row in parse_google_news(company, raw, date.today().isoformat()):
+                row["discovery_query_url"] = url
+                candidates.append(row)
+        except (HTTPError, URLError, TimeoutError, OSError) as exc:
+            errors.append(f"{url}: {type(exc).__name__}: {clean(exc)[:180]}")
+    deduped = list({
+        (
+            row.get("discovery_url"), row.get("title"),
+            row.get("event_date"), row.get("event_type"),
+        ): row
+        for row in candidates
+    }.values())
+    source_url = urls[0] if urls else ""
+    return deduped, source_url, "; ".join(errors)[:1000]
 
 
 def provisional_priority(
@@ -415,7 +452,7 @@ def run_product_news_enrichment(
     output_dir: Path,
     run_date: str,
     *,
-    limit: int = 50,
+    limit: int | None = None,
     regulatory_path: Path | None = None,
     funding_path: Path | None = None,
     fetcher: Callable[[str, int], tuple[str, str, str]] = fetch_html,
@@ -431,12 +468,17 @@ def run_product_news_enrichment(
             row["company_name"].casefold(),
         ),
     )
-    selected = [row for row in ranked if row.get("website")][:limit]
+    # Full-universe coverage is the default. A limit is an explicit research
+    # batch and must not be represented as comparable final coverage.
+    selected = ranked[:limit] if limit is not None else ranked
     profiles, events, news_candidates, checks = [], [], [], []
     dedupe_events: set[tuple[str, str, str, str]] = set()
     for company in selected:
         website = company["website"]
-        raw, final_url, homepage_error = fetcher(website, 20)
+        if website:
+            raw, final_url, homepage_error = fetcher(website, 20)
+        else:
+            raw, final_url, homepage_error = "", "", "No official website in canonical identity"
         checked_urls, page_errors = [], []
         company_profiles, company_events = [], []
         pages: list[tuple[str, dict[str, Any], str]] = []
@@ -470,8 +512,16 @@ def run_product_news_enrichment(
         events.extend(company_events)
         candidates, news_url, news_error = news_fetcher(company, 20)
         news_candidates.extend(candidates)
-        product_status = "complete_matches" if company_profiles else ("blocked" if homepage_error else "complete_zero")
-        news_status = "complete_matches" if candidates else ("blocked" if news_error else "complete_zero")
+        # This adapter performs a bounded first pass, not exhaustive archive,
+        # sitemap, RSS, pagination, alias, and outlet traversal. A shallow empty
+        # result is therefore partial coverage rather than a verified zero.
+        product_status = (
+            "no_source" if not website
+            else "complete_matches" if company_profiles
+            else "blocked" if homepage_error
+            else "partial"
+        )
+        news_status = "manual_review" if candidates else ("blocked" if news_error else "partial")
         checks.append({
             "company_id": company["company_id"],
             "company_name": company["company_name"],
@@ -493,7 +543,10 @@ def run_product_news_enrichment(
                 "source_url": news_url,
                 "raw_count": len(candidates),
                 "accepted_count": 0,
-                "notes": (news_error or "Candidates require primary-source verification before acceptance.")[:1000],
+                "notes": (
+                    news_error
+                    or "Bounded Google News discovery pass only; candidates require primary-source verification and an empty result is not a verified zero."
+                )[:1000],
             },
         })
         if delay:
@@ -515,7 +568,12 @@ def run_product_news_enrichment(
         "news_candidates_for_review": len(news_candidates),
         "product_status_counts": dict(_counts(row["product_development"]["status"] for row in checks)),
         "news_status_counts": dict(_counts(row["news"]["status"] for row in checks)),
-        "selection_method": "provisional WP5 priority score; official 100-point model is not yet consolidated",
+        "selection_method": (
+            "full canonical universe; comparable first-pass coverage"
+            if limit is None
+            else f"explicit provisional-score research batch limited to {limit}; not comparable final coverage"
+        ),
+        "comparable_coverage_run": limit is None,
     }
     (output_dir / "run_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     return summary

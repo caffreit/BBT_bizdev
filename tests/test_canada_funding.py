@@ -2,7 +2,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from bbt_bizdev.canada_funding import extract_structured_event, provenance_to_backing
+from bbt_bizdev.canada_funding import (
+    extract_structured_event, normalize_external_funding_event,
+    provenance_to_backing,
+)
 
 
 class CanadaFundingTests(unittest.TestCase):
@@ -42,6 +45,28 @@ class CanadaFundingTests(unittest.TestCase):
         })
         self.assertEqual("grant", result["funding_type"])
         self.assertEqual("$2 million", result["amount_original"])
+
+    def test_verified_funding_news_is_converted_but_other_news_is_rejected(self):
+        result = normalize_external_funding_event({
+            "evidence_id": "news-1",
+            "company_id": "c1",
+            "event_type": "funding",
+            "event_date": "2026-02-10",
+            "title": "Acme raises C$10 million Series A financing",
+            "summary": "The financing supports clinical validation.",
+            "evidence_url": "https://example.com/acme-series-a",
+            "source_type": "company",
+            "confidence": "high",
+        })
+        self.assertIsNotNone(result)
+        self.assertEqual(result["funding_type"], "equity")
+        self.assertEqual(result["stage"], "Series A")
+        self.assertEqual(result["amount_cad"], 10_000_000)
+        self.assertEqual(result["source_evidence_id"], "news-1")
+        self.assertIsNone(normalize_external_funding_event({
+            "company_id": "c1", "event_type": "partnership",
+            "event_date": "2026-02-10", "evidence_url": "https://example.com/partner",
+        }))
 
 
 if __name__ == "__main__":

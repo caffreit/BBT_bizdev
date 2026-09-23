@@ -222,7 +222,7 @@ def run_government_funding(
     output_dir: Path,
     run_date: str,
     workers: int = 4,
-    backed_only: bool = True,
+    backed_only: bool = False,
 ) -> dict[str, Any]:
     payload = json.loads(companies_path.read_text(encoding="utf-8"))
     companies = payload["companies"]
@@ -342,6 +342,7 @@ def run_government_funding(
         "accepted_events": len(events),
         "manual_review_candidates": len(review),
         "failed_searches": sum(row["status"] == "failed" for row in statuses),
+        "search_scope": "known-backed companies only" if backed_only else "all canonical companies",
     }
     (output_dir / "run_summary.json").write_text(
         json.dumps(summary, indent=2) + "\n", encoding="utf-8"

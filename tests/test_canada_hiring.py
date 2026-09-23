@@ -71,6 +71,34 @@ class CanadaHiringTests(unittest.TestCase):
         blocked = lambda url: FetchResult(url, "Access denied", 403)
         self.assertEqual(enrich_company_hiring(company(), "2026-07-28", blocked)["status"], "blocked")
 
+    def test_blocked_homepage_falls_back_to_direct_careers_route(self):
+        responses = {
+            "https://acme.ca": FetchResult("https://acme.ca", "Access denied", 403),
+            "https://acme.ca/careers": FetchResult(
+                "https://acme.ca/careers", '<a href="https://jobs.lever.co/acme">Jobs</a>', 200
+            ),
+            "https://api.lever.co/v0/postings/acme?mode=json": FetchResult("x", "[]", 200),
+        }
+        result = enrich_company_hiring(
+            company(), "2026-07-28",
+            lambda url: responses.get(url, FetchResult(url, status=404, error="not found")),
+        )
+        self.assertEqual(result["status"], "complete_zero")
+        self.assertEqual(result["ats_provider"], "lever")
+
+    def test_ats_parser_error_is_partial_not_complete_zero(self):
+        responses = {
+            "https://acme.ca": FetchResult(
+                "https://acme.ca", '<a href="https://jobs.lever.co/acme">Jobs</a>', 200
+            ),
+            "https://api.lever.co/v0/postings/acme?mode=json": FetchResult(
+                "https://api.lever.co/v0/postings/acme?mode=json", "not-json", 200
+            ),
+        }
+        result = enrich_company_hiring(company(), "2026-07-28", responses.__getitem__)
+        self.assertEqual(result["status"], "partial")
+        self.assertIn("JSON decode failed", result["notes"])
+
     def test_no_website_is_no_source_without_fetch(self):
         result = enrich_company_hiring(company(""), "2026-07-28", lambda _: self.fail("fetch called"))
         self.assertEqual(result["status"], "no_source")

@@ -42,6 +42,16 @@ class CanadaProductNewsVerificationTests(unittest.TestCase):
         ], "2026-07-30")
         self.assertEqual(result["decisions"], [])
 
+    def test_company_candidate_does_not_emit_unmatched_hard_coded_events(self) -> None:
+        result = verify_recent_candidates([{
+            "company_id": "zymeworks-id",
+            "company_name": "Zymeworks",
+            "title": "Zymeworks announces first patient dosed in ZW191 trial",
+            "freshness": "recent_24_months",
+        }], "2026-07-30")
+        self.assertEqual(len(result["events"]), 1)
+        self.assertEqual(result["events"][0]["product_or_program"], "ZW191; NCT06555744")
+
 
 if __name__ == "__main__":
     unittest.main()

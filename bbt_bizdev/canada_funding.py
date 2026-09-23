@@ -132,6 +132,75 @@ def extract_events(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return events
 
 
+def _announced_amount(text: str) -> tuple[str, str, float | None]:
+    match = re.search(
+        r"(?i)(C\$|CA\$|CAD\s*|US\$|USD\s*|\$)\s*([0-9]+(?:[.,][0-9]+)?)\s*"
+        r"(billion|million|bn|m|thousand|k)?\b",
+        text,
+    )
+    if not match:
+        return "", "", None
+    prefix, number, unit = match.groups()
+    value = float(number.replace(",", ""))
+    multiplier = {
+        "billion": 1_000_000_000, "bn": 1_000_000_000,
+        "million": 1_000_000, "m": 1_000_000,
+        "thousand": 1_000, "k": 1_000,
+    }.get((unit or "").casefold(), 1)
+    amount = value * multiplier
+    prefix = prefix.upper().replace(" ", "")
+    currency = "CAD" if prefix in {"C$", "CA$", "CAD"} else "USD" if prefix in {"US$", "USD"} else "unknown"
+    return match.group(0).strip(), currency, amount if currency == "CAD" else None
+
+
+def normalize_external_funding_event(row: dict[str, Any]) -> dict[str, Any] | None:
+    """Accept canonical funding rows or convert a verified funding-news event.
+
+    Non-funding product/news events are rejected instead of being appended to
+    the funding table merely because they appeared in an ``events`` payload.
+    """
+    if row.get("funding_event_id") and row.get("funding_type"):
+        return dict(row)
+    event_type = _clean(row.get("event_type") or row.get("claim_type")).casefold()
+    if event_type != "funding":
+        return None
+    company_id = _clean(row.get("company_id"))
+    event_date = _clean(row.get("event_date") or row.get("evidence_date"))
+    evidence_url = _clean(row.get("evidence_url"))
+    if not company_id or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", event_date) or not evidence_url:
+        return None
+    material = _clean(f"{row.get('title', '')} {row.get('summary', '')}")
+    amount_original, currency, amount_cad = _announced_amount(material)
+    stage_match = re.search(r"(?i)\b(series\s+[a-f]|pre-seed|seed\+?|growth)\b", material)
+    stage = stage_match.group(1).replace(" ", " ").title() if stage_match else "unknown"
+    funding_type = "equity" if re.search(
+        r"(?i)\b(series\s+[a-f]|pre-seed|seed|equity|financing|investment|raises?|raised)\b",
+        material,
+    ) else "undisclosed"
+    key = (company_id, event_date, evidence_url, amount_original)
+    return {
+        "funding_event_id": _id("ca-funding-event", *key),
+        "company_id": company_id,
+        "event_date": event_date,
+        "funding_type": funding_type,
+        "stage": stage,
+        "amount_original": amount_original,
+        "currency": currency,
+        "amount_cad": amount_cad,
+        "investors_or_funders": row.get("investors_or_funders") or [],
+        "lead_investor": row.get("lead_investor") or "",
+        "use_of_funds": row.get("use_of_funds") or [],
+        "evidence_url": evidence_url,
+        "source_type": row.get("source_type") or "verified news event",
+        "confidence": row.get("confidence") or "medium",
+        "captured_at": row.get("captured_at") or event_date,
+        "extraction_method": "verified_product_news_funding_conversion",
+        "title": row.get("title") or "",
+        "summary": row.get("summary") or "",
+        "source_evidence_id": row.get("evidence_id") or "",
+    }
+
+
 def run_funding_enrichment(
     canonical_path: Path,
     provenance_path: Path,
@@ -151,7 +220,12 @@ def run_funding_enrichment(
         payload = json.loads(event_path.read_text(encoding="utf-8"))
         rows = payload.get("events", [])
         if isinstance(rows, list):
-            events.extend(row for row in rows if isinstance(row, dict))
+            events.extend(
+                normalized for normalized in (
+                    normalize_external_funding_event(row)
+                    for row in rows if isinstance(row, dict)
+                ) if normalized
+            )
     events = list({
         row.get("funding_event_id")
         or _id(

@@ -9,7 +9,7 @@ from bbt_bizdev.canada_product_news import run_product_news_enrichment
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Enrich priority Canadian companies with first-party product pages and news candidates.")
+    parser = argparse.ArgumentParser(description="Enrich Canadian companies with first-party product pages and news candidates.")
     parser.add_argument(
         "--companies",
         type=Path,
@@ -27,7 +27,10 @@ def main() -> None:
     )
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--run-date", default=date.today().isoformat())
-    parser.add_argument("--limit", type=int, default=50)
+    parser.add_argument(
+        "--limit", type=int,
+        help="Optional explicit research-batch limit. Omit for comparable full-universe coverage.",
+    )
     parser.add_argument("--delay", type=float, default=0.2)
     args = parser.parse_args()
     output_dir = args.output_dir or Path("outputs") / f"canada_product_news_{args.run_date}"

@@ -5,6 +5,8 @@ import html
 from http.client import IncompleteRead
 import json
 import re
+import ssl
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import date
@@ -13,6 +15,8 @@ from typing import Callable
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
+
+import certifi
 
 from .adapters.jobs import JOB_PARSERS, job_board_url
 from .config import USER_AGENT
@@ -73,21 +77,30 @@ Fetcher = Callable[[str], FetchResult]
 
 def fetch_url(url: str) -> FetchResult:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/json"})
-    try:
-        with urlopen(request, timeout=25) as response:
-            try:
-                raw = response.read()
-            except IncompleteRead as exc:
-                raw = exc.partial
-            content_type = response.headers.get("Content-Type", "")
-            return FetchResult(
-                url=response.geturl(), body=raw.decode("utf-8", "ignore"),
-                status=getattr(response, "status", 200), content_type=content_type,
-            )
-    except HTTPError as exc:
-        return FetchResult(url=url, status=exc.code, error=str(exc))
-    except (OSError, URLError) as exc:
-        return FetchResult(url=url, error=str(exc))
+    context = ssl.create_default_context(cafile=certifi.where())
+    retryable_http = {408, 425, 429, 500, 502, 503, 504}
+    last = FetchResult(url=url)
+    for attempt in range(3):
+        try:
+            with urlopen(request, timeout=25, context=context) as response:
+                try:
+                    raw = response.read()
+                except IncompleteRead as exc:
+                    raw = exc.partial
+                content_type = response.headers.get("Content-Type", "")
+                return FetchResult(
+                    url=response.geturl(), body=raw.decode("utf-8", "ignore"),
+                    status=getattr(response, "status", 200), content_type=content_type,
+                )
+        except HTTPError as exc:
+            last = FetchResult(url=url, status=exc.code, error=str(exc))
+            if exc.code not in retryable_http:
+                return last
+        except (OSError, URLError) as exc:
+            last = FetchResult(url=url, error=str(exc))
+        if attempt < 2:
+            time.sleep(1.5 * (attempt + 1))
+    return last
 
 
 def detect_ats(url: str) -> tuple[str, str]:
@@ -223,13 +236,30 @@ def enrich_company_hiring(company: dict, run_date: str, fetcher: Fetcher = fetch
         return {**base, "status": "no_source", "notes": "No official company website in canonical table"}
 
     homepage = fetcher(website)
-    if homepage.error or homepage.status >= 400:
-        status = "blocked" if _blocked(homepage) else "partial"
-        return {**base, "status": status, "careers_url": website, "notes": homepage.error or f"HTTP {homepage.status}"}
-    if _blocked(homepage):
-        return {**base, "status": "blocked", "careers_url": homepage.url, "notes": "Access challenge on official website"}
-
-    careers_urls = discover_careers(homepage.url, homepage.body)
+    homepage_failed = bool(homepage.error or homepage.status >= 400 or _blocked(homepage))
+    careers_urls: list[str] = []
+    if homepage_failed:
+        parsed = urlparse(website)
+        home_root = f"{parsed.scheme or 'https'}://{parsed.netloc}"
+        probe_results = []
+        for path in ("/careers", "/jobs"):
+            probe = fetcher(home_root + path)
+            probe_results.append(probe)
+            if not probe.error and probe.status < 400 and not _blocked(probe):
+                if CAREERS_TEXT.search(clean_text(probe.body)) or detect_ats(probe.url + " " + probe.body)[0]:
+                    careers_urls = [probe.url]
+                    homepage = probe
+                    break
+        if not careers_urls:
+            blocked = _blocked(homepage) or any(_blocked(probe) for probe in probe_results)
+            original = homepage.error or (f"HTTP {homepage.status}" if homepage.status else "Access challenge")
+            return {
+                **base, "status": "blocked" if blocked else "partial",
+                "careers_url": website,
+                "notes": f"Homepage unavailable and direct careers probes failed: {original}"[:1000],
+            }
+    else:
+        careers_urls = discover_careers(homepage.url, homepage.body)
     provider, account = ("", "")
     for candidate in careers_urls:
         provider, account = detect_ats(candidate)
@@ -334,7 +364,12 @@ def enrich_company_hiring(company: dict, run_date: str, fetcher: Fetcher = fetch
             "confidence": "high" if provider else "medium", "source_type": "company",
             "summary": f"Open {family} role: {posting.title}",
         })
-    status = "complete_matches" if evidence else "complete_zero"
+    # A parser failure is incomplete coverage, not evidence that the board has
+    # zero relevant roles. Preserve the error state so it cannot become a true
+    # zero or lower a company's hiring signal silently.
+    status = "partial" if notes.startswith("ATS JSON decode failed:") else (
+        "complete_matches" if evidence else "complete_zero"
+    )
     return {
         **base, "status": status, "careers_url": selected_url,
         "ats_provider": provider or ("custom" if careers_urls else "none"),
