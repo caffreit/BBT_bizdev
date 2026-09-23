@@ -1,0 +1,16 @@
+{
+  "name": "bbt-bizdev-workbook-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node --check campaign_workbook.mjs && node --check build_subscriber_enrichment_workbook.mjs && node --check scripts/build_canada_wp6_workbook.mjs",
+    "build:subscriber-workbook": "node build_subscriber_enrichment_workbook.mjs"
+  },
+  "optionalDependencies": {
+    "@oai/artifact-tool": "2.8.59"
+  }
+}
