@@ -7,7 +7,7 @@ let artifact;
 try {
   artifact = createRequire(import.meta.url)("@oai/artifact-tool");
 } catch {
-  const runtime = path.join(os.homedir(), ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/loader.cjs");
+  const runtime = path.join(os.homedir(), ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/@oai/artifact-tool/package.json");
   artifact = createRequire(runtime)("@oai/artifact-tool");
 }
 const { FileBlob, SpreadsheetFile } = artifact;
@@ -16,7 +16,13 @@ const source = path.resolve(process.argv[2] || "outputs/canada_company_enrichmen
 const researchDir = path.resolve(process.argv[3] || "outputs/canada_executive_research");
 const destination = path.resolve(process.argv[4] || "outputs/canada_executive_research/Canada_Company_Enrichment_With_Executive_Contacts.xlsx");
 
-const companies = JSON.parse(await fs.readFile(path.join(researchDir, "companies.json"), "utf8"));
+let companies;
+try {
+  companies = JSON.parse(await fs.readFile(path.join(researchDir, "companies.json"), "utf8"));
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+  companies = JSON.parse(await fs.readFile(path.join(researchDir, "company_inputs.json"), "utf8"));
+}
 const selected = JSON.parse(await fs.readFile(path.join(researchDir, "selected.json"), "utf8"));
 const contactsByRow = new Map();
 for (const contact of selected) {
