@@ -11,7 +11,7 @@
     "notes": "Companies awarded Mila Startup status or described by Mila as Mila startups, filtered to health. Mila no longer publishes a startup directory; manual/not automated discovery.",
     "adapter": "mila_startups"
   },
-  "result": "3/3 named Mila Startups; 3 health included, 4 non-health excluded",
+  "result": "5/5 named Mila Startups; 5 health included, 4 non-health excluded",
   "records": [
     {
       "company": "Raiv Computers",
@@ -24,7 +24,7 @@
       "website": "",
       "matched_terms": "adapter: mila_startups; curated from official Mila announcement, live-verified",
       "article_year": "",
-      "captured_at": "2026-10-28",
+      "captured_at": "2026-11-02",
       "accelerator_program": "Mila - Quebec AI Institute",
       "cohort_label": "Mila Startup",
       "cohort_year": "",
@@ -42,7 +42,7 @@
       "website": "",
       "matched_terms": "adapter: mila_startups; curated from official Mila announcement, live-verified",
       "article_year": "",
-      "captured_at": "2026-10-28",
+      "captured_at": "2026-11-02",
       "accelerator_program": "Mila - Quebec AI Institute",
       "cohort_label": "Mila Startup",
       "cohort_year": "",
@@ -60,12 +60,48 @@
       "website": "",
       "matched_terms": "adapter: mila_startups; curated from official Mila announcement, live-verified",
       "article_year": "",
-      "captured_at": "2026-10-28",
+      "captured_at": "2026-11-02",
       "accelerator_program": "Mila - Quebec AI Institute",
       "cohort_label": "Mila Startup",
       "cohort_year": "",
       "category_or_track": "Cognitive health research",
       "company_description": "This question led researchers Kyla and Benjamin Alsbury-Nealy to create the Mila startup SilicoLabs."
+    },
+    {
+      "company": "Ubenwa",
+      "source_name": "Mila Startups",
+      "source_type": "Accelerator",
+      "discovery_url": "https://mila.quebec/en/news/ubenwa-the-doctor-will-hear-you-now",
+      "discovery_rationale": "Mila Startups adapter extracted this company from an accelerator cohort/directory source. Cohort/source label: Mila Startup.",
+      "product_type": "AI health",
+      "geography": "Canada",
+      "website": "",
+      "matched_terms": "adapter: mila_startups; curated from official Mila announcement, live-verified",
+      "article_year": "",
+      "captured_at": "2026-11-02",
+      "accelerator_program": "Mila - Quebec AI Institute",
+      "cohort_label": "Mila Startup",
+      "cohort_year": "",
+      "category_or_track": "Infant health / voice AI",
+      "company_description": "Ubenwa is a Mila startup born from a deeply personal mission to revolutionize healthcare access."
+    },
+    {
+      "company": "Dreamfold",
+      "source_name": "Mila Startups",
+      "source_type": "Accelerator",
+      "discovery_url": "https://mila.quebec/en/news/natures-building-blocks-ai-for-health-and-protein-design",
+      "discovery_rationale": "Mila Startups adapter extracted this company from an accelerator cohort/directory source. Cohort/source label: Mila Startup.",
+      "product_type": "Accelerator company",
+      "geography": "Canada",
+      "website": "",
+      "matched_terms": "adapter: mila_startups; curated from official Mila announcement, live-verified",
+      "article_year": "",
+      "captured_at": "2026-11-02",
+      "accelerator_program": "Mila - Quebec AI Institute",
+      "cohort_label": "Mila Startup",
+      "cohort_year": "",
+      "category_or_track": "Protein design / life sciences",
+      "company_description": "Dreamfold is on a mission to transform protein design through cutting-edge generative modeling."
     }
   ]
 }

@@ -62,10 +62,29 @@ HEALTHSPARK_HTML = """
 """
 
 
-def healthspark_html(names):
-    logos = "".join(f'<button class="partners__logo" aria-label="{name} " data-index="{i}"></button>' for i, name in enumerate(names))
-    modals = "".join(f'<div class="modal__description"><p><b>{name}</b> builds clinical AI.</p></div>' for name in names)
-    return HEALTHSPARK_HTML.format(logos=logos, modals=modals)
+def healthspark_html(names, past_from=None):
+    def block(group):
+        logos = "".join(f'<button class="partners__logo" aria-label="{name} " data-index="{i}"></button>' for i, name in enumerate(group))
+        modals = "".join(f'<div class="modal__description"><p><b>{name}</b> builds clinical AI.</p></div>' for name in group)
+        return f'<div class="partners__container">{logos}</div><div class="modal partners__modal">{modals}</div>'
+
+    if past_from is None:
+        logos = "".join(f'<button class="partners__logo" aria-label="{name} " data-index="{i}"></button>' for i, name in enumerate(names))
+        modals = "".join(f'<div class="modal__description"><p><b>{name}</b> builds clinical AI.</p></div>' for name in names)
+        return HEALTHSPARK_HTML.format(logos=logos, modals=modals)
+    return (
+        '<h2 class="wp-block-heading">Current HealthSpark members</h2>' + block(names[:past_from])
+        + '<h3>Past cohorts include</h3>' + block(names[past_from:])
+        + '<h2>Program details</h2>'
+    )
+
+
+FASTLANE_HTML = """
+<article class="institutions__institution"><button class="institutions__logo" aria-label="Mutuo"></button><div><p class="institutions__name">Mutuo</p></div></article>
+<article class="institutions__institution"><button class="institutions__logo" aria-label="SkyWatch"></button><div><p class="institutions__name">SkyWatch</p></div></article>
+<div class="modal__slide"><h2>Mutuo</h2><p>Mutuo builds AI transcription for clinician-patient visits. <a href="https://mutuo.example/">site</a></p></div>
+<div class="modal__slide"><h2>SkyWatch</h2><p>SkyWatch detects defects in satellite imagery. <a href="https://skywatch.example/">site</a></p></div>
+"""
 
 
 AMII_HTML = """
@@ -83,6 +102,8 @@ class InstituteConfigTests(unittest.TestCase):
         expected = {
             "Vector Institute AI20": "vector_ai20",
             "Vector Institute HealthSpark": "vector_healthspark",
+            "Vector Institute FastLane": "vector_fastlane",
+            "AI institute press and social mentions": "institute_mentions",
             "Amii Level Up health-tech cohort": "amii_level_up_health",
             "Mila Startups": "mila_startups",
             "Mila health-AI industry partners": "mila_health_partners",
@@ -130,6 +151,15 @@ class VectorAI20Tests(unittest.TestCase):
 class VectorHealthSparkTests(unittest.TestCase):
     NAMES = ["Revolve Surgical", "Banting AI", "MedEssist", "IDENTOS", "Verto Health", "MedMe Health", "Tenomix Inc"]
 
+    def test_past_cohorts_are_labelled_separately(self):
+        html = healthspark_html(self.NAMES, past_from=3)
+        hits, _, result = ai.run_vector_healthspark(source("vector_healthspark"), fetcher=lambda url: (html, None))
+        labels = {hit.company: hit.cohort_label for hit in hits}
+        self.assertEqual(labels["Banting AI"], "HealthSpark 2026-2027")
+        self.assertEqual(labels["Verto Health"], "HealthSpark past cohorts")
+        self.assertEqual(len(hits), 7)
+        self.assertNotIn("INCOMPLETE", result)
+
     def test_runner_reads_only_current_members(self):
         html = healthspark_html(self.NAMES)
         hits, triggers, result = ai.run_vector_healthspark(source("vector_healthspark"), fetcher=lambda url: (html, None))
@@ -151,6 +181,23 @@ class VectorHealthSparkTests(unittest.TestCase):
         self.assertIn("INCOMPLETE", result)
 
 
+class VectorFastLaneTests(unittest.TestCase):
+    def test_keeps_health_stories_and_reports_counts(self):
+        with patch.object(ai, "VECTOR_FASTLANE_EXPECTED_TOTAL", 2), patch.object(ai, "VECTOR_FASTLANE_EXPECTED_HEALTH", 1):
+            hits, triggers, result = ai.run_vector_fastlane(source("vector_fastlane"), fetcher=lambda url: (FASTLANE_HTML, None))
+        self.assertEqual([hit.company for hit in hits], ["Mutuo"])
+        self.assertEqual(hits[0].website, "https://mutuo.example/")
+        self.assertEqual(len(triggers), 1)
+        self.assertIn("1 health included, 1 non-health excluded", result)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_count_change_and_fetch_error_are_incomplete(self):
+        _, _, result = ai.run_vector_fastlane(source("vector_fastlane"), fetcher=lambda url: (FASTLANE_HTML, None))
+        self.assertTrue(result.startswith("INCOMPLETE"))
+        _, _, result = ai.run_vector_fastlane(source("vector_fastlane"), fetcher=lambda url: ("", "HTTP Error 403"))
+        self.assertTrue(result.startswith("INCOMPLETE"))
+
+
 class AmiiLevelUpTests(unittest.TestCase):
     def test_parser_reads_names_websites_and_locations(self):
         hits = ai.parse_amii_level_up_health(source("amii_level_up_health"), AMII_HTML)
@@ -166,6 +213,57 @@ class AmiiLevelUpTests(unittest.TestCase):
         self.assertIn("INCOMPLETE", result)
         _, _, result = ai.run_amii_level_up_health(source("amii_level_up_health"), fetcher=lambda url: ("", "timed out"))
         self.assertIn("INCOMPLETE", result)
+
+
+class InstituteMentionsTests(unittest.TestCase):
+    MENTIONS = [
+        ("Spheroid AI", "Mila", "Demo Day", "https://mila.example/demo", "live", "Ovarian cancer detection", "Canada"),
+        ("Ghost Co", "Mila", "Demo Day", "https://mila.example/demo", "live", "Health", "Canada"),
+        ("H2OM Technologies", "Mila", "Launchpad", "LinkedIn post", "manual", "Molecular health", "Saint-Bruno-de-Montarville, QC"),
+    ]
+
+    def run_mentions(self, fetcher, expected=2):
+        with patch.object(ai, "INSTITUTE_MENTIONS", self.MENTIONS), patch.object(ai, "INSTITUTE_MENTIONS_EXPECTED", expected):
+            return ai.run_institute_mentions(source("institute_mentions"), fetcher=fetcher)
+
+    def test_live_entries_are_verified_and_manual_ones_flagged_without_fetching(self):
+        calls = []
+
+        def fetcher(url):
+            calls.append(url)
+            return "<p>Spheroid AI pitched at Demo Day.</p>", None
+
+        hits, triggers, result = self.run_mentions(fetcher)
+        self.assertEqual([hit.company for hit in hits], ["Spheroid AI", "H2OM Technologies"])
+        self.assertEqual(calls, ["https://mila.example/demo"])  # LinkedIn entry is never fetched
+        self.assertIn("live-verified", hits[0].matched_terms)
+        self.assertIn("not live-verified", hits[1].matched_terms)
+        self.assertEqual(hits[1].geography, "Saint-Bruno-de-Montarville, QC")
+        self.assertEqual(triggers, [])
+        self.assertIn("missing Ghost Co", result)  # the unverifiable live entry makes the run INCOMPLETE
+        self.assertTrue(result.startswith("INCOMPLETE"))
+
+    def test_dead_evidence_page_is_incomplete(self):
+        hits, _, result = self.run_mentions(lambda url: ("", "HTTP Error 404"), expected=1)
+        self.assertEqual([hit.company for hit in hits], ["H2OM Technologies"])
+        self.assertIn("404", result)
+
+
+class AmiiWrapUpTests(unittest.TestCase):
+    def test_wrap_up_names_are_added_when_present_on_the_page(self):
+        wrap = "<p>Startups secured funding (Tutred).</p><img src='/x/nursegpt.png'><img src='/x/zeonai.png'>"
+        fetch = lambda url: (wrap, None) if url == ai.AMII_LEVEL_UP_WRAP_URL else (AMII_HTML, None)
+        with patch.object(ai, "AMII_LEVEL_UP_HEALTH_EXPECTED", 7):
+            hits, _, result = ai.run_amii_level_up_health(source("amii_level_up_health"), fetcher=fetch)
+        names = [hit.company for hit in hits]
+        self.assertEqual(names[4:], ["Tutred", "Zeon AI", "NurseGPT"])  # Askelle is not on the page
+        self.assertIn("logo", hits[5].matched_terms)
+        self.assertNotIn("INCOMPLETE", result)
+
+    def test_wrap_up_fetch_failure_is_incomplete(self):
+        fetch = lambda url: ("", "timed out") if url == ai.AMII_LEVEL_UP_WRAP_URL else (AMII_HTML, None)
+        _, _, result = ai.run_amii_level_up_health(source("amii_level_up_health"), fetcher=fetch)
+        self.assertIn("wrap-up page fetch failed", result)
 
 
 class MilaCuratedTests(unittest.TestCase):
@@ -191,7 +289,7 @@ class MilaCuratedTests(unittest.TestCase):
             calls.append(url)
             return (pages[url], None) if url in pages else ("", "HTTP Error 404")
 
-        with patch.object(ai, "MILA_STARTUPS", self.STARTUPS):
+        with patch.object(ai, "MILA_STARTUPS", self.STARTUPS), patch.object(ai, "MILA_STARTUPS_EXPECTED_HEALTH", 3):
             hits, triggers, result = ai.run_mila_startups(source("mila_startups"), fetcher=fetcher)
         return hits, triggers, result, calls
 

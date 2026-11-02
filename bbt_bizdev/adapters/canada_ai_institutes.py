@@ -20,7 +20,7 @@ from .canada_tier_a import _tag_text, blocks_by_class
 HEALTH_SECTOR_TERMS = (
     "health", "medical", "clinical", "biotech", "life science", "pharma",
     "drug", "therapeut", "antibod", "neuro", "diagnos", "genomic", "oncology", "cancer",
-    "dental", "surgical",
+    "dental", "surgical", "patient", "vaccine", "therapy",
 )
 
 CITY_PROVINCES = {
@@ -51,8 +51,23 @@ VECTOR_AI20_CURATED_PROFILES = {
 
 VECTOR_HEALTHSPARK_EXPECTED = 7
 VECTOR_HEALTHSPARK_COHORT = "HealthSpark 2026-2027"
+VECTOR_HEALTHSPARK_PAST_COHORT = "HealthSpark past cohorts"
 
-AMII_LEVEL_UP_HEALTH_EXPECTED = 9
+# FastLane success stories are the only named participants Vector publishes for its
+# general startup programs; DaRMoD names none. Sector is read from the story text.
+VECTOR_FASTLANE_EXPECTED_TOTAL = 30
+VECTOR_FASTLANE_EXPECTED_HEALTH = 8
+
+AMII_LEVEL_UP_HEALTH_EXPECTED = 13
+AMII_LEVEL_UP_WRAP_URL = "https://www.amii.ca/updates-insights/Amii-First-Health-Tech-Startup-Cohort-Wraps"
+# The wrap-up says 15 startups completed the delivery but names fewer. Tutred is named in
+# the text; the others appear only as logos on that page, so they are flagged as such.
+AMII_LEVEL_UP_WRAP_COMPANIES = [
+    ("Tutred", "named in wrap-up text"),
+    ("Zeon AI", "named only by logo on wrap-up page"),
+    ("NurseGPT", "named only by logo on wrap-up page"),
+    ("Askelle Corporation", "named only by logo on wrap-up page"),
+]
 
 # Mila no longer publishes a startup list; every record cites a mila.quebec
 # announcement that the runner re-fetches to confirm the company is named.
@@ -66,8 +81,10 @@ MILA_STARTUPS = [
     ("Korbit", "https://mila.quebec/en/news/korbit-a-startup-born-in-mila-raises-2-million-to-transform-education", "Education", "Montreal, QC"),
     ("Entalpic", "https://mila.quebec/en/news/entalpic-a-startup-leveraging-generative-ai-to-reduce-co2-emissions", "Materials discovery", ""),
     ("SilicoLabs", "https://mila.quebec/en/news/modernizing-cognitive-health-research-with-silicolabs", "Cognitive health research", "Montreal, QC"),
+    ("Ubenwa", "https://mila.quebec/en/news/ubenwa-the-doctor-will-hear-you-now", "Infant health / voice AI", "Canada"),
+    ("Dreamfold", "https://mila.quebec/en/news/natures-building-blocks-ai-for-health-and-protein-design", "Protein design / life sciences", "Canada"),
 ]
-MILA_STARTUPS_EXPECTED_HEALTH = 3
+MILA_STARTUPS_EXPECTED_HEALTH = 5
 MILA_HEALTH_PARTNERS = [
     ("Gray Oncology Solutions", "https://mila.quebec/en/news/mila-announces-partnership-with-gray-oncology-solutions-a-quebec-based-startup-optimizing", "Oncology patient flow", "Montreal, QC"),
     ("iCAD Dental", "https://mila.quebec/en/news/mila-announces-partnership-with-icad-dental-to-bolster-ai-technologies-in-dental-design", "Dental prosthesis design", "Montreal, QC"),
@@ -78,8 +95,22 @@ MILA_HEALTH_PARTNERS = [
     ("Ability Biologics", "https://mila.quebec/en/news/mila-partners-with-ability-biologics-to-advance-ai-innovations-in-antibody-discovery", "Antibody discovery", "Quebec, Canada"),
     ("Vetted Medical", "https://mila.quebec/en/news/mila-and-vetted-medical-join-forces-to-promote-responsible-adoption-of-ai-in-healthcare", "Medical AI validation", "Montreal, QC"),
     ("Secai", "https://mila.quebec/en/news/secai-partners-with-mila-to-transform-healthcare-workflow-with-ai", "Clinical workflow AI", "Montreal, QC"),
+    ("Toboggan Labs", "https://mila.quebec/en/news/toboggan-labs-joins-milas-industry-partner-network-to-strengthen-healthcare-ai-capabilities", "Healthcare AI consultancy", "Canada"),
+    ("AI4Eyes", "https://mila.quebec/en/news/mila-and-ai4eyes-partner-to-advance-ai-innovation-in-ophthalmology", "Ophthalmology medical device software (SaMD)", "Canada"),
+    ("SEVO Bioscience", "https://mila.quebec/en/news/ai-meets-synthetic-biology-as-mila-and-sevo-bioscience-forge-strategic-partnership", "Synthetic biology / vaccines", "Montreal, QC"),
+    ("Intrepid Labs", "https://mila.quebec/en/news/mila-partners-with-intrepid-labs-to-advance-ai-driven-drug-formulation", "Drug formulation / automation", "Canada"),
+    ("Vopemed", "https://mila.quebec/en/news/mila-and-vopemed-announce-partnership-to-advance-ai-driven-surgical-visualization", "Surgical vision medtech", "Montreal, QC"),
+    ("DiaGen AI", "https://mila.quebec/en/news/diagen-and-mila-announce-partnership-to-scale-protein-design-in-diagnostics-and-drug-discovery", "Protein design / diagnostics", "Vancouver, BC"),
+    ("SonoNurse", "https://mila.quebec/en/news/mila-and-sononurse-partner-to-improve-medical-verification-for-patient-safety", "Medication safety / patient safety", "Montreal, QC"),
+    ("Bioeureka", "https://mila.quebec/en/news/bioeureka-and-mila-join-forces-to-accelerate-ai-assisted-pathogen-identification", "Pathogen identification / diagnostics", "Montreal, QC"),
+    ("Medeloop", "https://mila.quebec/en/news/medeloop-partners-with-mila-to-leverage-artificial-intelligence-in-health-technology", "Clinical research health technology", "Canada"),
+    ("Simmunome", "https://mila.quebec/en/news/simmunome-and-mila-announce-partnership-to-advance-ai-in-drug-development", "Drug development techbio", "Montreal, QC"),
+    ("Paraza Pharma", "https://mila.quebec/en/news/paraza-and-mila-announce-partnership-to-advance-ai-in-drug-discovery", "Drug discovery", "Montreal, QC"),
+    ("MoCA Cognition", "https://mila.quebec/en/news/mila-and-moca-cognition-partner-up-in-battle-against-alzheimers-and-dementia", "Cognitive impairment diagnostics", "Canada"),
+    ("Lixa", "https://mila.quebec/en/news/mila-and-lixa-partner-to-tackle-antimicrobial-resistance", "Biotechnology / antimicrobial resistance", "Canada"),
+    ("LUCID", "https://mila.quebec/en/news/lucid-announces-partnership-with-mila-to-advance-machine-learning-in-therapeutic-music", "Digital music therapy", "Toronto, ON"),
 ]
-MILA_HEALTH_PARTNERS_EXPECTED = 9
+MILA_HEALTH_PARTNERS_EXPECTED = 23
 
 
 def is_health_sector(sector: str) -> bool:
@@ -173,21 +204,29 @@ def parse_vector_healthspark(source: Source, raw_html: str) -> list[DiscoveryHit
         return []
     end = raw_html.find("<h2", start + 1)
     scope = raw_html[start:end] if end > 0 else raw_html[start:]
-    names = re.findall(r'class="partners__logo"[^>]*aria-label="([^"]+)"', scope)
-    descriptions = [text_from_html(block) for block in blocks_by_class(scope, "div", "modal__description")]
+    past_at = scope.find("Past cohorts include")
+    if past_at >= 0:
+        sections = [(scope[:past_at], VECTOR_HEALTHSPARK_COHORT, "2026"), (scope[past_at:], VECTOR_HEALTHSPARK_PAST_COHORT, "")]
+    else:
+        sections = [(scope, VECTOR_HEALTHSPARK_COHORT, "2026")]
     hits = []
-    for index, company in enumerate(names):
-        hit = make_accelerator_hit(
-            source, clean_text(company), source.url, accelerator_program="Vector Institute HealthSpark",
-            cohort_label=VECTOR_HEALTHSPARK_COHORT, cohort_year="2026",
-            category_or_track="Health AI (program is health-only)",
-            company_description=descriptions[index] if index < len(descriptions) else "",
-            geography="Southern Ontario, Canada",
-            matched_terms="adapter: vector_healthspark; official current-member list",
-            trust_curated_name=True,
-        )
-        if hit:
-            hits.append(hit)
+    for section, cohort, year in sections:
+        names = re.findall(r'class="partners__logo"[^>]*aria-label="([^"]+)"', section)
+        modals = blocks_by_class(section, "div", "modal__description")
+        for index, company in enumerate(names):
+            modal = modals[index] if index < len(modals) else ""
+            link = re.search(r'href="(https?://(?!(?:www\.)?vectorinstitute\.ai)[^"]+)"', modal)
+            hit = make_accelerator_hit(
+                source, clean_text(company), source.url, accelerator_program="Vector Institute HealthSpark",
+                cohort_label=cohort, cohort_year=year,
+                category_or_track="Health AI (program is health-only)",
+                company_description=text_from_html(modal), website=link.group(1) if link else "",
+                geography="Southern Ontario, Canada",
+                matched_terms="adapter: vector_healthspark; official member list",
+                trust_curated_name=True,
+            )
+            if hit:
+                hits.append(hit)
     return hits
 
 
@@ -196,8 +235,43 @@ def run_vector_healthspark(source: Source, fetcher=fetch_raw_text):
     if error:
         return [], [], f"INCOMPLETE {source.name}: page fetch failed: {error}"
     hits, triggers = dedupe_hits_with_triggers(source, parse_vector_healthspark(source, raw_html))
-    result = f"{len(hits)}/{VECTOR_HEALTHSPARK_EXPECTED} {VECTOR_HEALTHSPARK_COHORT} members; {len(triggers)} trigger events"
+    result = f"{len(hits)}/{VECTOR_HEALTHSPARK_EXPECTED} HealthSpark members (current and past cohorts); {len(triggers)} trigger events"
     if len(hits) != VECTOR_HEALTHSPARK_EXPECTED:
+        result = f"INCOMPLETE {source.name}: {result}"
+    return hits, triggers, result
+
+
+def parse_vector_fastlane(source: Source, raw_html: str) -> tuple[list[DiscoveryHit], int, int]:
+    """Return (health hits, listed companies, non-health excluded) from FastLane success stories."""
+    names = [_tag_text(block, "p") for block in blocks_by_class(raw_html, "article", "institutions__institution")]
+    slides = blocks_by_class(raw_html, "div", "modal__slide")
+    hits, excluded = [], 0
+    for index, company in enumerate(names):
+        story = text_from_html(slides[index]) if index < len(slides) else ""
+        if not is_health_sector(story):
+            excluded += 1
+            continue
+        link = re.search(r'href="(https?://[^"]+)"', slides[index])
+        hit = make_accelerator_hit(
+            source, company, source.url, accelerator_program="Vector Institute FastLane",
+            cohort_label="FastLane success stories", category_or_track="Health AI (FastLane success story)",
+            company_description=story[len(company):].strip()[:400], website=link.group(1) if link else "",
+            geography="Canada", matched_terms="adapter: vector_fastlane; health terms in official success story",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits, len(names), excluded
+
+
+def run_vector_fastlane(source: Source, fetcher=fetch_raw_text):
+    raw_html, error = fetcher(source.url)
+    if error:
+        return [], [], f"INCOMPLETE {source.name}: page fetch failed: {error}"
+    hits, listed, excluded = parse_vector_fastlane(source, raw_html)
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{len(hits)}/{VECTOR_FASTLANE_EXPECTED_HEALTH} health companies from {listed}/{VECTOR_FASTLANE_EXPECTED_TOTAL} FastLane success stories; {_counts(len(hits), excluded)}"
+    if listed != VECTOR_FASTLANE_EXPECTED_TOTAL or len(hits) != VECTOR_FASTLANE_EXPECTED_HEALTH:
         result = f"INCOMPLETE {source.name}: {result}"
     return hits, triggers, result
 
@@ -227,14 +301,36 @@ def parse_amii_level_up_health(source: Source, raw_html: str) -> list[DiscoveryH
     return hits
 
 
+def _amii_wrap_hits(source: Source, wrap_html: str) -> list[DiscoveryHit]:
+    squashed = re.sub(r"[^a-z0-9]", "", wrap_html.lower())
+    hits = []
+    for company, evidence in AMII_LEVEL_UP_WRAP_COMPANIES:
+        if re.sub(r"[^a-z0-9]", "", company.lower()) not in squashed:
+            continue
+        hit = make_accelerator_hit(
+            source, company, AMII_LEVEL_UP_WRAP_URL, accelerator_program="Amii Level Up",
+            cohort_label="Amii Level Up health-tech cohort (inaugural)", cohort_year="2025",
+            category_or_track="Health tech (program is health-only)", geography="Canada",
+            matched_terms=f"adapter: amii_level_up_health; {evidence}",
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    return hits
+
+
 def run_amii_level_up_health(source: Source, fetcher=fetch_raw_text):
     raw_html, error = fetcher(source.url)
     if error:
         return [], [], f"INCOMPLETE {source.name}: page fetch failed: {error}"
-    hits, triggers = dedupe_hits_with_triggers(source, parse_amii_level_up_health(source, raw_html))
-    result = f"{len(hits)}/{AMII_LEVEL_UP_HEALTH_EXPECTED} Level Up health-track companies; {len(triggers)} trigger events"
-    if len(hits) != AMII_LEVEL_UP_HEALTH_EXPECTED:
-        result = f"INCOMPLETE {source.name}: {result}"
+    hits = parse_amii_level_up_health(source, raw_html)
+    wrap_html, wrap_error = fetcher(AMII_LEVEL_UP_WRAP_URL)
+    if not wrap_error:
+        hits += _amii_wrap_hits(source, wrap_html)
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{len(hits)}/{AMII_LEVEL_UP_HEALTH_EXPECTED} Level Up health-track companies (cohort of 15 per Amii; 13 named online); {len(triggers)} trigger events"
+    if len(hits) != AMII_LEVEL_UP_HEALTH_EXPECTED or wrap_error:
+        result = f"INCOMPLETE {source.name}: {result}" + (f"; wrap-up page fetch failed: {wrap_error}" if wrap_error else "")
     return hits, triggers, result
 
 
@@ -295,5 +391,75 @@ def run_mila_health_partners(source: Source, fetcher=fetch_raw_text):
     )
     result = f"{len(hits)}/{MILA_HEALTH_PARTNERS_EXPECTED} Canadian health-AI Mila partners; {_counts(len(hits), excluded)}"
     if len(hits) != MILA_HEALTH_PARTNERS_EXPECTED or errors:
+        result = f"INCOMPLETE {source.name}: {result}" + (f"; {' | '.join(errors)}" if errors else "")
+    return hits, triggers, result
+
+
+# Companies named by an institute's own page, report or social post but outside a list the
+# other runners can parse. check "live" re-fetches the URL and requires the name on the page;
+# "manual" entries come from a LinkedIn post or PDF the runner cannot read and are flagged.
+INSTITUTE_MENTIONS = [
+    # company, institute, program, evidence URL, check, sector, geography
+    ("Spheroid AI", "Mila", "Entrepreneurship Lab Demo Day 2023", "https://mila.quebec/en/news/demo-day-2023", "live", "Ovarian cancer detection", "Canada"),
+    ("LightX Innovations", "Mila", "Mila research collaboration (2024-25 impact report)", "https://mila.quebec/en/about/impact-reports/impact-report-2024-2025", "live", "Eye care / diabetic retinopathy", "Canada"),
+    ("H2OM Technologies", "Mila", "Mila Ventures Launchpad", "LinkedIn: Mila Ventures Launchpad cohort post", "manual", "Molecular health monitoring", "Saint-Bruno-de-Montarville, QC"),
+    ("Medtech Insurance", "Mila", "Mila Ventures Founder in Residence", "LinkedIn: Mila Ventures Founder in Residence cohort post", "manual", "Insurance for medical technology firms (health-adjacent)", "Montreal, QC"),
+    ("Fawkes Biodata", "Vector", "FastLane Demo Day 2026", "https://vectorinstitute.ai/demo-day-how-the-vector-institute-helps-canadian-startups-turn-innovative-ideas-into-commercial-reality/", "live", "Medical records / clinical-trial matching", "Canada"),
+    ("JVPLabs", "Vector", "FastLane Demo Day 2026", "https://vectorinstitute.ai/demo-day-how-the-vector-institute-helps-canadian-startups-turn-innovative-ideas-into-commercial-reality/", "live", "Heart-failure monitoring device", "Canada"),
+    ("A.I. Vali", "Vector", "FastLane 2022-23", "https://vectorinstitute.ai/case-studies/how-ai-vali-helps-clinicians-improve-patient-care-through-vectors-fastlane-program/", "live", "Cancer detection / clinician decision support", "Canada"),
+    ("16 Bit", "Vector", "FastLane 2021-22", "Vector Institute 2021-22 annual report (PDF)", "manual", "Health diagnostics machine learning", "Canada"),
+    ("HelpWear", "Amii", "Level Up Cohort 4 (2024)", "https://www.amii.ca/updates-insights/startups-level-up-cohort-4", "live", "Wearable ECG medical device", "Toronto, ON"),
+    ("Deep Breathe", "Amii", "Level Up Cohort 4 (2024)", "https://www.amii.ca/updates-insights/startups-level-up-cohort-4", "live", "Portable AI lung imaging", "London, ON"),
+    ("Wound³", "Amii", "Level Up Cohort 4 (2024)", "https://www.amii.ca/updates-insights/startups-level-up-cohort-4", "live", "Chronic wound scanning (health inferred from Alberta Innovates funding record)", "Edmonton, AB"),
+    ("Ora-Q", "Amii", "Level Up (past participant)", "https://www.amii.ca/updates-insights/amii-teams-up-with-can-health-network-and-boxone-ventures-to-support-canadian-health-tech-innovation", "live", "Dental care AI", "Calgary, AB"),
+    ("Drugbank", "Amii", "Amii Innovates Innovation Affiliates (2019)", "https://betakit.com/amii-innovates-announces-first-cohort-looks-to-accelerate-ai-adoption/", "live", "Drug database / NLP", "Edmonton, AB"),
+    ("Mikata Health", "Amii", "Amii Innovates Innovation Affiliates (2019)", "https://betakit.com/amii-innovates-announces-first-cohort-looks-to-accelerate-ai-adoption/", "live", "Digital health", "Calgary, AB"),
+    ("Medo.AI", "Amii", "Amii Innovates Innovation Affiliates (2019)", "https://betakit.com/amii-innovates-announces-first-cohort-looks-to-accelerate-ai-adoption/", "live", "Ultrasound AI for infant hip diagnosis (acquired by Exo in 2022)", "Alberta"),
+]
+INSTITUTE_MENTIONS_EXPECTED = 15
+# Health companies reported near an institute but without a confirmed institute link; kept out of
+# the snapshots and listed only in the review workbook.
+INSTITUTE_UNCONFIRMED_LEADS = [
+    ("NeuralDrive", "Mila", "Search snippet quotes a Mila 'Mila Startup' page that could not be opened"),
+    ("AwakeAI", "Mila", "Search snippet only; Montreal senior-care monitoring"),
+    ("Mohana", "Mila", "Search snippet only; chronic-condition wellbeing"),
+    ("Avitia", "Mila", "Looks like a Mila partner, not a startup Mila supports"),
+    ("Leynek Medical", "Vector", "Company says it joined FastLane in Aug 2023; not on any Vector page"),
+    ("Sifio Health", "Vector", "Listed as a FastLane investment on PitchBook only"),
+    ("Cynthetix.ai", "Amii", "Level Up Cohort 4 member; health focus could not be confirmed"),
+    ("Cognitive Diagnosis", "Amii", "Amii Innovates 2019 member; health relevance inferred from the name"),
+]
+
+
+def run_institute_mentions(source: Source, fetcher=fetch_raw_text):
+    pages: dict[str, str] = {}
+    hits, errors = [], []
+    for company, institute, program, evidence, check, sector, geography in INSTITUTE_MENTIONS:
+        note = "manually sourced, not live-verified"
+        if check == "live":
+            if evidence not in pages:
+                raw_html, error = fetcher(evidence)
+                if error:
+                    errors.append(f"{evidence}: {error}")
+                pages[evidence] = "" if error else text_from_html(raw_html)
+            if not pages[evidence]:
+                continue
+            squashed = re.sub(r"[^a-z0-9]", "", pages[evidence].lower())
+            if re.sub(r"[^a-z0-9]", "", company.lower()) not in squashed:
+                errors.append(f"{evidence}: missing {company}")
+                continue
+            note = "live-verified"
+        hit = make_accelerator_hit(
+            source, company, evidence if check == "live" else source.url,
+            accelerator_program=f"{institute}: {program}", cohort_label=program, category_or_track=sector,
+            geography=institute_geography(geography),
+            matched_terms=f"adapter: institute_mentions; {institute}; {note}" + ("" if check == "live" else f"; evidence: {evidence}"),
+            trust_curated_name=True,
+        )
+        if hit:
+            hits.append(hit)
+    hits, triggers = dedupe_hits_with_triggers(source, hits)
+    result = f"{len(hits)}/{INSTITUTE_MENTIONS_EXPECTED} curated institute-linked health companies"
+    if len(hits) != INSTITUTE_MENTIONS_EXPECTED or errors:
         result = f"INCOMPLETE {source.name}: {result}" + (f"; {' | '.join(errors)}" if errors else "")
     return hits, triggers, result
