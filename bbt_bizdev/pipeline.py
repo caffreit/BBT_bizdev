@@ -44,6 +44,15 @@ from .adapters.canada_tier_a import (
     run_ualberta,
     run_uceed,
 )
+from .adapters.canada_ai_institutes import (
+    run_amii_level_up_health,
+    run_mila_health_partners,
+    run_mila_startups,
+    run_vector_ai20,
+    run_institute_mentions,
+    run_vector_fastlane,
+    run_vector_healthspark,
+)
 from .adapters.canada_investors import (
     run_amplitude,
     run_bdc_health,
@@ -108,6 +117,13 @@ def run_discovery(sources: list[Source]) -> tuple[list[DiscoveryHit], list[Trigg
         "mcmaster_health_startups": run_mcmaster_health_startups,
         "axelys_supported_startups": run_axelys_supported_startups,
         "velocity_health_companies": run_velocity_health_companies,
+        "vector_ai20": run_vector_ai20,
+        "vector_healthspark": run_vector_healthspark,
+        "vector_fastlane": run_vector_fastlane,
+        "institute_mentions": run_institute_mentions,
+        "amii_level_up_health": run_amii_level_up_health,
+        "mila_startups": run_mila_startups,
+        "mila_health_partners": run_mila_health_partners,
     }
     for source in sources:
         if source.adapter in canada_tier_a_runners:

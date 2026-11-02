@@ -13,6 +13,7 @@ from bbt_bizdev.adapters.jobs import *
 from bbt_bizdev.adapters.linkedin import *
 from bbt_bizdev.adapters.accelerators import *
 from bbt_bizdev.adapters.canada_tier_a import *
+from bbt_bizdev.adapters.canada_ai_institutes import *
 from bbt_bizdev.adapters.canada_investors import *
 from bbt_bizdev.adapters.canada_universities import *
 from bbt_bizdev.adapters.generic import *
@@ -30,6 +31,7 @@ import bbt_bizdev.adapters.jobs as _jobs
 import bbt_bizdev.adapters.linkedin as _linkedin
 import bbt_bizdev.adapters.accelerators as _accelerators
 import bbt_bizdev.adapters.canada_tier_a as _canada_tier_a
+import bbt_bizdev.adapters.canada_ai_institutes as _canada_ai_institutes
 import bbt_bizdev.adapters.canada_investors as _canada_investors
 import bbt_bizdev.adapters.canada_universities as _canada_universities
 import bbt_bizdev.adapters.generic as _generic
@@ -38,7 +40,7 @@ import bbt_bizdev.adapters.vc as _vc
 import bbt_bizdev.pipeline as _pipeline
 import bbt_bizdev.workbook as _workbook
 
-_PATCH_MODULES = [_config, _http, _text, _search, _sifted, _jobs, _linkedin, _accelerators, _canada_tier_a, _canada_investors, _canada_universities, _generic, _university, _vc, _pipeline, _workbook]
+_PATCH_MODULES = [_config, _http, _text, _search, _sifted, _jobs, _linkedin, _accelerators, _canada_tier_a, _canada_ai_institutes, _canada_investors, _canada_universities, _generic, _university, _vc, _pipeline, _workbook]
 
 
 def _propagate(name, value):

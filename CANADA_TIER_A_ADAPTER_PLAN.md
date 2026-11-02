@@ -140,6 +140,20 @@ Maintain one row per source:
 | Axelys | Complete for the public supported-startup index | Official public Algolia index, exact `Startup` keyword, plus all detail pages | 5 startup-tagged records | 5 | 100% | Passed; full suite 168/168 | Captured 5/5 websites. Axelys does not expose institution of origin, so these remain shared Québec-cluster leads rather than being assigned to UdeM, CHUM, Sainte-Justine, Laval, or CHU de Québec |
 | Velocity | Complete | Seven official directory pages, exact native `Health` sector, plus all 123 detail pages | 123 Health companies among 548 total directory records | 123 | 100% | Passed; full suite 168/168 | Captured 123/123 websites, locations, descriptions, status/year fields, and detail tags. Velocity affiliation is not asserted as formal Waterloo IP ownership |
 
+### National AI institutes (added 2026-10-28)
+
+These are general AI institutes, so every adapter keeps only health and life-sciences companies and reports how many records it included and excluded. Snapshots come from `collect_canada_ai_institutes.py`.
+
+| Source | Discovery status | Access route | Expected eligible count | Extracted count | Coverage | Test status | Decision / blocker |
+| --- | --- | --- | ---: | ---: | ---: | --- | --- |
+| Vector AI20 | Complete for published editions | Official WordPress REST post (`/wp-json/wp/v2/posts?slug=vectors-ai20-for-2023`). `robots.txt` allows all | 4 health among 20 listed | 4 | 100% | Passed; `tests/test_canada_ai_institutes.py` | Only the 2023 edition exists; `/ai20` returns 404. Five official profile modals are empty, so their sector and HQ are curated and flagged in `matched_terms`. Source type is `Public ranking`, so it raises no trigger and gets no accelerator credit |
+| Vector HealthSpark | Complete | Official static page, current-member section only | 7 | 7 | 100% | Passed | The program is health-only, so no per-record filter is applied. The same page's partner logos (hospitals and funders) are excluded. FastLane and DaRMoD list no members |
+| Amii Level Up health track | Complete for the named cohort | Official cohort announcement, `Meet the Cohort` list. `robots.txt` allows all | 9 | 9 | 100% | Passed | The cohort later grew to 15, but the wrap-up article names only some of them, including non-health companies. The Pitchbook is behind a HubSpot form and was not collected |
+| Mila Startups | Curated, live-verified | Seven official mila.quebec announcements. The runner re-fetches each one and fails if the company is no longer named | 3 health among 7 | 3 | 100% of curated | Passed | Mila no longer publishes its startup list, and the "Discover more Mila Startups" link is gone. Raiv Computers and Wise Algorithms have no stated city |
+| Mila health-AI industry partners | Curated, live-verified | Nine official partnership announcements | 9 | 9 | 100% of curated | Passed | Source type is `Industry partnership`, with no trigger or accelerator credit. Non-Canadian or unclear-location partners (Medeloop, Ventus, Intrepid Labs) and consultancies (Toboggan Labs) are excluded. The industrial-partners logo wall has no sector data |
+
+On the 2026-10-28 consolidation dry run, these 32 records formed 32 companies. Of those, 16 matched companies already sourced elsewhere (MaRS, CDL, U of T, Velocity, Centech, UCeed, MEDTEQ+, OBIO, FACIT, Amplitude, BDC, TIAP) and 16 were net-new. Nothing landed in ambiguous-name review. None of the new sources is added to the `canada_funding` backing sets, because program membership is not evidence of ability to buy.
+
 ## Definition of Done for Tier A
 
 - Every source has either a validated custom adapter or a documented manual/curated treatment.
